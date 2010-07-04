@@ -24,8 +24,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="432.29464"
-     inkscape:cy="148.05864"
+     inkscape:cx="513.79464"
+     inkscape:cy="5.05864"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -3175,7 +3175,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -3184,19 +3184,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-732.36218)">
-    <rect
-       ry="10.999997"
-       rx="9.9999971"
-       y="732.36218"
-       x="940"
-       height="220"
-       width="400"
-       id="rect4290"
-       style="fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter4304)"
-       transform="matrix(1,0,0,0.9090909,0,66.578389)"
-       inkscape:export-filename="/home/andrew/Temp/recording-indicator.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
     <path
        style="fill:#e3e3e3;fill-opacity:1;stroke:#555753;stroke-width:0.99999988;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        d="M 2.6830963,732.86218 C 1.4736634,732.86218 0.5,734.0214 0.5,735.46134 l 0,125.27973 0,118.52188 0,2.59924 2.1830963,0 274.6338037,0 2.1831,0 0,-2.59924 0,-118.52188 0,-125.27973 c 0,-1.43994 -0.97367,-2.59916 -2.1831,-2.59916 l -274.6338037,0 z"
@@ -5440,18 +5427,34 @@
            inkscape:r_cy="true" />
       </g>
     </g>
-    <rect
-       style="opacity:0.6;fill:#000000;fill-opacity:1;stroke:none"
-       id="rect3510"
-       width="400"
-       height="200"
-       x="940"
-       y="732.36218"
-       rx="9.9999971"
-       ry="9.9999971"
-       inkscape:export-filename="/home/andrew/Temp/recording-indicator.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+    <g
+       id="g4115">
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/andrew/Temp/recording-indicator.png"
+         transform="matrix(1,0,0,0.9090909,0,66.578389)"
+         style="fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter4304)"
+         id="rect4290"
+         width="400"
+         height="220"
+         x="940"
+         y="732.36218"
+         rx="9.9999971"
+         ry="10.999997" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/andrew/Temp/recording-indicator.png"
+         ry="9.9999971"
+         rx="9.9999971"
+         y="732.36218"
+         x="940"
+         height="200"
+         width="400"
+         id="rect3510"
+         style="opacity:0.6;fill:#000000;fill-opacity:1;stroke:none" />
+    </g>
     <flowRoot
        xml:space="preserve"
        id="flowRoot4308"
