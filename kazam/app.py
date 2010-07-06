@@ -31,6 +31,7 @@ from gettext import gettext as _
 
 from window_start import *
 from window_countdown import CountdownWindow
+from indicator import KazamIndicator
 
 class KazamApp(SimpleGtkbuilderApp):
 
@@ -54,7 +55,7 @@ class KazamApp(SimpleGtkbuilderApp):
             logging.exception("setlocale failed")
     
         self.icons = gtk.icon_theme_get_default()
-        self.icons.append_search_path(os.path.join(datadir,"icons"))
+        self.icons.append_search_path(os.path.join(datadir,"icons","22x22","status"))
         gtk.window_set_default_icon_name("kazam")
         
         populate_combobox_video(self.combobox_video)
@@ -74,10 +75,15 @@ class KazamApp(SimpleGtkbuilderApp):
     def on_button_record_clicked(self, button_record):
         self.window_start.hide()
         self.window_countdown = CountdownWindow()
-        self.window_countdown.connect("done", self.start_recording)
-    # Functions
-    def start_recording(self, countdown_window):
+        self.indicator = KazamIndicator(self.icons)
+        self.window_countdown.connect("count", self.on_window_countdown_count)
+        self.window_countdown.connect("done", self.on_window_countdown_done)
+    def on_window_countdown_count(self, window_countdown):
+        self.indicator.count(window_countdown.number)
+    def on_window_countdown_done(self, window_countdown):
+        self.indicator.start_recording()
         print "Let's go!"
+    # Functions
 
     def run(self):
         self.window_start.show_all()

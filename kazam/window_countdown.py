@@ -39,17 +39,20 @@ class CountdownWindow(gtk.Window):
                                    gobject.TYPE_NONE,
                                    (),
                                   ),
+        "count" : (gobject.SIGNAL_RUN_LAST,
+                                   gobject.TYPE_NONE,
+                                   (),
+                                  ),
     }
  
     def __init__(self):
         
         self.number = 5
-        self.svg = rsvg.Handle(file="/tmp/drawing.svg")
+        self.svg = rsvg.Handle(file="../data/ui/countdown.svg")
         
         gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
         self.set_default_size(420, 220)
         self.set_position(gtk.WIN_POS_CENTER)
-        self.connect("destroy", gtk.main_quit)
         self.set_app_paintable(True)
         # Window events
         self.connect("expose-event", self.on_window_countdown_expose_event)
@@ -83,7 +86,7 @@ class CountdownWindow(gtk.Window):
         cairo_context.move_to(200, 150)
         cairo_context.set_font_size(56)
         cairo_context.show_text(str(self.number))
-        return False
+        return True
  
     def screen_changed_cb(self, widget, previous_screen):
         # Set transparency if possible
@@ -102,7 +105,8 @@ class CountdownWindow(gtk.Window):
     def countdown(self):
         if self.number != 1:
             self.number -= 1
-            self.on_window_countdown_expose_event(self, None)
+            self.emit("count")
+            self.queue_draw()
             gobject.timeout_add(1000, self.countdown)
         else:
             self.emit("done")
