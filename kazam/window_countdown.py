@@ -35,7 +35,7 @@ from gettext import gettext as _
 class CountdownWindow(gtk.Window):
  
     __gsignals__ = {
-        "done" : (gobject.SIGNAL_RUN_LAST,
+        "countdown-done" : (gobject.SIGNAL_RUN_LAST,
                                    gobject.TYPE_NONE,
                                    (),
                                   ),
@@ -64,9 +64,6 @@ class CountdownWindow(gtk.Window):
         self.set_decorated (False)
         self.set_property("skip-taskbar-hint", True)
         self.screen_changed_cb(self, None)
-        self.show_all()
-        gobject.timeout_add(1000, self.countdown)
-        
  
     def on_window_countdown_expose_event(self, widget, event_expose):
         # Create cairo surface
@@ -102,6 +99,10 @@ class CountdownWindow(gtk.Window):
             self.begin_move_drag(int(button_event.button), int(button_event.x_root), int(button_event.y_root), button_event.time) 
         return False
         
+    def run_countdown(self):
+        self.show_all()
+        gobject.timeout_add(1000, self.countdown)
+        
     def countdown(self):
         if self.number != 1:
             self.number -= 1
@@ -109,7 +110,7 @@ class CountdownWindow(gtk.Window):
             self.queue_draw()
             gobject.timeout_add(1000, self.countdown)
         else:
-            self.emit("done")
+            self.emit("countdown-done")
             self.destroy()
 
 

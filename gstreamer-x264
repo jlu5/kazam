@@ -1,0 +1,180 @@
+Factory Details:
+  Long name:	x264enc
+  Class:	Codec/Encoder/Video
+  Description:	H264 Encoder
+  Author(s):	Josef Zlomek <josef.zlomek@itonis.tv>, Mark Nauwelaerts <mnauw@users.sf.net>
+  Rank:		primary (256)
+
+Plugin Details:
+  Name:			x264
+  Description:		libx264-based H264 plugins
+  Filename:		/usr/lib/gstreamer-0.10/libgstx264.so
+  Version:		0.10.14
+  License:		GPL
+  Source module:	gst-plugins-ugly
+  Binary package:	GStreamer Ugly Multiverse Plugins (Ubuntu)
+  Origin URL:		https://launchpad.net/distros/ubuntu/+source/gst-plugins-ugly-multiverse0.10
+
+GObject
+ +----GstObject
+       +----GstElement
+             +----GstX264Enc
+
+Implemented Interfaces:
+  GstPreset
+
+Pad Templates:
+  SINK template: 'sink'
+    Availability: Always
+    Capabilities:
+      video/x-raw-yuv
+                 format: I420
+              framerate: [ 0/1, 2147483647/1 ]
+                  width: [ 16, 2147483647 ]
+                 height: [ 16, 2147483647 ]
+
+  SRC template: 'src'
+    Availability: Always
+    Capabilities:
+      video/x-h264
+              framerate: [ 0/1, 2147483647/1 ]
+                  width: [ 1, 2147483647 ]
+                 height: [ 1, 2147483647 ]
+          stream-format: { byte-stream, avc }
+
+
+Element Flags:
+  no flags set
+
+Element Implementation:
+  Has change_state() function: gst_x264_enc_change_state
+  Has custom save_thyself() function: gst_element_save_thyself
+  Has custom restore_thyself() function: gst_element_restore_thyself
+
+Element has no clocking capabilities.
+Element has no indexing capabilities.
+Element has no URI handling capabilities.
+
+Pads:
+  SRC: 'src'
+    Implementation:
+      Has custom eventfunc(): gst_x264_enc_src_event
+      Has custom queryfunc(): gst_pad_query_default
+        Provides query types:
+      Has custom iterintlinkfunc(): gst_pad_iterate_internal_links_default
+    Pad Template: 'src'
+  SINK: 'sink'
+    Implementation:
+      Has chainfunc(): gst_x264_enc_chain
+      Has custom eventfunc(): gst_x264_enc_sink_event
+      Has custom queryfunc(): gst_pad_query_default
+        Provides query types:
+      Has custom iterintlinkfunc(): gst_pad_iterate_internal_links_default
+    Pad Template: 'sink'
+
+Element Properties:
+  name                : The name of the object
+                        flags: readable, writable
+                        String. Default: null Current: "x264enc0"
+  threads             : Number of threads used by the codec (0 for automatic)
+                        flags: readable, writable
+                        Unsigned Integer. Range: 0 - 4 Default: 1 Current: 1
+  pass                : Encoding pass/type
+                        flags: readable, writable
+                        Enum "GstX264EncPass" Default: 0, "cbr" Current: 0, "cbr"
+                           (0): cbr              - Constant Bitrate Encoding
+                           (4): quant            - Constant Quantizer
+                           (5): qual             - Constant Quality
+                           (17): pass1            - VBR Encoding - Pass 1
+                           (18): pass2            - VBR Encoding - Pass 2
+                           (19): pass3            - VBR Encoding - Pass 3
+  quantizer           : Constant quantizer or quality to apply
+                        flags: readable, writable
+                        Unsigned Integer. Range: 1 - 50 Default: 21 Current: 21
+  stats-file          : Filename for multipass statistics (deprecated, use multipass-stats-file)
+                        flags: readable, writable
+                        String. Default: "x264.log" Current: "x264.log"
+  multipass-cache-file: Filename for multipass cache file
+                        flags: readable, writable
+                        String. Default: "x264.log" Current: "x264.log"
+  byte-stream         : Generate byte stream format of NALU
+                        flags: readable, writable
+                        Boolean. Default: false Current: false
+  bitrate             : Bitrate in kbit/sec
+                        flags: readable, writable
+                        Unsigned Integer. Range: 1 - 102400 Default: 2048 Current: 2048
+  vbv-buf-capacity    : Size of the VBV buffer in milliseconds
+                        flags: readable, writable
+                        Unsigned Integer. Range: 300 - 10000 Default: 600 Current: 600
+  me                  : Integer pixel motion estimation method
+                        flags: readable, writable
+                        Enum "GstX264EncMe" Default: 1, "hex" Current: 1, "hex"
+                           (0): dia              - diamond search, radius 1 (fast)
+                           (1): hex              - hexagonal search, radius 2
+                           (2): umh              - uneven multi-hexagon search
+                           (3): esa              - exhaustive search (slow)
+  subme               : Subpixel motion estimation and partition decision quality: 1=fast, 6=best
+                        flags: readable, writable
+                        Unsigned Integer. Range: 1 - 6 Default: 1 Current: 1
+  analyse             : Partitions to consider
+                        flags: readable, writable
+                        Flags "GstX264EncAnalyse" Default: 0x00000000, "(none)" Current: 0x00000000, "(none)"
+                           (0x00000001): i4x4             - i4x4
+                           (0x00000002): i8x8             - i8x8
+                           (0x00000010): p8x8             - p8x8
+                           (0x00000020): p4x4             - p4x4
+                           (0x00000100): b8x8             - b8x8
+  dct8x8              : Adaptive spatial transform size
+                        flags: readable, writable
+                        Boolean. Default: false Current: false
+  ref                 : Number of reference frames
+                        flags: readable, writable
+                        Unsigned Integer. Range: 1 - 12 Default: 1 Current: 1
+  bframes             : Number of B-frames between I and P
+                        flags: readable, writable
+                        Unsigned Integer. Range: 0 - 4 Default: 0 Current: 0
+  b-adapt             : Automatically decide how many B-frames to use
+                        flags: readable, writable
+                        Boolean. Default: true Current: true
+  b-pyramid           : Keep some B-frames as references
+                        flags: readable, writable
+                        Boolean. Default: false Current: false
+  weightb             : Weighted prediction for B-frames
+                        flags: readable, writable
+                        Boolean. Default: false Current: false
+  sps-id              : SPS and PPS ID number
+                        flags: readable, writable
+                        Unsigned Integer. Range: 0 - 31 Default: 0 Current: 0
+  aud                 : Use AU (Access Unit) delimiter
+                        flags: readable, writable
+                        Boolean. Default: true Current: true
+  trellis             : Enable trellis searched quantization
+                        flags: readable, writable
+                        Boolean. Default: true Current: true
+  key-int-max         : Maximal distance between two key-frames (0 for automatic)
+                        flags: readable, writable
+                        Unsigned Integer. Range: 0 - 2147483647 Default: 0 Current: 0
+  cabac               : Enable CABAC entropy coding
+                        flags: readable, writable
+                        Boolean. Default: true Current: true
+  qp-min              : Minimum quantizer
+                        flags: readable, writable
+                        Unsigned Integer. Range: 1 - 51 Default: 10 Current: 10
+  qp-max              : Maximum quantizer
+                        flags: readable, writable
+                        Unsigned Integer. Range: 1 - 51 Default: 51 Current: 51
+  qp-step             : Maximum quantizer difference between frames
+                        flags: readable, writable
+                        Unsigned Integer. Range: 1 - 50 Default: 4 Current: 4
+  ip-factor           : Quantizer factor between I- and P-frames
+                        flags: readable, writable
+                        Float. Range:               0 -               2 Default:             1.4 Current:             1.4
+  pb-factor           : Quantizer factor between P- and B-frames
+                        flags: readable, writable
+                        Float. Range:               0 -               2 Default:             1.3 Current:             1.3
+  noise-reduction     : Noise reduction strength
+                        flags: readable, writable
+                        Unsigned Integer. Range: 0 - 100000 Default: 0 Current: 0
+  interlaced          : Interlaced material
+                        flags: readable, writable
+                        Boolean. Default: false Current: false

@@ -32,6 +32,7 @@ from gettext import gettext as _
 from window_start import *
 from window_countdown import CountdownWindow
 from indicator import KazamIndicator
+from recording import Recording
 
 class KazamApp(SimpleGtkbuilderApp):
 
@@ -60,7 +61,11 @@ class KazamApp(SimpleGtkbuilderApp):
         
         populate_combobox_video(self.combobox_video)
         populate_combobox_audio(self.combobox_audio)
-
+        
+        self.window_countdown = CountdownWindow()
+        self.window_countdown.connect("count", self.on_window_countdown_count)
+        self.window_countdown.connect("countdown-done", self.on_window_countdown_done)
+        
     # Callbacks
     def on_checkbutton_video_toggled(self, checkbutton_video):
         self.combobox_video.set_sensitive(checkbutton_video.get_active())
@@ -73,16 +78,19 @@ class KazamApp(SimpleGtkbuilderApp):
     def on_button_close_clicked(self, button_close):
         gtk.main_quit()
     def on_button_record_clicked(self, button_record):
+        self.audio = self.checkbutton_audio.get_active()
         self.window_start.hide()
-        self.window_countdown = CountdownWindow()
+        self.window_countdown.run_countdown()
         self.indicator = KazamIndicator(self.icons)
-        self.window_countdown.connect("count", self.on_window_countdown_count)
-        self.window_countdown.connect("done", self.on_window_countdown_done)
+        self.indicator.connect("recording-done", self.on_indicator_recording_done)
     def on_window_countdown_count(self, window_countdown):
         self.indicator.count(window_countdown.number)
     def on_window_countdown_done(self, window_countdown):
         self.indicator.start_recording()
-        print "Let's go!"
+        self.recording = Recording(self.audio)
+    def on_indicator_recording_done(self, indicator):
+        self.recording.stop()
+        self.window_done_recording.show_all()
     # Functions
 
     def run(self):
