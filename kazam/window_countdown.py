@@ -46,7 +46,6 @@ class CountdownWindow(gtk.Window):
     }
  
     def __init__(self):
-        
         self.number = 5
         self.svg = rsvg.Handle(file="../data/ui/countdown.svg")
         
@@ -56,14 +55,14 @@ class CountdownWindow(gtk.Window):
         self.set_app_paintable(True)
         # Window events
         self.connect("expose-event", self.on_window_countdown_expose_event)
-        self.connect("screen-changed", self.screen_changed_cb)
+        self.connect("screen-changed", self.on_window_screen_changed)
         # Add button press event
         self.add_events(gdk.BUTTON_PRESS_MASK)
-        self.connect ("button_press_event", self.button_press_cb)
+        self.connect("button_press_event", self.on_window_button_press_event)
         # Do not show the window decoration
         self.set_decorated (False)
         self.set_property("skip-taskbar-hint", True)
-        self.screen_changed_cb(self, None)
+        self.on_window_screen_changed(self, None)
  
     def on_window_countdown_expose_event(self, widget, event_expose):
         # Create cairo surface
@@ -85,7 +84,7 @@ class CountdownWindow(gtk.Window):
         cairo_context.show_text(str(self.number))
         return True
  
-    def screen_changed_cb(self, widget, previous_screen):
+    def on_window_screen_changed(self, widget, previous_screen):
         # Set transparency if possible
         screen = widget.get_screen()
         colormap = screen.get_rgba_colormap()
@@ -93,7 +92,7 @@ class CountdownWindow(gtk.Window):
             colormap = screen.get_rgb_colormap()
         widget.set_colormap(colormap)
  
-    def button_press_cb(self, button, button_event):
+    def on_window_button_press_event(self, button, button_event):
         # Move the window
         if button_event.button is 1:
             self.begin_move_drag(int(button_event.button), int(button_event.x_root), int(button_event.y_root), button_event.time) 

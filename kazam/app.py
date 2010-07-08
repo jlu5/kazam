@@ -31,7 +31,7 @@ from gettext import gettext as _
 
 from window_start import *
 from window_countdown import CountdownWindow
-from indicator import KazamIndicator
+from indicator import KazamIndicator, KazamStatusIcon
 from recording import Recording
 
 class KazamApp(SimpleGtkbuilderApp):
@@ -81,7 +81,11 @@ class KazamApp(SimpleGtkbuilderApp):
         self.audio = self.checkbutton_audio.get_active()
         self.window_start.hide()
         self.window_countdown.run_countdown()
-        self.indicator = KazamIndicator(self.icons)
+        try:
+            import appindicator
+            self.indicator = KazamIndicator()
+        except ImportError:
+            self.indicator = KazamStatusIcon()
         self.indicator.connect("recording-done", self.on_indicator_recording_done)
     def on_window_countdown_count(self, window_countdown):
         self.indicator.count(window_countdown.number)
