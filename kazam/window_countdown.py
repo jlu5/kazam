@@ -63,7 +63,16 @@ class CountdownWindow(gtk.Window):
         self.set_decorated (False)
         self.set_property("skip-taskbar-hint", True)
         self.on_window_screen_changed(self, None)
- 
+
+    def _print_text_center_aligned(self, cairo_context, text, y_pos):
+        x1, y1, x2, y2 = cairo_context.clip_extents()
+        center_x = (x2 - x1) / 2.0
+        x_bearing, y_bearing, tw, th = cairo_context.text_extents(text)[:4]
+                
+        hw = tw / 2.0
+        cairo_context.move_to(center_x - hw - x_bearing, y_pos)
+        cairo_context.show_text(text)
+        
     def on_window_countdown_expose_event(self, widget, event_expose):
         # Create cairo surface
         cairo_context = widget.window.cairo_create()
@@ -72,16 +81,19 @@ class CountdownWindow(gtk.Window):
         cairo_context.paint()
         # Render our SVG onto it
         self.svg.render_cairo(cairo_context)
+
         # Write our text
         cairo_context.set_source_rgba(1, 1, 1, 1.0)
-        cairo_context.move_to(65, 70)
         cairo_context.select_font_face("Aller", cairo.FONT_SLANT_NORMAL, 
                                         cairo.FONT_WEIGHT_NORMAL)
-        cairo_context.set_font_size(28)
-        cairo_context.show_text("Recording will start in...")
-        cairo_context.move_to(200, 150)
+
+        #Set the font size before rendering center aligned
+        cairo_context.set_font_size(28)                                        
+        self._print_text_center_aligned(cairo_context, "Recording will start in...", 70)
+
         cairo_context.set_font_size(56)
-        cairo_context.show_text(str(self.number))
+        self._print_text_center_aligned(cairo_context, str(self.number), 150)
+                         
         return True
  
     def on_window_screen_changed(self, widget, previous_screen):

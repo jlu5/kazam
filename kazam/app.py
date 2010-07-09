@@ -25,11 +25,13 @@ import gettext
 import logging
 import gtk
 import os
+import shutil
 
 from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
 from window_start import *
+from dialogs import *
 from window_countdown import CountdownWindow
 from indicator import KazamIndicator, KazamStatusIcon
 from recording import Recording
@@ -95,6 +97,15 @@ class KazamApp(SimpleGtkbuilderApp):
     def on_indicator_recording_done(self, indicator):
         self.recording.stop()
         self.window_done_recording.show_all()
+    def on_button_save_as_clicked(self, button_save_as):
+        (save_dialog, result) = new_save_dialog("Save screencast", self.window_done_recording)
+        ## TODO: save properly
+        if result == gtk.RESPONSE_OK:
+            uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
+            shutil.move("/tmp/file.mkv", uri)
+        save_dialog.destroy()
+            
+        
     # Functions
 
     def run(self):

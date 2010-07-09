@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       window_start.py
+#       dialogs.py
 #       
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
 #       
@@ -22,22 +22,13 @@
 
 import gtk
 
-def populate_combobox_video(combobox_video):
-    list_store = gtk.ListStore(str)
-    list_store.append(["Screen"])
-    
-    combobox_video.set_model(list_store)
-    text = gtk.CellRendererText()
-    combobox_video.pack_start(text)
-    combobox_video.add_attribute(text, "text", 0)
-    combobox_video.set_active(0)
-
-def populate_combobox_audio(combobox_audio):
-    list_store = gtk.ListStore(str)
-    list_store.append(["Computer"])
-    
-    combobox_audio.set_model(list_store)
-    text = gtk.CellRendererText()
-    combobox_audio.pack_start(text)
-    combobox_audio.add_attribute(text, "text", 0)
-    combobox_audio.set_active(0)
+def new_save_dialog(title, parent=None):
+    dialog = gtk.FileChooserDialog(title=title, parent=parent, 
+        action=gtk.FILE_CHOOSER_ACTION_SAVE, 
+            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, 
+                gtk.STOCK_SAVE, gtk.RESPONSE_OK))
+                
+    dialog.show_all()                                      
+    result = dialog.run()
+    dialog.hide()
+    return dialog, result

@@ -26,10 +26,10 @@ class Recording(object):
     def __init__(self, audio=False):
         
         # This is horrible :( TODO: use gstreamer pipeline
-        args_list = ["ffmpeg", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", "file.mkv" ]
+        args_list = ["ffmpeg", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", "/tmp/file.mkv" ]
         
         if audio:
-            args_list = ["ffmpeg", "-f", "alsa", "-ac", "2", "-i", "pulse", "-acodec", "pcm_s16le", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", "file.mkv" ]
+            args_list = ["ffmpeg", "-f", "alsa", "-ac", "2", "-i", "pulse", "-acodec", "pcm_s16le", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", "/tmp/file.mkv" ]
         
         self.command = Popen(args_list)
     

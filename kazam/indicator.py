@@ -25,7 +25,6 @@ import gettext
 import logging
 import gtk
 import gobject
-import rsvg
 try:
     import appindicator
 except ImportError:
