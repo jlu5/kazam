@@ -53,16 +53,9 @@ class DoneRecording(gobject.GObject):
         self.icons = icons
         
         # Setup UI
-        self.builder = gtk.Builder()
-        self.builder.add_from_file(os.path.join(datadir, "ui", "done-recording.ui"))
-        self.builder.connect_signals(self)
-        for o in self.builder.get_objects():
-            if issubclass(type(o), gtk.Buildable):
-                name = gtk.Buildable.get_name(o)
-                setattr(self, name, o)
-            else:
-                print >> sys.stderr, "WARNING: can not get name for '%s'" % o
+        setup_ui(self, os.path.join(datadir, "ui", "done-recording.ui"))        
         
+                
         self.action = self.ACTION_EDIT
         self.dialog = self.dialog_done_recording
         

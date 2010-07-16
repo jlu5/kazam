@@ -40,15 +40,7 @@ class RecordingStart(gobject.GObject):
         gobject.GObject.__init__(self)
         
         # Setup UI
-        self.builder = gtk.Builder()
-        self.builder.add_from_file(os.path.join(datadir, "ui", "start.ui"))
-        self.builder.connect_signals(self)
-        for o in self.builder.get_objects():
-            if issubclass(type(o), gtk.Buildable):
-                name = gtk.Buildable.get_name(o)
-                setattr(self, name, o)
-            else:
-                print >> sys.stderr, "WARNING: can not get name for '%s'" % o
+        setup_ui(self, os.path.join(datadir, "ui", "start.ui"))   
         
         self.dialog = self.dialog_start
         self.dialog.connect("delete-event", gtk.main_quit)
