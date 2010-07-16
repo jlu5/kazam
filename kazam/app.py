@@ -31,12 +31,12 @@ from subprocess import Popen
 from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
-from window_start import *
 from dialogs import *
 from window_countdown import CountdownWindow
 from indicator import KazamIndicator
 from recording import Recording
 from done_recording import DoneRecording
+from start_recording import RecordingStart
 
 class KazamApp(SimpleGtkbuilderApp):
 
@@ -48,11 +48,6 @@ class KazamApp(SimpleGtkbuilderApp):
                                      "kazam")
         gettext.bindtextdomain("kazam", "/usr/share/locale")
         gettext.textdomain("kazam")
-
-        try:
-            locale.setlocale(locale.LC_ALL, "")
-        except:
-            logging.exception("setlocale failed")
         
         try:
             locale.setlocale(locale.LC_ALL, "")
@@ -63,51 +58,42 @@ class KazamApp(SimpleGtkbuilderApp):
         self.icons.append_search_path(os.path.join(datadir,"icons","22x22","status"))
         gtk.window_set_default_icon_name("kazam")
         
-        populate_combobox_video(self.combobox_video)
-        populate_combobox_audio(self.combobox_audio)
+        # Will be set later, here for convenience
+        self.window_countdown = None
+        self.indicator = None
+        self.done_recording = None
         
-        self.window_countdown = CountdownWindow()
-        self.window_countdown.connect("count", self.on_window_countdown_count)
-        self.window_countdown.connect("countdown-done", self.on_window_countdown_done)
+        # Let's start!
+        self.recording_start = RecordingStart(self.datadir)
+        self.recording_start.connect("countdown-requested", self.cb_countdown_requested)
         
     # Callbacks
-    def on_checkbutton_video_toggled(self, checkbutton_video):
-        self.combobox_video.set_sensitive(checkbutton_video.get_active())
-        
-    def on_checkbutton_audio_toggled(self, checkbutton_audio):
-        self.combobox_audio.set_sensitive(checkbutton_audio.get_active())
-        
-    def on_menuitem_quit_activate(self, checkbutton_audio):
-        gtk.main_quit()
-        
-    def on_window_start_delete_event(self, window, event):
-        gtk.main_quit()
-        
-    def on_button_close_clicked(self, button_close):
-        gtk.main_quit()
-        
-    def on_button_record_clicked(self, button_record):
-        self.audio = self.checkbutton_audio.get_active()
-        self.window_start.hide()
-        self.window_countdown.run_countdown()
-        
-        self.indicator = KazamIndicator()
-
-        self.indicator.connect("recording-done", self.on_indicator_recording_done)
         
     def on_window_countdown_count(self, window_countdown):
         self.indicator.count(window_countdown.number)
         
-    def on_window_countdown_done(self, window_countdown):
-        self.indicator.start_recording()
-        self.recording = Recording(self.audio)
-        
     def on_indicator_recording_done(self, indicator):
         self.recording.stop()
-        self.done_recording = DoneRecording(self.datadir)
+        self.done_recording = DoneRecording(self.datadir, self.icons)
         self.done_recording.connect("save-requested", self.cb_save_requested)
         self.done_recording.connect("edit-requested", self.cb_edit_requested)
         self.done_recording.run()
+        
+    def cb_record_requested(self, window_countdown):
+        self.indicator.start_recording()
+        self.recording = Recording()
+        
+    def cb_countdown_requested(self, recording_start):
+        audio = recording_start.checkbutton_audio.get_active()
+        del recording_start
+        
+        self.window_countdown = CountdownWindow()
+        self.window_countdown.connect("count", self.on_window_countdown_count)
+        self.window_countdown.connect("record-requested", self.cb_record_requested)
+        self.window_countdown.run_countdown()
+        
+        self.indicator = KazamIndicator()
+        self.indicator.connect("recording-done", self.on_indicator_recording_done)    
         
     def cb_edit_requested(self, done_recording, data):
         (desktop_entry, args_list) = data
@@ -117,20 +103,25 @@ class KazamApp(SimpleGtkbuilderApp):
         args_list.append(self.recording.get_filename())
         
         Popen(args_list)
+        # TODO: make it quit
+        gtk.main_quit()
         
     def cb_save_requested(self, done_recording):
         (save_dialog, result) = new_save_dialog("Save screencast", self.done_recording.dialog)
         ## TODO: save properly
         if result == gtk.RESPONSE_OK:
             uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
+            if not uri.endswith(".mkv"):
+                uri += ".mkv"
             shutil.move(self.recording.get_filename(), uri)
         save_dialog.destroy()
+        gtk.main_quit()
             
         
     # Functions
 
     def run(self):
-        self.window_start.show_all()
+        self.recording_start.run()
         SimpleGtkbuilderApp.run(self)
 
 

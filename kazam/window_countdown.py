@@ -35,7 +35,7 @@ from gettext import gettext as _
 class CountdownWindow(gtk.Window):
  
     __gsignals__ = {
-        "countdown-done" : (gobject.SIGNAL_RUN_LAST,
+        "record-requested" : (gobject.SIGNAL_RUN_LAST,
                                    gobject.TYPE_NONE,
                                    (),
                                   ),
@@ -63,6 +63,7 @@ class CountdownWindow(gtk.Window):
         self.set_decorated (False)
         self.set_property("skip-taskbar-hint", True)
         self.on_window_screen_changed(self, None)
+        self.set_keep_above(True)
 
     def _print_text_center_aligned(self, cairo_context, text, y_pos):
         x1, y1, x2, y2 = cairo_context.clip_extents()
@@ -121,7 +122,7 @@ class CountdownWindow(gtk.Window):
             self.queue_draw()
             gobject.timeout_add(1000, self.countdown)
         else:
-            self.emit("countdown-done")
+            self.emit("record-requested")
             self.destroy()
 
 

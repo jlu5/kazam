@@ -32,9 +32,9 @@ class ExternalEditorCombobox(gtk.ComboBox):
                 "/usr/share/applications/pitivi.desktop":["-i", "-a"]
                 }
     
-    def __init__(self):
+    def __init__(self, icons):
         gtk.ComboBox.__init__(self)
-
+        self.icons = icons 
 
         # Cell renders
         cr_pixbuf = gtk.CellRendererPixbuf()
@@ -54,7 +54,6 @@ class ExternalEditorCombobox(gtk.ComboBox):
         
     def _populate(self):
         liststore = self.get_model()
-        icon_theme = gtk.icon_theme_get_default()
         
         for item in self.EDITORS:
             args = self.EDITORS[item]
@@ -62,11 +61,59 @@ class ExternalEditorCombobox(gtk.ComboBox):
             name = desktop_entry.getName()
             icon_name = desktop_entry.getIcon()
             try:
-                pixbuf = icon_theme.load_icon(icon_name, 16, ())
+                pixbuf = self.icons.load_icon(icon_name, 16, ())
             except glib.GError:
-                pixbuf = icon_theme.load_icon("application-x-executable", 16, ())
+                pixbuf = self.icons.load_icon("application-x-executable", 16, ())
             
             liststore.append([pixbuf, name, desktop_entry, args])
+            
+class VideoCombobox(gtk.ComboBox):
+    
+    SOURCES = ["Screen"]
+    
+    def __init__(self):
+        gtk.ComboBox.__init__(self)
+
+        # Cell renders
+        cr_text = gtk.CellRendererText()
+        self.pack_start(cr_text, True)
+        self.add_attribute(cr_text, 'text', 0)  
+        # List store
+        liststore = gtk.ListStore(str)
+        self.set_model(liststore)
+        self._populate()
+        
+        self.set_active(0)
+        self.show()
+        
+    def _populate(self):
+        liststore = self.get_model()
+        liststore.append(self.SOURCES)
+            
+            
+class AudioCombobox(gtk.ComboBox):
+    
+    SOURCES = ["Computer"]
+    
+    def __init__(self):
+        gtk.ComboBox.__init__(self)
+
+        # Cell renders
+        cr_text = gtk.CellRendererText()
+        self.pack_start(cr_text, True)
+        self.add_attribute(cr_text, 'text', 0)  
+        # List store
+        liststore = gtk.ListStore(str)
+        self.set_model(liststore)
+        self._populate()
+        
+        self.set_active(0)
+        self.set_sensitive(False)
+        self.show()
+        
+    def _populate(self):
+        liststore = self.get_model()
+        liststore.append(self.SOURCES)
             
             
         

@@ -58,7 +58,7 @@ What do you want to do now?</property>
                     </child>
                     <child>
                       <object class="GtkRadioButton" id="radiobutton_save_as">
-                        <property name="label" translatable="yes">Save to use later</property>
+                        <property name="label" translatable="yes">Save for later use</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

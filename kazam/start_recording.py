@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       app.py
+#       window_start.py
 #       
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
 #       
@@ -20,40 +20,27 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import locale
-import gettext
-import logging
 import gtk
-import os
-import shutil
 import gobject
+import os
 
-from SimpleGtkbuilderApp import SimpleGtkbuilderApp
-from gettext import gettext as _
+from widgets.comboboxes import VideoCombobox, AudioCombobox
 
-from widgets.comboboxes import ExternalEditorCombobox
-
-class DoneRecording(gobject.GObject):
+class RecordingStart(gobject.GObject):
     
     __gsignals__ = {
-    "save-requested"     : (gobject.SIGNAL_RUN_LAST,
+    "countdown-requested"     : (gobject.SIGNAL_RUN_LAST,
                            gobject.TYPE_NONE,
-                           ( ),),
-    "edit-requested"     : (gobject.SIGNAL_RUN_LAST,
-                           gobject.TYPE_NONE,
-                           [gobject.TYPE_PYOBJECT],)
+                           ( ),)
     }
 
     
-    (ACTION_EDIT, ACTION_SAVE) = range(2)
-    
-    def __init__(self, datadir, icons):
+    def __init__(self, datadir):
         gobject.GObject.__init__(self)
-        self.icons = icons
         
         # Setup UI
         self.builder = gtk.Builder()
-        self.builder.add_from_file(os.path.join(datadir, "ui", "done-recording.ui"))
+        self.builder.add_from_file(os.path.join(datadir, "ui", "start.ui"))
         self.builder.connect_signals(self)
         for o in self.builder.get_objects():
             if issubclass(type(o), gtk.Buildable):
@@ -62,9 +49,7 @@ class DoneRecording(gobject.GObject):
             else:
                 print >> sys.stderr, "WARNING: can not get name for '%s'" % o
         
-        self.action = self.ACTION_EDIT
-        self.dialog = self.dialog_done_recording
-        
+        self.dialog = self.dialog_start
         self.dialog.connect("delete-event", gtk.main_quit)
         
         # Add our menus
@@ -82,48 +67,46 @@ class DoneRecording(gobject.GObject):
         self.file_menu.append(self.quit_menuitem)
         self.help_menu.append(self.about_menuitem)
         self.menubar.show_all()
-        
+        # Pack them
         self.dialog.vbox.pack_start(self.menubar)
         self.dialog.vbox.reorder_child(self.menubar, 0)
         
-        # Add editor combobox
-        self.combobox_editors = ExternalEditorCombobox(self.icons)
-        self.table_actions.attach(self.combobox_editors, 1, 2, 0, 1)
+        # Add our comboboxes
+        self.combobox_video = VideoCombobox()
+        self.combobox_audio = AudioCombobox()
+        # Pack them
+        self.table_sources.attach(self.combobox_video, 1, 2, 0, 1)
+        self.table_sources.attach(self.combobox_audio, 1, 2, 1, 2)
         
-    def on_button_cancel_clicked(self, button):
+    def on_button_close_clicked(self, button):
         gtk.main_quit()
         
-    def on_button_continue_clicked(self, button):
-        if self.action == self.ACTION_SAVE:
-            self.emit("save-requested")
-        elif self.action == self.ACTION_EDIT:
-            i = self.combobox_editors.get_active()
-            liststore = self.combobox_editors.get_model()
-            list_iter = liststore.get_iter(i)
-            
-            desktop_entry = liststore.get_value(list_iter, 2)
-            args = liststore.get_value(list_iter, 3)
-            
-            self.emit("edit-requested", (desktop_entry, args))
+    def on_button_record_clicked(self, button):
+        self.emit("countdown-requested")
+    
+    def on_menuitem_quit_activate(self, menuitem):
+        gtk.main_quit()
+    
+    def on_checkbutton_video_toggled(self, checkbutton):
+        self.combobox_video.set_sensitive(checkbutton.get_active())
         
-    def on_radiobutton_save_as_toggled(self, radiobutton):
-        if not radiobutton.get_active():
-            return
-        else:
-            self.action = self.ACTION_SAVE
-            self.combobox_editors.set_sensitive(False)
-            
-    def on_radiobutton_edit_with_toggled(self, radiobutton):
-        if not radiobutton.get_active():
-            return
-        else:
-            self.action = self.ACTION_EDIT
-            self.combobox_editors.set_sensitive(True)
+    def on_checkbutton_audio_toggled(self, checkbutton):
+        self.combobox_audio.set_sensitive(checkbutton.get_active())
         
     def run(self):
         response = self.dialog.run()
         self.dialog.hide()
         return response
-
-
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
