@@ -32,6 +32,7 @@ from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
 from widgets.comboboxes import ExternalEditorCombobox
+from utils import *
 
 class DoneRecording(gobject.GObject):
     
@@ -67,22 +68,27 @@ class DoneRecording(gobject.GObject):
         
         self.dialog.connect("delete-event", gtk.main_quit)
         
-        # Add our menus
-        self.menubar = gtk.MenuBar()
-        self.file_menuitem = gtk.MenuItem("_File", True)
-        self.file_menu = gtk.Menu()
-        self.file_menuitem.set_submenu(self.file_menu)
-        self.quit_menuitem = gtk.MenuItem("Quit", True)
-        self.help_menuitem = gtk.MenuItem("_Help", True)
-        self.help_menu = gtk.Menu()
-        self.help_menuitem.set_submenu(self.help_menu)
-        self.about_menuitem = gtk.MenuItem("About", True)
-        self.menubar.append(self.file_menuitem)
-        self.menubar.append(self.help_menuitem)
-        self.file_menu.append(self.quit_menuitem)
-        self.help_menu.append(self.about_menuitem)
-        self.menubar.show_all()
+        menu_dict = [
+                        {
+                        "name":"_File",
+                        "children":[{
+                                "name":"_Quit",
+                                "connect":("activate", "on_menuitem_quit_activate")
+                                }]
+                        },
+                        {
+                        "name":"_Help",
+                        "children":[{
+                                "name":"About",
+                                "connect":("activate", "on_menuitem_about_activate")
+                                }]
+                        },
+                    ]
         
+        # Add our menus
+        self.menubar = menubar_from_dict(self, menu_dict)
+        
+        # Pack them
         self.dialog.vbox.pack_start(self.menubar)
         self.dialog.vbox.reorder_child(self.menubar, 0)
         
@@ -97,12 +103,8 @@ class DoneRecording(gobject.GObject):
         if self.action == self.ACTION_SAVE:
             self.emit("save-requested")
         elif self.action == self.ACTION_EDIT:
-            i = self.combobox_editors.get_active()
-            liststore = self.combobox_editors.get_model()
-            list_iter = liststore.get_iter(i)
-            
-            desktop_entry = liststore.get_value(list_iter, 2)
-            args = liststore.get_value(list_iter, 3)
+            desktop_entry = get_combobox_active_value(2)
+            args = get_combobox_active_value(3)
             
             self.emit("edit-requested", (desktop_entry, args))
         
@@ -119,6 +121,13 @@ class DoneRecording(gobject.GObject):
         else:
             self.action = self.ACTION_EDIT
             self.combobox_editors.set_sensitive(True)
+        
+    def get_combobox_active_value(self, column):
+        i = self.combobox_editors.get_active()
+        liststore = self.combobox_editors.get_model()
+        list_iter = liststore.get_iter(i)
+        
+        return liststore.get_value(list_iter, column)
         
     def run(self):
         response = self.dialog.run()

@@ -25,6 +25,7 @@ import gobject
 import os
 
 from widgets.comboboxes import VideoCombobox, AudioCombobox
+from utils import *
 
 class RecordingStart(gobject.GObject):
     
@@ -52,21 +53,26 @@ class RecordingStart(gobject.GObject):
         self.dialog = self.dialog_start
         self.dialog.connect("delete-event", gtk.main_quit)
         
+        menu_dict = [
+                        {
+                        "name":"_File",
+                        "children":[{
+                                "name":"_Quit",
+                                "connect":("activate", "on_menuitem_quit_activate")
+                                }]
+                        },
+                        {
+                        "name":"_Help",
+                        "children":[{
+                                "name":"About",
+                                "connect":("activate", "on_menuitem_about_activate")
+                                }]
+                        },
+                    ]
+        
         # Add our menus
-        self.menubar = gtk.MenuBar()
-        self.file_menuitem = gtk.MenuItem("_File", True)
-        self.file_menu = gtk.Menu()
-        self.file_menuitem.set_submenu(self.file_menu)
-        self.quit_menuitem = gtk.MenuItem("Quit", True)
-        self.help_menuitem = gtk.MenuItem("_Help", True)
-        self.help_menu = gtk.Menu()
-        self.help_menuitem.set_submenu(self.help_menu)
-        self.about_menuitem = gtk.MenuItem("About", True)
-        self.menubar.append(self.file_menuitem)
-        self.menubar.append(self.help_menuitem)
-        self.file_menu.append(self.quit_menuitem)
-        self.help_menu.append(self.about_menuitem)
-        self.menubar.show_all()
+        self.menubar = menubar_from_dict(self, menu_dict)
+        
         # Pack them
         self.dialog.vbox.pack_start(self.menubar)
         self.dialog.vbox.reorder_child(self.menubar, 0)
@@ -86,6 +92,9 @@ class RecordingStart(gobject.GObject):
     
     def on_menuitem_quit_activate(self, menuitem):
         gtk.main_quit()
+        
+    def on_menuitem_about_activate(self, menuitem):
+        pass
     
     def on_checkbutton_video_toggled(self, checkbutton):
         self.combobox_video.set_sensitive(checkbutton.get_active())
