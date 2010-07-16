@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="462.32982"
-     inkscape:cy="-202.45801"
+     inkscape:zoom="2"
+     inkscape:cx="478.6859"
+     inkscape:cy="-191.32045"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -4058,7 +4058,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -5795,7 +5795,7 @@
            x="154.85638"
            y="169.78766"
            style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:justify;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#888a85;fill-opacity:1;font-family:Aller Light;-inkscape-font-specification:'Aller Light,'" /></flowRegion><flowPara
-         id="flowPara4657">Save to use later</flowPara></flowRoot>    <path
+         id="flowPara4657">Save for later use</flowPara></flowRoot>    <path
        id="path4659"
        d="m 1282.5208,1225.8622 129.9588,0"
        style="fill:none;stroke:#888a85;stroke-width:1.04168463px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
@@ -8380,14 +8380,14 @@
        sodipodi:cy="470.5625"
        sodipodi:rx="5.5"
        sodipodi:ry="5.5"
-       d="m 331,470.5625 a 5.5,5.5 0 1 1 -11,0 5.5,5.5 0 1 1 11,0 z"
+       d="m 331,470.5625 c 0,3.03757 -2.46243,5.5 -5.5,5.5 -3.03757,0 -5.5,-2.46243 -5.5,-5.5 0,-3.03757 2.46243,-5.5 5.5,-5.5 3.03757,0 5.5,2.46243 5.5,5.5 z"
        transform="matrix(1.0909091,0,0,1.0909091,-13.090912,689.02127)"
        inkscape:export-filename="/home/andrew/Temp/finished_recording.pnf.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
        transform="matrix(1.0909091,0,0,1.0909091,-13.090912,715.02127)"
-       d="m 331,470.5625 a 5.5,5.5 0 1 1 -11,0 5.5,5.5 0 1 1 11,0 z"
+       d="m 331,470.5625 c 0,3.03757 -2.46243,5.5 -5.5,5.5 -3.03757,0 -5.5,-2.46243 -5.5,-5.5 0,-3.03757 2.46243,-5.5 5.5,-5.5 3.03757,0 5.5,2.46243 5.5,5.5 z"
        sodipodi:ry="5.5"
        sodipodi:rx="5.5"
        sodipodi:cy="470.5625"
@@ -8400,7 +8400,7 @@
        inkscape:export-ydpi="90" />
     <path
        transform="matrix(0.54545516,0,0,0.54545516,164.45435,945.69144)"
-       d="m 331,470.5625 a 5.5,5.5 0 1 1 -11,0 5.5,5.5 0 1 1 11,0 z"
+       d="m 331,470.5625 c 0,3.03757 -2.46243,5.5 -5.5,5.5 -3.03757,0 -5.5,-2.46243 -5.5,-5.5 0,-3.03757 2.46243,-5.5 5.5,-5.5 3.03757,0 5.5,2.46243 5.5,5.5 z"
        sodipodi:ry="5.5"
        sodipodi:rx="5.5"
        sodipodi:cy="470.5625"
