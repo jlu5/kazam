@@ -21,17 +21,24 @@
 #       MA 02110-1301, USA.
 
 from subprocess import Popen
+import tempfile
+import os
 
 class Recording(object):
     def __init__(self, audio=False):
         
+        self.tempfile = tempfile.mktemp(suffix=".mkv")
+        
         # This is horrible :( TODO: use gstreamer pipeline
-        args_list = ["ffmpeg", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", "/tmp/file.mkv" ]
+        args_list = ["ffmpeg", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", self.tempfile ]
         
         if audio:
-            args_list = ["ffmpeg", "-f", "alsa", "-ac", "2", "-i", "pulse", "-acodec", "pcm_s16le", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", "/tmp/file.mkv" ]
+            args_list = ["ffmpeg", "-f", "alsa", "-ac", "2", "-i", "pulse", "-acodec", "pcm_s16le", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", self.tempfile ]
         
         self.command = Popen(args_list)
+    
+    def get_filename(self):
+        return self.tempfile
     
     def stop(self):
         self.command.kill()

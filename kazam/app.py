@@ -27,14 +27,16 @@ import gtk
 import os
 import shutil
 
+from subprocess import Popen
 from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
 from window_start import *
 from dialogs import *
 from window_countdown import CountdownWindow
-from indicator import KazamIndicator, KazamStatusIcon
+from indicator import KazamIndicator
 from recording import Recording
+from done_recording import DoneRecording
 
 class KazamApp(SimpleGtkbuilderApp):
 
@@ -42,7 +44,7 @@ class KazamApp(SimpleGtkbuilderApp):
     
         self.datadir = datadir
         SimpleGtkbuilderApp.__init__(self, 
-                                     os.path.join(datadir, "ui/kazam.ui"),
+                                     os.path.join(datadir, "ui", "start.ui"),
                                      "kazam")
         gettext.bindtextdomain("kazam", "/usr/share/locale")
         gettext.textdomain("kazam")
@@ -71,38 +73,57 @@ class KazamApp(SimpleGtkbuilderApp):
     # Callbacks
     def on_checkbutton_video_toggled(self, checkbutton_video):
         self.combobox_video.set_sensitive(checkbutton_video.get_active())
+        
     def on_checkbutton_audio_toggled(self, checkbutton_audio):
         self.combobox_audio.set_sensitive(checkbutton_audio.get_active())
+        
     def on_menuitem_quit_activate(self, checkbutton_audio):
         gtk.main_quit()
+        
     def on_window_start_delete_event(self, window, event):
         gtk.main_quit()
+        
     def on_button_close_clicked(self, button_close):
         gtk.main_quit()
+        
     def on_button_record_clicked(self, button_record):
         self.audio = self.checkbutton_audio.get_active()
         self.window_start.hide()
         self.window_countdown.run_countdown()
-        try:
-            import appindicator
-            self.indicator = KazamIndicator()
-        except ImportError:
-            self.indicator = KazamStatusIcon()
+        
+        self.indicator = KazamIndicator()
+
         self.indicator.connect("recording-done", self.on_indicator_recording_done)
+        
     def on_window_countdown_count(self, window_countdown):
         self.indicator.count(window_countdown.number)
+        
     def on_window_countdown_done(self, window_countdown):
         self.indicator.start_recording()
         self.recording = Recording(self.audio)
+        
     def on_indicator_recording_done(self, indicator):
         self.recording.stop()
-        self.window_done_recording.show_all()
-    def on_button_save_as_clicked(self, button_save_as):
-        (save_dialog, result) = new_save_dialog("Save screencast", self.window_done_recording)
+        self.done_recording = DoneRecording(self.datadir)
+        self.done_recording.connect("save-requested", self.cb_save_requested)
+        self.done_recording.connect("edit-requested", self.cb_edit_requested)
+        self.done_recording.run()
+        
+    def cb_edit_requested(self, done_recording, data):
+        (desktop_entry, args_list) = data
+        
+        command = desktop_entry.getExec()
+        args_list.insert(0, desktop_entry.getExec())
+        args_list.append(self.recording.get_filename())
+        
+        Popen(args_list)
+        
+    def cb_save_requested(self, done_recording):
+        (save_dialog, result) = new_save_dialog("Save screencast", self.done_recording.dialog)
         ## TODO: save properly
         if result == gtk.RESPONSE_OK:
             uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
-            shutil.move("/tmp/file.mkv", uri)
+            shutil.move(self.recording.get_filename(), uri)
         save_dialog.destroy()
             
         

@@ -32,7 +32,7 @@ import logging
 import os
 import sys
 
-if os.path.exists("../data/ui/kazam.ui"):
+if os.path.exists("../data/ui/start.ui"):
     (head, tail) = os.path.split(os.getcwd())
     sys.path.insert(0, os.path.abspath(head))
 
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     if options.force_rtl:
         gtk.widget_set_default_direction(gtk.TEXT_DIR_RTL)
 
-    if os.path.exists("../data/ui/kazam.ui"):
+    if os.path.exists("../data/ui/start.ui"):
         logging.info("Running locally")
         datadir = "../data"
     else:
