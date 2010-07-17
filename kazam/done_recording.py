@@ -92,12 +92,18 @@ class DoneRecording(gobject.GObject):
     def on_button_cancel_clicked(self, button):
         gtk.main_quit()
         
+    def on_menuitem_quit_activate(self, button):
+        gtk.main_quit()
+        
+    def on_menuitem_about_activate(self, button):
+        pass
+        
     def on_button_continue_clicked(self, button):
         if self.action == self.ACTION_SAVE:
             self.emit("save-requested")
         elif self.action == self.ACTION_EDIT:
-            desktop_entry = get_combobox_active_value(2)
-            args = get_combobox_active_value(3)
+            desktop_entry = self.get_combobox_active_value(2)
+            args = self.get_combobox_active_value(3)
             
             self.emit("edit-requested", (desktop_entry, args))
         

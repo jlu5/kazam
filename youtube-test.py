@@ -20,15 +20,12 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-# Uses code from youtube-upload by Arnau Sanchez <tokland@gmail.com>
+# Based from youtube-upload by Arnau Sanchez <tokland@gmail.com>
 
-import os
+import urllib2
+import gobject
 import sys
-import locale
-import urllib
-import optparse
-import itertools
-import subprocess
+import pycurl
 from xml.etree import ElementTree
 
 # python-gdata (>= 1.2.4)
@@ -37,113 +34,157 @@ import gdata.geo
 import gdata.youtube
 import gdata.youtube.service
 
-VERSION = "0.4"
-DEVELOPER_KEY = "AI39si7iJ5TSVP3U_j4g3GGNZeI6uJl6oPLMxiyMst24zo1FEgnLzcG4i" + \
-                "SE0t2pLvi-O03cW918xz9JFaf_Hn-XwRTTK7i1Img"
 
-class Youtube:
+class UploadSource(gobject.GObject):
+    
+    __gsignals__ = {
+    "upload-complete"     : (gobject.SIGNAL_RUN_LAST,
+                           gobject.TYPE_NONE,
+                           ([str]),)
+    }
+    
+    def __init__(self):
+        super(UploadSource, self).__init__()
+        
+    def upload(self, path):
+        """
+        Uploads the video, emits the upload-complete signal with the url
+        """
+        
+    def create_meta(self, title=None, description=None, category_term=None, keywords=None, private=False):
+        """
+        Deals with creating any meta information
+        """
+
+class YouTube(UploadSource):
     """Interface the Youtube API."""        
+
+    DEVELOPER_KEY = "AI39si4K_qwy_KQ5HHNXYF9so0mBiKqMJnZ7gJVs3jW9nSKOcPfhTl" + \
+                    "aFw8_jIaDvZyRLrmwa0X8eOjsfg3lHyQdsfmah7ja7Rw"
     CATEGORIES_SCHEME = "http://gdata.youtube.com/schemas/2007/categories.cat"
-    
-    def __init__(self, developer_key, email, password, source=None, client_id=None):
-        """Login and preload available categories."""
-        service = gdata.youtube.service.YouTubeService()
-        service.ssl = False # SSL is not yet supported by Youtube API
-        service.email = email
-        service.password = password
-        service.source = source
-        service.developer_key = developer_key
-        service.client_id = client_id
-        service.ProgrammaticLogin()
-        self.service = service
-        self.categories = self.get_categories()
 
-    def get_upload_form_data(self, path, *args, **kwargs):
-        """Return dict with keys 'post_url' and 'token' with upload info."""
-        video_entry = self._create_video_entry(*args, **kwargs)
-        post_url, token = self.service.GetFormUploadToken(video_entry)
-        debug("post url='%s', token='%s'" % (post_url, token))
-        return dict(post_url=post_url, token=token)
+    def __init__(self, email, password):
+        super(YouTube, self).__init__()
+        
+        self.service = gdata.youtube.service.YouTubeService()
+        self.service.ssl = False # SSL is not yet supported by Youtube API
+        self.service.email = email
+        self.service.password = password
+        self.service.developer_key = self.DEVELOPER_KEY
+        self.service.ProgrammaticLogin()
+        
+        self.categories = self._get_categories_dict()
+        self.video_entry = None
 
-    def upload_video(self, path, *args, **kwargs):
-        """Upload a video."""
-        video_entry = self._create_video_entry(*args, **kwargs)
-        return self.service.InsertVideoEntry(video_entry, path)
-
-    def upload_video_to_playlist(self, video_id, playlist_uri, title=None, description=None):
-        """Add video to playlist."""
-        playlist_video_entry = self.service.AddPlaylistVideoEntryToPlaylist(
-            playlist_uri, video_id, title, description)
-        return playlist_video_entry
+    def upload(self, path):
+        entry = self.service.InsertVideoEntry(self.video_entry, path)
+        url = entry.GetHtmlLink().href
+        url = url.replace("&feature=youtube_gdata", "")
+        self.emit("upload-complete", url)
            
-    def _create_video_entry(self, title, description, category, keywords=None, 
-            location=None, private=False):
-        assert self.service, "Youtube service object is not set"
-        if category not in self.categories:
-            valid = " ".join(self.categories.keys())
-            raise ValueError("Invalid category '%s' (valid: %s)" % (category, valid))
-                 
-        media_group = gdata.media.Group(
-            title=gdata.media.Title(text=title),
-            description=gdata.media.Description(description_type='plain', text=description),
-            keywords=gdata.media.Keywords(text=", ".join(keywords or [])),
-            category=gdata.media.Category(
-                text=category,
-                label=self.categories[category],
-                scheme=self.CATEGORIES_SCHEME),
-            private=(gdata.media.Private() if private else None),
-            player=None)
-        if location:            
-            where = gdata.geo.Where()
-            where.set_location(location)
-        else: 
-            where = None
-        return gdata.youtube.YouTubeVideoEntry(media=media_group, geo=where)
-                
-    @classmethod
-    def get_categories(cls):
-        """Return categories dictionary with pairs (term, label)."""
-        def get_pair(element):
-            """Return pair (term, label) for a (non-deprecated) XML element."""
-            if all(not(str(x.tag).endswith("deprecated")) for x in element.getchildren()):
-                return (element.get("term"), element.get("label"))            
-        xmldata = urllib.urlopen(cls.CATEGORIES_SCHEME).read()
-        xml = ElementTree.XML(xmldata)
-        return dict(filter(bool, map(get_pair, xml)))
-    
-def main_upload(arguments):
-    """Upload video to Youtube."""
-    usage = """Usage: %prog [OPTIONS] EMAIL PASSWORD FILE TITLE DESCRIPTION CATEGORY KEYWORDS"""
-    
-    print " ".join(Youtube.get_categories().keys())
-    
-    encoding = get_encoding()
-    email, password0, video_path, title, description, category, skeywords = \
-        [unicode(s, encoding) for s in args]
-    password = (sys.stdin.readline().strip() if password0 == "-" else password0)
-    videos = ([video_path] if options.no_split else list(split_youtube_video(video_path)))
-    debug("connecting to Youtube API")
-    yt = Youtube(DEVELOPER_KEY, email, password)
-    keywords = filter(bool, [s.strip() for s in re.split('[,;\s]+', skeywords)])
-    
-    
-    for index, splitted_video_path in enumerate(videos):
-        complete_title = ("%s [%d/%d]" % (title, index+1, len(videos)) 
-                          if len(videos) > 1 else title)
-        args = [splitted_video_path, complete_title, description, category, keywords]
-        kwargs = dict(private=options.private, location=parse_location(options.location))
-        if options.get_upload_form_data:
-          data = yt.get_upload_form_data(*args, **kwargs)
-          print "|".join([splitted_video_path, data["token"], data["post_url"]])
-          if options.playlist_uri:
-              debug("--playlist-uri is ignored on form upload")        
+    def create_meta(self, title, description, category_term, keywords=None, private=False):
+        if not self._check_category(category_term):
+            print "Not suitable"
+            return False
+        # Create all meta objects
+        meta_title = gdata.media.Title(text=title)
+        meta_description = gdata.media.Description(description_type='plain',
+                                                    text=description)
+        meta_keywords = gdata.media.Keywords(text=keywords)
+        meta_category = gdata.media.Category(text=category_term,
+                                        label=self.categories[category_term]["label"],
+                                        scheme=self.CATEGORIES_SCHEME)
+        if private:
+            meta_private = gdata.media.Private()
         else:
-          debug("start upload: %s (%s)" % (splitted_video_path, complete_title)) 
-          entry = yt.upload_video(*args, **kwargs)
-          url = entry.GetHtmlLink().href.replace("&feature=youtube_gdata", "")
-          print url
+            meta_private = None   
+             
+        # Put them in our media group
+        media_group = gdata.media.Group(
+            title=meta_title,
+            description=meta_description,
+            keywords=meta_keywords,
+            category=meta_category,
+            private=meta_private,
+            player=None)
 
+        # Create a VideoEntry
+        self.video_entry = gdata.youtube.YouTubeVideoEntry(media=media_group)
+        return True
+       
+    def _check_category(self, category_term):
+        """
+        Checks whether a given category is acceptable, return True if
+        it is, False if it isn't
+        """
+        return category_term in self.categories
+            
+    def _get_categories_dict(self):
+        """
+        {
+        "Film":{
+                "label":"Film & Animation",
+                "depreciated":False,
+                }
+        }
+        """
+        category_dict = {}
+        
+        tree = ElementTree.parse("/tmp/categories.cat")
+        categories = tree.getroot()
+        for category in categories.getchildren():
+            term = category.get("term")
+            label = category.get("label")
+            if category.find("{http://gdata.youtube.com/schemas/2007}assignable") == None:
+                depreciated = True
+            else:
+                depreciated = False
+            category_dict[term] = {"label":label, "depreciated":depreciated}
+            
+        return category_dict
+        
+class VideoBin(UploadSource):
+    
+    URL = "http://www.videobin.org/add"
+    
+    def __init__(self):
+        super(VideoBin, self).__init__()
+        
+    def upload(self, path):
+        c = pycurl.Curl()
+        c.setopt(c.URL, self.URL)
+        c.setopt(c.POST, 1)
+        c.setopt(c.HTTPPOST, [("api", "1"), ("videoFile", (c.FORM_FILE, path))])
+        c.setopt(c.WRITEFUNCTION, self.store)
+        c.perform()
+        self.emit("upload-complete", self.url)
+        
+    def store(self, buf):
+        self.url = buf
+    
+    def create_meta(self):
+        # No meta info for videobin
+        pass
    
 if __name__ == '__main__':
-    sys.exit(main_upload(sys.argv[1:]))
+    
+    path = "/tmp/tmpnWgz_z.mkv"
+    
+    """email = "rugby471@gmail.com"
+    password = "X&buRsP&bG^}/"
+    category_term = "Tech"
+    title = "Test aPI"
+    description = "Testy the apiy"
+    keywords = "tech,test,stuff"
+    
+    yt = YouTube(email, password)
+    yt.connect("upload-complete", lambda x,*y: sys.stdout.write("%s\n" % y))
+    yt.create_meta(title, description, category_term, keywords)
+    yt.upload(path)"""
+    
+    v = VideoBin()
+    v.connect("upload-complete", lambda x,*y: sys.stdout.write("%s\n" % y))
+    v.upload(path)
+    
+    
 
