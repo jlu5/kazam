@@ -117,7 +117,6 @@ class KazamApp(object):
             
         
     # Functions
-
     def run(self):
         self.recording_start.run()
         gtk.main()
