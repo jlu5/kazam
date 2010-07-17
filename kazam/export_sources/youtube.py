@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       untitled.py
+#       youtube.py
 #       
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
 #       
@@ -24,9 +24,6 @@
 
 import urllib2
 import gobject
-import sys
-import pycurl
-from xml.etree import ElementTree
 
 # python-gdata (>= 1.2.4)
 import gdata.media
@@ -34,27 +31,7 @@ import gdata.geo
 import gdata.youtube
 import gdata.youtube.service
 
-
-class UploadSource(gobject.GObject):
-    
-    __gsignals__ = {
-    "upload-complete"     : (gobject.SIGNAL_RUN_LAST,
-                           gobject.TYPE_NONE,
-                           ([str]),)
-    }
-    
-    def __init__(self):
-        super(UploadSource, self).__init__()
-        
-    def upload(self, path):
-        """
-        Uploads the video, emits the upload-complete signal with the url
-        """
-        
-    def create_meta(self, title=None, description=None, category_term=None, keywords=None, private=False):
-        """
-        Deals with creating any meta information
-        """
+from upload_source import UploadSource
 
 class YouTube(UploadSource):
     """Interface the Youtube API."""        
@@ -142,49 +119,3 @@ class YouTube(UploadSource):
             category_dict[term] = {"label":label, "depreciated":depreciated}
             
         return category_dict
-        
-class VideoBin(UploadSource):
-    
-    URL = "http://www.videobin.org/add"
-    
-    def __init__(self):
-        super(VideoBin, self).__init__()
-        
-    def upload(self, path):
-        c = pycurl.Curl()
-        c.setopt(c.URL, self.URL)
-        c.setopt(c.POST, 1)
-        c.setopt(c.HTTPPOST, [("api", "1"), ("videoFile", (c.FORM_FILE, path))])
-        c.setopt(c.WRITEFUNCTION, self.store)
-        c.perform()
-        self.emit("upload-complete", self.url)
-        
-    def store(self, buf):
-        self.url = buf
-    
-    def create_meta(self):
-        # No meta info for videobin
-        pass
-   
-if __name__ == '__main__':
-    
-    path = "/tmp/tmpnWgz_z.mkv"
-    
-    """email = "rugby471@gmail.com"
-    password = "X&buRsP&bG^}/"
-    category_term = "Tech"
-    title = "Test aPI"
-    description = "Testy the apiy"
-    keywords = "tech,test,stuff"
-    
-    yt = YouTube(email, password)
-    yt.connect("upload-complete", lambda x,*y: sys.stdout.write("%s\n" % y))
-    yt.create_meta(title, description, category_term, keywords)
-    yt.upload(path)"""
-    
-    v = VideoBin()
-    v.connect("upload-complete", lambda x,*y: sys.stdout.write("%s\n" % y))
-    v.upload(path)
-    
-    
-

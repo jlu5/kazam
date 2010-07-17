@@ -38,14 +38,11 @@ from recording import Recording
 from done_recording import DoneRecording
 from start_recording import RecordingStart
 
-class KazamApp(SimpleGtkbuilderApp):
+class KazamApp(object):
 
     def __init__(self, datadir):
     
         self.datadir = datadir
-        SimpleGtkbuilderApp.__init__(self, 
-                                     os.path.join(datadir, "ui", "start.ui"),
-                                     "kazam")
         gettext.bindtextdomain("kazam", "/usr/share/locale")
         gettext.textdomain("kazam")
         
@@ -66,6 +63,7 @@ class KazamApp(SimpleGtkbuilderApp):
         # Let's start!
         self.recording_start = RecordingStart(self.datadir)
         self.recording_start.connect("countdown-requested", self.cb_countdown_requested)
+        self.recording_start.connect("quit-requested", gtk.main_quit)
         
     # Callbacks
         
@@ -122,7 +120,7 @@ class KazamApp(SimpleGtkbuilderApp):
 
     def run(self):
         self.recording_start.run()
-        SimpleGtkbuilderApp.run(self)
+        gtk.main()
 
 
 

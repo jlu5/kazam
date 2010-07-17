@@ -32,6 +32,9 @@ class RecordingStart(gobject.GObject):
     __gsignals__ = {
     "countdown-requested"     : (gobject.SIGNAL_RUN_LAST,
                            gobject.TYPE_NONE,
+                           ( ),),
+    "quit-requested"     : (gobject.SIGNAL_RUN_LAST,
+                           gobject.TYPE_NONE,
                            ( ),)
     }
 
@@ -66,7 +69,7 @@ class RecordingStart(gobject.GObject):
         self.menubar = menubar_from_dict(self, menu_dict)
         
         # Pack them
-        self.dialog.vbox.pack_start(self.menubar)
+        self.dialog.vbox.pack_start(self.menubar, False, True)
         self.dialog.vbox.reorder_child(self.menubar, 0)
         
         # Add our comboboxes
@@ -83,7 +86,7 @@ class RecordingStart(gobject.GObject):
         self.emit("countdown-requested")
     
     def on_menuitem_quit_activate(self, menuitem):
-        gtk.main_quit()
+        self.emit("quit-requested")
         
     def on_menuitem_about_activate(self, menuitem):
         pass
@@ -98,16 +101,6 @@ class RecordingStart(gobject.GObject):
         response = self.dialog.run()
         self.dialog.hide()
         return response
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
 

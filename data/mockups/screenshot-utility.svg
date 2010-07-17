@@ -23,19 +23,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="1200.7813"
-     inkscape:cy="-695.94255"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="524.96432"
+     inkscape:cy="179.09161"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      width="1024px"
      inkscape:window-width="1024"
      inkscape:window-height="719"
      inkscape:window-x="1024"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     showguides="false"
+     showguides="true"
      inkscape:guide-bbox="true">
     <inkscape:grid
        type="xygrid"
@@ -196,6 +196,10 @@
        orientation="1,0"
        position="335,-145"
        id="guide5236" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="550,215"
+       id="guide4453" />
   </sodipodi:namedview>
   <defs
      id="defs4">
@@ -617,7 +621,7 @@
        xlink:href="#linearGradient4624-5"
        id="linearGradient5505"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.9375,0,0,1.7,257.875,721.86218)"
+       gradientTransform="matrix(0.9375,0,0,1.7,248.87499,721.86218)"
        x1="195"
        y1="100"
        x2="195"
@@ -627,7 +631,7 @@
        xlink:href="#linearGradient4624-5"
        id="linearGradient5507"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.9375,0,0,1.7,342.87501,721.86218)"
+       gradientTransform="matrix(0.9375,0,0,1.7,333.875,721.86218)"
        x1="195"
        y1="100"
        x2="195"
@@ -4796,7 +4800,7 @@
        id="rect5419"
        width="75"
        height="17"
-       x="398.5"
+       x="389.5"
        y="874.86218"
        rx="2"
        ry="2"
@@ -4807,7 +4811,7 @@
        xml:space="preserve"
        id="flowRoot5421"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:justify;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Aller Light;-inkscape-font-specification:'Aller Light,'"
-       transform="translate(261.94425,708.16963)"
+       transform="translate(252.94424,708.16963)"
        inkscape:export-filename="/home/andrew/Temp/main_window.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><flowRegion
@@ -4822,7 +4826,7 @@
        ry="2"
        rx="2"
        y="874.86218"
-       x="483.5"
+       x="474.5"
        height="17"
        width="75"
        id="rect5429"
@@ -4831,7 +4835,7 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <flowRoot
-       transform="translate(350.38825,708.16963)"
+       transform="translate(341.38824,708.16963)"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:justify;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Aller Light;-inkscape-font-specification:'Aller Light,'"
        id="flowRoot5431"
        xml:space="preserve"

@@ -24,7 +24,7 @@
 # package and mangle the python path accordingly
 
 import pygtk
-pygtk.require ("2.0")
+pygtk.require("2.0")
 import gtk
 from optparse import OptionParser
 import gettext

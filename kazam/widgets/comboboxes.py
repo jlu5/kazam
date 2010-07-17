@@ -29,7 +29,8 @@ from xdg.DesktopEntry import DesktopEntry
 class ExternalEditorCombobox(gtk.ComboBox):
     
     EDITORS = {
-                "/usr/share/applications/pitivi.desktop":["-i", "-a"]
+                "/usr/share/applications/pitivi.desktop":["-i", "-a"],
+                "/usr/share/applications/avidemux-gtk.desktop":[],
                 }
     
     def __init__(self, icons):
@@ -115,22 +116,4 @@ class AudioCombobox(gtk.ComboBox):
         liststore = self.get_model()
         liststore.append(self.SOURCES)
             
-            
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 

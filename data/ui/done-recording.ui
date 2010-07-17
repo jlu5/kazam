@@ -3,9 +3,10 @@
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkDialog" id="dialog_done_recording">
-    <property name="border_width">5</property>
-    <property name="default_width">280</property>
-    <property name="default_height">210</property>
+    <property name="title" translatable="yes">Kazam screencaster</property>
+    <property name="window_position">center</property>
+    <property name="default_width">300</property>
+    <property name="default_height">200</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
@@ -14,10 +15,10 @@
         <child>
           <object class="GtkAlignment" id="alignment_done_recording">
             <property name="visible">True</property>
-            <property name="top_padding">12</property>
-            <property name="bottom_padding">12</property>
-            <property name="left_padding">12</property>
-            <property name="right_padding">12</property>
+            <property name="top_padding">18</property>
+            <property name="bottom_padding">18</property>
+            <property name="left_padding">18</property>
+            <property name="right_padding">18</property>
             <child>
               <object class="GtkVBox" id="vbox5">
                 <property name="visible">True</property>
@@ -27,6 +28,7 @@
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="yalign">0</property>
+                    <property name="xpad">6</property>
                     <property name="label" translatable="yes">Your screencast has finished recording.
 What do you want to do now?</property>
                   </object>
@@ -39,6 +41,7 @@ What do you want to do now?</property>
                     <property name="visible">True</property>
                     <property name="n_rows">2</property>
                     <property name="n_columns">2</property>
+                    <property name="column_spacing">3</property>
                     <property name="row_spacing">6</property>
                     <child>
                       <object class="GtkRadioButton" id="radiobutton_edit_with">
@@ -88,7 +91,7 @@ What do you want to do now?</property>
             </child>
           </object>
           <packing>
-            <property name="fill">False</property>
+            <property name="expand">False</property>
             <property name="position">1</property>
           </packing>
         </child>

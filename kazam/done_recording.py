@@ -82,12 +82,12 @@ class DoneRecording(gobject.GObject):
         self.menubar = menubar_from_dict(self, menu_dict)
         
         # Pack them
-        self.dialog.vbox.pack_start(self.menubar)
+        self.dialog.vbox.pack_start(self.menubar, False, True)
         self.dialog.vbox.reorder_child(self.menubar, 0)
         
         # Add editor combobox
         self.combobox_editors = ExternalEditorCombobox(self.icons)
-        self.table_actions.attach(self.combobox_editors, 1, 2, 0, 1)
+        self.table_actions.attach(self.combobox_editors, 1, 2, 0, 1, gtk.FILL, gtk.FILL)
         
     def on_button_cancel_clicked(self, button):
         gtk.main_quit()
@@ -133,5 +133,19 @@ class DoneRecording(gobject.GObject):
         self.dialog.hide()
         return response
 
+if __name__ == "__main__":
+    icons = gtk.icon_theme_get_default()
+    
+    if os.path.exists("./data/ui/start.ui"):
+        logging.info("Running locally")
+        datadir = "./data"
+    else:
+        datadir = "/usr/share/kazam/"
+    
+    done_recording = DoneRecording(datadir, icons)
+    done_recording.connect("save-requested", gtk.main_quit)
+    done_recording.connect("edit-requested", gtk.main_quit)
+    done_recording.run()
+    gtk.main()
 
 
