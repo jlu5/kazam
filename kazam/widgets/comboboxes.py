@@ -68,6 +68,36 @@ class ExternalEditorCombobox(gtk.ComboBox):
             
             liststore.append([pixbuf, name, desktop_entry, args])
             
+class ExportCombobox(gtk.ComboBox):
+    
+    def __init__(self, icons, export_sources):
+        gtk.ComboBox.__init__(self)
+        self.icons = icons 
+
+        # Cell renders
+        cr_pixbuf = gtk.CellRendererPixbuf()
+        self.pack_start(cr_pixbuf, True)
+        self.add_attribute(cr_pixbuf, 'pixbuf', 0)  
+        cr_text = gtk.CellRendererText()
+        self.pack_start(cr_text, True)
+        self.add_attribute(cr_text, 'text', 1)  
+        
+        # List store
+        liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, gobject.TYPE_PYOBJECT)
+        self.set_model(liststore)
+        self._populate(export_sources)
+        
+        self.set_active(0)
+        self.show()
+        
+    def _populate(self, export_sources):
+        for source in export_sources:
+            name = source
+            pixbuf_name = export_sources[name][0]
+            pixbuf = self.icons.load_icon(pixbuf_name, 16, ())
+            plugin_class = export_sources[name][1]
+            self.get_model().append([pixbuf, name, plugin_class])
+            
 class VideoCombobox(gtk.ComboBox):
     
     SOURCES = ["Screen"]

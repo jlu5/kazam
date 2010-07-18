@@ -79,4 +79,11 @@ def setup_ui(self, path):
             setattr(self, name, o)
         else:
             print >> sys.stderr, "WARNING: can not get name for '%s'" % o    
+            
+def get_combobox_active_value(combobox, column):
+    i = combobox.get_active()
+    liststore = combobox.get_model()
+    list_iter = liststore.get_iter(i)
+    
+    return liststore.get_value(list_iter, column)
     

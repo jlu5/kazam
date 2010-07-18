@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       untitled.py
+#       export_backend.py
 #       
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
 #       
@@ -20,30 +20,35 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+
 import gobject
 
-class UploadSource(gobject.GObject):
+class ExportBackend(gobject.GObject):
     
     __gsignals__ = {
-    "upload-completed"     : (gobject.SIGNAL_RUN_LAST,
+    "export-completed"     : (gobject.SIGNAL_RUN_LAST,
                            gobject.TYPE_NONE,
                            ([str]),)
     }
     
-    def __init__(self):
-        super(UploadSource, self).__init__()
+    def __init__(self, frontend):
+        super(ExportBackend, self).__init__()
         
-    def authenticate(self, email, password):
-        """
-        If any logging in is needed for the service, it is done here
-        """
+        self.frontend = frontend
+        self.frontend.connect("export-requested", self.cb_export_requested)
         
-    def upload(self, path):
-        """
-        Uploads the video, emits the upload-complete signal with the url
-        """
+    def cb_export_requested(self, frontend, export_class):
+        export_object = export_class()
+        export_object.connect("upload-completed", self.cb_upload_complete)
+        email = raw_input("Email:")
+        password = raw_input("Password:")
+        if not export_object.authenticate(email, password):
+            print "Didn't work"
+            return False
+            
+        export_object.create_meta(**frontend.get_meta())
+        export_object.upload(frontend.get_path())
         
-    def create_meta(self, **args):
-        """
-        Deals with creating any meta information
-        """
+    def cb_upload_complete(self, export_class, url):
+        self.emit("export-completed", url)
+        

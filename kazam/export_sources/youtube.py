@@ -33,6 +33,8 @@ import gdata.youtube.service
 
 from upload_source import UploadSource
 
+from xml.etree import ElementTree
+
 class YouTube(UploadSource):
     """Interface the Youtube API."""        
 
@@ -40,18 +42,30 @@ class YouTube(UploadSource):
                     "aFw8_jIaDvZyRLrmwa0X8eOjsfg3lHyQdsfmah7ja7Rw"
     CATEGORIES_SCHEME = "http://gdata.youtube.com/schemas/2007/categories.cat"
 
-    def __init__(self, email, password):
+    META = {
+            "title":["entry_title", "get_text"],
+            "keywords":["entry_keywords", "get_text"],
+            #"description":["textview_description.get_buffer()", "get_text()"],
+            #"category":"",
+            }
+
+    def __init__(self):
         super(YouTube, self).__init__()
-        
         self.service = gdata.youtube.service.YouTubeService()
+                
+        self.categories = self._get_categories_dict()
+        self.video_entry = None
+        
+    def authenticate(self, email, password):
         self.service.ssl = False # SSL is not yet supported by Youtube API
         self.service.email = email
         self.service.password = password
         self.service.developer_key = self.DEVELOPER_KEY
-        self.service.ProgrammaticLogin()
-        
-        self.categories = self._get_categories_dict()
-        self.video_entry = None
+        try:
+            self.service.ProgrammaticLogin()
+            return True
+        except:
+            return False
 
     def upload(self, path):
         entry = self.service.InsertVideoEntry(self.video_entry, path)

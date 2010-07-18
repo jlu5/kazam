@@ -32,6 +32,9 @@ class VideoBin(UploadSource):
     def __init__(self):
         super(VideoBin, self).__init__()
         
+    def authenticate(self, email=None, password=None):
+        return True
+
     def upload(self, path):
         c = pycurl.Curl()
         c.setopt(c.URL, self.URL)
@@ -44,7 +47,6 @@ class VideoBin(UploadSource):
     def store(self, buf):
         self.url = buf
     
-    def create_meta(self):
-        # No meta info for videobin
+    def create_meta(self, **args):
         pass
 
