@@ -31,11 +31,11 @@ import gobject
 from gettext import gettext as _
 
 from widgets.comboboxes import ExportCombobox
-from export_sources.youtube import YouTube
-from export_sources.videobin import VideoBin
 from export_backend import ExportBackend
-
 from utils import *
+
+from export_sources.youtube import *
+from export_sources.videobin import *
 
 class Edit(gobject.GObject):
     
@@ -99,6 +99,13 @@ class Edit(gobject.GObject):
         name = get_combobox_active_value(self.combobox_export, 1)
         # .. and correspond it to a property alignment
         alignment = getattr(self, "alignment_%s" % name.lower())
+        
+        # Run an extra GUI function that is defined by source
+        export_class = get_combobox_active_value(self.combobox_export, 2)
+        func_name = "%s_extra_gui" % name
+        globals()[func_name](self, export_class, alignment)
+        
+        # Pack our alignment
         self.vbox_main.pack_start(alignment, True, True)
         self.vbox_main.reorder_child(alignment, 3)
         
@@ -120,16 +127,17 @@ class Edit(gobject.GObject):
             # ..get the corresponding widget in the meta dict
             widget = getattr(self, meta[prop])
             # ...get the corresponding widget value and add to the dict
-            # ...inplace of the widget
-            meta[prop] = get_property_value(widget)
+            # inplace of the widget
+            meta[prop] = self.get_property_value(widget)
         return meta
     
     def get_property_value(self, widget):
         # Convenience function to get property value based on widget type
-        if isinstance(widget, gtk.TextEntry):
+        if isinstance(widget, gtk.Entry):
             return widget.get_text()
         elif isinstance(widget, gtk.TextView):
-            return widget.get_buffer().get_text()
+            buf = widget.get_buffer()
+            return buf.get_text(buf.get_start_iter(), buf.get_end_iter())
         elif isinstance(widget, gtk.ComboBox):
             return get_combobox_active_value(widget, 1)
     

@@ -31,6 +31,8 @@ import gdata.geo
 import gdata.youtube
 import gdata.youtube.service
 
+import gtk
+
 from upload_source import UploadSource
 
 from xml.etree import ElementTree
@@ -46,8 +48,25 @@ class YouTube(UploadSource):
             "title":"entry_title",
             "keywords":"entry_keywords",
             "description":"textview_description",
-            #"category":"",
+            "category_term":"combobox_category",
             }
+            
+    EXTRA_GUI_CODE = """
+    self.combobox_category = gtk.ComboBox()
+    
+    # Cell renders
+    cr_text = gtk.CellRendererText()
+    self.pack_start(cr_text, True)
+    self.add_attribute(cr_text, 'text', 0)  
+    # List store
+    liststore = gtk.ListStore(str, str)
+    self.set_model(liststore)
+    self._populate()
+        
+    self.set_active(0)
+    self.show()
+    
+    """
 
     def __init__(self):
         super(YouTube, self).__init__()
@@ -133,3 +152,26 @@ class YouTube(UploadSource):
             category_dict[term] = {"label":label, "depreciated":depreciated}
             
         return category_dict
+        
+def YouTube_extra_gui(self, youtube_class, alignment):
+    self.combobox_category = gtk.ComboBox()
+    
+    # Cell renders
+    cr_text = gtk.CellRendererText()
+    self.combobox_category.pack_start(cr_text, True)
+    self.combobox_category.add_attribute(cr_text, 'text', 0)  
+    # List store
+    liststore = gtk.ListStore(str, str)
+    self.combobox_category.set_model(liststore)
+        
+    categories = youtube_class().categories.copy()
+    for category in categories:
+        if not categories[category]["depreciated"]:
+            liststore.append([categories[category]["label"], category])
+                
+    alignment.get_children()[0].attach(self.combobox_category, 1,2,3,4, gtk.FILL, gtk.FILL)
+        
+    self.combobox_category.set_active(0)
+    self.combobox_category.show()
+    
+    

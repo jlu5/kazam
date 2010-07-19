@@ -50,3 +50,5 @@ class VideoBin(UploadSource):
     def create_meta(self, **args):
         pass
 
+def VideoBin_extra_gui(self, youtube_class, alignment):
+    pass
