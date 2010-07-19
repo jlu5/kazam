@@ -53,7 +53,7 @@ class Edit(gobject.GObject):
                         "VideoBin":["gtk-edit", VideoBin]
                     }
     
-    def __init__(self, datadir, icons):
+    def __init__(self, datadir, icons, path):
         super(Edit, self).__init__()
         self.icons = icons
         self.backend = ExportBackend(self)
@@ -156,7 +156,7 @@ if __name__ == "__main__":
     else:
         datadir = "/usr/share/kazam/"
     
-    done_recording = Edit(datadir, icons)
+    done_recording = Edit(datadir, icons, path)
     #done_recording.connect("save-requested", gtk.main_quit)
     #done_recording.connect("edit-requested", gtk.main_quit)
     done_recording.run()

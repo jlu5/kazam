@@ -50,23 +50,6 @@ class YouTube(UploadSource):
             "description":"textview_description",
             "category_term":"combobox_category",
             }
-            
-    EXTRA_GUI_CODE = """
-    self.combobox_category = gtk.ComboBox()
-    
-    # Cell renders
-    cr_text = gtk.CellRendererText()
-    self.pack_start(cr_text, True)
-    self.add_attribute(cr_text, 'text', 0)  
-    # List store
-    liststore = gtk.ListStore(str, str)
-    self.set_model(liststore)
-    self._populate()
-        
-    self.set_active(0)
-    self.show()
-    
-    """
 
     def __init__(self):
         super(YouTube, self).__init__()
