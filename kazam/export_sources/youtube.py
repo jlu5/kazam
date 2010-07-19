@@ -43,9 +43,9 @@ class YouTube(UploadSource):
     CATEGORIES_SCHEME = "http://gdata.youtube.com/schemas/2007/categories.cat"
 
     META = {
-            "title":["entry_title", "get_text"],
-            "keywords":["entry_keywords", "get_text"],
-            #"description":["textview_description.get_buffer()", "get_text()"],
+            "title":"entry_title",
+            "keywords":"entry_keywords",
+            "description":"textview_description",
             #"category":"",
             }
 

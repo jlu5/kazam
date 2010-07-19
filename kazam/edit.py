@@ -63,16 +63,14 @@ class Edit(gobject.GObject):
         # Setup UI
         setup_ui(self, os.path.join(datadir, "ui", "edit.ui"))        
         
+        # Get window
         self.window = self.window_edit
-        
         self.window_edit.connect("delete-event", gtk.main_quit)
         
-        # Add export combobox
+        # Add and setup export combobox
         self.combobox_export = ExportCombobox(self.icons, self.EXPORT_SOURCES)
         self.combobox_export.connect("changed", self.on_combobox_export_changed)
         self.hbox_export.pack_start(self.combobox_export, False, True)
-        
-        # Add our export properties
         self.on_combobox_export_changed(None)
         
     def on_button_close_clicked(self, button):
@@ -82,18 +80,24 @@ class Edit(gobject.GObject):
         self.emit("back-requested")
         
     def on_button_export_clicked(self, button):
+        # Get the export class from combobox
         export_class = get_combobox_active_value(self.combobox_export, 2)
         self.emit("export-requested", export_class)
         
+        # Set buttons, combobox and the alignment insensitive
+        # TODO: make this better
         getattr(self, "alignment_%s" % self.previous_source.lower()).set_sensitive(False)
         self.button_export.set_sensitive(False)
         self.button_back.set_sensitive(False)
         self.combobox_export.set_sensitive(False)
         
     def on_combobox_export_changed(self, combobox):
+        # If we already have an alignment, unpack it
         if self.previous_source:
              self.vbox_main.remove(getattr(self, "alignment_%s" % self.previous_source.lower()))
+        # Get name from combobox...
         name = get_combobox_active_value(self.combobox_export, 1)
+        # .. and correspond it to a property alignment
         alignment = getattr(self, "alignment_%s" % name.lower())
         self.vbox_main.pack_start(alignment, True, True)
         self.vbox_main.reorder_child(alignment, 3)
@@ -107,16 +111,21 @@ class Edit(gobject.GObject):
         pass
         
     def get_meta(self):
+        # Get source class from combobox
         source_class = get_combobox_active_value(self.combobox_export, 2)
+        # Copy our meta dict from source class
         meta = source_class.META.copy()
-        for key in source_class.META:
-            var_name = source_class.META[key][0]
-            func_name = source_class.META[key][1]
-            var = getattr(self, var_name)
-            source_class.META[key] = getattr(var, func_name)()
+        # For every property in the meta dict...
+        for prop in meta:
+            # ..get the corresponding widget in the meta dict
+            widget = getattr(self, meta[prop])
+            # ...get the corresponding widget value and add to the dict
+            # ...inplace of the widget
+            meta[prop] = get_property_value(widget)
         return meta
     
     def get_property_value(self, widget):
+        # Convenience function to get property value based on widget type
         if isinstance(widget, gtk.TextEntry):
             return widget.get_text()
         elif isinstance(widget, gtk.TextView):
