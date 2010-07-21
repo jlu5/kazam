@@ -31,6 +31,8 @@ import gdata.geo
 import gdata.youtube
 import gdata.youtube.service
 
+import threading 
+
 import gtk
 
 from upload_source import UploadSource
@@ -123,8 +125,16 @@ class YouTube(UploadSource):
         }
         """
         category_dict = {}
-        categories_file = urlopen(self.CATEGORIES_SCHEME)
-        tree = ElementTree.parse(categories_file)
+        thread = threading.Thread(target=self._download_categories_thread)
+        thread.start()
+        
+        # Wait till it is done
+        while 1:
+            if thread.isAlive():
+                gtk.main_iteration()
+            else:
+                break
+        tree = ElementTree.parse(self.categories_file)
         categories_file.close()
         categories = tree.getroot()
         for category in categories.getchildren():
@@ -137,6 +147,12 @@ class YouTube(UploadSource):
             category_dict[term] = {"label":label, "depreciated":depreciated}
             
         return category_dict
+        
+    def _download_categories_thread(self):
+        self.categories_file = urlopen(self.CATEGORIES_SCHEME)
+        
+    def _upload_thread(self):
+        self.categories_file = urlopen(self.CATEGORIES_SCHEME)
         
 def YouTube_extra_gui(self, youtube_class, alignment):
     self.combobox_category = gtk.ComboBox()
@@ -158,5 +174,4 @@ def YouTube_extra_gui(self, youtube_class, alignment):
         
     self.combobox_category.set_active(0)
     self.combobox_category.show()
-    
     

@@ -46,7 +46,7 @@ class ExportBackend(gobject.GObject):
                 return False
             
         export_object.create_meta(**frontend.get_meta())
-        export_object.upload(frontend.get_path())
+        Thread(target=export_object.upload, args=(frontend.get_path(),)).start()
         
     def cb_upload_complete(self, export_class, url):
         self.emit("export-completed", url)

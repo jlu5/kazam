@@ -129,9 +129,7 @@ class DoneRecording(gobject.GObject):
         return liststore.get_value(list_iter, column)
         
     def run(self):
-        response = self.dialog.run()
-        self.dialog.hide()
-        return response
+        self.dialog.show_all()
 
 if __name__ == "__main__":
     icons = gtk.icon_theme_get_default()
