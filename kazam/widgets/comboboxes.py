@@ -29,6 +29,7 @@ from xdg.DesktopEntry import DesktopEntry
 class ExternalEditorCombobox(gtk.ComboBox):
     
     EDITORS = {
+                "/home/andrew/Software/Projects/kazam/data/kazam.desktop.in":[],
                 "/usr/share/applications/pitivi.desktop":["-i", "-a"],
                 "/usr/share/applications/avidemux-gtk.desktop":[],
                 }

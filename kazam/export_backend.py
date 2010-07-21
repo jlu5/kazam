@@ -40,11 +40,10 @@ class ExportBackend(gobject.GObject):
     def cb_export_requested(self, frontend, export_class):
         export_object = export_class()
         export_object.connect("upload-completed", self.cb_upload_complete)
-        email = raw_input("Email:")
-        password = raw_input("Password:")
-        if not export_object.authenticate(email, password):
-            print "Didn't work"
-            return False
+        if export_object.authentication == True:
+            if not export_object.authenticate(email, password):
+                print "Didn't work"
+                return False
             
         export_object.create_meta(**frontend.get_meta())
         export_object.upload(frontend.get_path())

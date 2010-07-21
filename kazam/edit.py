@@ -56,6 +56,7 @@ class Edit(gobject.GObject):
     def __init__(self, datadir, icons, path):
         super(Edit, self).__init__()
         self.icons = icons
+        self.path = path
         self.backend = ExportBackend(self)
         self.backend.connect("export-completed", self.cb_export_completed)
         self.previous_source = None
@@ -116,6 +117,9 @@ class Edit(gobject.GObject):
         
     def on_menuitem_about_activate(self, button):
         pass
+        
+    def get_path(self):
+        return self.path
         
     def get_meta(self):
         # Get source class from combobox

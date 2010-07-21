@@ -22,7 +22,7 @@
 
 # Based from youtube-upload by Arnau Sanchez <tokland@gmail.com>
 
-import urllib2
+from urllib import urlopen
 import gobject
 
 # python-gdata (>= 1.2.4)
@@ -53,6 +53,7 @@ class YouTube(UploadSource):
 
     def __init__(self):
         super(YouTube, self).__init__()
+        self.authentication = True
         self.service = gdata.youtube.service.YouTubeService()
                 
         self.categories = self._get_categories_dict()
@@ -73,7 +74,7 @@ class YouTube(UploadSource):
         entry = self.service.InsertVideoEntry(self.video_entry, path)
         url = entry.GetHtmlLink().href
         url = url.replace("&feature=youtube_gdata", "")
-        self.emit("upload-complete", url)
+        self.emit("upload-completed", url)
            
     def create_meta(self, title, description, category_term, keywords=None, private=False):
         if not self._check_category(category_term):
@@ -122,8 +123,9 @@ class YouTube(UploadSource):
         }
         """
         category_dict = {}
-        
-        tree = ElementTree.parse("/tmp/categories.cat")
+        categories_file = urlopen(self.CATEGORIES_SCHEME)
+        tree = ElementTree.parse(categories_file)
+        categories_file.close()
         categories = tree.getroot()
         for category in categories.getchildren():
             term = category.get("term")

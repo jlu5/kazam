@@ -37,6 +37,7 @@ from indicator import KazamIndicator
 from recording import Recording
 from done_recording import DoneRecording
 from start_recording import RecordingStart
+from edit import Edit
 
 class KazamApp(object):
 
@@ -59,6 +60,7 @@ class KazamApp(object):
         self.window_countdown = None
         self.indicator = None
         self.done_recording = None
+        self.edit = None
         
         # Let's start!
         self.recording_start = RecordingStart(self.datadir)
@@ -100,9 +102,13 @@ class KazamApp(object):
         args_list.insert(0, desktop_entry.getExec())
         args_list.append(self.recording.get_filename())
         
-        Popen(args_list)
-        # TODO: make it quit
-        gtk.main_quit()
+        if command.endswith("kazam"):
+            done_recording = Edit(self.datadir, self.icons, self.recording.get_filename())
+            done_recording.run()
+        else:
+            Popen(args_list)
+            # TODO: make it quit
+            gtk.main_quit()
         
     def cb_save_requested(self, done_recording):
         (save_dialog, result) = new_save_dialog("Save screencast", self.done_recording.dialog)

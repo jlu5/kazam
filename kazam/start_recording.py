@@ -84,6 +84,7 @@ class RecordingStart(gobject.GObject):
         
     def on_button_record_clicked(self, button):
         self.emit("countdown-requested")
+        self.dialog.destroy()
     
     def on_menuitem_quit_activate(self, menuitem):
         self.emit("quit-requested")
@@ -98,9 +99,7 @@ class RecordingStart(gobject.GObject):
         self.combobox_audio.set_sensitive(checkbutton.get_active())
         
     def run(self):
-        response = self.dialog.run()
-        self.dialog.hide()
-        return response
+        self.dialog.show_all()
         
         
 

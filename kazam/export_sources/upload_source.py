@@ -31,6 +31,7 @@ class UploadSource(gobject.GObject):
     }
     
     def __init__(self):
+        self.authentication = False
         super(UploadSource, self).__init__()
         
     def authenticate(self, email, password):

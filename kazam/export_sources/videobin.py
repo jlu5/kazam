@@ -29,6 +29,8 @@ class VideoBin(UploadSource):
     
     URL = "http://www.videobin.org/add"
     
+    #META = 
+    
     def __init__(self):
         super(VideoBin, self).__init__()
         
@@ -42,7 +44,7 @@ class VideoBin(UploadSource):
         c.setopt(c.HTTPPOST, [("api", "1"), ("videoFile", (c.FORM_FILE, path))])
         c.setopt(c.WRITEFUNCTION, self.store)
         c.perform()
-        self.emit("upload-complete", self.url)
+        self.emit("upload-completed", self.url)
         
     def store(self, buf):
         self.url = buf
