@@ -102,8 +102,8 @@ class DoneRecording(gobject.GObject):
         if self.action == self.ACTION_SAVE:
             self.emit("save-requested")
         elif self.action == self.ACTION_EDIT:
-            desktop_entry = self.get_combobox_active_value(2)
-            args = self.get_combobox_active_value(3)
+            desktop_entry = self.combobox_editors.get_active_value(2)
+            args = self.combobox_editors.get_active_value(3)
             
             self.emit("edit-requested", (desktop_entry, args))
         
@@ -120,13 +120,6 @@ class DoneRecording(gobject.GObject):
         else:
             self.action = self.ACTION_EDIT
             self.combobox_editors.set_sensitive(True)
-        
-    def get_combobox_active_value(self, column):
-        i = self.combobox_editors.get_active()
-        liststore = self.combobox_editors.get_model()
-        list_iter = liststore.get_iter(i)
-        
-        return liststore.get_value(list_iter, column)
         
     def run(self):
         self.dialog.show_all()

@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 import gtk
+from threading import Thread
 
 def menubar_from_dict(self, dictionary):
     """
@@ -79,11 +80,14 @@ def setup_ui(self, path):
             setattr(self, name, o)
         else:
             print >> sys.stderr, "WARNING: can not get name for '%s'" % o    
-            
-def get_combobox_active_value(combobox, column):
-    i = combobox.get_active()
-    liststore = combobox.get_model()
-    list_iter = liststore.get_iter(i)
     
-    return liststore.get_value(list_iter, column)
+def create_wait_thread(target):
+    """
+    Create a thread and wait until it is completed
+    """
+    thread = Thread(target=target)
+    thread.start()
+    while thread.isAlive():
+        gtk.main_iteration()
+
     

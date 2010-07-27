@@ -20,10 +20,13 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-# Based from youtube-upload by Arnau Sanchez <tokland@gmail.com>
+# Thankyou to youtube-upload (by Arnau Sanchez) for making this simpler =)
 
-from urllib import urlopen
+import gtk
 import gobject
+from urllib import urlopen
+from threading import Thread
+from xml.etree import ElementTree
 
 # python-gdata (>= 1.2.4)
 import gdata.media
@@ -31,13 +34,7 @@ import gdata.geo
 import gdata.youtube
 import gdata.youtube.service
 
-import threading 
-
-import gtk
-
 from upload_source import UploadSource
-
-from xml.etree import ElementTree
 
 class YouTube(UploadSource):
     """Interface the Youtube API."""        
@@ -60,26 +57,41 @@ class YouTube(UploadSource):
                 
         self.categories = self._get_categories_dict()
         self.video_entry = None
-        
-    def authenticate(self, email, password):
-        self.service.ssl = False # SSL is not yet supported by Youtube API
+        self.entry = None
+       
+    ###
+    
+    def login_pre(self, email, password):
+        self.service.ssl = False # SSL not yet supported by Youtube API
         self.service.email = email
         self.service.password = password
         self.service.developer_key = self.DEVELOPER_KEY
-        try:
-            self.service.ProgrammaticLogin()
-            return True
-        except:
-            return False
-
-    def upload(self, path):
-        entry = self.service.InsertVideoEntry(self.video_entry, path)
-        url = entry.GetHtmlLink().href
+        
+    def login_in(self):
+        self.service.ProgrammaticLogin()
+        
+    def login_post(self):
+        pass
+        
+    ###
+        
+    def upload_pre(self):
+        pass
+        
+    def upload_in(self, path):
+        print "start"
+        self.entry = self.service.InsertVideoEntry(self.video_entry, path)
+        print "end"
+        
+    def upload_post(self):
+        url = self.entry.GetHtmlLink().href
         url = url.replace("&feature=youtube_gdata", "")
-        self.emit("upload-completed", url)
+        return url
+
+    ###
            
     def create_meta(self, title, description, category_term, keywords=None, private=False):
-        if not self._check_category(category_term):
+        if not category_term in self.categories:
             print "Not suitable"
             return False
         # Create all meta objects
@@ -107,13 +119,6 @@ class YouTube(UploadSource):
         # Create a VideoEntry
         self.video_entry = gdata.youtube.YouTubeVideoEntry(media=media_group)
         return True
-       
-    def _check_category(self, category_term):
-        """
-        Checks whether a given category is acceptable, return True if
-        it is, False if it isn't
-        """
-        return category_term in self.categories
             
     def _get_categories_dict(self):
         """
@@ -124,22 +129,22 @@ class YouTube(UploadSource):
                 }
         }
         """
-        category_dict = {}
-        thread = threading.Thread(target=self._download_categories_thread)
+        # Download the Categories XML file from Youtube in a thread
+        thread = Thread(target=self._download_categories_thread)
         thread.start()
-        
         # Wait till it is done
-        while 1:
-            if thread.isAlive():
-                gtk.main_iteration()
-            else:
-                break
+        while thread.isAlive():
+            gtk.main_iteration()
+            
+        # Parse the XML and put it into a dictionary
+        category_dict = {}
         tree = ElementTree.parse(self.categories_file)
-        categories_file.close()
+        self.categories_file.close()
         categories = tree.getroot()
         for category in categories.getchildren():
             term = category.get("term")
             label = category.get("label")
+            # Check whether it is depreciated or not
             if category.find("{http://gdata.youtube.com/schemas/2007}assignable") == None:
                 depreciated = True
             else:
@@ -150,9 +155,7 @@ class YouTube(UploadSource):
         
     def _download_categories_thread(self):
         self.categories_file = urlopen(self.CATEGORIES_SCHEME)
-        
-    def _upload_thread(self):
-        self.categories_file = urlopen(self.CATEGORIES_SCHEME)
+
         
 def YouTube_extra_gui(self, youtube_class, alignment):
     self.combobox_category = gtk.ComboBox()

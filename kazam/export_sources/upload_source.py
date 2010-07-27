@@ -24,27 +24,31 @@ import gobject
 
 class UploadSource(gobject.GObject):
     
-    __gsignals__ = {
-    "upload-completed"     : (gobject.SIGNAL_RUN_LAST,
-                           gobject.TYPE_NONE,
-                           ([str]),)
-    }
-    
     def __init__(self):
         self.authentication = False
         super(UploadSource, self).__init__()
         
-    def authenticate(self, email, password):
-        """
-        If any logging in is needed for the service, it is done here
-        """
+    ###
+    
+    def login_pre(self, email, password):
+        """Actions before login"""
         
-    def upload(self, path):
-        """
-        Uploads the video, emits the upload-complete signal with the url
-        """
+    def login_in(self):
+        """Actions in login"""
+        
+    def login_post(self):
+        """Actions after login"""
+        
+    ###
+        
+    def upload_pre(self):
+        """Actions before upload"""
+        
+    def upload_in(self):
+        """Actions in upload"""
+        
+    def upload_post(self):
+        """Actions after upload"""
         
     def create_meta(self, **args):
-        """
-        Deals with creating any meta information
-        """
+        """Deals with creating any meta information"""

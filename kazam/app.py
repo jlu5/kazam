@@ -37,7 +37,7 @@ from indicator import KazamIndicator
 from recording import Recording
 from done_recording import DoneRecording
 from start_recording import RecordingStart
-from edit import Edit
+from export_frontend import ExportFrontend
 
 class KazamApp(object):
 
@@ -60,7 +60,7 @@ class KazamApp(object):
         self.window_countdown = None
         self.indicator = None
         self.done_recording = None
-        self.edit = None
+        self.export = None
         
         # Let's start!
         self.recording_start = RecordingStart(self.datadir)
@@ -81,11 +81,10 @@ class KazamApp(object):
         
     def cb_record_requested(self, window_countdown):
         self.indicator.start_recording()
-        self.recording = Recording()
+        self.recording = Recording(self.audio)
         
     def cb_countdown_requested(self, recording_start):
-        audio = recording_start.checkbutton_audio.get_active()
-        del recording_start
+        self.audio = self.recording_start.checkbutton_audio.get_active()
         
         self.window_countdown = CountdownWindow()
         self.window_countdown.connect("count", self.on_window_countdown_count)
@@ -103,8 +102,8 @@ class KazamApp(object):
         args_list.append(self.recording.get_filename())
         
         if command.endswith("kazam"):
-            done_recording = Edit(self.datadir, self.icons, self.recording.get_filename())
-            done_recording.run()
+            self.export = ExportFrontend(self.datadir, self.icons, self.recording.get_filename())
+            self.export.run()
         else:
             Popen(args_list)
             # TODO: make it quit

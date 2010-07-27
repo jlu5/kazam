@@ -22,13 +22,24 @@
 
 
 import gobject
+import gtk
+from utils import *
 
 class ExportBackend(gobject.GObject):
     
     __gsignals__ = {
-    "export-completed"     : (gobject.SIGNAL_RUN_LAST,
+    "login-started"     : (gobject.SIGNAL_RUN_LAST,
                            gobject.TYPE_NONE,
-                           ([str]),)
+                           ( ),),
+    "login-completed"     : (gobject.SIGNAL_RUN_LAST,
+                           gobject.TYPE_NONE,
+                           ([bool]),),
+    "upload-started"     : (gobject.SIGNAL_RUN_LAST,
+                           gobject.TYPE_NONE,
+                           ( ),),
+    "upload-completed"     : (gobject.SIGNAL_RUN_LAST,
+                           gobject.TYPE_NONE,
+                           ([bool, str]),),
     }
     
     def __init__(self, frontend):
@@ -37,17 +48,46 @@ class ExportBackend(gobject.GObject):
         self.frontend = frontend
         self.frontend.connect("export-requested", self.cb_export_requested)
         
+        self.export_object = None
+        
+    def get_export_meta(self):
+        return self.export_object.META
+        
     def cb_export_requested(self, frontend, export_class):
-        export_object = export_class()
-        export_object.connect("upload-completed", self.cb_upload_complete)
-        if export_object.authentication == True:
-            if not export_object.authenticate(email, password):
-                print "Didn't work"
-                return False
-            
-        export_object.create_meta(**frontend.get_meta())
-        Thread(target=export_object.upload, args=(frontend.get_path(),)).start()
+        self.export_object = export_class()
         
-    def cb_upload_complete(self, export_class, url):
-        self.emit("export-completed", url)
+        self.login()
+        self.create_meta()
+        self.upload()
+
+    def login(self):
+        self.emit("login-started")
+        if self.export_object.authentication == True:
+            email = raw_input("Email:")
+            password = raw_input("Password:")        
+        try:
+            self.export_object.login_pre(email, password)
+            create_wait_thread(self.export_object.login_in)
+            self.export_object.login_post()
+            success = True
+        except:
+            success = False
+        self.emit("login-completed", success)
         
+    def create_meta(self):
+        self.export_object.create_meta(**self.frontend.get_meta())
+        
+    def upload(self):
+        self.emit("upload-started")
+        url = ""     
+        try:
+            self.export_object.upload_pre()
+            print "self.export_object.upload_pre()"
+            create_wait_thread(self.export_object.upload_in, args=(self.frontend.get_path()))
+            print "create_wait_thread(self.export_object.upload_in, args=(self.frontend.get_path()))"
+            url = self.export_object.upload_post()
+            print "url = self.export_object.upload_post()"
+            success = True
+        except:
+            success = False
+        self.emit("upload-completed", success, url)

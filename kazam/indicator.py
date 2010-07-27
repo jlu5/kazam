@@ -38,7 +38,7 @@ class KazamSuperIndicator(gobject.GObject):
     }
     
     def __init__(self):
-        gobject.GObject.__init__(self)
+        super(KazamSuperIndicator, self).__init__()
         
         self.menu = gtk.Menu()
         self.menuitem_pause = gtk.CheckMenuItem("Pause recording")
@@ -79,7 +79,7 @@ try:
     class KazamIndicator(KazamSuperIndicator):
     
         def __init__(self):
-            KazamSuperIndicator.__init__(self)
+            super(KazamIndicator, self).__init__()
             
             self.indicator = appindicator.Indicator("kazam", 
                                 "kazam-recording", 
@@ -113,7 +113,7 @@ except ImportError:
     class KazamIndicator(KazamSuperIndicator):
         
         def __init__(self):
-            KazamSuperIndicator.__init__(self)
+            super(KazamIndicator, self).__init__()
             
             self.indicator = gtk.StatusIcon()
             self.indicator.set_from_icon_name("kazam-countdown-5")

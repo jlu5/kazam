@@ -23,19 +23,28 @@
 import gtk
 import glib
 import gobject
+import os
 
 from xdg.DesktopEntry import DesktopEntry
 
-class ExternalEditorCombobox(gtk.ComboBox):
+class EasyComboBox(gtk.ComboBox):
+    def get_active_value(self, column):
+        i = self.get_active()
+        liststore = self.get_model()
+        list_iter = liststore.get_iter(i)
+        return liststore.get_value(list_iter, column)
+
+class ExternalEditorCombobox(EasyComboBox):
     
     EDITORS = {
                 "/home/andrew/Software/Projects/kazam/data/kazam.desktop.in":[],
+                "/usr/share/applications/openshot.desktop":[],
                 "/usr/share/applications/pitivi.desktop":["-i", "-a"],
                 "/usr/share/applications/avidemux-gtk.desktop":[],
                 }
     
     def __init__(self, icons):
-        gtk.ComboBox.__init__(self)
+        super(ExternalEditorCombobox, self).__init__()
         self.icons = icons 
 
         # Cell renders
@@ -58,21 +67,22 @@ class ExternalEditorCombobox(gtk.ComboBox):
         liststore = self.get_model()
         
         for item in self.EDITORS:
-            args = self.EDITORS[item]
-            desktop_entry = DesktopEntry(item)
-            name = desktop_entry.getName()
-            icon_name = desktop_entry.getIcon()
-            try:
-                pixbuf = self.icons.load_icon(icon_name, 16, ())
-            except glib.GError:
-                pixbuf = self.icons.load_icon("application-x-executable", 16, ())
+            if os.path.isfile(item):
+                args = self.EDITORS[item]
+                desktop_entry = DesktopEntry(item)
+                name = desktop_entry.getName()
+                icon_name = desktop_entry.getIcon()
+                try:
+                    pixbuf = self.icons.load_icon(icon_name, 16, ())
+                except glib.GError:
+                    pixbuf = self.icons.load_icon("application-x-executable", 16, ())
             
             liststore.append([pixbuf, name, desktop_entry, args])
             
-class ExportCombobox(gtk.ComboBox):
+class ExportCombobox(EasyComboBox):
     
     def __init__(self, icons, export_sources):
-        gtk.ComboBox.__init__(self)
+        super(ExportCombobox, self).__init__()
         self.icons = icons 
 
         # Cell renders
@@ -99,12 +109,12 @@ class ExportCombobox(gtk.ComboBox):
             plugin_class = export_sources[name][1]
             self.get_model().append([pixbuf, name, plugin_class])
             
-class VideoCombobox(gtk.ComboBox):
+class VideoCombobox(EasyComboBox):
     
     SOURCES = ["Screen"]
     
     def __init__(self):
-        gtk.ComboBox.__init__(self)
+        super(VideoCombobox, self).__init__()
 
         # Cell renders
         cr_text = gtk.CellRendererText()
@@ -123,12 +133,12 @@ class VideoCombobox(gtk.ComboBox):
         liststore.append(self.SOURCES)
             
             
-class AudioCombobox(gtk.ComboBox):
+class AudioCombobox(EasyComboBox):
     
     SOURCES = ["Computer"]
     
     def __init__(self):
-        gtk.ComboBox.__init__(self)
+        super(AudioCombobox, self).__init__()
 
         # Cell renders
         cr_text = gtk.CellRendererText()

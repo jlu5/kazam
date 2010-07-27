@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       edit.py
+#       export_frontend.py
 #       
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
 #       
@@ -37,7 +37,7 @@ from utils import *
 from export_sources.youtube import *
 from export_sources.videobin import *
 
-class Edit(gobject.GObject):
+class ExportFrontend(gobject.GObject):
     
     __gsignals__ = {
     "back-requested"     : (gobject.SIGNAL_RUN_LAST,
@@ -54,12 +54,15 @@ class Edit(gobject.GObject):
                     }
     
     def __init__(self, datadir, icons, path):
-        super(Edit, self).__init__()
+        super(ExportFrontend, self).__init__()
         self.icons = icons
         self.path = path
         self.backend = ExportBackend(self)
-        self.backend.connect("export-completed", self.cb_export_completed)
-        self.previous_source = None
+        self.backend.connect("login-started", self.cb_login_started)
+        self.backend.connect("login-completed", self.cb_login_completed)
+        self.backend.connect("upload-started", self.cb_upload_started)
+        self.backend.connect("upload-completed", self.cb_upload_completed)
+        self.properties_alignment = None
         
         # Setup UI
         setup_ui(self, os.path.join(datadir, "ui", "edit.ui"))        
@@ -72,6 +75,7 @@ class Edit(gobject.GObject):
         self.combobox_export = ExportCombobox(self.icons, self.EXPORT_SOURCES)
         self.combobox_export.connect("changed", self.on_combobox_export_changed)
         self.hbox_export.pack_start(self.combobox_export, False, True)
+        self.hbox_export.reorder_child(self.combobox_export, 1)
         self.on_combobox_export_changed(None)
         
     def on_button_close_clicked(self, button):
@@ -82,35 +86,35 @@ class Edit(gobject.GObject):
         
     def on_button_export_clicked(self, button):
         # Get the export class from combobox
-        export_class = get_combobox_active_value(self.combobox_export, 2)
+        export_class = self.combobox_export.get_active_value(2)
         self.emit("export-requested", export_class)
         
         # Set buttons, combobox and the alignment insensitive
         # TODO: make this better
-        getattr(self, "alignment_%s" % self.previous_source.lower()).set_sensitive(False)
+        self.properties_alignment.set_sensitive(False)
         self.button_export.set_sensitive(False)
         self.button_back.set_sensitive(False)
         self.combobox_export.set_sensitive(False)
         
     def on_combobox_export_changed(self, combobox):
         # If we already have an alignment, unpack it
-        if self.previous_source:
-             self.vbox_main.remove(getattr(self, "alignment_%s" % self.previous_source.lower()))
+        if self.properties_alignment:
+             self.vbox_main.remove(self.properties_alignment)
         # Get name from combobox...
-        name = get_combobox_active_value(self.combobox_export, 1)
+        name = self.combobox_export.get_active_value(1)
         # .. and correspond it to a property alignment
-        alignment = getattr(self, "alignment_%s" % name.lower())
+        self.properties_alignment = getattr(self, "alignment_%s" % name.lower())
         
-        # Run an extra GUI function that is defined by source
-        export_class = get_combobox_active_value(self.combobox_export, 2)
+        # Run an extra GUI function that is defined by uploadsource
+        export_class = self.combobox_export.get_active_value(2)
         func_name = "%s_extra_gui" % name
-        globals()[func_name](self, export_class, alignment)
+        globals()[func_name](self, export_class, self.properties_alignment)
         
         # Pack our alignment
-        self.vbox_main.pack_start(alignment, True, True)
-        self.vbox_main.reorder_child(alignment, 3)
+        self.vbox_main.pack_start(self.properties_alignment, True, True)
+        self.vbox_main.reorder_child(self.properties_alignment, 3)
         
-        self.previous_source = name
+        
         
     def on_menuitem_quit_activate(self, button):
         gtk.main_quit()
@@ -118,12 +122,25 @@ class Edit(gobject.GObject):
     def on_menuitem_about_activate(self, button):
         pass
         
+    def _change_status(self, img, text):
+        for child in self.hbox_status.get_children():
+            child.destroy()
+        if img == "spinner":
+            img_widget = gtk.Spinner()
+            img_widget.start()
+        else:
+            img_widget = gtk.image_new_from_stock(img, gtk.ICON_SIZE_MENU)
+        text_widget = gtk.Label(text)
+        self.hbox_status.pack_start(img_widget, False, False)
+        self.hbox_status.pack_start(text_widget, False, False)
+        self.hbox_status.show_all()
+        
     def get_path(self):
         return self.path
         
     def get_meta(self):
         # Get source class from combobox
-        source_class = get_combobox_active_value(self.combobox_export, 2)
+        source_class = self.combobox_export.get_active_value(2)
         # Copy our meta dict from source class
         meta = source_class.META.copy()
         # For every property in the meta dict...
@@ -143,9 +160,21 @@ class Edit(gobject.GObject):
             buf = widget.get_buffer()
             return buf.get_text(buf.get_start_iter(), buf.get_end_iter())
         elif isinstance(widget, gtk.ComboBox):
-            return get_combobox_active_value(widget, 1)
+            return widget.get_active_value(1)
     
-    def cb_export_completed(self, url):
+    def cb_login_started(self, backend):
+        self._change_status("spinner", "Logging in...")
+        
+    def cb_login_completed(self, backend, success):
+        if success:
+            self._change_status(gtk.STOCK_OK, "Log-in completed.")
+            
+    def cb_upload_started(self, backend):
+        self._change_status("spinner", "Uploading screencast...")
+        
+    def cb_upload_completed(self, backend, success, url):
+        if success:
+            self._change_status(gtk.STOCK_OK, "Screencast uploaded.")
         print url
         
     def run(self):
@@ -160,7 +189,7 @@ if __name__ == "__main__":
     else:
         datadir = "/usr/share/kazam/"
     
-    done_recording = Edit(datadir, icons, path)
+    done_recording = ExportFrontend(datadir, icons, path)
     #done_recording.connect("save-requested", gtk.main_quit)
     #done_recording.connect("edit-requested", gtk.main_quit)
     done_recording.run()
