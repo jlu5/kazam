@@ -35,6 +35,7 @@ import gdata.youtube
 import gdata.youtube.service
 
 from upload_source import UploadSource
+from kazam.widgets.comboboxes import EasyTextComboBox
 
 class YouTube(UploadSource):
     """Interface the Youtube API."""        
@@ -48,6 +49,7 @@ class YouTube(UploadSource):
             "keywords":"entry_keywords",
             "description":"textview_description",
             "category_term":"combobox_category",
+            "private":"combobox_private",
             }
 
     def __init__(self):
@@ -79,9 +81,7 @@ class YouTube(UploadSource):
         pass
         
     def upload_in(self, path):
-        print "start"
         self.entry = self.service.InsertVideoEntry(self.video_entry, path)
-        print "end"
         
     def upload_post(self):
         url = self.entry.GetHtmlLink().href
@@ -91,9 +91,6 @@ class YouTube(UploadSource):
     ###
            
     def create_meta(self, title, description, category_term, keywords=None, private=False):
-        if not category_term in self.categories:
-            print "Not suitable"
-            return False
         # Create all meta objects
         meta_title = gdata.media.Title(text=title)
         meta_description = gdata.media.Description(description_type='plain',
@@ -102,7 +99,7 @@ class YouTube(UploadSource):
         meta_category = gdata.media.Category(text=category_term,
                                         label=self.categories[category_term]["label"],
                                         scheme=self.CATEGORIES_SCHEME)
-        if private:
+        if private == "True":
             meta_private = gdata.media.Private()
         else:
             meta_private = None   
@@ -158,23 +155,22 @@ class YouTube(UploadSource):
 
         
 def YouTube_extra_gui(self, youtube_class, alignment):
-    self.combobox_category = gtk.ComboBox()
-    
-    # Cell renders
-    cr_text = gtk.CellRendererText()
-    self.combobox_category.pack_start(cr_text, True)
-    self.combobox_category.add_attribute(cr_text, 'text', 0)  
-    # List store
-    liststore = gtk.ListStore(str, str)
-    self.combobox_category.set_model(liststore)
+    self.combobox_category = EasyTextComboBox()
+    self.combobox_private = EasyTextComboBox()
         
     categories = youtube_class().categories.copy()
     for category in categories:
         if not categories[category]["depreciated"]:
-            liststore.append([categories[category]["label"], category])
+            self.combobox_category.get_model().append([categories[category]["label"]])
+            
+    for state in ["False", "True"]:
+        self.combobox_private.get_model().append([state])
                 
-    alignment.get_children()[0].attach(self.combobox_category, 1,2,3,4, gtk.FILL, gtk.FILL)
-        
+    self.table_youtube.attach(self.combobox_category, 1, 2, 3, 4, ( ), ( ))
     self.combobox_category.set_active(0)
-    self.combobox_category.show()
+    self.combobox_category.show()    
+    
+    self.table_youtube.attach(self.combobox_private, 1, 2, 5, 6, ( ), ( ))
+    self.combobox_private.set_active(0)
+    self.combobox_private.show()
     

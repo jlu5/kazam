@@ -30,7 +30,7 @@ import gobject
 
 from gettext import gettext as _
 
-from widgets.comboboxes import ExportCombobox
+from widgets.comboboxes import ExportCombobox, EasyComboBox
 from export_backend import ExportBackend
 from utils import *
 
@@ -89,13 +89,6 @@ class ExportFrontend(gobject.GObject):
         export_class = self.combobox_export.get_active_value(2)
         self.emit("export-requested", export_class)
         
-        # Set buttons, combobox and the alignment insensitive
-        # TODO: make this better
-        self.properties_alignment.set_sensitive(False)
-        self.button_export.set_sensitive(False)
-        self.button_back.set_sensitive(False)
-        self.combobox_export.set_sensitive(False)
-        
     def on_combobox_export_changed(self, combobox):
         # If we already have an alignment, unpack it
         if self.properties_alignment:
@@ -113,8 +106,6 @@ class ExportFrontend(gobject.GObject):
         # Pack our alignment
         self.vbox_main.pack_start(self.properties_alignment, True, True)
         self.vbox_main.reorder_child(self.properties_alignment, 3)
-        
-        
         
     def on_menuitem_quit_activate(self, button):
         gtk.main_quit()
@@ -159,15 +150,30 @@ class ExportFrontend(gobject.GObject):
         elif isinstance(widget, gtk.TextView):
             buf = widget.get_buffer()
             return buf.get_text(buf.get_start_iter(), buf.get_end_iter())
-        elif isinstance(widget, gtk.ComboBox):
-            return widget.get_active_value(1)
+        elif issubclass(widget.__class__, EasyComboBox):
+            return widget.get_active_value(0)
     
     def cb_login_started(self, backend):
         self._change_status("spinner", "Logging in...")
         
+        # Set buttons, combobox and the alignment insensitive
+        # TODO: make this better
+        self.properties_alignment.set_sensitive(False)
+        self.button_export.set_sensitive(False)
+        self.button_back.set_sensitive(False)
+        self.combobox_export.set_sensitive(False)
+        
     def cb_login_completed(self, backend, success):
         if success:
             self._change_status(gtk.STOCK_OK, "Log-in completed.")
+        else:
+            self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error logging in.")
+            # Set buttons, combobox and the alignment sensitive
+            # TODO: make this better
+            self.properties_alignment.set_sensitive(True)
+            self.button_export.set_sensitive(True)
+            self.button_back.set_sensitive(True)
+            self.combobox_export.set_sensitive(True)
             
     def cb_upload_started(self, backend):
         self._change_status("spinner", "Uploading screencast...")
@@ -175,7 +181,9 @@ class ExportFrontend(gobject.GObject):
     def cb_upload_completed(self, backend, success, url):
         if success:
             self._change_status(gtk.STOCK_OK, "Screencast uploaded.")
-        print url
+            print url
+        else:
+            self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error uploading.")
         
     def run(self):
         self.window_edit.show_all()

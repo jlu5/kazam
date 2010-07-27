@@ -81,11 +81,14 @@ def setup_ui(self, path):
         else:
             print >> sys.stderr, "WARNING: can not get name for '%s'" % o    
     
-def create_wait_thread(target):
+def create_wait_thread(target, args=False):
     """
     Create a thread and wait until it is completed
     """
-    thread = Thread(target=target)
+    if args:
+        thread = Thread(target=target, args=args)
+    else:
+        thread = Thread(target=target)
     thread.start()
     while thread.isAlive():
         gtk.main_iteration()

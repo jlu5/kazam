@@ -82,11 +82,8 @@ class ExportBackend(gobject.GObject):
         url = ""     
         try:
             self.export_object.upload_pre()
-            print "self.export_object.upload_pre()"
-            create_wait_thread(self.export_object.upload_in, args=(self.frontend.get_path()))
-            print "create_wait_thread(self.export_object.upload_in, args=(self.frontend.get_path()))"
+            create_wait_thread(self.export_object.upload_in, (self.frontend.get_path(),))
             url = self.export_object.upload_post()
-            print "url = self.export_object.upload_post()"
             success = True
         except:
             success = False

@@ -28,11 +28,26 @@ import os
 from xdg.DesktopEntry import DesktopEntry
 
 class EasyComboBox(gtk.ComboBox):
+    def __init__(self):
+        super(EasyComboBox, self).__init__()
+    
     def get_active_value(self, column):
         i = self.get_active()
         liststore = self.get_model()
         list_iter = liststore.get_iter(i)
         return liststore.get_value(list_iter, column)
+        
+class EasyTextComboBox(EasyComboBox):
+    def __init__(self):
+        super(EasyTextComboBox, self).__init__()
+        
+        # Cell renders
+        cr_text = gtk.CellRendererText()
+        self.pack_start(cr_text, True)
+        self.add_attribute(cr_text, 'text', 0)  
+        # List store
+        liststore = gtk.ListStore(str)
+        self.set_model(liststore)
 
 class ExternalEditorCombobox(EasyComboBox):
     

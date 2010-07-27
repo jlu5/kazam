@@ -118,8 +118,7 @@ class KazamApp(object):
                 uri += ".mkv"
             shutil.move(self.recording.get_filename(), uri)
         save_dialog.destroy()
-        gtk.main_quit()
-            
+        gtk.main_quit()   
         
     # Functions
     def run(self):
