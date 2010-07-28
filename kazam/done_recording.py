@@ -101,10 +101,11 @@ class DoneRecording(gobject.GObject):
     def on_button_continue_clicked(self, button):
         if self.action == self.ACTION_SAVE:
             self.emit("save-requested")
+            self.dialog.destroy()
         elif self.action == self.ACTION_EDIT:
             desktop_entry = self.combobox_editors.get_active_value(2)
             args = self.combobox_editors.get_active_value(3)
-            
+            self.dialog.destroy()
             self.emit("edit-requested", (desktop_entry, args))
         
     def on_radiobutton_save_as_toggled(self, radiobutton):

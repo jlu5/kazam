@@ -24,8 +24,17 @@ import gobject
 
 class UploadSource(gobject.GObject):
     
+    ICON_LARGE = None
+    ICON_SMALL = None
+    NAME = None
+    REGISTER_URL = None
+    
+    META = {
+        }
+    
     def __init__(self):
         self.authentication = False
+        
         super(UploadSource, self).__init__()
         
     ###

@@ -31,7 +31,7 @@ from subprocess import Popen
 from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
-from dialogs import *
+from widgets.dialogs import new_save_dialog
 from window_countdown import CountdownWindow
 from indicator import KazamIndicator
 from recording import Recording
@@ -53,7 +53,7 @@ class KazamApp(object):
             logging.exception("setlocale failed")
     
         self.icons = gtk.icon_theme_get_default()
-        self.icons.append_search_path(os.path.join(datadir,"icons","22x22","status"))
+        self.icons.append_search_path(os.path.join(datadir,"icons"))
         gtk.window_set_default_icon_name("kazam")
         
         # Will be set later, here for convenience

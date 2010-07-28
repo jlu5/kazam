@@ -28,6 +28,11 @@ from utils import *
 class ExportBackend(gobject.GObject):
     
     __gsignals__ = {
+    "authenticate-requested"     : (gobject.SIGNAL_RUN_LAST,
+                           gobject.TYPE_NONE,
+                           ([gobject.TYPE_PYOBJECT, 
+                                gobject.TYPE_PYOBJECT, 
+                                gobject.TYPE_PYOBJECT]),),
     "login-started"     : (gobject.SIGNAL_RUN_LAST,
                            gobject.TYPE_NONE,
                            ( ),),
@@ -61,16 +66,20 @@ class ExportBackend(gobject.GObject):
         self.upload()
 
     def login(self):
-        self.emit("login-started")
         if self.export_object.authentication == True:
-            email = raw_input("Email:")
-            password = raw_input("Password:")        
+            self.emit("authenticate-requested", 
+                        self.export_object.ICONS, 
+                        self.export_object.NAME, 
+                        self.export_object.REGISTER_URL)
         try:
+            self.emit("login-started")
+            (email, password) = self.details
             self.export_object.login_pre(email, password)
             create_wait_thread(self.export_object.login_in)
             self.export_object.login_post()
             success = True
-        except:
+        except Exception, e:
+            print e
             success = False
         self.emit("login-completed", success)
         

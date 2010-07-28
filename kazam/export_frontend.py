@@ -31,6 +31,7 @@ import gobject
 from gettext import gettext as _
 
 from widgets.comboboxes import ExportCombobox, EasyComboBox
+from widgets.dialogs import AuthenticateDialog
 from export_backend import ExportBackend
 from utils import *
 
@@ -57,7 +58,9 @@ class ExportFrontend(gobject.GObject):
         super(ExportFrontend, self).__init__()
         self.icons = icons
         self.path = path
+        self.datadir = datadir
         self.backend = ExportBackend(self)
+        self.backend.connect("authenticate-requested", self.cb_authenticate_requested)
         self.backend.connect("login-started", self.cb_login_started)
         self.backend.connect("login-completed", self.cb_login_completed)
         self.backend.connect("upload-started", self.cb_upload_started)
@@ -153,6 +156,16 @@ class ExportFrontend(gobject.GObject):
         elif issubclass(widget.__class__, EasyComboBox):
             return widget.get_active_value(0)
     
+    def cb_authenticate_requested(self, backend, icons, name, register_url):
+        authenticate_dialog = AuthenticateDialog(self.datadir, self.icons, icons, name, register_url)
+        authenticate_dialog.window.set_transient_for(self.window)
+        authenticate_dialog.run()
+        self.window.set_sensitive(False)
+        while not hasattr(authenticate_dialog, "details"):
+            gtk.main_iteration()
+        self.window.set_sensitive(True)
+        self.backend.details = authenticate_dialog.details
+        
     def cb_login_started(self, backend):
         self._change_status("spinner", "Logging in...")
         

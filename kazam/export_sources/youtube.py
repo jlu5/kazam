@@ -40,6 +40,10 @@ from kazam.widgets.comboboxes import EasyTextComboBox
 class YouTube(UploadSource):
     """Interface the Youtube API."""        
 
+    ICONS = ("youtube", "youtube")
+    NAME = "YouTube"
+    REGISTER_URL = "http://www.youtube.com/create_account"
+
     DEVELOPER_KEY = "AI39si4K_qwy_KQ5HHNXYF9so0mBiKqMJnZ7gJVs3jW9nSKOcPfhTl" + \
                     "aFw8_jIaDvZyRLrmwa0X8eOjsfg3lHyQdsfmah7ja7Rw"
     CATEGORIES_SCHEME = "http://gdata.youtube.com/schemas/2007/categories.cat"

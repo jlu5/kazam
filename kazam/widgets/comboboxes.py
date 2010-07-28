@@ -64,7 +64,7 @@ class ExternalEditorCombobox(EasyComboBox):
 
         # Cell renders
         cr_pixbuf = gtk.CellRendererPixbuf()
-        self.pack_start(cr_pixbuf, True)
+        self.pack_start(cr_pixbuf, False)
         self.add_attribute(cr_pixbuf, 'pixbuf', 0)  
         cr_text = gtk.CellRendererText()
         self.pack_start(cr_text, True)
