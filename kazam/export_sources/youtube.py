@@ -34,10 +34,10 @@ import gdata.geo
 import gdata.youtube
 import gdata.youtube.service
 
-from upload_source import UploadSource
+from kazam.export_sources import UploadSuperSource
 from kazam.widgets.comboboxes import EasyTextComboBox
 
-class YouTube(UploadSource):
+class UploadSource(UploadSuperSource):
     """Interface the Youtube API."""        
 
     ICONS = ("youtube", "youtube")
@@ -57,9 +57,9 @@ class YouTube(UploadSource):
             }
 
     def __init__(self):
-        super(YouTube, self).__init__()
+        super(UploadSource, self).__init__()
         self.authentication = True
-        self.service = gdata.youtube.service.YouTubeService()
+        #self.service = gdata.youtube.service.YouTubeService()
                 
         self.categories = self._get_categories_dict()
         self.video_entry = None
@@ -158,11 +158,11 @@ class YouTube(UploadSource):
         self.categories_file = urlopen(self.CATEGORIES_SCHEME)
 
         
-def YouTube_extra_gui(self, youtube_class, alignment):
+def extra_gui(self, alignment):
     self.combobox_category = EasyTextComboBox()
     self.combobox_private = EasyTextComboBox()
         
-    categories = youtube_class().categories.copy()
+    categories = UploadSource().categories.copy()
     for category in categories:
         if not categories[category]["depreciated"]:
             self.combobox_category.get_model().append([categories[category]["label"]])
@@ -170,11 +170,11 @@ def YouTube_extra_gui(self, youtube_class, alignment):
     for state in ["False", "True"]:
         self.combobox_private.get_model().append([state])
                 
-    self.table_youtube.attach(self.combobox_category, 1, 2, 3, 4, ( ), ( ))
+    self.table_youtube.attach(self.combobox_category, 1, 2, 3, 4, (gtk.FILL), ( ))
     self.combobox_category.set_active(0)
     self.combobox_category.show()    
     
-    self.table_youtube.attach(self.combobox_private, 1, 2, 5, 6, ( ), ( ))
+    self.table_youtube.attach(self.combobox_private, 1, 2, 5, 6, (gtk.FILL), ( ))
     self.combobox_private.set_active(0)
     self.combobox_private.show()
     

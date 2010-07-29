@@ -35,9 +35,6 @@ from widgets.dialogs import AuthenticateDialog
 from export_backend import ExportBackend
 from utils import *
 
-from export_sources.youtube import *
-from export_sources.videobin import *
-
 class ExportFrontend(gobject.GObject):
     
     __gsignals__ = {
@@ -48,11 +45,6 @@ class ExportFrontend(gobject.GObject):
                            gobject.TYPE_NONE,
                            [gobject.TYPE_PYOBJECT],)
     }
-    
-    EXPORT_SOURCES = {
-                        "YouTube":["gtk-edit", YouTube],
-                        "VideoBin":["gtk-edit", VideoBin]
-                    }
     
     def __init__(self, datadir, icons, path):
         super(ExportFrontend, self).__init__()
@@ -75,7 +67,8 @@ class ExportFrontend(gobject.GObject):
         self.window_edit.connect("delete-event", gtk.main_quit)
         
         # Add and setup export combobox
-        self.combobox_export = ExportCombobox(self.icons, self.EXPORT_SOURCES)
+        export_sources = self.backend.get_export_modules()
+        self.combobox_export = ExportCombobox(self.icons, export_sources)
         self.combobox_export.connect("changed", self.on_combobox_export_changed)
         self.hbox_export.pack_start(self.combobox_export, False, True)
         self.hbox_export.reorder_child(self.combobox_export, 1)
@@ -102,9 +95,8 @@ class ExportFrontend(gobject.GObject):
         self.properties_alignment = getattr(self, "alignment_%s" % name.lower())
         
         # Run an extra GUI function that is defined by uploadsource
-        export_class = self.combobox_export.get_active_value(2)
-        func_name = "%s_extra_gui" % name
-        globals()[func_name](self, export_class, self.properties_alignment)
+        export_module = self.combobox_export.get_active_value(2)
+        export_module.extra_gui(self, self.properties_alignment)
         
         # Pack our alignment
         self.vbox_main.pack_start(self.properties_alignment, True, True)
@@ -201,16 +193,17 @@ class ExportFrontend(gobject.GObject):
     def run(self):
         self.window_edit.show_all()
 
-if __name__ == "__main__":
-    icons = gtk.icon_theme_get_default()
-    
+if __name__ == "__main__": 
     if os.path.exists("./data/ui/edit.ui"):
         logging.info("Running locally")
         datadir = "./data"
     else:
         datadir = "/usr/share/kazam/"
+    icons = gtk.icon_theme_get_default()
+    icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
+    icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
     
-    done_recording = ExportFrontend(datadir, icons, path)
+    done_recording = ExportFrontend(datadir, icons, "/tmp/hi.mkv")
     #done_recording.connect("save-requested", gtk.main_quit)
     #done_recording.connect("edit-requested", gtk.main_quit)
     done_recording.run()

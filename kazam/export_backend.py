@@ -23,6 +23,9 @@
 
 import gobject
 import gtk
+import os
+
+import kazam.export_sources
 from utils import *
 
 class ExportBackend(gobject.GObject):
@@ -97,3 +100,27 @@ class ExportBackend(gobject.GObject):
         except:
             success = False
         self.emit("upload-completed", success, url)
+        
+    def _get_export_module_files(self):
+        export_module_list = []
+        export_module_dirs = []
+        for path in kazam.export_sources.__path__:
+            export_module_dirs.append(os.path.abspath(path))
+        for directory in export_module_dirs:
+            for f in os.listdir(directory):
+                if f.endswith(".py") and f != "__init__.py" and not f in export_module_list:
+                    export_module_list.append(f[:-3])
+        # REMOVE!!!
+        export_module_list.remove("videobin")
+                    
+        return export_module_list
+        
+    def get_export_modules(self):
+        export_module_list = self._get_export_module_files()
+        export_module_dict = {}
+        for f in export_module_list:
+            export_module = getattr(__import__("kazam.export_sources", globals(), locals(), [f], -1), f)
+            name = export_module.UploadSource.NAME
+            icon = export_module.UploadSource.ICONS[0]
+            export_module_dict[name] = [icon, export_module]
+        return export_module_dict
