@@ -122,5 +122,6 @@ class ExportBackend(gobject.GObject):
             export_module = getattr(__import__("kazam.export_sources", globals(), locals(), [f], -1), f)
             name = export_module.UploadSource.NAME
             icon = export_module.UploadSource.ICONS[0]
-            export_module_dict[name] = [icon, export_module]
+            module_name = f
+            export_module_dict[name] = [icon, export_module, module_name]
         return export_module_dict

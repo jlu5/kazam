@@ -1,41 +1,12 @@
+This is the format we have at the moment:
+Audio: Lossless H264
+Video: Lossless PCM
+
 ffmpeg -f alsa -ac 2 -i pulse -f x11grab -r 30 -s 1024x768 -i :0.0 -acodec pcm_s16le -vcodec libx264 -vpre lossless_ultrafast -threads 0 output.mkv
 
-Audio: Lossless PCM (stereo)
-Video: Lossless h264 (30 fps)
 
+This is the format we want:
+Audio: Lossless FLAC
+Video: Lossless Dirac
 
-Video preset:
-
-coder=0
-flags=+loop
-cmp=+chroma
-partitions=-parti8x8-parti4x4-partp8x8-partp4x4-partb8x8
-me_method=dia
-subq=0
-me_range=16
-g=250
-keyint_min=25
-sc_threshold=40
-i_qfactor=0.71
-b_strategy=1
-qcomp=0.6
-qmin=10
-qmax=51
-qdiff=4
-directpred=1
-flags2=+fastpskip+mbtree
-cqp=0
-
-gstreamer:
-
-analyse=
-me=dia
-qp-min=10
-qp-max=51
-qp-step=4
-
-
-
-
-
-gst-launch ximagesrc ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! x264enc properties ! matroskamux ! filesink location=file.mkv
+gst-launch pulsesrc ! audioconvert ! flacenc ! matroskamux name=mux ! filesink location=file.mkv  ximagesrc startx=20 starty=20 endx=300 endy=300 ! video/x-raw-rgb,framerate=5/1 ! ffmpegcolorspace ! diracenc lossless=true ! mux.

@@ -60,15 +60,21 @@ class ExportFrontend(gobject.GObject):
         self.properties_alignment = None
         
         # Setup UI
-        setup_ui(self, os.path.join(datadir, "ui", "edit.ui"))        
+        setup_ui(self, os.path.join(datadir, "ui", "export.ui"))     
         
         # Get window
-        self.window = self.window_edit
-        self.window_edit.connect("delete-event", gtk.main_quit)
+        self.window = self.window_export
+        self.window.connect("delete-event", gtk.main_quit)
         
         # Add and setup export combobox
-        export_sources = self.backend.get_export_modules()
-        self.combobox_export = ExportCombobox(self.icons, export_sources)
+        export_modules = self.backend.get_export_modules()
+        
+        for module in export_modules:
+            path = os.path.join(datadir, "ui", "export_sources", "%s.ui" % export_modules[module][2])
+            if os.path.isfile(path):
+                setup_ui(self, path)   
+        
+        self.combobox_export = ExportCombobox(self.icons, export_modules)
         self.combobox_export.connect("changed", self.on_combobox_export_changed)
         self.hbox_export.pack_start(self.combobox_export, False, True)
         self.hbox_export.reorder_child(self.combobox_export, 1)
@@ -89,10 +95,10 @@ class ExportFrontend(gobject.GObject):
         # If we already have an alignment, unpack it
         if self.properties_alignment:
              self.vbox_main.remove(self.properties_alignment)
-        # Get name from combobox...
-        name = self.combobox_export.get_active_value(1)
+        
+        name = self.combobox_export.get_active_value(3)
         # .. and correspond it to a property alignment
-        self.properties_alignment = getattr(self, "alignment_%s" % name.lower())
+        self.properties_alignment = getattr(self, "alignment_%s" % name)
         
         # Run an extra GUI function that is defined by uploadsource
         export_module = self.combobox_export.get_active_value(2)
@@ -194,7 +200,7 @@ class ExportFrontend(gobject.GObject):
         self.window_edit.show_all()
 
 if __name__ == "__main__": 
-    if os.path.exists("./data/ui/edit.ui"):
+    if os.path.exists("./data/ui/export.ui"):
         logging.info("Running locally")
         datadir = "./data"
     else:

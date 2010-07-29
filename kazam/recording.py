@@ -29,7 +29,7 @@ class Recording(object):
         
         self.tempfile = tempfile.mktemp(suffix=".mkv")
         
-        # This is horrible :( TODO: use gstreamer pipeline
+        # This is horrible :( TODO: use gstreamer pipeline (see below for start)
         args_list = ["ffmpeg", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", self.tempfile ]
         
         if audio:
@@ -42,3 +42,28 @@ class Recording(object):
     
     def stop(self):
         self.command.kill()
+        
+        
+"""self.pipeline_string = ""
+self.add_element("pulsesrc")
+self.add_element("audioconvert")
+self.add_element("flacenc")
+self.add_element("matroskamux", {"name":"mux"})
+self.add_element("filesink", {"location":"/tmp/file.mkv"}, endpipe=False)
+self.add_element("ximagesrc", {"startx":20, "starty":20, "endx":300, "endy":300})
+self.add_element("video/x-raw-rgb,framerate=5/1")
+self.add_element("ffmpegcolorspace")
+self.add_element("diracenc", {"lossless":"true"})
+self.add_element("mux.", endpipe=False)
+
+print self.pipeline_string
+self.pipeline = gst.parse_launch(self.pipeline_string)
+
+def add_element(self, element, properties={}, endpipe=True):
+self.pipeline_string += element
+for prop in properties:
+    self.pipeline_string += " %s=%s" % (prop, properties[prop])
+if endpipe:
+    self.pipeline_string += " ! "
+else:
+    self.pipeline_string += "  " """

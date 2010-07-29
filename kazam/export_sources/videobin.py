@@ -25,17 +25,22 @@ import pycurl
 
 from upload_source import UploadSource
 
-class VideoBin(UploadSource):
+class UploadSource(UploadSuperSource):
     
     URL = "http://www.videobin.org/add"
     
-    #META = 
+    ICONS = ("user-trash", "user-trash")
+    NAME = "VideoBin"
+
+    META = {
+            "title":"entry_title",
+            "description":"textview_description",
+            "writeable":"combobox_writeable",
+            }
     
     def __init__(self):
+        self.authentication = False
         super(VideoBin, self).__init__()
-        
-    def authenticate(self, email=None, password=None):
-        return True
 
     def upload(self, path):
         c = pycurl.Curl()
@@ -52,5 +57,5 @@ class VideoBin(UploadSource):
     def create_meta(self, **args):
         pass
 
-def VideoBin_extra_gui(self, youtube_class, alignment):
+def extra_gui(self, videobin_class, alignment):
     pass
