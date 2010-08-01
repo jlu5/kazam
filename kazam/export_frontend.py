@@ -43,7 +43,7 @@ class ExportFrontend(gobject.GObject):
                            ( ),),
     "export-requested"     : (gobject.SIGNAL_RUN_LAST,
                            gobject.TYPE_NONE,
-                           [gobject.TYPE_PYOBJECT],)
+                           ( ),)
     }
     
     def __init__(self, datadir, icons, path):
@@ -51,13 +51,14 @@ class ExportFrontend(gobject.GObject):
         self.icons = icons
         self.path = path
         self.datadir = datadir
-        self.backend = ExportBackend(self)
+        self.backend = ExportBackend(self, datadir)
         self.backend.connect("authenticate-requested", self.cb_authenticate_requested)
         self.backend.connect("login-started", self.cb_login_started)
         self.backend.connect("login-completed", self.cb_login_completed)
         self.backend.connect("upload-started", self.cb_upload_started)
         self.backend.connect("upload-completed", self.cb_upload_completed)
-        self.properties_alignment = None
+        
+        self.active_alignment = None
         
         # Setup UI
         setup_ui(self, os.path.join(datadir, "ui", "export.ui"))     
@@ -66,15 +67,15 @@ class ExportFrontend(gobject.GObject):
         self.window = self.window_export
         self.window.connect("delete-event", gtk.main_quit)
         
-        # Add and setup export combobox
-        export_modules = self.backend.get_export_modules()
+        # Export combobox stuff
+        export_objects = self.backend.get_export_objects()
+        export_object_details = {}
+        for obj in export_objects:
+            name = obj.NAME
+            icon = obj.ICONS[0]
+            export_object_details[name] = icon
         
-        for module in export_modules:
-            path = os.path.join(datadir, "ui", "export_sources", "%s.ui" % export_modules[module][2])
-            if os.path.isfile(path):
-                setup_ui(self, path)   
-        
-        self.combobox_export = ExportCombobox(self.icons, export_modules)
+        self.combobox_export = ExportCombobox(self.icons, export_object_details)
         self.combobox_export.connect("changed", self.on_combobox_export_changed)
         self.hbox_export.pack_start(self.combobox_export, False, True)
         self.hbox_export.reorder_child(self.combobox_export, 1)
@@ -87,26 +88,25 @@ class ExportFrontend(gobject.GObject):
         self.emit("back-requested")
         
     def on_button_export_clicked(self, button):
-        # Get the export class from combobox
-        export_class = self.combobox_export.get_active_value(2)
-        self.emit("export-requested", export_class)
+        self.emit("export-requested")
         
     def on_combobox_export_changed(self, combobox):
         # If we already have an alignment, unpack it
-        if self.properties_alignment:
-             self.vbox_main.remove(self.properties_alignment)
+        if self.active_alignment:
+             self.vbox_main.remove(self.active_alignment)
         
-        name = self.combobox_export.get_active_value(3)
-        # .. and correspond it to a property alignment
-        self.properties_alignment = getattr(self, "alignment_%s" % name)
+        # Get our current item's object
+        i = self.combobox_export.get_active()
+        active_object = self.backend.set_active_export_object(i)
+        # And its alignment
+        self.active_alignment = active_object.alignment_properties
         
-        # Run an extra GUI function that is defined by uploadsource
-        export_module = self.combobox_export.get_active_value(2)
-        export_module.extra_gui(self, self.properties_alignment)
+        # Run the alignment's expose function
+        active_object.property_alignment_expose()
         
         # Pack our alignment
-        self.vbox_main.pack_start(self.properties_alignment, True, True)
-        self.vbox_main.reorder_child(self.properties_alignment, 3)
+        self.vbox_main.pack_start(self.active_alignment, True, True)
+        self.vbox_main.reorder_child(self.active_alignment, 3)
         
     def on_menuitem_quit_activate(self, button):
         gtk.main_quit()
@@ -131,14 +131,12 @@ class ExportFrontend(gobject.GObject):
         return self.path
         
     def get_meta(self):
-        # Get source class from combobox
-        source_class = self.combobox_export.get_active_value(2)
-        # Copy our meta dict from source class
-        meta = source_class.META.copy()
+        active_export_object = self.backend.get_active_export_object()
+        meta = active_export_object.META.copy()
         # For every property in the meta dict...
         for prop in meta:
             # ..get the corresponding widget in the meta dict
-            widget = getattr(self, meta[prop])
+            widget = getattr(active_export_object, meta[prop])
             # ...get the corresponding widget value and add to the dict
             # inplace of the widget
             meta[prop] = self.get_property_value(widget)
@@ -152,6 +150,8 @@ class ExportFrontend(gobject.GObject):
             buf = widget.get_buffer()
             return buf.get_text(buf.get_start_iter(), buf.get_end_iter())
         elif issubclass(widget.__class__, EasyComboBox):
+            print widget.get_active_value(0)
+            print widget.get_active_value(1)
             return widget.get_active_value(0)
     
     def cb_authenticate_requested(self, backend, icons, name, register_url):
@@ -197,7 +197,7 @@ class ExportFrontend(gobject.GObject):
             self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error uploading.")
         
     def run(self):
-        self.window_edit.show_all()
+        self.window_export.show_all()
 
 if __name__ == "__main__": 
     if os.path.exists("./data/ui/export.ui"):

@@ -96,7 +96,7 @@ class ExternalEditorCombobox(EasyComboBox):
             
 class ExportCombobox(EasyComboBox):
     
-    def __init__(self, icons, export_sources):
+    def __init__(self, icons, export_object_details):
         super(ExportCombobox, self).__init__()
         self.icons = icons 
 
@@ -109,21 +109,18 @@ class ExportCombobox(EasyComboBox):
         self.add_attribute(cr_text, 'text', 1)  
         
         # List store
-        liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, gobject.TYPE_PYOBJECT, str)
+        liststore = gtk.ListStore(gtk.gdk.Pixbuf, str)
         self.set_model(liststore)
-        self._populate(export_sources)
+        self._populate(export_object_details)
         
         self.set_active(0)
         self.show()
         
-    def _populate(self, export_sources):
-        for source in export_sources:
-            name = source
-            pixbuf_name = export_sources[name][0]
+    def _populate(self, export_object_details):
+        for name in export_object_details:
+            pixbuf_name = export_object_details[name]
             pixbuf = self.icons.load_icon(pixbuf_name, 16, ())
-            plugin_class = export_sources[name][1]
-            plugin_name = export_sources[name][2]
-            self.get_model().append([pixbuf, name, plugin_class, plugin_name])
+            self.get_model().append([pixbuf, name])
             
 class VideoCombobox(EasyComboBox):
     

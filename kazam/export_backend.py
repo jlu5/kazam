@@ -50,36 +50,92 @@ class ExportBackend(gobject.GObject):
                            ([bool, str]),),
     }
     
-    def __init__(self, frontend):
+    def __init__(self, frontend, datadir):
         super(ExportBackend, self).__init__()
         
         self.frontend = frontend
         self.frontend.connect("export-requested", self.cb_export_requested)
         
-        self.export_object = None
+        self.datadir = datadir
+        self.active_export_object = None
+        
+        export_module_files = self._get_export_module_files()
+        self.export_objects = self._create_export_objects(export_module_files)
+        
+    def _get_export_module_files(self):
+        """
+        Returns a list of export source files
+        """
+        export_module_list = []
+        # For each directory that provides kazam.export_sources
+        for path in kazam.export_sources.__path__:
+            directory = os.path.abspath(path)
+            # List files in that directory
+            for f in os.listdir(directory):
+                # If the file is a python file append the file to our list
+                if f[-3:] == ".py":
+                    export_module_list.append(f)
+                    
+        # Remove __init__.py and any duplicates
+        export_module_list.remove("__init__.py")
+        export_module_list = remove_list_dups(export_module_list)
+        # TODO: REMOVE!!!
+        export_module_list.remove("videobin.py")
+                    
+        return export_module_list
+        
+    def _import_export_module(self, name):
+        """
+        Import an export_source module and return the module
+        """
+        return getattr(__import__("kazam.export_sources", globals(), locals(), [name], -1), name)
+        
+    def _create_export_objects(self, export_module_files):
+        """
+        Return a list of export objects
+        """
+        export_objects = []
+        for f in export_module_files:
+            f = f[:-3]
+            # Find and import the module for each file
+            module = self._import_export_module(f)
+            # Append an instance of it, to our export_objects list
+            upload_source = module.UploadSource()
+            upload_source.gui_extra(self.datadir)
+            export_objects.append(upload_source)
+        return export_objects
+        
+    def get_export_objects(self):
+        return self.export_objects
+        
+    def set_active_export_object(self, i):
+        self.active_export_object = self.export_objects[i]
+        return self.active_export_object
+        
+    def get_active_export_object(self):
+        return self.active_export_object
         
     def get_export_meta(self):
         return self.export_object.META
         
-    def cb_export_requested(self, frontend, export_class):
-        self.export_object = export_class()
-        
+    def cb_export_requested(self, frontend):
         self.login()
         self.create_meta()
         self.upload()
 
     def login(self):
-        if self.export_object.authentication == True:
+        if self.active_export_object.authentication == True:
+            print self.active_export_object.ICONS
             self.emit("authenticate-requested", 
-                        self.export_object.ICONS, 
-                        self.export_object.NAME, 
-                        self.export_object.REGISTER_URL)
+                        self.active_export_object.ICONS, 
+                        self.active_export_object.NAME, 
+                        self.active_export_object.REGISTER_URL)
         try:
             self.emit("login-started")
             (email, password) = self.details
-            self.export_object.login_pre(email, password)
+            self.active_export_object.login_pre(email, password)
             create_wait_thread(self.export_object.login_in)
-            self.export_object.login_post()
+            self.active_export_object.login_post()
             success = True
         except Exception, e:
             print e
@@ -87,41 +143,16 @@ class ExportBackend(gobject.GObject):
         self.emit("login-completed", success)
         
     def create_meta(self):
-        self.export_object.create_meta(**self.frontend.get_meta())
+        self.active_export_object.create_meta(**self.frontend.get_meta())
         
     def upload(self):
         self.emit("upload-started")
         url = ""     
         try:
-            self.export_object.upload_pre()
-            create_wait_thread(self.export_object.upload_in, (self.frontend.get_path(),))
-            url = self.export_object.upload_post()
+            self.active_export_object.upload_pre()
+            create_wait_thread(self.active_export_object.upload_in, (self.frontend.get_path(),))
+            url = self.active_export_object.upload_post()
             success = True
         except:
             success = False
         self.emit("upload-completed", success, url)
-        
-    def _get_export_module_files(self):
-        export_module_list = []
-        export_module_dirs = []
-        for path in kazam.export_sources.__path__:
-            export_module_dirs.append(os.path.abspath(path))
-        for directory in export_module_dirs:
-            for f in os.listdir(directory):
-                if f.endswith(".py") and f != "__init__.py" and not f in export_module_list:
-                    export_module_list.append(f[:-3])
-        # REMOVE!!!
-        export_module_list.remove("videobin")
-                    
-        return export_module_list
-        
-    def get_export_modules(self):
-        export_module_list = self._get_export_module_files()
-        export_module_dict = {}
-        for f in export_module_list:
-            export_module = getattr(__import__("kazam.export_sources", globals(), locals(), [f], -1), f)
-            name = export_module.UploadSource.NAME
-            icon = export_module.UploadSource.ICONS[0]
-            module_name = f
-            export_module_dict[name] = [icon, export_module, module_name]
-        return export_module_dict

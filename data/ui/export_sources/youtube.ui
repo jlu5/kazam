@@ -2,12 +2,12 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
-  <object class="GtkAlignment" id="alignment_youtube">
+  <object class="GtkAlignment" id="alignment_properties">
     <property name="visible">True</property>
     <property name="left_padding">24</property>
     <property name="right_padding">12</property>
     <child>
-      <object class="GtkTable" id="table_youtube">
+      <object class="GtkTable" id="table_properties">
         <property name="visible">True</property>
         <property name="n_rows">6</property>
         <property name="n_columns">2</property>
@@ -92,11 +92,11 @@
           </packing>
         </child>
         <child>
-          <object class="GtkViewport" id="viewport1">
+          <object class="GtkViewport" id="viewport_description">
             <property name="visible">True</property>
             <property name="resize_mode">queue</property>
             <child>
-              <object class="GtkScrolledWindow" id="scrolledwindow1">
+              <object class="GtkScrolledWindow" id="scrolledwindow_description">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">automatic</property>

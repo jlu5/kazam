@@ -60,4 +60,7 @@ class UploadSuperSource(gobject.GObject):
         
     def create_meta(self, **args):
         """Deals with creating any meta information"""
+        
+    def gui_methods(self, datadir):
+        pass
 

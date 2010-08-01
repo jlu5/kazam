@@ -22,6 +22,7 @@
 
 # Thankyou to youtube-upload (by Arnau Sanchez) for making this simpler =)
 
+import os
 import gtk
 import gobject
 from urllib import urlopen
@@ -36,6 +37,7 @@ import gdata.youtube.service
 
 from kazam.export_sources import UploadSuperSource
 from kazam.widgets.comboboxes import EasyTextComboBox
+from kazam.utils import setup_ui
 
 class UploadSource(UploadSuperSource):
     """Interface the Youtube API."""        
@@ -59,9 +61,8 @@ class UploadSource(UploadSuperSource):
     def __init__(self):
         super(UploadSource, self).__init__()
         self.authentication = True
-        #self.service = gdata.youtube.service.YouTubeService()
+        self.service = gdata.youtube.service.YouTubeService()
                 
-        self.categories = self._get_categories_dict()
         self.video_entry = None
         self.entry = None
        
@@ -95,11 +96,19 @@ class UploadSource(UploadSuperSource):
     ###
            
     def create_meta(self, title, description, category_term, keywords=None, private=False):
+        print title
+        print description
+        print category_term
+        print keywords
+        print private
+        
         # Create all meta objects
         meta_title = gdata.media.Title(text=title)
         meta_description = gdata.media.Description(description_type='plain',
                                                     text=description)
         meta_keywords = gdata.media.Keywords(text=keywords)
+        
+        print self.categories[category_term]
         meta_category = gdata.media.Category(text=category_term,
                                         label=self.categories[category_term]["label"],
                                         scheme=self.CATEGORIES_SCHEME)
@@ -130,13 +139,8 @@ class UploadSource(UploadSuperSource):
                 }
         }
         """
-        # Download the Categories XML file from Youtube in a thread
-        thread = Thread(target=self._download_categories_thread)
-        thread.start()
-        # Wait till it is done
-        while thread.isAlive():
-            gtk.main_iteration()
-            
+        self.categories_file = urlopen(self.CATEGORIES_SCHEME)
+        
         # Parse the XML and put it into a dictionary
         category_dict = {}
         tree = ElementTree.parse(self.categories_file)
@@ -152,29 +156,32 @@ class UploadSource(UploadSuperSource):
                 depreciated = False
             category_dict[term] = {"label":label, "depreciated":depreciated}
             
-        return category_dict
-        
-    def _download_categories_thread(self):
-        self.categories_file = urlopen(self.CATEGORIES_SCHEME)
+        self.categories = category_dict
 
+    def gui_extra(self, datadir):
+        setup_ui(self, os.path.join(datadir, "ui", "export_sources", "youtube.ui"))
         
-def extra_gui(self, alignment):
-    self.combobox_category = EasyTextComboBox()
-    self.combobox_private = EasyTextComboBox()
-        
-    categories = UploadSource().categories.copy()
-    for category in categories:
-        if not categories[category]["depreciated"]:
-            self.combobox_category.get_model().append([categories[category]["label"]])
-            
-    for state in ["False", "True"]:
-        self.combobox_private.get_model().append([state])
+        self.combobox_category = EasyTextComboBox()
+        self.combobox_private = EasyTextComboBox()
                 
-    self.table_youtube.attach(self.combobox_category, 1, 2, 3, 4, (gtk.FILL), ( ))
-    self.combobox_category.set_active(0)
-    self.combobox_category.show()    
-    
-    self.table_youtube.attach(self.combobox_private, 1, 2, 5, 6, (gtk.FILL), ( ))
-    self.combobox_private.set_active(0)
-    self.combobox_private.show()
+        for state in ["False", "True"]:
+            self.combobox_private.get_model().append([state])
+                    
+        self.table_properties.attach(self.combobox_category, 1, 2, 3, 4, (gtk.FILL), ( ))
+        self.combobox_category.set_active(0)
+        self.combobox_category.show()    
+        
+        self.table_properties.attach(self.combobox_private, 1, 2, 5, 6, (gtk.FILL), ( ))
+        self.combobox_private.set_active(0)
+        self.combobox_private.show()
+        
+    def property_alignment_expose(self):
+        # Download the Categories XML file from Youtube in a thread
+        self._get_categories_dict()
+            
+        for category in self.categories:
+            if not self.categories[category]["depreciated"]:
+                self.combobox_category.get_model().append([self.categories[category]["label"]])
+        self.combobox_category.set_active(0)
+        
     

@@ -93,4 +93,15 @@ def create_wait_thread(target, args=False):
     while thread.isAlive():
         gtk.main_iteration()
 
+def remove_list_dups(seq, idfun=None):  
+    if idfun is None: 
+        def idfun(x): return x 
+    seen = {} 
+    result = [] 
+    for item in seq: 
+        marker = idfun(item) 
+        if marker in seen: continue 
+        seen[marker] = 1 
+        result.append(item) 
+    return result
     
