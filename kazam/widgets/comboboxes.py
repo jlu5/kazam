@@ -117,8 +117,8 @@ class ExportCombobox(EasyComboBox):
         self.show()
         
     def _populate(self, export_object_details):
-        for name in export_object_details:
-            pixbuf_name = export_object_details[name]
+        for item in export_object_details:
+            (pixbuf_name, name) = item
             pixbuf = self.icons.load_icon(pixbuf_name, 16, ())
             self.get_model().append([pixbuf, name])
             

@@ -2,17 +2,17 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
-  <object class="GtkAlignment" id="alignment_videobin">
+  <object class="GtkAlignment" id="alignment_properties">
     <property name="visible">True</property>
     <property name="left_padding">24</property>
     <property name="right_padding">12</property>
     <child>
-      <object class="GtkTable" id="table_youtube1">
+      <object class="GtkTable" id="table_properties">
         <property name="visible">True</property>
         <property name="n_rows">4</property>
         <property name="n_columns">2</property>
         <child>
-          <object class="GtkLabel" id="label_title1">
+          <object class="GtkLabel" id="label_title">
             <property name="visible">True</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">Title</property>
@@ -44,7 +44,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_description1">
+          <object class="GtkLabel" id="label_description">
             <property name="visible">True</property>
             <property name="xalign">0</property>
             <property name="ypad">3</property>
@@ -62,7 +62,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="entry_title1">
+          <object class="GtkEntry" id="entry_title">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="invisible_char">&#x2022;</property>
@@ -86,7 +86,7 @@
                 <property name="hscrollbar_policy">automatic</property>
                 <property name="vscrollbar_policy">automatic</property>
                 <child>
-                  <object class="GtkTextView" id="textview_description1">
+                  <object class="GtkTextView" id="textview_description">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="wrap_mode">word-char</property>

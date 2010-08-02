@@ -22,8 +22,12 @@
 
 import gobject
 import pycurl
+import os
+import gtk
 
-from upload_source import UploadSource
+from kazam.export_sources import UploadSuperSource
+from kazam.widgets.comboboxes import EasyTextComboBox
+from kazam.utils import setup_ui
 
 class UploadSource(UploadSuperSource):
     
@@ -31,31 +35,69 @@ class UploadSource(UploadSuperSource):
     
     ICONS = ("user-trash", "user-trash")
     NAME = "VideoBin"
+    REGISTER_URL = None
 
     META = {
             "title":"entry_title",
             "description":"textview_description",
-            "writeable":"combobox_writeable",
+            "writeable":"combobox_editable",
             }
     
     def __init__(self):
         self.authentication = False
-        super(VideoBin, self).__init__()
-
-    def upload(self, path):
-        c = pycurl.Curl()
-        c.setopt(c.URL, self.URL)
-        c.setopt(c.POST, 1)
-        c.setopt(c.HTTPPOST, [("api", "1"), ("videoFile", (c.FORM_FILE, path))])
-        c.setopt(c.WRITEFUNCTION, self.store)
-        c.perform()
-        self.emit("upload-completed", self.url)
+        super(UploadSource, self).__init__()
+    ###
+    
+    def login_pre(self, email, password):
+        pass
         
-    def store(self, buf):
+    def login_in(self):
+        pass
+        
+    def login_post(self):
+        pass
+        
+    ###
+    
+    def upload_pre(self):
+        self.curl = pycurl.Curl()
+        self.curl.setopt(self.curl.URL, self.URL)
+        self.curl.setopt(self.curl.POST, 1)
+        self.curl.setopt(self.curl.WRITEFUNCTION, self._store)
+        self.curl.setopt(self.curl.COOKIEJAR, '/tmp/cookie.txt')
+        
+    def upload_in(self, path):
+        self.curl.setopt(self.curl.HTTPPOST, [("api", "1"), 
+                        ("videoFile", (self.curl.FORM_FILE, path))])
+        self.curl.perform()
+        
+    def upload_post(self):
+        return self.url
+
+    ###
+        
+    def _store(self, buf):
         self.url = buf
     
-    def create_meta(self, **args):
-        pass
+    def create_meta(self, title, description, writeable):
+        if writeable == "True":
+            meta_writeable = 1
+        else:
+            meta_writeable = 0
+        self.meta_vars = [("title", title), ("description", description), 
+                            ("writeable", meta_writeable)]
+        
 
-def extra_gui(self, videobin_class, alignment):
-    pass
+    def gui_extra(self, datadir):
+        setup_ui(self, os.path.join(datadir, "ui", "export_sources", "videobin.ui"))
+        
+        self.combobox_editable = EasyTextComboBox()
+        for state in ["False", "True"]:
+            self.combobox_editable.get_model().append([state])
+            
+        self.table_properties.attach(self.combobox_editable, 1, 2, 1, 2, (gtk.FILL), ( ))
+        self.combobox_editable.set_active(0)
+        self.combobox_editable.show()
+        
+    def property_alignment_expose(self):
+        pass

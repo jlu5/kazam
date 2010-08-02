@@ -79,8 +79,6 @@ class ExportBackend(gobject.GObject):
         # Remove __init__.py and any duplicates
         export_module_list.remove("__init__.py")
         export_module_list = remove_list_dups(export_module_list)
-        # TODO: REMOVE!!!
-        export_module_list.remove("videobin.py")
                     
         return export_module_list
         
@@ -125,16 +123,17 @@ class ExportBackend(gobject.GObject):
 
     def login(self):
         if self.active_export_object.authentication == True:
-            print self.active_export_object.ICONS
             self.emit("authenticate-requested", 
                         self.active_export_object.ICONS, 
                         self.active_export_object.NAME, 
                         self.active_export_object.REGISTER_URL)
+        else:
+            self.details = (None, None)
         try:
             self.emit("login-started")
             (email, password) = self.details
             self.active_export_object.login_pre(email, password)
-            create_wait_thread(self.export_object.login_in)
+            create_wait_thread(self.active_export_object.login_in)
             self.active_export_object.login_post()
             success = True
         except Exception, e:
@@ -153,6 +152,7 @@ class ExportBackend(gobject.GObject):
             create_wait_thread(self.active_export_object.upload_in, (self.frontend.get_path(),))
             url = self.active_export_object.upload_post()
             success = True
-        except:
+        except Exception, e:
+            print e
             success = False
         self.emit("upload-completed", success, url)

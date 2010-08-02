@@ -69,11 +69,12 @@ class ExportFrontend(gobject.GObject):
         
         # Export combobox stuff
         export_objects = self.backend.get_export_objects()
-        export_object_details = {}
+        export_object_details = []
         for obj in export_objects:
             name = obj.NAME
             icon = obj.ICONS[0]
-            export_object_details[name] = icon
+            tup = (icon, name)
+            export_object_details.append(tup)
         
         self.combobox_export = ExportCombobox(self.icons, export_object_details)
         self.combobox_export.connect("changed", self.on_combobox_export_changed)
@@ -150,12 +151,10 @@ class ExportFrontend(gobject.GObject):
             buf = widget.get_buffer()
             return buf.get_text(buf.get_start_iter(), buf.get_end_iter())
         elif issubclass(widget.__class__, EasyComboBox):
-            print widget.get_active_value(0)
-            print widget.get_active_value(1)
             return widget.get_active_value(0)
     
     def cb_authenticate_requested(self, backend, icons, name, register_url):
-        authenticate_dialog = AuthenticateDialog(self.datadir, self.icons, icons, name, register_url)
+        authenticate_dialog = AuthenticateDialog(self.datadir, name, self.icons, icons, register_url)
         authenticate_dialog.window.set_transient_for(self.window)
         authenticate_dialog.run()
         self.window.set_sensitive(False)
@@ -169,7 +168,7 @@ class ExportFrontend(gobject.GObject):
         
         # Set buttons, combobox and the alignment insensitive
         # TODO: make this better
-        self.properties_alignment.set_sensitive(False)
+        self.active_alignment.set_sensitive(False)
         self.button_export.set_sensitive(False)
         self.button_back.set_sensitive(False)
         self.combobox_export.set_sensitive(False)
@@ -181,7 +180,7 @@ class ExportFrontend(gobject.GObject):
             self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error logging in.")
             # Set buttons, combobox and the alignment sensitive
             # TODO: make this better
-            self.properties_alignment.set_sensitive(True)
+            self.active_alignment.set_sensitive(True)
             self.button_export.set_sensitive(True)
             self.button_back.set_sensitive(True)
             self.combobox_export.set_sensitive(True)

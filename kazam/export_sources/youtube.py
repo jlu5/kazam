@@ -95,20 +95,12 @@ class UploadSource(UploadSuperSource):
 
     ###
            
-    def create_meta(self, title, description, category_term, keywords=None, private=False):
-        print title
-        print description
-        print category_term
-        print keywords
-        print private
-        
+    def create_meta(self, title, description, category_term, keywords, private):      
         # Create all meta objects
         meta_title = gdata.media.Title(text=title)
         meta_description = gdata.media.Description(description_type='plain',
                                                     text=description)
         meta_keywords = gdata.media.Keywords(text=keywords)
-        
-        print self.categories[category_term]
         meta_category = gdata.media.Category(text=category_term,
                                         label=self.categories[category_term]["label"],
                                         scheme=self.CATEGORIES_SCHEME)
@@ -128,7 +120,6 @@ class UploadSource(UploadSuperSource):
 
         # Create a VideoEntry
         self.video_entry = gdata.youtube.YouTubeVideoEntry(media=media_group)
-        return True
             
     def _get_categories_dict(self):
         """

@@ -53,7 +53,8 @@ class KazamApp(object):
             logging.exception("setlocale failed")
     
         self.icons = gtk.icon_theme_get_default()
-        self.icons.append_search_path(os.path.join(datadir,"icons"))
+        self.icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
+        self.icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
         gtk.window_set_default_icon_name("kazam")
         
         # Will be set later, here for convenience
