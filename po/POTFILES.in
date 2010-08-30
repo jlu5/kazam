@@ -1,4 +1,4 @@
-[type: python] kazam
+[type: python] bin/kazam
 [type: gettext/glade] data/ui/authenticate.ui
 [type: gettext/glade] data/ui/done-recording.ui
 [type: gettext/glade] data/ui/export.ui

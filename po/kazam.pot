@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-30 15:37+0100\n"
+"POT-Creation-Date: 2010-08-30 15:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,4 +155,90 @@ msgstr ""
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
+msgstr ""
+
+#: ../kazam/app.py:113
+msgid "Save screencast"
+msgstr ""
+
+#: ../kazam/frontend/export.py:175
+msgid "Logging in..."
+msgstr ""
+
+#: ../kazam/frontend/export.py:183
+msgid "Log-in completed."
+msgstr ""
+
+#: ../kazam/frontend/export.py:185
+msgid "There was an error logging in."
+msgstr ""
+
+#: ../kazam/frontend/export.py:190
+msgid "Converting screencast..."
+msgstr ""
+
+#: ../kazam/frontend/export.py:194
+msgid "Screencast converted."
+msgstr ""
+
+#: ../kazam/frontend/export.py:196
+msgid "There was an error converting."
+msgstr ""
+
+#: ../kazam/frontend/export.py:201
+msgid "Uploading screencast..."
+msgstr ""
+
+#: ../kazam/frontend/export.py:205
+msgid "Screencast uploaded."
+msgstr ""
+
+#: ../kazam/frontend/export.py:210
+msgid "There was an error uploading."
+msgstr ""
+
+#: ../kazam/frontend/indicator.py:44
+msgid "Pause recording"
+msgstr ""
+
+#: ../kazam/frontend/indicator.py:47
+msgid "Finish recording..."
+msgstr ""
+
+#: ../kazam/frontend/indicator.py:51
+msgid "Quit"
+msgstr ""
+
+#: ../kazam/frontend/start_recording.py:53
+msgid "File"
+msgstr ""
+
+#: ../kazam/frontend/start_recording.py:60
+msgid "Help"
+msgstr ""
+
+#: ../kazam/frontend/start_recording.py:62
+msgid "About"
+msgstr ""
+
+#: ../kazam/frontend/window_countdown.py:97
+msgid "Recording will start in..."
+msgstr ""
+
+#: ../kazam/frontend/widgets/comboboxes.py:129
+msgid "Screen"
+msgstr ""
+
+#: ../kazam/frontend/widgets/comboboxes.py:153
+msgid "Computer"
+msgstr ""
+
+#: ../kazam/frontend/widgets/dialogs.py:75
+#, python-format
+msgid "To upload a screencast to %s, you need a %s account."
+msgstr ""
+
+#: ../kazam/frontend/widgets/dialogs.py:79
+#, python-format
+msgid "I have a %s account:"
 msgstr ""
