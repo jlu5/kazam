@@ -62,14 +62,14 @@ class DoneRecording(gobject.GObject):
         
         menu_dict = [
                         {
-                        "name":"_File",
+                        "name":"File",
                         "children":[{
-                                "name":"_Quit",
+                                "name":"Quit",
                                 "connect":("activate", "on_menuitem_quit_activate")
                                 }]
                         },
                         {
-                        "name":"_Help",
+                        "name":"Help",
                         "children":[{
                                 "name":"About",
                                 "connect":("activate", "on_menuitem_about_activate")

@@ -93,7 +93,8 @@ class CountdownWindow(gtk.Window):
 
         #Set the font size before rendering center aligned
         cairo_context.set_font_size(28)                                        
-        self._print_text_center_aligned(cairo_context, "Recording will start in...", 70)
+        self._print_text_center_aligned(cairo_context, 
+                                    _("Recording will start in..."), 70)
 
         cairo_context.set_font_size(56)
         self._print_text_center_aligned(cairo_context, str(self.number), 150)
@@ -111,7 +112,10 @@ class CountdownWindow(gtk.Window):
     def on_window_button_press_event(self, button, button_event):
         # Move the window
         if button_event.button is 1:
-            self.begin_move_drag(int(button_event.button), int(button_event.x_root), int(button_event.y_root), button_event.time) 
+            self.begin_move_drag(int(button_event.button), 
+                                    int(button_event.x_root), 
+                                    int(button_event.y_root), 
+                                    button_event.time) 
         return False
         
     def run_countdown(self):

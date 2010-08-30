@@ -110,7 +110,7 @@ class KazamApp(object):
             gtk.main_quit()
         
     def cb_save_requested(self, done_recording):
-        (save_dialog, result) = new_save_dialog("Save screencast", self.done_recording.dialog)
+        (save_dialog, result) = new_save_dialog(_("Save screencast"), self.done_recording.dialog)
         if result == gtk.RESPONSE_OK:
             uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
             if not uri.endswith(".mkv"):

@@ -72,11 +72,11 @@ class AuthenticateDialog(gobject.GObject):
         if large_icon:
             self.image_logo.set_from_file(icontheme.lookup_icon(large_icon, 48, ( )).get_filename())
         
-        self.label_primary.set_text('<span font_size="large">To upload a ' + \
-            'screencast to %s, you need a %s account.</span>' % (name, name))
+        text = _("To upload a screencast to %s, you need a %s account.") % (name, name)
+        self.label_primary.set_text('<span font_size="large">%s</span>' % text)
         self.label_primary.set_use_markup(True)
         self.label_primary.set_line_wrap(True)
-        self.radiobutton_has_account.set_label('I have a %s account:' % name)
+        self.radiobutton_has_account.set_label(_('I have a %s account:') % name)
         
     def on_button_cancel_clicked(self, button):
         self.action = self.ACTION_CANCEL

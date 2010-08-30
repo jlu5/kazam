@@ -71,7 +71,9 @@ class ExternalEditorCombobox(EasyComboBox):
         self.add_attribute(cr_text, 'text', 1)  
         
         # List store
-        liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT)
+        liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, 
+                                    gobject.TYPE_PYOBJECT, 
+                                    gobject.TYPE_PYOBJECT)
         self.set_model(liststore)
         self._populate()
         
@@ -124,7 +126,7 @@ class ExportCombobox(EasyComboBox):
             
 class VideoCombobox(EasyComboBox):
     
-    SOURCES = ["Screen"]
+    SOURCES = [_("Screen")]
     
     def __init__(self):
         super(VideoCombobox, self).__init__()
@@ -148,7 +150,7 @@ class VideoCombobox(EasyComboBox):
             
 class AudioCombobox(EasyComboBox):
     
-    SOURCES = ["Computer"]
+    SOURCES = [_("Computer")]
     
     def __init__(self):
         super(AudioCombobox, self).__init__()

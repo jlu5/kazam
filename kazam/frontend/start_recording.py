@@ -50,16 +50,16 @@ class RecordingStart(gobject.GObject):
         
         menu_dict = [
                         {
-                        "name":"_File",
+                        "name":_("File"),
                         "children":[{
-                                "name":"_Quit",
+                                "name":"Quit",
                                 "connect":("activate", "on_menuitem_quit_activate")
                                 }]
                         },
                         {
-                        "name":"_Help",
+                        "name":_("Help"),
                         "children":[{
-                                "name":"About",
+                                "name":_("About"),
                                 "connect":("activate", "on_menuitem_about_activate")
                                 }]
                         },

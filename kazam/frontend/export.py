@@ -172,7 +172,7 @@ class ExportFrontend(gobject.GObject):
         self.backend.details = authenticate_dialog.details
         
     def cb_login_started(self, backend):
-        self._change_status("spinner", "Logging in...")
+        self._change_status("spinner", _("Logging in..."))
         
         # Set buttons, combobox and the alignment insensitive
         # TODO: make this better
@@ -180,34 +180,34 @@ class ExportFrontend(gobject.GObject):
         
     def cb_login_completed(self, backend, success):
         if success:
-            self._change_status(gtk.STOCK_OK, "Log-in completed.")
+            self._change_status(gtk.STOCK_OK, _("Log-in completed."))
         else:
-            self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error logging in.")
+            self._change_status(gtk.STOCK_DIALOG_ERROR, _("There was an error logging in."))
             # Set buttons, combobox and the alignment sensitive
             self.sensitise_content_action_widgets(True)
             
     def cb_convert_started(self, backend):
-        self._change_status("spinner", "Converting screencast...")
+        self._change_status("spinner", _("Converting screencast..."))
         
     def cb_convert_completed(self, backend, success):
         if success:
-            self._change_status(gtk.STOCK_OK, "Screencast converted.")
+            self._change_status(gtk.STOCK_OK, _("Screencast converted."))
         else:
-            self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error converting.")
+            self._change_status(gtk.STOCK_DIALOG_ERROR, _("There was an error converting."))
             # Set buttons, combobox and the alignment sensitive
             self.sensitise_content_action_widgets(True)
             
     def cb_upload_started(self, backend):
-        self._change_status("spinner", "Uploading screencast...")
+        self._change_status("spinner", _("Uploading screencast..."))
         
     def cb_upload_completed(self, backend, success, url):
         if success:
-            self._change_status(gtk.STOCK_OK, "Screencast uploaded.")
+            self._change_status(gtk.STOCK_OK, _("Screencast uploaded."))
             # Set buttons, combobox and the alignment sensitive
             self.sensitise_content_action_widgets(True)
             print url
         else:
-            self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error uploading.")
+            self._change_status(gtk.STOCK_DIALOG_ERROR, _("There was an error uploading."))
             # Set buttons, combobox and the alignment sensitive
             self.sensitise_content_action_widgets(True)
         
