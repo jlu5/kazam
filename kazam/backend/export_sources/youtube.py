@@ -35,8 +35,8 @@ import gdata.geo
 import gdata.youtube
 import gdata.youtube.service
 
-from kazam.export_sources import UploadSuperSource
-from kazam.widgets.comboboxes import EasyTextComboBox
+from kazam.backend.export_sources import UploadSuperSource
+from kazam.frontend.widgets.comboboxes import EasyTextComboBox
 from kazam.utils import setup_ui
 
 class UploadSource(UploadSuperSource):
@@ -48,7 +48,6 @@ class UploadSource(UploadSuperSource):
 
     DEVELOPER_KEY = "AI39si4K_qwy_KQ5HHNXYF9so0mBiKqMJnZ7gJVs3jW9nSKOcPfhTl" + \
                     "aFw8_jIaDvZyRLrmwa0X8eOjsfg3lHyQdsfmah7ja7Rw"
-    CATEGORIES_SCHEME = "http://gdata.youtube.com/schemas/2007/categories.cat"
 
     META = {
             "title":"entry_title",
@@ -57,6 +56,9 @@ class UploadSource(UploadSuperSource):
             "category_term":"combobox_category",
             "private":"combobox_private",
             }
+            
+    FFMPEG_OPTIONS = []
+    FFMPEG_FILE_EXTENSION = ".mp4"
 
     def __init__(self):
         super(UploadSource, self).__init__()
@@ -130,12 +132,10 @@ class UploadSource(UploadSuperSource):
                 }
         }
         """
-        self.categories_file = urlopen(self.CATEGORIES_SCHEME)
         
         # Parse the XML and put it into a dictionary
         category_dict = {}
-        tree = ElementTree.parse(self.categories_file)
-        self.categories_file.close()
+        tree = ElementTree.fromstring(CATEGORIES_SCHEME)
         categories = tree.getroot()
         for category in categories.getchildren():
             term = category.get("term")
@@ -176,3 +176,8 @@ class UploadSource(UploadSuperSource):
         self.combobox_category.set_active(0)
         
     
+CATEGORIES_SCHEME = """
+
+
+
+"""    

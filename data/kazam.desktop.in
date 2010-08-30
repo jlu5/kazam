@@ -1,6 +1,7 @@
 [Desktop Entry]
-Name=Kazam screencaster
-Comment=Record a video of activity on your screen
+_Name=Kazam screencaster
+_GenericName=Screencaster
+_Comment=Record a video of activity on your screen
 Categories=GNOME;AudioVideo;
 Exec=kazam
 Icon=distributor-logo

@@ -31,13 +31,13 @@ from subprocess import Popen
 from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
-from widgets.dialogs import new_save_dialog
-from window_countdown import CountdownWindow
-from indicator import KazamIndicator
-from recording import Recording
-from done_recording import DoneRecording
-from start_recording import RecordingStart
-from export_frontend import ExportFrontend
+from kazam.backend.ffmpeg import Recording
+from kazam.frontend.widgets.dialogs import new_save_dialog
+from kazam.frontend.window_countdown import CountdownWindow
+from kazam.frontend.indicator import KazamIndicator
+from kazam.frontend.done_recording import DoneRecording
+from kazam.frontend.start_recording import RecordingStart
+from kazam.frontend.export import ExportFrontend
 
 class KazamApp(object):
 
@@ -87,7 +87,7 @@ class KazamApp(object):
     def cb_countdown_requested(self, recording_start):
         self.audio = self.recording_start.checkbutton_audio.get_active()
         
-        self.window_countdown = CountdownWindow()
+        self.window_countdown = CountdownWindow(self.datadir)
         self.window_countdown.connect("count", self.on_window_countdown_count)
         self.window_countdown.connect("record-requested", self.cb_record_requested)
         self.window_countdown.run_countdown()
@@ -107,12 +107,10 @@ class KazamApp(object):
             self.export.run()
         else:
             Popen(args_list)
-            # TODO: make it quit
             gtk.main_quit()
         
     def cb_save_requested(self, done_recording):
         (save_dialog, result) = new_save_dialog("Save screencast", self.done_recording.dialog)
-        ## TODO: save properly
         if result == gtk.RESPONSE_OK:
             uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
             if not uri.endswith(".mkv"):

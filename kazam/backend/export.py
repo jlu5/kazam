@@ -20,13 +20,13 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-
 import gobject
 import gtk
 import os
 
-import kazam.export_sources
-from utils import *
+import kazam.backend.export_sources
+from kazam.backend.ffmpeg import Convert
+from kazam.utils import *
 
 class ExportBackend(gobject.GObject):
     
@@ -40,6 +40,12 @@ class ExportBackend(gobject.GObject):
                            gobject.TYPE_NONE,
                            ( ),),
     "login-completed"     : (gobject.SIGNAL_RUN_LAST,
+                           gobject.TYPE_NONE,
+                           ([bool]),),
+    "convert-started"     : (gobject.SIGNAL_RUN_LAST,
+                           gobject.TYPE_NONE,
+                           ( ),),
+    "convert-completed"     : (gobject.SIGNAL_RUN_LAST,
                            gobject.TYPE_NONE,
                            ([bool]),),
     "upload-started"     : (gobject.SIGNAL_RUN_LAST,
@@ -68,7 +74,7 @@ class ExportBackend(gobject.GObject):
         """
         export_module_list = []
         # For each directory that provides kazam.export_sources
-        for path in kazam.export_sources.__path__:
+        for path in kazam.backend.export_sources.__path__:
             directory = os.path.abspath(path)
             # List files in that directory
             for f in os.listdir(directory):
@@ -86,7 +92,8 @@ class ExportBackend(gobject.GObject):
         """
         Import an export_source module and return the module
         """
-        return getattr(__import__("kazam.export_sources", globals(), locals(), [name], -1), name)
+        return getattr(__import__("kazam.backend.export_sources", globals(), 
+                                    locals(), [name], -1), name)
         
     def _create_export_objects(self, export_module_files):
         """
@@ -119,6 +126,7 @@ class ExportBackend(gobject.GObject):
     def cb_export_requested(self, frontend):
         self.login()
         self.create_meta()
+        self.convert()
         self.upload()
 
     def login(self):
@@ -144,9 +152,23 @@ class ExportBackend(gobject.GObject):
     def create_meta(self):
         self.active_export_object.create_meta(**self.frontend.get_meta())
         
+    def convert(self):
+        self.emit("convert-started")
+        try:
+            convert = Convert(self.frontend.get_path(), 
+                                self.active_export_object.FFMPEG_OPTIONS,
+                                self.active_export_object.FFMPEG_FILE_EXTENSION)
+            create_wait_thread(convert.convert())
+            success = True
+        except Exception, e:
+            print e
+            success = False
+        self.emit("convert-finished", success)
+        
+        
     def upload(self):
         self.emit("upload-started")
-        url = ""     
+        url = ""
         try:
             self.active_export_object.upload_pre()
             create_wait_thread(self.active_export_object.upload_in, (self.frontend.get_path(),))

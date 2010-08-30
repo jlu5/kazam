@@ -1,0 +1,158 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-08-30 15:37+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/ui/authenticate.ui.h:1 ../data/ui/done-recording.ui.h:1
+msgid "Cancel"
+msgstr ""
+
+#: ../data/ui/authenticate.ui.h:2
+msgid "Continue"
+msgstr ""
+
+#: ../data/ui/authenticate.ui.h:3
+msgid "Email address:"
+msgstr ""
+
+#: ../data/ui/authenticate.ui.h:4
+msgid "I want to register an account now"
+msgstr ""
+
+#: ../data/ui/authenticate.ui.h:5
+msgid "Password:"
+msgstr ""
+
+#: ../data/ui/done-recording.ui.h:2
+msgid "Continue..."
+msgstr ""
+
+#: ../data/ui/done-recording.ui.h:3
+msgid "Edit with:"
+msgstr ""
+
+#: ../data/ui/done-recording.ui.h:4 ../data/ui/export.ui.h:7
+#: ../data/ui/start.ui.h:2 ../data/kazam.desktop.in.h:1
+msgid "Kazam screencaster"
+msgstr ""
+
+#: ../data/ui/done-recording.ui.h:5
+msgid "Save for later use"
+msgstr ""
+
+#: ../data/ui/done-recording.ui.h:6
+msgid ""
+"Your screencast has finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+
+#: ../data/ui/export.ui.h:1
+msgid "<b>Export to:</b>"
+msgstr ""
+
+#: ../data/ui/export.ui.h:2
+msgid "Audio"
+msgstr ""
+
+#: ../data/ui/export.ui.h:3
+msgid "Back"
+msgstr ""
+
+#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:1
+msgid "Close"
+msgstr ""
+
+#: ../data/ui/export.ui.h:5
+msgid "Crop"
+msgstr ""
+
+#: ../data/ui/export.ui.h:6
+msgid "Export"
+msgstr ""
+
+#: ../data/ui/export.ui.h:8
+msgid "Quality:"
+msgstr ""
+
+#: ../data/ui/export.ui.h:9
+msgid "Video"
+msgstr ""
+
+#: ../data/ui/export.ui.h:10
+msgid "_Edit"
+msgstr ""
+
+#: ../data/ui/export.ui.h:11
+msgid "_File"
+msgstr ""
+
+#: ../data/ui/export.ui.h:12
+msgid "_Help"
+msgstr ""
+
+#: ../data/ui/export.ui.h:13
+msgid "_View"
+msgstr ""
+
+#: ../data/ui/export.ui.h:14
+msgid "toolbutton1"
+msgstr ""
+
+#: ../data/ui/start.ui.h:3
+msgid "Record"
+msgstr ""
+
+#: ../data/ui/start.ui.h:4
+msgid "Record Audio from:"
+msgstr ""
+
+#: ../data/ui/start.ui.h:5
+msgid "Record Video from:"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:1
+msgid "Category"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:2
+#: ../data/ui/export_sources/videobin.ui.h:1
+msgid "Description"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:3
+msgid "Keywords"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:4
+msgid "Private"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:5
+#: ../data/ui/export_sources/videobin.ui.h:3
+msgid "Title"
+msgstr ""
+
+#: ../data/ui/export_sources/videobin.ui.h:2
+msgid "Details are editable by others"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:2
+msgid "Record a video of activity on your screen"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:3
+msgid "Screencaster"
+msgstr ""

@@ -28,11 +28,10 @@ import os
 import shutil
 import gobject
 
-from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
-from widgets.comboboxes import ExternalEditorCombobox
-from utils import *
+from kazam.frontend.widgets.comboboxes import ExternalEditorCombobox
+from kazam.utils import *
 
 class DoneRecording(gobject.GObject):
     

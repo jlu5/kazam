@@ -25,8 +25,8 @@ import pycurl
 import os
 import gtk
 
-from kazam.export_sources import UploadSuperSource
-from kazam.widgets.comboboxes import EasyTextComboBox
+from kazam.backend.export_sources import UploadSuperSource
+from kazam.frontend.widgets.comboboxes import EasyTextComboBox
 from kazam.utils import setup_ui
 
 class UploadSource(UploadSuperSource):

@@ -24,8 +24,8 @@ import gtk
 import gobject
 import os
 
-from widgets.comboboxes import VideoCombobox, AudioCombobox
-from utils import *
+from kazam.frontend.widgets.comboboxes import VideoCombobox, AudioCombobox
+from kazam.utils import *
 
 class RecordingStart(gobject.GObject):
     

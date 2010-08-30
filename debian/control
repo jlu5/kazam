@@ -1,0 +1,39 @@
+Source: kazam
+Section: multimedia
+Priority: optional
+Maintainer: Andrew Higginson <rugby471@gmail.com>
+Build-Depends: debhelper (>= 7.0.50),
+               lsb-release,
+               gettext,
+               intltool,
+               python,
+               python-central,
+               python-distutils-extra,
+               python-setuptools,
+Standards-Version: 3.8.4
+XS-Python-Version: current
+Vcs-Bzr: https://code.launchpad.net/~and471/kazam/trunk
+Homepage: https://launchpad.net/kazam
+
+Package: kazam
+Architecture: all
+Depends: ${python:Depends},
+         ${misc:Depends},
+         python-gtk2,
+         python-xdg,
+         python-cairo,
+         python-rsvg,
+         ffmpeg,
+         libx264-85
+Recommends: lsb-release, 
+            python-launchpad-integration, 
+            python-pycurl, 
+            python-gdata
+XB-Python-Version: ${python:Versions}
+Description: easy to use application for recording on-screen action
+ A program that lets you record action on-screen into one video file.
+ It's special features include a well designed interface, the ability
+ to record audio playing on your computer and built-in exporting 
+ capabilities to upload screencasts to popular videosharing websites - 
+ such as YouTube.
+

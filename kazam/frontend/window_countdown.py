@@ -29,6 +29,7 @@ import gtk.gdk as gdk
 import gobject
 import rsvg
 import gobject
+import os
 
 from gettext import gettext as _
 
@@ -45,9 +46,11 @@ class CountdownWindow(gtk.Window):
                                   ),
     }
  
-    def __init__(self):
+    def __init__(self, datadir):
         self.number = 5
-        self.svg = rsvg.Handle(file="../data/ui/countdown.svg")
+        self.svg = rsvg.Handle(file=os.path.join(datadir, 
+                                                "images", 
+                                                "countdown.svg"))
         
         gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
         self.set_default_size(420, 220)

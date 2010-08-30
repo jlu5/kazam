@@ -1,0 +1,9 @@
+# Automatically added by dh_pycentral
+rm -f /var/lib/pycentral/kazam.pkgremove
+if which pycentral >/dev/null 2>&1; then
+	pycentral pkginstall kazam
+	if grep -qs '^kazam$' /var/lib/pycentral/delayed-pkgs; then
+		sed -i '/^kazam$/d' /var/lib/pycentral/delayed-pkgs
+	fi
+fi
+# End automatically added section

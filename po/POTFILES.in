@@ -1,0 +1,20 @@
+[type: python] kazam
+[type: gettext/glade] data/ui/authenticate.ui
+[type: gettext/glade] data/ui/done-recording.ui
+[type: gettext/glade] data/ui/export.ui
+[type: gettext/glade] data/ui/start.ui
+[type: gettext/glade] data/ui/export_sources/youtube.ui
+[type: gettext/glade] data/ui/export_sources/videobin.ui
+data/kazam.desktop.in
+kazam/app.py
+kazam/backend/export.py
+kazam/backend/export_sources/__init__.py
+kazam/backend/export_sources/youtube.py
+kazam/backend/export_sources/videobin.py
+kazam/frontend/done_recording.py
+kazam/frontend/export.py
+kazam/frontend/indicator.py
+kazam/frontend/start_recording.py
+kazam/frontend/window_countdown.py
+kazam/frontend/widgets/comboboxes.py
+kazam/frontend/widgets/dialogs.py

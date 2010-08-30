@@ -115,7 +115,7 @@ What do you want to do now?</property>
             </child>
             <child>
               <object class="GtkButton" id="button_continue">
-                <property name="label" translatable="yes">Continue</property>
+                <property name="label" translatable="yes">Continue...</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>

@@ -1,0 +1,33 @@
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?rev=59
+Source: https://edge.launchpad.net/kazam
+        https://code.launchpad.net/~and471/kazam/trunk
+
+Files: *
+Copyright: © 2010 Andrew Higginson
+           © 2009 Michael Vogt
+License: GPL-3
+
+Files: kazam/*
+Copyright: Copyright (c) 2010 Andrew Higginson
+License: GPL-3
+
+Files: kazam/SimpleGtkbuilderApp.py
+Copyright: (c) 2009 Michael Vogt
+License: LGPL-3
+
+License: GPL-3
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; version 3.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License can be found in `/usr/share/common-licenses/GPL-3'.
+
+License: LGPL-3
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; version 3.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License can be found in `/usr/share/common-licenses/LGPL-3'.
+

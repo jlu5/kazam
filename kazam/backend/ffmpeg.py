@@ -23,6 +23,8 @@
 from subprocess import Popen
 import tempfile
 import os
+import gobject
+import glib
 
 class Recording(object):
     def __init__(self, audio=False):
@@ -33,7 +35,7 @@ class Recording(object):
         args_list = ["ffmpeg", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", self.tempfile ]
         
         if audio:
-            args_list = ["ffmpeg", "-f", "alsa", "-ac", "2", "-i", "pulse", "-acodec", "pcm_s16le", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", self.tempfile ]
+            args_list = ["ffmpeg", "-f", "alsa", "-ac", "2", "-i", "pulse", "-acodec", "vorbis", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", self.tempfile ]
         
         self.command = Popen(args_list)
     
@@ -43,6 +45,34 @@ class Recording(object):
     def stop(self):
         self.command.kill()
         
+        
+class Convert(object):
+    
+    def __init__(self, file_, options, file_extension):
+        self.file_ = file_
+        self.options = options
+        self.file_extension = file_extension
+        
+    def convert(self):
+        args_list = ["ffmpeg", "-i"]
+        
+        args_list += self.file_
+        args_list += self.options
+        args_list += [self.file_.split(".")[0]+self.file_extension]
+        
+        command = Popen(args_list)
+        glib.timeout_add(100, self._poll, command)
+        
+    def _poll(self, command):
+        ret = popen.poll()
+        if ret is None:
+            # Keep monitoring
+            return True
+        else:
+            del command
+            return False
+        
+    
         
 """self.pipeline_string = ""
 self.add_element("pulsesrc")

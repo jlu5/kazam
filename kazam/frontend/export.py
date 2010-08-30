@@ -30,10 +30,10 @@ import gobject
 
 from gettext import gettext as _
 
-from widgets.comboboxes import ExportCombobox, EasyComboBox
-from widgets.dialogs import AuthenticateDialog
-from export_backend import ExportBackend
-from utils import *
+from kazam.frontend.widgets.comboboxes import ExportCombobox, EasyComboBox
+from kazam.frontend.widgets.dialogs import AuthenticateDialog
+from kazam.backend.export import ExportBackend
+from kazam.utils import *
 
 class ExportFrontend(gobject.GObject):
     
@@ -55,6 +55,8 @@ class ExportFrontend(gobject.GObject):
         self.backend.connect("authenticate-requested", self.cb_authenticate_requested)
         self.backend.connect("login-started", self.cb_login_started)
         self.backend.connect("login-completed", self.cb_login_completed)
+        self.backend.connect("convert-started", self.cb_convert_started)
+        self.backend.connect("convert-completed", self.cb_convert_completed)
         self.backend.connect("upload-started", self.cb_upload_started)
         self.backend.connect("upload-completed", self.cb_upload_completed)
         
@@ -153,6 +155,12 @@ class ExportFrontend(gobject.GObject):
         elif issubclass(widget.__class__, EasyComboBox):
             return widget.get_active_value(0)
     
+    def sensitise_content_action_widgets(self, sensitive):
+        self.active_alignment.set_sensitive(sensitive)
+        self.button_export.set_sensitive(sensitive)
+        self.button_back.set_sensitive(sensitive)
+        self.combobox_export.set_sensitive(sensitive)
+    
     def cb_authenticate_requested(self, backend, icons, name, register_url):
         authenticate_dialog = AuthenticateDialog(self.datadir, name, self.icons, icons, register_url)
         authenticate_dialog.window.set_transient_for(self.window)
@@ -168,10 +176,7 @@ class ExportFrontend(gobject.GObject):
         
         # Set buttons, combobox and the alignment insensitive
         # TODO: make this better
-        self.active_alignment.set_sensitive(False)
-        self.button_export.set_sensitive(False)
-        self.button_back.set_sensitive(False)
-        self.combobox_export.set_sensitive(False)
+
         
     def cb_login_completed(self, backend, success):
         if success:
@@ -179,11 +184,18 @@ class ExportFrontend(gobject.GObject):
         else:
             self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error logging in.")
             # Set buttons, combobox and the alignment sensitive
-            # TODO: make this better
-            self.active_alignment.set_sensitive(True)
-            self.button_export.set_sensitive(True)
-            self.button_back.set_sensitive(True)
-            self.combobox_export.set_sensitive(True)
+            self.sensitise_content_action_widgets(True)
+            
+    def cb_convert_started(self, backend):
+        self._change_status("spinner", "Converting screencast...")
+        
+    def cb_convert_completed(self, backend, success):
+        if success:
+            self._change_status(gtk.STOCK_OK, "Screencast converted.")
+        else:
+            self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error converting.")
+            # Set buttons, combobox and the alignment sensitive
+            self.sensitise_content_action_widgets(True)
             
     def cb_upload_started(self, backend):
         self._change_status("spinner", "Uploading screencast...")
@@ -191,9 +203,13 @@ class ExportFrontend(gobject.GObject):
     def cb_upload_completed(self, backend, success, url):
         if success:
             self._change_status(gtk.STOCK_OK, "Screencast uploaded.")
+            # Set buttons, combobox and the alignment sensitive
+            self.sensitise_content_action_widgets(True)
             print url
         else:
             self._change_status(gtk.STOCK_DIALOG_ERROR, "There was an error uploading.")
+            # Set buttons, combobox and the alignment sensitive
+            self.sensitise_content_action_widgets(True)
         
     def run(self):
         self.window_export.show_all()

@@ -52,7 +52,7 @@ class EasyTextComboBox(EasyComboBox):
 class ExternalEditorCombobox(EasyComboBox):
     
     EDITORS = {
-                "/home/andrew/Software/Projects/kazam/data/kazam.desktop.in":[],
+                "/usr/share/applications/kazam.desktop":[],
                 "/usr/share/applications/openshot.desktop":[],
                 "/usr/share/applications/pitivi.desktop":["-i", "-a"],
                 "/usr/share/applications/avidemux-gtk.desktop":[],
