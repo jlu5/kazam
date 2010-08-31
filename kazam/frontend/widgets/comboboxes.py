@@ -82,8 +82,14 @@ class ExternalEditorCombobox(EasyComboBox):
         self.show()
         
     def _populate(self):
-
+        # Add in Kazam first :)
+        args = []
+        command = "kazam"
+        name = _("Kazam Screencaster")
+        icon_name = "kazam"
+        self._add_item(icon_name, name, command, args)
         
+        # then add in the rest
         for item in self.EDITORS:
             if os.path.isfile(item):
                 args = self.EDITORS[item]
@@ -93,13 +99,6 @@ class ExternalEditorCombobox(EasyComboBox):
                 icon_name = desktop_entry.getIcon()
                 self._add_item(icon_name, name, command, args)
         
-        # Add in Kazam
-        args = []
-        command = "kazam"
-        name = _("Kazam Screencaster")
-        icon_name = "kazam"
-        self._add_item(icon_name, name, command, args)
-    
     def _add_item(self, icon_name, name, command, args):
         liststore = self.get_model()
         try:

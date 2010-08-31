@@ -40,6 +40,18 @@ def new_save_dialog(title, parent=None):
     result = dialog.run()
     dialog.hide()
     return dialog, result
+    
+def new_info_dialog(primary, secondary=None, parent=None):
+    dialog = gtk.MessageDialog(parent=parent, type=gtk.MESSAGE_INFO,
+                    buttons=gtk.BUTTONS_OK, message_format=primary)
+                
+    if secondary:
+        dialog.format_secondary_markup(secondary)
+                
+    dialog.show_all()                                      
+    result = dialog.run()
+    dialog.hide()
+    return dialog
 
 class AuthenticateDialog(gobject.GObject):
     

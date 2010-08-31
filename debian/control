@@ -25,8 +25,7 @@ Depends: ${python:Depends},
          python-rsvg,
          ffmpeg,
          libx264-85
-Recommends: lsb-release, 
-            python-launchpad-integration, 
+Recommends: libtheora0,
             python-pycurl, 
             python-gdata
 XB-Python-Version: ${python:Versions}

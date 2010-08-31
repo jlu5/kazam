@@ -60,7 +60,7 @@ class UploadSource(UploadSuperSource):
             }
             
     FFMPEG_OPTIONS = []
-    FFMPEG_FILE_EXTENSION = ".ogv"
+    FFMPEG_FILE_EXTENSION = ".mp4"
 
     def __init__(self):
         super(UploadSource, self).__init__()

@@ -31,7 +31,7 @@ import gobject
 from gettext import gettext as _
 
 from kazam.frontend.widgets.comboboxes import ExportCombobox, EasyComboBox
-from kazam.frontend.widgets.dialogs import AuthenticateDialog
+from kazam.frontend.widgets.dialogs import *
 from kazam.backend.export import ExportBackend
 from kazam.utils import *
 
@@ -175,7 +175,7 @@ class ExportFrontend(gobject.GObject):
         self._change_status("spinner", _("Logging in..."))
         
         # Set buttons, combobox and the alignment insensitive
-        # TODO: make this better
+        self.sensitise_content_action_widgets(False)
 
         
     def cb_login_completed(self, backend, success):
@@ -205,7 +205,9 @@ class ExportFrontend(gobject.GObject):
             self._change_status(gtk.STOCK_OK, _("Screencast uploaded."))
             # Set buttons, combobox and the alignment sensitive
             self.sensitise_content_action_widgets(True)
-            print url
+            # Show a dialog with the url of the uploaded file
+            new_info_dialog(_("Your screencast has uploaded successfully."),
+                            _("It is available here - %s") % url, self.window)
         else:
             self._change_status(gtk.STOCK_DIALOG_ERROR, _("There was an error uploading."))
             # Set buttons, combobox and the alignment sensitive
