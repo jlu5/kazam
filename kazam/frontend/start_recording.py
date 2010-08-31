@@ -47,32 +47,8 @@ class RecordingStart(gobject.GObject):
         # Setup UI
         setup_ui(self, os.path.join(datadir, "ui", "start.ui"))   
         
-        self.dialog = self.dialog_start
-        self.dialog.connect("delete-event", gtk.main_quit)
-        
-        menu_dict = [
-                        {
-                        "name":_("File"),
-                        "children":[{
-                                "name":"Quit",
-                                "connect":("activate", "on_menuitem_quit_activate")
-                                }]
-                        },
-                        {
-                        "name":_("Help"),
-                        "children":[{
-                                "name":_("About"),
-                                "connect":("activate", "on_menuitem_about_activate")
-                                }]
-                        },
-                    ]
-        
-        # Add our menus
-        self.menubar = menubar_from_dict(self, menu_dict)
-        
-        # Pack them
-        self.dialog.vbox.pack_start(self.menubar, False, True)
-        self.dialog.vbox.reorder_child(self.menubar, 0)
+        self.window = self.window_start
+        self.window.connect("delete-event", gtk.main_quit)
         
         # Add our comboboxes
         self.combobox_video = VideoCombobox()
@@ -86,7 +62,7 @@ class RecordingStart(gobject.GObject):
         
     def on_button_record_clicked(self, button):
         self.emit("countdown-requested")
-        self.dialog.destroy()
+        self.window.destroy()
     
     def on_menuitem_quit_activate(self, menuitem):
         self.emit("quit-requested")
@@ -101,7 +77,7 @@ class RecordingStart(gobject.GObject):
         self.combobox_audio.set_sensitive(checkbutton.get_active())
         
     def run(self):
-        self.dialog.show_all()
+        self.window.show_all()
         
         
 

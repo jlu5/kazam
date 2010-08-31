@@ -53,36 +53,10 @@ class DoneRecording(gobject.GObject):
         
         # Setup UI
         setup_ui(self, os.path.join(datadir, "ui", "done-recording.ui"))        
-        
                 
         self.action = self.ACTION_EDIT
-        self.dialog = self.dialog_done_recording
-        
-        self.dialog.connect("delete-event", gtk.main_quit)
-        
-        menu_dict = [
-                        {
-                        "name":"File",
-                        "children":[{
-                                "name":"Quit",
-                                "connect":("activate", "on_menuitem_quit_activate")
-                                }]
-                        },
-                        {
-                        "name":"Help",
-                        "children":[{
-                                "name":"About",
-                                "connect":("activate", "on_menuitem_about_activate")
-                                }]
-                        },
-                    ]
-        
-        # Add our menus
-        self.menubar = menubar_from_dict(self, menu_dict)
-        
-        # Pack them
-        self.dialog.vbox.pack_start(self.menubar, False, True)
-        self.dialog.vbox.reorder_child(self.menubar, 0)
+        self.window = self.window_done_recording
+        self.window.connect("delete-event", gtk.main_quit)
         
         # Add editor combobox
         self.combobox_editors = ExternalEditorCombobox(self.icons)
@@ -100,12 +74,12 @@ class DoneRecording(gobject.GObject):
     def on_button_continue_clicked(self, button):
         if self.action == self.ACTION_SAVE:
             self.emit("save-requested")
-            self.dialog.destroy()
+            self.window.destroy()
         elif self.action == self.ACTION_EDIT:
-            desktop_entry = self.combobox_editors.get_active_value(2)
+            command = self.combobox_editors.get_active_value(2)
             args = self.combobox_editors.get_active_value(3)
-            self.dialog.destroy()
-            self.emit("edit-requested", (desktop_entry, args))
+            self.window.destroy()
+            self.emit("edit-requested", (command, args))
         
     def on_radiobutton_save_as_toggled(self, radiobutton):
         if not radiobutton.get_active():
@@ -122,7 +96,7 @@ class DoneRecording(gobject.GObject):
             self.combobox_editors.set_sensitive(True)
         
     def run(self):
-        self.dialog.show_all()
+        self.window.show_all()
 
 if __name__ == "__main__":
     icons = gtk.icon_theme_get_default()

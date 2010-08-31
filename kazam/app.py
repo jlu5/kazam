@@ -96,10 +96,9 @@ class KazamApp(object):
         self.indicator.connect("recording-done", self.on_indicator_recording_done)    
         
     def cb_edit_requested(self, done_recording, data):
-        (desktop_entry, args_list) = data
+        (command, args_list) = data
         
-        command = desktop_entry.getExec()
-        args_list.insert(0, desktop_entry.getExec())
+        args_list.insert(0, command)
         args_list.append(self.recording.get_filename())
         
         if command.endswith("kazam"):

@@ -54,7 +54,6 @@ class EasyTextComboBox(EasyComboBox):
 class ExternalEditorCombobox(EasyComboBox):
     
     EDITORS = {
-                "/usr/share/applications/kazam.desktop":[],
                 "/usr/share/applications/openshot.desktop":[],
                 "/usr/share/applications/pitivi.desktop":["-i", "-a"],
                 "/usr/share/applications/avidemux-gtk.desktop":[],
@@ -83,20 +82,31 @@ class ExternalEditorCombobox(EasyComboBox):
         self.show()
         
     def _populate(self):
-        liststore = self.get_model()
+
         
         for item in self.EDITORS:
             if os.path.isfile(item):
                 args = self.EDITORS[item]
                 desktop_entry = DesktopEntry(item)
+                command = desktop_entry.getExec()
                 name = desktop_entry.getName()
                 icon_name = desktop_entry.getIcon()
-                try:
-                    pixbuf = self.icons.load_icon(icon_name, 16, ())
-                except glib.GError:
-                    pixbuf = self.icons.load_icon("application-x-executable", 16, ())
-            
-            liststore.append([pixbuf, name, desktop_entry, args])
+                self._add_item(icon_name, name, command, args)
+        
+        # Add in Kazam
+        args = []
+        command = "kazam"
+        name = _("Kazam Screencaster")
+        icon_name = "kazam"
+        self._add_item(icon_name, name, command, args)
+    
+    def _add_item(self, icon_name, name, command, args):
+        liststore = self.get_model()
+        try:
+            pixbuf = self.icons.load_icon(icon_name, 16, ())
+        except glib.GError:
+            pixbuf = self.icons.load_icon("application-x-executable", 16, ())
+        liststore.append([pixbuf, name, command, args])
             
 class ExportCombobox(EasyComboBox):
     

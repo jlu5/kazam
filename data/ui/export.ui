@@ -3,10 +3,11 @@
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkWindow" id="window_export">
-    <property name="title" translatable="yes">Kazam screencaster</property>
+    <property name="title" translatable="yes">Kazam Screencaster</property>
     <property name="window_position">center</property>
     <property name="default_width">500</property>
     <property name="default_height">400</property>
+    <property name="icon_name">kazam</property>
     <child>
       <object class="GtkVBox" id="vbox_main">
         <property name="visible">True</property>
