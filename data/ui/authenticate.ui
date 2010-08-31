@@ -68,7 +68,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry_email">
+              <object class="GtkEntry" id="entry_username">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
@@ -121,11 +121,11 @@
               </packing>
             </child>
             <child>
-              <object class="GtkAlignment" id="alignmentpad_email">
+              <object class="GtkAlignment" id="alignmentpad_username">
                 <property name="visible">True</property>
                 <property name="left_padding">30</property>
                 <child>
-                  <object class="GtkLabel" id="label_email">
+                  <object class="GtkLabel" id="label_username">
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="label" translatable="yes">Email address:</property>

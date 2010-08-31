@@ -98,9 +98,9 @@ class AuthenticateDialog(gobject.GObject):
         
     def on_button_continue_clicked(self, button):
         if self.action == self.ACTION_LOGIN:
-            email = self.entry_email.get_text()
+            username = self.entry_username.get_text()
             password = self.entry_password .get_text()
-            self.details = (email, password)
+            self.details = (username, password)
             self.window.destroy()
         elif self.action == self.ACTION_REGISTER:
             webbrowser.open(self.register_url)
@@ -120,15 +120,15 @@ class AuthenticateDialog(gobject.GObject):
         
         # Make the widgets under the first radiobutton 
         # insensitive if appropriate
-        for widget in [self.label_email, 
-                        self.entry_email, 
+        for widget in [self.label_username, 
+                        self.entry_username, 
                         self.label_password, 
                         self.entry_password]:
             widget.set_sensitive(index == self.ACTION_LOGIN)
     
     def focus_login(self):
         self.radiobutton_has_account.set_active(True)
-        self.entry_email.grab_focus()
+        self.entry_username.grab_focus()
         return False
         
     def run(self):

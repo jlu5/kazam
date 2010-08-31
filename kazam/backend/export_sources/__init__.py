@@ -38,7 +38,7 @@ class UploadSuperSource(gobject.GObject):
         
     ###
     
-    def login_pre(self, email, password):
+    def login_pre(self, username, password):
         """Actions before login"""
         
     def login_in(self):

@@ -72,9 +72,9 @@ class UploadSource(UploadSuperSource):
        
     ###
     
-    def login_pre(self, email, password):
+    def login_pre(self, username, password):
         self.service.ssl = False # SSL not yet supported by Youtube API
-        self.service.email = email
+        self.service.email = username
         self.service.password = password
         self.service.developer_key = self.DEVELOPER_KEY
         
@@ -157,6 +157,12 @@ class UploadSource(UploadSuperSource):
         self.combobox_category = EasyTextComboBox()
         self.combobox_private = EasyTextComboBox()
                 
+        # Get our categories file and parse it into combobox_category
+        self._get_categories_dict()
+        for category in self.categories:
+            if not self.categories[category]["depreciated"]:
+                self.combobox_category.get_model().append([self.categories[category]["label"]])
+                
         for state in ["False", "True"]:
             self.combobox_private.get_model().append([state])
                     
@@ -169,12 +175,6 @@ class UploadSource(UploadSuperSource):
         self.combobox_private.show()
         
     def property_alignment_expose(self):
-        # Download the Categories XML file from Youtube in a thread
-        self._get_categories_dict()
-            
-        for category in self.categories:
-            if not self.categories[category]["depreciated"]:
-                self.combobox_category.get_model().append([self.categories[category]["label"]])
         self.combobox_category.set_active(0)
         
     

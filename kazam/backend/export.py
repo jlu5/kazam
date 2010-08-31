@@ -139,8 +139,8 @@ class ExportBackend(gobject.GObject):
             self.details = (None, None)
         try:
             self.emit("login-started")
-            (email, password) = self.details
-            self.active_export_object.login_pre(email, password)
+            (username, password) = self.details
+            self.active_export_object.login_pre(username, password)
             create_wait_thread(self.active_export_object.login_in)
             self.active_export_object.login_post()
             success = True

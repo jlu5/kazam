@@ -44,11 +44,11 @@ class UploadSource(UploadSuperSource):
             }
     
     def __init__(self):
-        self.authentication = False
         super(UploadSource, self).__init__()
+        self.authentication = False
     ###
     
-    def login_pre(self, email, password):
+    def login_pre(self, username, password):
         pass
         
     def login_in(self):
@@ -100,4 +100,4 @@ class UploadSource(UploadSuperSource):
         self.combobox_editable.show()
         
     def property_alignment_expose(self):
-        pass
+        self.combobox_editable.set_active(0)
