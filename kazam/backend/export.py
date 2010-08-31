@@ -158,20 +158,21 @@ class ExportBackend(gobject.GObject):
             convert = Convert(self.frontend.get_path(), 
                                 self.active_export_object.FFMPEG_OPTIONS,
                                 self.active_export_object.FFMPEG_FILE_EXTENSION)
-            create_wait_thread(convert.convert())
-            success = True
+            convert.convert()
+            while not hasattr(convert, "converted_file"):
+                gtk.main_iteration()
+            self.converted_file_path = convert.converted_file 
+            self.emit("convert-completed", True)
         except Exception, e:
             print e
-            success = False
-        self.emit("convert-finished", success)
-        
+            self.emit("convert-completed", False)
         
     def upload(self):
         self.emit("upload-started")
         url = ""
         try:
             self.active_export_object.upload_pre()
-            create_wait_thread(self.active_export_object.upload_in, (self.frontend.get_path(),))
+            create_wait_thread(self.active_export_object.upload_in, (self.converted_file_path,))
             url = self.active_export_object.upload_post()
             success = True
         except Exception, e:

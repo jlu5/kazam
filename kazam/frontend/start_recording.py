@@ -24,6 +24,8 @@ import gtk
 import gobject
 import os
 
+from gettext import gettext as _
+
 from kazam.frontend.widgets.comboboxes import VideoCombobox, AudioCombobox
 from kazam.utils import *
 

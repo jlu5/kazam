@@ -26,6 +26,8 @@ import webbrowser
 import os
 import logging
 
+from gettext import gettext as _
+
 from kazam.utils import *
 
 def new_save_dialog(title, parent=None):

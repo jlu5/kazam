@@ -46,6 +46,8 @@ class UploadSource(UploadSuperSource):
     NAME = "YouTube"
     REGISTER_URL = "http://www.youtube.com/create_account"
 
+    CATEGORIES_SCHEME_URL = "http://gdata.youtube.com/schemas/2007/categories.cat"
+
     DEVELOPER_KEY = "AI39si4K_qwy_KQ5HHNXYF9so0mBiKqMJnZ7gJVs3jW9nSKOcPfhTl" + \
                     "aFw8_jIaDvZyRLrmwa0X8eOjsfg3lHyQdsfmah7ja7Rw"
 
@@ -58,7 +60,7 @@ class UploadSource(UploadSuperSource):
             }
             
     FFMPEG_OPTIONS = []
-    FFMPEG_FILE_EXTENSION = ".mp4"
+    FFMPEG_FILE_EXTENSION = ".ogv"
 
     def __init__(self):
         super(UploadSource, self).__init__()
@@ -105,7 +107,7 @@ class UploadSource(UploadSuperSource):
         meta_keywords = gdata.media.Keywords(text=keywords)
         meta_category = gdata.media.Category(text=category_term,
                                         label=self.categories[category_term]["label"],
-                                        scheme=self.CATEGORIES_SCHEME)
+                                        scheme=self.CATEGORIES_SCHEME_URL)
         if private == "True":
             meta_private = gdata.media.Private()
         else:
@@ -136,7 +138,7 @@ class UploadSource(UploadSuperSource):
         # Parse the XML and put it into a dictionary
         category_dict = {}
         tree = ElementTree.fromstring(CATEGORIES_SCHEME)
-        categories = tree.getroot()
+        categories = tree
         for category in categories.getchildren():
             term = category.get("term")
             label = category.get("label")
@@ -176,8 +178,4 @@ class UploadSource(UploadSuperSource):
         self.combobox_category.set_active(0)
         
     
-CATEGORIES_SCHEME = """
-
-
-
-"""    
+CATEGORIES_SCHEME = """<?xml version='1.0' encoding='UTF-8'?><app:categories xmlns:app='http://www.w3.org/2007/app' xmlns:atom='http://www.w3.org/2005/Atom' xmlns:yt='http://gdata.youtube.com/schemas/2007' fixed='yes' scheme='http://gdata.youtube.com/schemas/2007/categories.cat'><atom:category term='Film' label='Film &amp; Animation' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Autos' label='Cars &amp; Vehicles' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Music' label='Music' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Animals' label='Pets &amp; Animals' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Sports' label='Sport' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Travel' label='Travel &amp; Events' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Shortmov' label='Short Films' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Videoblog' label='Videoblogging' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Games' label='Gaming' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Comedy' label='Comedy' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='People' label='People &amp; Blogs' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='News' label='News &amp; Politics' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Entertainment' label='Entertainment' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Education' label='Education' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Howto' label='Howto &amp; Style' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Nonprofit' label='Non-profits &amp; Activism' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='US'/></atom:category><atom:category term='Tech' label='Science &amp; Technology' xml:lang='en-GB'><yt:assignable/><yt:browsable regions='AR AU BR CA CZ DE DK ES FI FR GB GR HK HR HU IE IL IN IT JP KR MX NL NO NZ PL PT RU SE SK SR TW US ZA'/></atom:category><atom:category term='Movies_Anime_animation' label='Films - Anime/Animation' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies' label='Films' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Comedy' label='Films - Comedy' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Documentary' label='Films - Documentary' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Action_adventure' label='Films - Action/Adventure' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Classics' label='Films - Classics' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Foreign' label='Films - Foreign' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Horror' label='Films - Horror' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Drama' label='Films - Drama' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Family' label='Films - Family' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Shorts' label='Films - Shorts' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Shows' label='Shows' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Sci_fi_fantasy' label='Films - Sci-Fi/Fantasy' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Movies_Thriller' label='Films - Thriller' xml:lang='en-GB'><yt:deprecated/></atom:category><atom:category term='Trailers' label='Trailers' xml:lang='en-GB'><yt:deprecated/></atom:category></app:categories>"""    

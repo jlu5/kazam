@@ -25,6 +25,8 @@ import glib
 import gobject
 import os
 
+from gettext import gettext as _
+
 from xdg.DesktopEntry import DesktopEntry
 
 class EasyComboBox(gtk.ComboBox):

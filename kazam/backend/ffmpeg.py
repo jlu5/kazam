@@ -47,7 +47,6 @@ class Recording(object):
         
         
 class Convert(object):
-    
     def __init__(self, file_, options, file_extension):
         self.file_ = file_
         self.options = options
@@ -56,7 +55,7 @@ class Convert(object):
     def convert(self):
         args_list = ["ffmpeg", "-i"]
         
-        args_list += self.file_
+        args_list += [self.file_]
         args_list += self.options
         args_list += [self.file_.split(".")[0]+self.file_extension]
         
@@ -64,12 +63,12 @@ class Convert(object):
         glib.timeout_add(100, self._poll, command)
         
     def _poll(self, command):
-        ret = popen.poll()
+        ret = command.poll()
         if ret is None:
             # Keep monitoring
             return True
         else:
-            del command
+            self.converted_file = self.file_.split(".")[0]+self.file_extension
             return False
         
     
