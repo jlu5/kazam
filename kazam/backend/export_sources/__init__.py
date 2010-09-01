@@ -29,8 +29,10 @@ class UploadSuperSource(gobject.GObject):
     NAME = None
     REGISTER_URL = None
     
-    META = {
-        }
+    META = {}
+    
+    FFMPEG_OPTIONS = []
+    FFMPEG_FILE_EXTENSION = ""    
     
     def __init__(self):
         self.authentication = False
@@ -63,4 +65,6 @@ class UploadSuperSource(gobject.GObject):
         
     def gui_methods(self, datadir):
         pass
-
+        
+    def property_alignment_expose(self):
+        pass

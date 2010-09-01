@@ -37,11 +37,10 @@ class UploadSource(UploadSuperSource):
     NAME = "VideoBin"
     REGISTER_URL = None
 
-    META = {
-            "title":"entry_title",
-            "description":"textview_description",
-            "writeable":"combobox_editable",
-            }
+    META = {}
+    
+    FFMPEG_OPTIONS = []
+    FFMPEG_FILE_EXTENSION = ".ogv"
     
     def __init__(self):
         super(UploadSource, self).__init__()
@@ -64,7 +63,6 @@ class UploadSource(UploadSuperSource):
         self.curl.setopt(self.curl.URL, self.URL)
         self.curl.setopt(self.curl.POST, 1)
         self.curl.setopt(self.curl.WRITEFUNCTION, self._store)
-        self.curl.setopt(self.curl.COOKIEJAR, '/tmp/cookie.txt')
         
     def upload_in(self, path):
         self.curl.setopt(self.curl.HTTPPOST, [("api", "1"), 
@@ -78,26 +76,7 @@ class UploadSource(UploadSuperSource):
         
     def _store(self, buf):
         self.url = buf
-    
-    def create_meta(self, title, description, writeable):
-        if writeable == "True":
-            meta_writeable = 1
-        else:
-            meta_writeable = 0
-        self.meta_vars = [("title", title), ("description", description), 
-                            ("writeable", meta_writeable)]
         
 
     def gui_extra(self, datadir):
         setup_ui(self, os.path.join(datadir, "ui", "export_sources", "videobin.ui"))
-        
-        self.combobox_editable = EasyTextComboBox()
-        for state in ["False", "True"]:
-            self.combobox_editable.get_model().append([state])
-            
-        self.table_properties.attach(self.combobox_editable, 1, 2, 1, 2, (gtk.FILL), ( ))
-        self.combobox_editable.set_active(0)
-        self.combobox_editable.show()
-        
-    def property_alignment_expose(self):
-        self.combobox_editable.set_active(0)
