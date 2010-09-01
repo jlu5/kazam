@@ -292,9 +292,9 @@
                 <child>
                   <object class="GtkButton" id="button_back">
                     <property name="label" translatable="yes">Back</property>
-                    <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="no_show_all">True</property>
                     <signal name="clicked" handler="on_button_back_clicked"/>
                   </object>
                   <packing>
