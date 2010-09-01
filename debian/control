@@ -24,7 +24,8 @@ Depends: ${python:Depends},
          python-cairo,
          python-rsvg,
          ffmpeg,
-         libx264-85
+         libx264-85,
+         libmatroska0
 Recommends: libtheora0,
             python-pycurl, 
             python-gdata
