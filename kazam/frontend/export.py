@@ -109,7 +109,7 @@ class ExportFrontend(gobject.GObject):
         
         # Pack our alignment
         self.vbox_main.pack_start(self.active_alignment, True, True)
-        self.vbox_main.reorder_child(self.active_alignment, 3)
+        self.vbox_main.reorder_child(self.active_alignment, 2)
         
     def on_menuitem_quit_activate(self, button):
         gtk.main_quit()
@@ -125,6 +125,9 @@ class ExportFrontend(gobject.GObject):
             img_widget.start()
         else:
             img_widget = gtk.image_new_from_stock(img, gtk.ICON_SIZE_MENU)
+            img_widget.set_property("xpad", 3)
+            
+
         text_widget = gtk.Label(text)
         self.hbox_status.pack_start(img_widget, False, False)
         self.hbox_status.pack_start(text_widget, False, False)
