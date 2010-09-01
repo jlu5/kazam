@@ -125,9 +125,6 @@ class ExportFrontend(gobject.GObject):
             img_widget.start()
         else:
             img_widget = gtk.image_new_from_stock(img, gtk.ICON_SIZE_MENU)
-            img_widget.set_property("xpad", 3)
-            
-
         text_widget = gtk.Label(text)
         self.hbox_status.pack_start(img_widget, False, False)
         self.hbox_status.pack_start(text_widget, False, False)
@@ -169,9 +166,13 @@ class ExportFrontend(gobject.GObject):
         authenticate_dialog.window.set_transient_for(self.window)
         authenticate_dialog.run()
         self.window.set_sensitive(False)
-        while not hasattr(authenticate_dialog, "details"):
+        while (not hasattr(authenticate_dialog, "details")):
+            if authenticate_dialog.action == authenticate_dialog.ACTION_CANCEL:
+                break
             gtk.main_iteration()
         self.window.set_sensitive(True)
+        if authenticate_dialog.action == authenticate_dialog.ACTION_CANCEL:
+            return
         self.backend.details = authenticate_dialog.details
         
     def cb_login_started(self, backend):

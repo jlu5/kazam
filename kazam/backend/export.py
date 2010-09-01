@@ -65,6 +65,8 @@ class ExportBackend(gobject.GObject):
         self.datadir = datadir
         self.active_export_object = None
         
+        self.error = False
+        
         export_module_files = self._get_export_module_files()
         self.export_objects = self._create_export_objects(export_module_files)
         
@@ -124,10 +126,14 @@ class ExportBackend(gobject.GObject):
         return self.export_object.META
         
     def cb_export_requested(self, frontend):
+        self.error = False
         self.login()
-        self.create_meta()
-        self.convert()
-        self.upload()
+        if not self.error:
+            self.create_meta()
+        if not self.error:
+            self.convert()
+        if not self.error:
+            self.upload()
 
     def login(self):
         if self.active_export_object.authentication == True:
@@ -137,16 +143,21 @@ class ExportBackend(gobject.GObject):
                         self.active_export_object.REGISTER_URL)
         else:
             self.details = (None, None)
-        try:
-            self.emit("login-started")
-            (username, password) = self.details
-            self.active_export_object.login_pre(username, password)
-            create_wait_thread(self.active_export_object.login_in)
-            self.active_export_object.login_post()
-            success = True
-        except Exception, e:
-            print e
+        if hasattr(self, "details"):
+            try:
+                self.emit("login-started")
+                (username, password) = self.details
+                self.active_export_object.login_pre(username, password)
+                create_wait_thread(self.active_export_object.login_in)
+                self.active_export_object.login_post()
+                success = True
+            except Exception, e:
+                print e
+                self.error = True
+                success = False
+        else:
             success = False
+            self.error = True
         self.emit("login-completed", success)
         
     def create_meta(self):
@@ -165,6 +176,7 @@ class ExportBackend(gobject.GObject):
             self.emit("convert-completed", True)
         except Exception, e:
             print e
+            self.error = True
             self.emit("convert-completed", False)
         
     def upload(self):
@@ -177,5 +189,6 @@ class ExportBackend(gobject.GObject):
             success = True
         except Exception, e:
             print e
+            self.error = True
             success = False
         self.emit("upload-completed", success, url)
