@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-01 12:09+0100\n"
+"POT-Creation-Date: 2010-09-01 12:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,12 +73,12 @@ msgid ""
 "What do you want to do now?"
 msgstr ""
 
-#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:11
+#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
 #: ../data/ui/start.ui.h:8
 msgid "_File"
 msgstr ""
 
-#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:12
+#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
 #: ../data/ui/start.ui.h:9
 msgid "_Help"
 msgstr ""
@@ -113,18 +113,6 @@ msgstr ""
 
 #: ../data/ui/export.ui.h:9
 msgid "Video"
-msgstr ""
-
-#: ../data/ui/export.ui.h:10
-msgid "_Edit"
-msgstr ""
-
-#: ../data/ui/export.ui.h:13
-msgid "_View"
-msgstr ""
-
-#: ../data/ui/export.ui.h:14
-msgid "toolbutton1"
 msgstr ""
 
 #: ../data/ui/start.ui.h:5
@@ -171,49 +159,49 @@ msgstr ""
 msgid "Save screencast"
 msgstr ""
 
-#: ../kazam/frontend/export.py:175
+#: ../kazam/frontend/export.py:179
 msgid "Logging in..."
 msgstr ""
 
-#: ../kazam/frontend/export.py:183
+#: ../kazam/frontend/export.py:187
 msgid "Log-in completed."
 msgstr ""
 
-#: ../kazam/frontend/export.py:185
+#: ../kazam/frontend/export.py:189
 msgid "There was an error logging in."
 msgstr ""
 
-#: ../kazam/frontend/export.py:190
+#: ../kazam/frontend/export.py:194
 msgid "Converting screencast..."
 msgstr ""
 
-#: ../kazam/frontend/export.py:194
+#: ../kazam/frontend/export.py:198
 msgid "Screencast converted."
 msgstr ""
 
-#: ../kazam/frontend/export.py:196
+#: ../kazam/frontend/export.py:200
 msgid "There was an error converting."
 msgstr ""
 
-#: ../kazam/frontend/export.py:201
+#: ../kazam/frontend/export.py:205
 msgid "Uploading screencast..."
 msgstr ""
 
-#: ../kazam/frontend/export.py:205
+#: ../kazam/frontend/export.py:209
 msgid "Screencast uploaded."
 msgstr ""
 
 #. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:209
+#: ../kazam/frontend/export.py:213
 msgid "Your screencast has uploaded successfully."
 msgstr ""
 
-#: ../kazam/frontend/export.py:210
+#: ../kazam/frontend/export.py:214
 #, python-format
 msgid "It is available here - %s"
 msgstr ""
 
-#: ../kazam/frontend/export.py:212
+#: ../kazam/frontend/export.py:216
 msgid "There was an error uploading."
 msgstr ""
 

@@ -1,5 +1,5 @@
 Source: kazam
-Section: multimedia
+Section: video
 Priority: optional
 Maintainer: Andrew Higginson <rugby471@gmail.com>
 Build-Depends: debhelper (>= 7.0.50),
