@@ -10,18 +10,24 @@ from subprocess import Popen, PIPE, call
 import sys
 
 # update version.py
-line = open("debian/changelog").readline()
-m = re.match("^[\w-]+ \(([\w\.~]+)\) ([\w-]+);", line)
-VERSION = m.group(1)
-CODENAME = m.group(2)
-DISTRO = Popen(["lsb_release", "-s", "-i"], stdout=PIPE).communicate()[0].strip()
-RELEASE = Popen(["lsb_release", "-s", "-r"], stdout=PIPE).communicate()[0].strip()
-open("kazam/version.py","w").write("""
-VERSION='%s'
-CODENAME='%s'
-DISTRO='%s'
-RELEASE='%s'
-""" % (VERSION, CODENAME, DISTRO, RELEASE))
+try:
+    line = open("debian/changelog").readline()
+    m = re.match("^[\w-]+ \(([\w\.~]+)\) ([\w-]+);", line)
+    VERSION = m.group(1)
+    CODENAME = m.group(2)
+    DISTRO = Popen(["lsb_release", "-s", "-i"], stdout=PIPE).communicate()[0].strip()
+    RELEASE = Popen(["lsb_release", "-s", "-r"], stdout=PIPE).communicate()[0].strip()
+    open("kazam/version.py","w").write("""
+    VERSION='%s'
+    CODENAME='%s'
+    DISTRO='%s'
+    RELEASE='%s'
+    """ % (VERSION, CODENAME, DISTRO, RELEASE))
+except:
+    VERSION='0.1'
+    CODENAME='maverick'
+    DISTRO='Ubuntu'
+    RELEASE='10.04'
 
 # real setup
 setup(name="kazam", version=VERSION,
