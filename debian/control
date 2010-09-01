@@ -26,7 +26,7 @@ Depends: ${python:Depends},
          ffmpeg,
          libx264-85,
          libmatroska0,
-	 python-gnome2-desktop
+         python-gnome2-desktop
 Recommends: libtheora0,
             python-pycurl, 
             python-gdata
