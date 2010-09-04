@@ -16,9 +16,7 @@
             <property name="visible">True</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">Title</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
+            <property name="use_markup">True</property>
           </object>
           <packing>
             <property name="x_options">GTK_FILL</property>
@@ -31,9 +29,7 @@
             <property name="visible">True</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">Keywords</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
+            <property name="use_markup">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -49,9 +45,7 @@
             <property name="xalign">0</property>
             <property name="ypad">3</property>
             <property name="label" translatable="yes">Description</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
+            <property name="use_markup">True</property>
           </object>
           <packing>
             <property name="top_attach">2</property>
@@ -124,9 +118,7 @@
             <property name="visible">True</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">Category</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
+            <property name="use_markup">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -144,9 +136,7 @@
             <property name="visible">True</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">Private</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
+            <property name="use_markup">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
