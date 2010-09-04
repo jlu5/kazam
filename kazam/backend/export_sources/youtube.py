@@ -166,11 +166,13 @@ class UploadSource(UploadSuperSource):
         for state in ["False", "True"]:
             self.combobox_private.get_model().append([state])
                     
-        self.table_properties.attach(self.combobox_category, 1, 2, 3, 4, (gtk.FILL), ( ))
+        self.table_properties.attach(self.combobox_category, 1, 2, 3, 4,
+                                    (gtk.FILL), ( ), xpadding=6)
         self.combobox_category.set_active(0)
         self.combobox_category.show()    
         
-        self.table_properties.attach(self.combobox_private, 1, 2, 5, 6, (gtk.FILL), ( ))
+        self.table_properties.attach(self.combobox_private, 1, 2, 5, 6, 
+                                    (gtk.FILL), ( ), xpadding=6)
         self.combobox_private.set_active(0)
         self.combobox_private.show()
         
