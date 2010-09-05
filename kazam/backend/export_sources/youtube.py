@@ -20,7 +20,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-# Thankyou to youtube-upload (by Arnau Sanchez) for making this simpler =)
+# Thankyou to youtube-upload (by Arnau Sanchez) for helping me to understand this =)
 
 import os
 import gtk

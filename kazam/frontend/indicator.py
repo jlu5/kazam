@@ -41,16 +41,17 @@ class KazamSuperIndicator(gobject.GObject):
         super(KazamSuperIndicator, self).__init__()
         
         self.menu = gtk.Menu()
-        self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
-        self.menuitem_pause.set_sensitive(False)
-        self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
+        # TODO: get pause menuitem working
+        ##self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
+        ##self.menuitem_pause.set_sensitive(False)
+        ##self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
         self.menuitem_finish = gtk.MenuItem(_("Finish recording..."))
         self.menuitem_finish.set_sensitive(False)
         self.menuitem_finish.connect("activate", self.on_menuitem_finish_activate)
         self.menuitem_separator = gtk.SeparatorMenuItem()
         self.menuitem_quit = gtk.MenuItem(_("Quit"))
         self.menuitem_quit.connect("activate", self.on_menuitem_quit_activate)
-        self.menu.append(self.menuitem_pause)
+        ##self.menu.append(self.menuitem_pause)
         self.menu.append(self.menuitem_finish)
         self.menu.append(self.menuitem_separator)
         self.menu.append(self.menuitem_quit)
@@ -69,8 +70,7 @@ class KazamSuperIndicator(gobject.GObject):
         pass
         
     def start_recording(self):
-        # TODO: get pause working
-        #self.menuitem_pause.set_sensitive(True)
+        ##self.menuitem_pause.set_sensitive(True)
         self.menuitem_finish.set_sensitive(True)
 
 try:
