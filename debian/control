@@ -25,7 +25,7 @@ Depends: ${python:Depends},
          python-rsvg,
          ffmpeg,
          libx264-85,
-         libmatroska0,
+         libmatroska0 | libmatroska2,
          python-gnome2-desktop
 Recommends: libtheora0,
             python-pycurl, 

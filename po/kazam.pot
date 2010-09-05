@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-01 12:54+0100\n"
+"POT-Creation-Date: 2010-09-05 18:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,7 +59,7 @@ msgid "Kazam Screencaster"
 msgstr ""
 
 #: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
-#: ../kazam/frontend/indicator.py:51
+#: ../kazam/frontend/indicator.py:52
 msgid "Quit"
 msgstr ""
 
@@ -205,11 +205,11 @@ msgstr ""
 msgid "There was an error uploading."
 msgstr ""
 
-#: ../kazam/frontend/indicator.py:44
-msgid "Pause recording"
-msgstr ""
-
-#: ../kazam/frontend/indicator.py:47
+#. TODO: get pause menuitem working
+#. #self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
+#. #self.menuitem_pause.set_sensitive(False)
+#. #self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
+#: ../kazam/frontend/indicator.py:48
 msgid "Finish recording..."
 msgstr ""
 
