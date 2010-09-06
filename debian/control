@@ -28,7 +28,8 @@ Depends: ${python:Depends},
          libmatroska0 | libmatroska2,
          python-gnome2-desktop,
          libavdevice52,
-         libavcodec-extra-52
+         libavcodec-extra-52,
+         python-xlib
 Recommends: libtheora0,
             python-pycurl, 
             python-gdata
