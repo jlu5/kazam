@@ -27,15 +27,30 @@ import gobject
 import glib
 
 class Recording(object):
-    def __init__(self, audio=False):
+    def __init__(self, video_source, audio=False):
         
         self.tempfile = tempfile.mktemp(suffix=".mkv")
         
+        x = video_source.x
+        y = video_source.y
+        width = video_source.width
+        height = video_source.height
+        display = video_source.display
+        
         # This is horrible :( TODO: use gstreamer pipeline (see below for start)
-        args_list = ["ffmpeg", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", self.tempfile ]
+        args_list = ["ffmpeg", "-f", "x11grab", "-r", "30", "-s", 
+                    "%sx%s" % (width, height), "-i", 
+                    "%s+%s,%s" % (display, x, y), "-vcodec", "libx264", 
+                    "-vpre", "lossless_ultrafast", "-threads", "0", 
+                    self.tempfile]
         
         if audio:
-            args_list = ["ffmpeg", "-f", "alsa", "-ac", "2", "-i", "pulse", "-acodec", "vorbis", "-f", "x11grab", "-r", "30", "-s", "1024x768", "-i", ":0.0", "-vcodec", "libx264", "-vpre", "lossless_ultrafast", "-threads", "0", self.tempfile ]
+            args_list = ["ffmpeg", "-f", "alsa", "-ac", "2", "-i", 
+                        "pulse", "-acodec", "vorbis", "-f", "x11grab",
+                        "-r", "30", "-s", "%sx%s" % (width, height), 
+                        "-i", "%s+%s,%s" % (display, x, y), "-vcodec", 
+                        "libx264", "-vpre", "lossless_ultrafast", 
+                        "-threads", "0", self.tempfile]
         
         self.command = Popen(args_list)
     

@@ -76,6 +76,9 @@ class RecordingStart(gobject.GObject):
     def on_checkbutton_audio_toggled(self, checkbutton):
         self.combobox_audio.set_sensitive(checkbutton.get_active())
         
+    def get_selected_video_source(self):
+        return self.combobox_video.get_selected_video_source()
+        
     def run(self):
         self.window.show_all()
         

@@ -82,10 +82,11 @@ class KazamApp(object):
         
     def cb_record_requested(self, window_countdown):
         self.indicator.start_recording()
-        self.recording = Recording(self.audio)
+        self.recording = Recording(self.video_source, self.audio)
         
     def cb_countdown_requested(self, recording_start):
         self.audio = self.recording_start.checkbutton_audio.get_active()
+        self.video_source = self.recording_start.get_selected_video_source()
         
         self.window_countdown = CountdownWindow(self.datadir)
         self.window_countdown.connect("count", self.on_window_countdown_count)

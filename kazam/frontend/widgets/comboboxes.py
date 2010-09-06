@@ -25,9 +25,11 @@ import glib
 import gobject
 import os
 
-from gettext import gettext as _
+from kazam.backend.x11 import get_screens
 
+from gettext import gettext as _
 from xdg.DesktopEntry import DesktopEntry
+
 
 class EasyComboBox(gtk.ComboBox):
     def __init__(self):
@@ -137,7 +139,7 @@ class ExportCombobox(EasyComboBox):
             
 class VideoCombobox(EasyComboBox):
     
-    SOURCES = [_("Screen")]
+    (COL_NAME, COL_SCREEN_INFO) = range(2)
     
     def __init__(self):
         super(VideoCombobox, self).__init__()
@@ -147,16 +149,31 @@ class VideoCombobox(EasyComboBox):
         self.pack_start(cr_text, True)
         self.add_attribute(cr_text, 'text', 0)  
         # List store
-        liststore = gtk.ListStore(str)
+        liststore = gtk.ListStore(str, gobject.TYPE_PYOBJECT)
         self.set_model(liststore)
-        self._populate()
+        self._populate(get_screens())
         
         self.set_active(0)
         self.show()
         
-    def _populate(self):
+    def _populate(self, screens):
         liststore = self.get_model()
-        liststore.append(self.SOURCES)
+        if len(screens) == 1:
+            liststore.append([_("Screen"), screens[0]])
+        else:
+            length = len(screens)
+            i = 0
+            for screen in screens:
+                if i == length -1:
+                    liststore.append([_("All Screens"), screen])
+                else:
+                    liststore.append([_("Screen %s") % str(i+1), screen])
+                i += 1
+                
+    def get_selected_video_source(self):
+        liststore = self.get_model()
+        iter_ = self.get_active_iter()
+        return liststore.get_value(iter_, self.COL_SCREEN_INFO)
             
             
 class AudioCombobox(EasyComboBox):
