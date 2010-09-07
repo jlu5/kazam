@@ -52,6 +52,18 @@ class EasyTextComboBox(EasyComboBox):
         # List store
         liststore = gtk.ListStore(str)
         self.set_model(liststore)
+        
+class EasyTextAndObjectComboBox(EasyComboBox):
+    def __init__(self):
+        super(EasyTextAndObjectComboBox, self).__init__()
+        
+        # Cell renders
+        cr_text = gtk.CellRendererText()
+        self.pack_start(cr_text, True)
+        self.add_attribute(cr_text, 'text', 0)  
+        # List store
+        liststore = gtk.ListStore(str, gobject.TYPE_PYOBJECT)
+        self.set_model(liststore)
 
 class ExternalEditorCombobox(EasyComboBox):
     

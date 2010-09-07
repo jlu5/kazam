@@ -30,7 +30,7 @@ import gobject
 
 from gettext import gettext as _
 
-from kazam.frontend.widgets.comboboxes import ExportCombobox, EasyComboBox
+from kazam.frontend.widgets.comboboxes import ExportCombobox, EasyComboBox, EasyTextAndObjectComboBox
 from kazam.frontend.widgets.dialogs import *
 from kazam.backend.export import ExportBackend
 from kazam.utils import *
@@ -152,6 +152,9 @@ class ExportFrontend(gobject.GObject):
         elif isinstance(widget, gtk.TextView):
             buf = widget.get_buffer()
             return buf.get_text(buf.get_start_iter(), buf.get_end_iter())
+        elif isinstance(widget, EasyTextAndObjectComboBox):
+            tuple_ = (widget.get_active_value(0), widget.get_active_value(1))
+            return tuple_
         elif issubclass(widget.__class__, EasyComboBox):
             return widget.get_active_value(0)
     

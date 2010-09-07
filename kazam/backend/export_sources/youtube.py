@@ -36,7 +36,7 @@ import gdata.youtube
 import gdata.youtube.service
 
 from kazam.backend.export_sources import UploadSuperSource
-from kazam.frontend.widgets.comboboxes import EasyTextComboBox
+from kazam.frontend.widgets.comboboxes import EasyTextComboBox, EasyTextAndObjectComboBox
 from kazam.utils import setup_ui
 
 class UploadSource(UploadSuperSource):
@@ -55,7 +55,7 @@ class UploadSource(UploadSuperSource):
             "title":"entry_title",
             "keywords":"entry_keywords",
             "description":"textview_description",
-            "category_term":"combobox_category",
+            "category":"combobox_category",
             "private":"combobox_private",
             }
             
@@ -99,20 +99,23 @@ class UploadSource(UploadSuperSource):
 
     ###
            
-    def create_meta(self, title, description, category_term, keywords, private):      
+    def create_meta(self, title, description, category, keywords, private):      
+        (category_label, category_term) = category
+        
+        if private == "True":
+            meta_private = gdata.media.Private()
+        else:
+            meta_private = None   
+             
         # Create all meta objects
         meta_title = gdata.media.Title(text=title)
         meta_description = gdata.media.Description(description_type='plain',
                                                     text=description)
         meta_keywords = gdata.media.Keywords(text=keywords)
         meta_category = gdata.media.Category(text=category_term,
-                                        label=self.categories[category_term]["label"],
-                                        scheme=self.CATEGORIES_SCHEME_URL)
-        if private == "True":
-            meta_private = gdata.media.Private()
-        else:
-            meta_private = None   
-             
+                                        label=category_label,
+                                        scheme=self.CATEGORIES_SCHEME_URL)     
+        
         # Put them in our media group
         media_group = gdata.media.Group(
             title=meta_title,
@@ -154,14 +157,17 @@ class UploadSource(UploadSuperSource):
     def gui_extra(self, datadir):
         setup_ui(self, os.path.join(datadir, "ui", "export_sources", "youtube.ui"))
         
-        self.combobox_category = EasyTextComboBox()
+        self.combobox_category = EasyTextAndObjectComboBox()
+        liststore_category = self.combobox_category.get_model()
         self.combobox_private = EasyTextComboBox()
                 
         # Get our categories file and parse it into combobox_category
         self._get_categories_dict()
         for category in self.categories:
-            if not self.categories[category]["depreciated"]:
-                self.combobox_category.get_model().append([self.categories[category]["label"]])
+            category_term = self.categories[category]
+            category_label = category_term["label"]
+            if not category_term["depreciated"]:
+                liststore_category.append([category_label, category])
                 
         for state in ["False", "True"]:
             self.combobox_private.get_model().append([state])
