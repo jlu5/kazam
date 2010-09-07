@@ -34,7 +34,8 @@ class ScreenInfo(object):
 def get_screens():
     screens = []
     default_display = Display()
-    xinerama_enabled = default_display.xinerama_is_active()
+    xinerama_screens = default_display.xinerama_query_screens().screens
+    xinerama_enabled = len(xinerama_screens) > 1
     if xinerama_enabled:
         xinerama_screens = default_display.xinerama_query_screens().screens
         xinerama_screens.reverse()
