@@ -27,7 +27,7 @@ Depends: ${python:Depends},
          libx264-85,
          libmatroska0 | libmatroska2,
          python-gnome2-desktop,
-         libavdevice52,
+         libavdevice52 | libavdevice-extra-52,
          libavcodec-52,
          python-xlib
 Recommends: libtheora0,
