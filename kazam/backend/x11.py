@@ -24,6 +24,9 @@ from Xlib.display import Display
 from gettext import gettext as _
 
 class ScreenInfo(object):
+    
+    """Contains information about a screen"""
+    
     def __init__(self, x, y, width, height, display):
         self.x = x
         self.y = y
@@ -32,19 +35,23 @@ class ScreenInfo(object):
         self.display = display
         
 def get_screens():
+    # The list that will store all of our ScreenInfo's
     screens = []
     default_display = Display()
     xinerama_screens = default_display.xinerama_query_screens().screens
-    xinerama_enabled = len(xinerama_screens) > 1
-    if xinerama_enabled:
-        xinerama_screens = default_display.xinerama_query_screens().screens
-        xinerama_screens.reverse()
+    xinerama_screens.reverse()
+    # See if we have more than one screen
+    dual_monitor = len(xinerama_screens) > 1
+    if dual_monitor:
+        # For every screen, create a ScreenInfo object with the x,y
+        # width, height and the parent display name (i.e. :0.0)
         for screen in xinerama_screens:
             screen_info = ScreenInfo(screen["x"], screen["y"], 
                                     screen["width"], screen["height"], 
                                     default_display.get_display_name())
             screens.append(screen_info)
-
+    # For setups with only one screen, this becomes the 'Screen' option
+    # For setups with more than one screen, this becomes the 'All Screens' options
     screen = default_display.screen()
     screen_info = ScreenInfo(0, 0, screen["width_in_pixels"], 
                             screen["height_in_pixels"], 
