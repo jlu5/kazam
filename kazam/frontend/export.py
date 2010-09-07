@@ -89,6 +89,7 @@ class ExportFrontend(gobject.GObject):
         
     def on_button_back_clicked(self, button):
         self.emit("back-requested")
+        self.window.destroy()
         
     def on_button_export_clicked(self, button):
         self.emit("export-requested")

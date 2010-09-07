@@ -73,7 +73,7 @@ class KazamApp(object):
     def on_window_countdown_count(self, window_countdown):
         self.indicator.count(window_countdown.number)
         
-    def on_indicator_recording_done(self, indicator):
+    def cb_record_done_request_requested(self, indicator):
         self.recording.stop()
         self.done_recording = DoneRecording(self.datadir, self.icons)
         self.done_recording.connect("save-requested", self.cb_save_requested)
@@ -94,7 +94,7 @@ class KazamApp(object):
         self.window_countdown.run_countdown()
         
         self.indicator = KazamIndicator()
-        self.indicator.connect("recording-done", self.on_indicator_recording_done)    
+        self.indicator.connect("recording-done", self.cb_record_done_request_requested)    
         
     def cb_edit_requested(self, done_recording, data):
         (command, args_list) = data
@@ -104,10 +104,15 @@ class KazamApp(object):
         
         if command.endswith("kazam"):
             self.export = ExportFrontend(self.datadir, self.icons, self.recording.get_filename())
+            self.export.connect("back-requested", self.cb_back_done_recording_requested)
             self.export.run()
         else:
             Popen(args_list)
             gtk.main_quit()
+        
+    def cb_back_done_recording_requested(self, export):
+        del self.done_recording, self.export
+        self.cb_record_done_request_requested(None)
         
     def cb_save_requested(self, done_recording):
         (save_dialog, result) = new_save_dialog(_("Save screencast"), self.done_recording.window)
