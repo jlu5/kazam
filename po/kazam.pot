@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-05 18:24+0100\n"
+"POT-Creation-Date: 2010-09-10 10:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgstr ""
 
 #: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
 #: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/widgets/comboboxes.py:88
+#: ../kazam/frontend/widgets/comboboxes.py:102
 msgid "Kazam Screencaster"
 msgstr ""
 
@@ -155,53 +155,53 @@ msgstr ""
 msgid "Screencaster"
 msgstr ""
 
-#: ../kazam/app.py:112
+#: ../kazam/app.py:118
 msgid "Save screencast"
 msgstr ""
 
-#: ../kazam/frontend/export.py:179
+#: ../kazam/frontend/export.py:183
 msgid "Logging in..."
 msgstr ""
 
-#: ../kazam/frontend/export.py:187
+#: ../kazam/frontend/export.py:191
 msgid "Log-in completed."
 msgstr ""
 
-#: ../kazam/frontend/export.py:189
+#: ../kazam/frontend/export.py:193
 msgid "There was an error logging in."
 msgstr ""
 
-#: ../kazam/frontend/export.py:194
+#: ../kazam/frontend/export.py:198
 msgid "Converting screencast..."
 msgstr ""
 
-#: ../kazam/frontend/export.py:198
+#: ../kazam/frontend/export.py:202
 msgid "Screencast converted."
 msgstr ""
 
-#: ../kazam/frontend/export.py:200
+#: ../kazam/frontend/export.py:204
 msgid "There was an error converting."
 msgstr ""
 
-#: ../kazam/frontend/export.py:205
+#: ../kazam/frontend/export.py:209
 msgid "Uploading screencast..."
 msgstr ""
 
-#: ../kazam/frontend/export.py:209
+#: ../kazam/frontend/export.py:213
 msgid "Screencast uploaded."
 msgstr ""
 
 #. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:213
+#: ../kazam/frontend/export.py:217
 msgid "Your screencast has uploaded successfully."
 msgstr ""
 
-#: ../kazam/frontend/export.py:214
+#: ../kazam/frontend/export.py:218
 #, python-format
 msgid "It is available here - %s"
 msgstr ""
 
-#: ../kazam/frontend/export.py:216
+#: ../kazam/frontend/export.py:220
 msgid "There was an error uploading."
 msgstr ""
 
@@ -217,11 +217,20 @@ msgstr ""
 msgid "Recording will start in..."
 msgstr ""
 
-#: ../kazam/frontend/widgets/comboboxes.py:140
+#: ../kazam/frontend/widgets/comboboxes.py:174
 msgid "Screen"
 msgstr ""
 
-#: ../kazam/frontend/widgets/comboboxes.py:164
+#: ../kazam/frontend/widgets/comboboxes.py:180
+msgid "All Screens"
+msgstr ""
+
+#: ../kazam/frontend/widgets/comboboxes.py:182
+#, python-format
+msgid "Screen %s"
+msgstr ""
+
+#: ../kazam/frontend/widgets/comboboxes.py:193
 msgid "Computer"
 msgstr ""
 
