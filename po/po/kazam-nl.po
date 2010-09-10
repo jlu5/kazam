@@ -1,0 +1,239 @@
+# Dutch translation for kazam
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the kazam package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kazam\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-09-05 18:24+0100\n"
+"PO-Revision-Date: 2010-09-06 12:31+0000\n"
+"Last-Translator: Stan <Unknown>\n"
+"Language-Team: Dutch <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-09-10 09:48+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: ../data/ui/authenticate.ui.h:1
+msgid " "
+msgstr " "
+
+#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: ../data/ui/authenticate.ui.h:3
+msgid "Continue"
+msgstr "Doorgaan"
+
+#: ../data/ui/authenticate.ui.h:4
+msgid "Email address:"
+msgstr "E-mailadres:"
+
+#: ../data/ui/authenticate.ui.h:5
+msgid "I want to register an account now"
+msgstr "Ik wil nu een account aanmaken"
+
+#: ../data/ui/authenticate.ui.h:6
+msgid "Password:"
+msgstr "Wachtwoord:"
+
+#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
+msgid "About"
+msgstr "Meer info"
+
+#: ../data/ui/done-recording.ui.h:3
+msgid "Continue..."
+msgstr "Doorgaan..."
+
+#: ../data/ui/done-recording.ui.h:4
+msgid "Edit with:"
+msgstr "Bewerken met:"
+
+#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
+#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/widgets/comboboxes.py:88
+msgid "Kazam Screencaster"
+msgstr "Kazam Screencaster"
+
+#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
+#: ../kazam/frontend/indicator.py:52
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: ../data/ui/done-recording.ui.h:7
+msgid "Save for later use"
+msgstr "Opslaan voor later gebruik"
+
+#: ../data/ui/done-recording.ui.h:8
+msgid ""
+"Your screencast has finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+"Uw screencast is klaar met opnemen.\n"
+"Wat wilt u nu doen?"
+
+#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
+#: ../data/ui/start.ui.h:8
+msgid "_File"
+msgstr "_Bestand"
+
+#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
+#: ../data/ui/start.ui.h:9
+msgid "_Help"
+msgstr "_Help"
+
+#: ../data/ui/export.ui.h:1
+msgid "<b>Export to:</b>"
+msgstr "<b>Exporteer naar:</b>"
+
+#: ../data/ui/export.ui.h:2
+msgid "Audio"
+msgstr "Geluid"
+
+#: ../data/ui/export.ui.h:3
+msgid "Back"
+msgstr "Terug"
+
+#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+msgid "Close"
+msgstr "Sluiten"
+
+#: ../data/ui/export.ui.h:5
+msgid "Crop"
+msgstr "Bijsnijden"
+
+#: ../data/ui/export.ui.h:6
+msgid "Export"
+msgstr "Exporteer"
+
+#: ../data/ui/export.ui.h:8
+msgid "Quality:"
+msgstr "Kwaliteit:"
+
+#: ../data/ui/export.ui.h:9
+msgid "Video"
+msgstr "Video"
+
+#: ../data/ui/start.ui.h:5
+msgid "Record Audio from:"
+msgstr "Audio opnemen van:"
+
+#: ../data/ui/start.ui.h:6
+msgid "Record Video from:"
+msgstr "Video opnemen van:"
+
+#: ../data/ui/start.ui.h:7
+msgid "Record..."
+msgstr "Bezig met opnemen..."
+
+#: ../data/ui/export_sources/youtube.ui.h:1
+msgid "Category"
+msgstr "Categorie"
+
+#: ../data/ui/export_sources/youtube.ui.h:2
+msgid "Description"
+msgstr "Omschrijving"
+
+#: ../data/ui/export_sources/youtube.ui.h:3
+msgid "Keywords"
+msgstr "Trefwoorden"
+
+#: ../data/ui/export_sources/youtube.ui.h:4
+msgid "Private"
+msgstr "Privé"
+
+#: ../data/ui/export_sources/youtube.ui.h:5
+msgid "Title"
+msgstr "Titel"
+
+#: ../data/kazam.desktop.in.h:2
+msgid "Record a video of activity on your screen"
+msgstr "Neem een video met de activiteit op uw scherm op"
+
+#: ../data/kazam.desktop.in.h:3
+msgid "Screencaster"
+msgstr "Screencaster"
+
+#: ../kazam/app.py:112
+msgid "Save screencast"
+msgstr "Sla screencast op"
+
+#: ../kazam/frontend/export.py:179
+msgid "Logging in..."
+msgstr "Bezig met inloggen…"
+
+#: ../kazam/frontend/export.py:187
+msgid "Log-in completed."
+msgstr "Log-in voltooid."
+
+#: ../kazam/frontend/export.py:189
+msgid "There was an error logging in."
+msgstr "Er was een fout bij het inloggen."
+
+#: ../kazam/frontend/export.py:194
+msgid "Converting screencast..."
+msgstr "Bezig met converteren van screencast..."
+
+#: ../kazam/frontend/export.py:198
+msgid "Screencast converted."
+msgstr "Screencast geconverteerd."
+
+#: ../kazam/frontend/export.py:200
+msgid "There was an error converting."
+msgstr "Er was een fout tijdens het converteren."
+
+#: ../kazam/frontend/export.py:205
+msgid "Uploading screencast..."
+msgstr "Screencast uploaden..."
+
+#: ../kazam/frontend/export.py:209
+msgid "Screencast uploaded."
+msgstr "Screencast geüpload."
+
+#. Show a dialog with the url of the uploaded file
+#: ../kazam/frontend/export.py:213
+msgid "Your screencast has uploaded successfully."
+msgstr "Uw screencast is met succes geüpload."
+
+#: ../kazam/frontend/export.py:214
+#, python-format
+msgid "It is available here - %s"
+msgstr "Het is hier beschikbaar - %s"
+
+#: ../kazam/frontend/export.py:216
+msgid "There was an error uploading."
+msgstr "Er was een fout tijdens het uploaden."
+
+#. TODO: get pause menuitem working
+#. #self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
+#. #self.menuitem_pause.set_sensitive(False)
+#. #self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
+#: ../kazam/frontend/indicator.py:48
+msgid "Finish recording..."
+msgstr "Bezig met afronden van opname..."
+
+#: ../kazam/frontend/window_countdown.py:97
+msgid "Recording will start in..."
+msgstr "Opname zal starten over..."
+
+#: ../kazam/frontend/widgets/comboboxes.py:140
+msgid "Screen"
+msgstr "Scherm"
+
+#: ../kazam/frontend/widgets/comboboxes.py:164
+msgid "Computer"
+msgstr "Computer"
+
+#: ../kazam/frontend/widgets/dialogs.py:89
+#, python-format
+msgid "To upload a screencast to %s, you need a %s account."
+msgstr "Om een screencast te uploaden naar %s, heeft u een %s-account nodig."
+
+#: ../kazam/frontend/widgets/dialogs.py:93
+#, python-format
+msgid "I have a %s account:"
+msgstr "Ik heb een %s-account:"

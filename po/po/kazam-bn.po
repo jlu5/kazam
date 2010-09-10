@@ -1,0 +1,239 @@
+# Bengali translation for kazam
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the kazam package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kazam\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-09-05 18:24+0100\n"
+"PO-Revision-Date: 2010-09-06 09:08+0000\n"
+"Last-Translator: Scio <Sayantan.Chaudhuri@Gmail.com>\n"
+"Language-Team: Bengali <bn@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-09-10 09:48+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: ../data/ui/authenticate.ui.h:1
+msgid " "
+msgstr " "
+
+#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
+msgid "Cancel"
+msgstr "বাতিল"
+
+#: ../data/ui/authenticate.ui.h:3
+msgid "Continue"
+msgstr "পরবর্তী"
+
+#: ../data/ui/authenticate.ui.h:4
+msgid "Email address:"
+msgstr "ইমেইল ঠিকানাঃ"
+
+#: ../data/ui/authenticate.ui.h:5
+msgid "I want to register an account now"
+msgstr "আমি এখনই একটি অ্যাকাউন্ট রেজিস্টার করতে চাই"
+
+#: ../data/ui/authenticate.ui.h:6
+msgid "Password:"
+msgstr "পাসওয়ার্ড:"
+
+#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
+msgid "About"
+msgstr "পরিচিতি"
+
+#: ../data/ui/done-recording.ui.h:3
+msgid "Continue..."
+msgstr "পরবর্তী..."
+
+#: ../data/ui/done-recording.ui.h:4
+msgid "Edit with:"
+msgstr "এডিট করুন এর দ্বারা:"
+
+#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
+#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/widgets/comboboxes.py:88
+msgid "Kazam Screencaster"
+msgstr "কাজ়্যাম স্ক্রীণকাস্টার"
+
+#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
+#: ../kazam/frontend/indicator.py:52
+msgid "Quit"
+msgstr "প্রস্থান"
+
+#: ../data/ui/done-recording.ui.h:7
+msgid "Save for later use"
+msgstr "পরবর্তী কালের জন্য সেভ করো"
+
+#: ../data/ui/done-recording.ui.h:8
+msgid ""
+"Your screencast has finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+"আপনার স্ক্রীণকাস্ট রেকর্ড করা শেষ হয়েছে।\n"
+"এখন কী করতে চান?"
+
+#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
+#: ../data/ui/start.ui.h:8
+msgid "_File"
+msgstr "ফাইল (_F)"
+
+#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
+#: ../data/ui/start.ui.h:9
+msgid "_Help"
+msgstr "সাহায্য (_H)"
+
+#: ../data/ui/export.ui.h:1
+msgid "<b>Export to:</b>"
+msgstr "<b>এক্সপোর্ট করো ইহাতে:</b>"
+
+#: ../data/ui/export.ui.h:2
+msgid "Audio"
+msgstr "শব্দ"
+
+#: ../data/ui/export.ui.h:3
+msgid "Back"
+msgstr "পূর্ববর্তী"
+
+#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+msgid "Close"
+msgstr "বন্ধ"
+
+#: ../data/ui/export.ui.h:5
+msgid "Crop"
+msgstr "কাটো"
+
+#: ../data/ui/export.ui.h:6
+msgid "Export"
+msgstr "এক্সপোর্ট"
+
+#: ../data/ui/export.ui.h:8
+msgid "Quality:"
+msgstr "কোয়ালিটি:"
+
+#: ../data/ui/export.ui.h:9
+msgid "Video"
+msgstr "ভিডিও"
+
+#: ../data/ui/start.ui.h:5
+msgid "Record Audio from:"
+msgstr "শব্দ রেকর্ড করো এখান থেকে:"
+
+#: ../data/ui/start.ui.h:6
+msgid "Record Video from:"
+msgstr "ভিডিও রেকর্ড করো এখান থেকে:"
+
+#: ../data/ui/start.ui.h:7
+msgid "Record..."
+msgstr "রেকর্ড..."
+
+#: ../data/ui/export_sources/youtube.ui.h:1
+msgid "Category"
+msgstr "শ্রেণীবিভাগ"
+
+#: ../data/ui/export_sources/youtube.ui.h:2
+msgid "Description"
+msgstr "বর্ণনা"
+
+#: ../data/ui/export_sources/youtube.ui.h:3
+msgid "Keywords"
+msgstr "কীওয়ার্ড সমূহ"
+
+#: ../data/ui/export_sources/youtube.ui.h:4
+msgid "Private"
+msgstr "ব্যক্তিগত"
+
+#: ../data/ui/export_sources/youtube.ui.h:5
+msgid "Title"
+msgstr "শিরোনাম"
+
+#: ../data/kazam.desktop.in.h:2
+msgid "Record a video of activity on your screen"
+msgstr "স্ক্রীণের কার্যকলাপ রেকর্ড করুন"
+
+#: ../data/kazam.desktop.in.h:3
+msgid "Screencaster"
+msgstr "স্ক্রীণকাস্টার"
+
+#: ../kazam/app.py:112
+msgid "Save screencast"
+msgstr "স্ক্রীণকাস্ট সেভ করো"
+
+#: ../kazam/frontend/export.py:179
+msgid "Logging in..."
+msgstr "লগইন করা হচ্ছে..."
+
+#: ../kazam/frontend/export.py:187
+msgid "Log-in completed."
+msgstr "লগইন সম্পুর্ণ।"
+
+#: ../kazam/frontend/export.py:189
+msgid "There was an error logging in."
+msgstr "লগইন করায় গলদ হয়েছে।"
+
+#: ../kazam/frontend/export.py:194
+msgid "Converting screencast..."
+msgstr "স্ক্রীনকাস্ট কনভার্ট করা হচ্ছে..."
+
+#: ../kazam/frontend/export.py:198
+msgid "Screencast converted."
+msgstr "স্ক্রীণকাস্ট কনভার্ট করা সম্পুর্ণ।"
+
+#: ../kazam/frontend/export.py:200
+msgid "There was an error converting."
+msgstr "কনভার্ট করায় গলদ হয়েছে।"
+
+#: ../kazam/frontend/export.py:205
+msgid "Uploading screencast..."
+msgstr "স্ক্রীণকাস্ট আপলোড করা হচ্ছে..."
+
+#: ../kazam/frontend/export.py:209
+msgid "Screencast uploaded."
+msgstr "স্ক্রীণকাস্ট আপলোড সম্পুর্ণ।"
+
+#. Show a dialog with the url of the uploaded file
+#: ../kazam/frontend/export.py:213
+msgid "Your screencast has uploaded successfully."
+msgstr "স্ক্রীণকাস্ট আপলোড করা সফল হয়েছে।"
+
+#: ../kazam/frontend/export.py:214
+#, python-format
+msgid "It is available here - %s"
+msgstr "এখানে মজুদ - %s"
+
+#: ../kazam/frontend/export.py:216
+msgid "There was an error uploading."
+msgstr "স্ক্রীণকাস্ট আপলোড করায় গলদ হয়েছে।"
+
+#. TODO: get pause menuitem working
+#. #self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
+#. #self.menuitem_pause.set_sensitive(False)
+#. #self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
+#: ../kazam/frontend/indicator.py:48
+msgid "Finish recording..."
+msgstr "রেকর্ড করা সমাপ্ত করো..."
+
+#: ../kazam/frontend/window_countdown.py:97
+msgid "Recording will start in..."
+msgstr "রেকর্ড করা আরম্ভ হতে..."
+
+#: ../kazam/frontend/widgets/comboboxes.py:140
+msgid "Screen"
+msgstr "স্ক্রীণ"
+
+#: ../kazam/frontend/widgets/comboboxes.py:164
+msgid "Computer"
+msgstr "কম্পিউটার"
+
+#: ../kazam/frontend/widgets/dialogs.py:89
+#, python-format
+msgid "To upload a screencast to %s, you need a %s account."
+msgstr "%s-এ স্ক্রীণকাস্ট আপলোদ করতে আপনার একটি %s অ্যাকাউন্ট প্রয়োজন।"
+
+#: ../kazam/frontend/widgets/dialogs.py:93
+#, python-format
+msgid "I have a %s account:"
+msgstr "আমার একটি %s আকাউন্ট রয়েছে:"

@@ -1,0 +1,239 @@
+# English (Canada) translation for kazam
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the kazam package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kazam\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-09-05 18:24+0100\n"
+"PO-Revision-Date: 2010-09-07 17:40+0000\n"
+"Last-Translator: Mark <Unknown>\n"
+"Language-Team: English (Canada) <en_CA@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-09-10 09:48+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: ../data/ui/authenticate.ui.h:1
+msgid " "
+msgstr " "
+
+#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
+msgid "Cancel"
+msgstr "Cancel"
+
+#: ../data/ui/authenticate.ui.h:3
+msgid "Continue"
+msgstr "Continue"
+
+#: ../data/ui/authenticate.ui.h:4
+msgid "Email address:"
+msgstr "Email address:"
+
+#: ../data/ui/authenticate.ui.h:5
+msgid "I want to register an account now"
+msgstr "I want to register an account now"
+
+#: ../data/ui/authenticate.ui.h:6
+msgid "Password:"
+msgstr "Password:"
+
+#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
+msgid "About"
+msgstr "About"
+
+#: ../data/ui/done-recording.ui.h:3
+msgid "Continue..."
+msgstr "Continue..."
+
+#: ../data/ui/done-recording.ui.h:4
+msgid "Edit with:"
+msgstr "Edit with:"
+
+#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
+#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/widgets/comboboxes.py:88
+msgid "Kazam Screencaster"
+msgstr "Kazam Screencaster"
+
+#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
+#: ../kazam/frontend/indicator.py:52
+msgid "Quit"
+msgstr "Quit"
+
+#: ../data/ui/done-recording.ui.h:7
+msgid "Save for later use"
+msgstr "Save for later use"
+
+#: ../data/ui/done-recording.ui.h:8
+msgid ""
+"Your screencast has finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+"Your screencast has finished recording.\n"
+"What do you want to do now?"
+
+#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
+#: ../data/ui/start.ui.h:8
+msgid "_File"
+msgstr "_File"
+
+#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
+#: ../data/ui/start.ui.h:9
+msgid "_Help"
+msgstr "_Help"
+
+#: ../data/ui/export.ui.h:1
+msgid "<b>Export to:</b>"
+msgstr "<b>Export to:</b>"
+
+#: ../data/ui/export.ui.h:2
+msgid "Audio"
+msgstr "Audio"
+
+#: ../data/ui/export.ui.h:3
+msgid "Back"
+msgstr "Back"
+
+#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+msgid "Close"
+msgstr "Close"
+
+#: ../data/ui/export.ui.h:5
+msgid "Crop"
+msgstr "Crop"
+
+#: ../data/ui/export.ui.h:6
+msgid "Export"
+msgstr "Export"
+
+#: ../data/ui/export.ui.h:8
+msgid "Quality:"
+msgstr "Quality:"
+
+#: ../data/ui/export.ui.h:9
+msgid "Video"
+msgstr "Video"
+
+#: ../data/ui/start.ui.h:5
+msgid "Record Audio from:"
+msgstr "Record Audio from:"
+
+#: ../data/ui/start.ui.h:6
+msgid "Record Video from:"
+msgstr "Record Video from:"
+
+#: ../data/ui/start.ui.h:7
+msgid "Record..."
+msgstr "Record..."
+
+#: ../data/ui/export_sources/youtube.ui.h:1
+msgid "Category"
+msgstr "Category"
+
+#: ../data/ui/export_sources/youtube.ui.h:2
+msgid "Description"
+msgstr "Description"
+
+#: ../data/ui/export_sources/youtube.ui.h:3
+msgid "Keywords"
+msgstr "Keywords"
+
+#: ../data/ui/export_sources/youtube.ui.h:4
+msgid "Private"
+msgstr "Private"
+
+#: ../data/ui/export_sources/youtube.ui.h:5
+msgid "Title"
+msgstr "Title"
+
+#: ../data/kazam.desktop.in.h:2
+msgid "Record a video of activity on your screen"
+msgstr "Record a video of activity on your screen"
+
+#: ../data/kazam.desktop.in.h:3
+msgid "Screencaster"
+msgstr "Screencaster"
+
+#: ../kazam/app.py:112
+msgid "Save screencast"
+msgstr "Save screencast"
+
+#: ../kazam/frontend/export.py:179
+msgid "Logging in..."
+msgstr "Logging in..."
+
+#: ../kazam/frontend/export.py:187
+msgid "Log-in completed."
+msgstr "Log-in completed."
+
+#: ../kazam/frontend/export.py:189
+msgid "There was an error logging in."
+msgstr "There was an error logging in."
+
+#: ../kazam/frontend/export.py:194
+msgid "Converting screencast..."
+msgstr "Converting screencast..."
+
+#: ../kazam/frontend/export.py:198
+msgid "Screencast converted."
+msgstr "Screencast converted."
+
+#: ../kazam/frontend/export.py:200
+msgid "There was an error converting."
+msgstr "There was an error converting."
+
+#: ../kazam/frontend/export.py:205
+msgid "Uploading screencast..."
+msgstr "Uploading screencast..."
+
+#: ../kazam/frontend/export.py:209
+msgid "Screencast uploaded."
+msgstr "Screencast uploaded."
+
+#. Show a dialog with the url of the uploaded file
+#: ../kazam/frontend/export.py:213
+msgid "Your screencast has uploaded successfully."
+msgstr "Your screencast has uploaded successfully."
+
+#: ../kazam/frontend/export.py:214
+#, python-format
+msgid "It is available here - %s"
+msgstr "It is available here - %s"
+
+#: ../kazam/frontend/export.py:216
+msgid "There was an error uploading."
+msgstr "There was an error uploading."
+
+#. TODO: get pause menuitem working
+#. #self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
+#. #self.menuitem_pause.set_sensitive(False)
+#. #self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
+#: ../kazam/frontend/indicator.py:48
+msgid "Finish recording..."
+msgstr "Finish recording..."
+
+#: ../kazam/frontend/window_countdown.py:97
+msgid "Recording will start in..."
+msgstr "Recording will start in..."
+
+#: ../kazam/frontend/widgets/comboboxes.py:140
+msgid "Screen"
+msgstr "Screen"
+
+#: ../kazam/frontend/widgets/comboboxes.py:164
+msgid "Computer"
+msgstr "Computer"
+
+#: ../kazam/frontend/widgets/dialogs.py:89
+#, python-format
+msgid "To upload a screencast to %s, you need a %s account."
+msgstr "To upload a screencast to %s, you need a %s account."
+
+#: ../kazam/frontend/widgets/dialogs.py:93
+#, python-format
+msgid "I have a %s account:"
+msgstr "I have a %s account:"

@@ -1,0 +1,237 @@
+# Czech translation for kazam
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the kazam package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kazam\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-09-05 18:24+0100\n"
+"PO-Revision-Date: 2010-09-06 12:39+0000\n"
+"Last-Translator: Milhouse <milhouse@mujweb.cz>\n"
+"Language-Team: Czech <cs@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-09-10 09:48+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: ../data/ui/authenticate.ui.h:1
+msgid " "
+msgstr " "
+
+#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: ../data/ui/authenticate.ui.h:3
+msgid "Continue"
+msgstr "Pokračovat"
+
+#: ../data/ui/authenticate.ui.h:4
+msgid "Email address:"
+msgstr "Emailová adresa:"
+
+#: ../data/ui/authenticate.ui.h:5
+msgid "I want to register an account now"
+msgstr "Chci nyní zaregistrovat nový účet"
+
+#: ../data/ui/authenticate.ui.h:6
+msgid "Password:"
+msgstr "Heslo:"
+
+#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
+msgid "About"
+msgstr "O programu"
+
+#: ../data/ui/done-recording.ui.h:3
+msgid "Continue..."
+msgstr "Pokračovat..."
+
+#: ../data/ui/done-recording.ui.h:4
+msgid "Edit with:"
+msgstr "Upravit pomocí:"
+
+#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
+#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/widgets/comboboxes.py:88
+msgid "Kazam Screencaster"
+msgstr "Kazam Screencaster"
+
+#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
+#: ../kazam/frontend/indicator.py:52
+msgid "Quit"
+msgstr "Ukončit"
+
+#: ../data/ui/done-recording.ui.h:7
+msgid "Save for later use"
+msgstr "Uložit pro pozdější použití"
+
+#: ../data/ui/done-recording.ui.h:8
+msgid ""
+"Your screencast has finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+
+#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
+#: ../data/ui/start.ui.h:8
+msgid "_File"
+msgstr "_Soubor"
+
+#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
+#: ../data/ui/start.ui.h:9
+msgid "_Help"
+msgstr "_Nápověda"
+
+#: ../data/ui/export.ui.h:1
+msgid "<b>Export to:</b>"
+msgstr "<b>Exportovat do:</b>"
+
+#: ../data/ui/export.ui.h:2
+msgid "Audio"
+msgstr "Zvuk"
+
+#: ../data/ui/export.ui.h:3
+msgid "Back"
+msgstr "Zpět"
+
+#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+msgid "Close"
+msgstr "Zavřít"
+
+#: ../data/ui/export.ui.h:5
+msgid "Crop"
+msgstr "Oříznout"
+
+#: ../data/ui/export.ui.h:6
+msgid "Export"
+msgstr "Exportovat"
+
+#: ../data/ui/export.ui.h:8
+msgid "Quality:"
+msgstr "Kvalita:"
+
+#: ../data/ui/export.ui.h:9
+msgid "Video"
+msgstr "Obraz"
+
+#: ../data/ui/start.ui.h:5
+msgid "Record Audio from:"
+msgstr "Nahrát zvuk z:"
+
+#: ../data/ui/start.ui.h:6
+msgid "Record Video from:"
+msgstr "Nahrát obraz z:"
+
+#: ../data/ui/start.ui.h:7
+msgid "Record..."
+msgstr "Nahrát..."
+
+#: ../data/ui/export_sources/youtube.ui.h:1
+msgid "Category"
+msgstr "Kategorie"
+
+#: ../data/ui/export_sources/youtube.ui.h:2
+msgid "Description"
+msgstr "Popis"
+
+#: ../data/ui/export_sources/youtube.ui.h:3
+msgid "Keywords"
+msgstr "Klíčová slova"
+
+#: ../data/ui/export_sources/youtube.ui.h:4
+msgid "Private"
+msgstr "Soukromé"
+
+#: ../data/ui/export_sources/youtube.ui.h:5
+msgid "Title"
+msgstr "Název"
+
+#: ../data/kazam.desktop.in.h:2
+msgid "Record a video of activity on your screen"
+msgstr "Nahrát aktivitu z plochy monitoru."
+
+#: ../data/kazam.desktop.in.h:3
+msgid "Screencaster"
+msgstr ""
+
+#: ../kazam/app.py:112
+msgid "Save screencast"
+msgstr "Uložit Screencast"
+
+#: ../kazam/frontend/export.py:179
+msgid "Logging in..."
+msgstr "Probíhá přihlašování…"
+
+#: ../kazam/frontend/export.py:187
+msgid "Log-in completed."
+msgstr "Přihlášeno."
+
+#: ../kazam/frontend/export.py:189
+msgid "There was an error logging in."
+msgstr "Chyba při přihlašování."
+
+#: ../kazam/frontend/export.py:194
+msgid "Converting screencast..."
+msgstr "Převést screencast..."
+
+#: ../kazam/frontend/export.py:198
+msgid "Screencast converted."
+msgstr "Screencast převeden."
+
+#: ../kazam/frontend/export.py:200
+msgid "There was an error converting."
+msgstr "Chyba při převádění."
+
+#: ../kazam/frontend/export.py:205
+msgid "Uploading screencast..."
+msgstr "Odeslání screencastu..."
+
+#: ../kazam/frontend/export.py:209
+msgid "Screencast uploaded."
+msgstr "Screencast odeslán."
+
+#. Show a dialog with the url of the uploaded file
+#: ../kazam/frontend/export.py:213
+msgid "Your screencast has uploaded successfully."
+msgstr "Screencast úspěšně odeslán."
+
+#: ../kazam/frontend/export.py:214
+#, python-format
+msgid "It is available here - %s"
+msgstr ""
+
+#: ../kazam/frontend/export.py:216
+msgid "There was an error uploading."
+msgstr "Chyba při odesílání."
+
+#. TODO: get pause menuitem working
+#. #self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
+#. #self.menuitem_pause.set_sensitive(False)
+#. #self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
+#: ../kazam/frontend/indicator.py:48
+msgid "Finish recording..."
+msgstr "Konec nahrávání..."
+
+#: ../kazam/frontend/window_countdown.py:97
+msgid "Recording will start in..."
+msgstr "Nahrávání začne za..."
+
+#: ../kazam/frontend/widgets/comboboxes.py:140
+msgid "Screen"
+msgstr "Obrazovka"
+
+#: ../kazam/frontend/widgets/comboboxes.py:164
+msgid "Computer"
+msgstr "Počítač"
+
+#: ../kazam/frontend/widgets/dialogs.py:89
+#, python-format
+msgid "To upload a screencast to %s, you need a %s account."
+msgstr "K odeslání screencastu %s je potřeba mít %s účet."
+
+#: ../kazam/frontend/widgets/dialogs.py:93
+#, python-format
+msgid "I have a %s account:"
+msgstr ""
