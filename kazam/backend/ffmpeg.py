@@ -25,6 +25,7 @@ import tempfile
 import os
 import gobject
 import glib
+import signal
 
 class Recording(object):
     def __init__(self, video_source, audio=False):
@@ -58,7 +59,8 @@ class Recording(object):
         return self.tempfile
     
     def stop(self):
-        self.command.kill()
+        self.command.send_signal(signal.SIGINT)
+        #self.command.kill()
         
         
 class Convert(object):
