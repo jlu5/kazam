@@ -18,11 +18,11 @@ try:
     DISTRO = Popen(["lsb_release", "-s", "-i"], stdout=PIPE).communicate()[0].strip()
     RELEASE = Popen(["lsb_release", "-s", "-r"], stdout=PIPE).communicate()[0].strip()
     open("kazam/version.py","w").write("""
-    VERSION='%s'
-    CODENAME='%s'
-    DISTRO='%s'
-    RELEASE='%s'
-    """ % (VERSION, CODENAME, DISTRO, RELEASE))
+VERSION='%s'
+CODENAME='%s'
+DISTRO='%s'
+RELEASE='%s'
+""" % (VERSION, CODENAME, DISTRO, RELEASE))
 except:
     VERSION='0.1'
     CODENAME='maverick'
