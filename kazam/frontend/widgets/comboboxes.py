@@ -109,6 +109,10 @@ class ExternalEditorCombobox(EasyComboBox):
                 args = self.EDITORS[item]
                 desktop_entry = DesktopEntry(item)
                 command = desktop_entry.getExec()
+                
+                # For .desktop files with ' %U' or ' %F'
+                command = command.split(" ")[0]
+                
                 name = desktop_entry.getName()
                 icon_name = desktop_entry.getIcon()
                 self._add_item(icon_name, name, command, args)
