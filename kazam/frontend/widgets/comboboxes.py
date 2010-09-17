@@ -71,6 +71,7 @@ class ExternalEditorCombobox(EasyComboBox):
                 "/usr/share/applications/openshot.desktop":[],
                 "/usr/share/applications/pitivi.desktop":["-i", "-a"],
                 "/usr/share/applications/avidemux-gtk.desktop":[],
+                "/usr/share/applications/kde4/kdenlive.desktop":["-i"],
                 }
     
     def __init__(self, icons):
