@@ -142,7 +142,6 @@ class ExternalEditorCombobox(EasyComboBox):
         for digit in current_version:
             required_digit = required_version[i]
             current_digit = int(digit)
-            print "Is %s <= %s" % (current_digit, required_digit)
             if current_digit < required_digit:
                 return False
         return True

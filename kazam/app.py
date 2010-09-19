@@ -95,7 +95,15 @@ class KazamApp(object):
         
         self.indicator = KazamIndicator()
         self.indicator.connect("recording-done", self.cb_record_done_request_requested)    
+        self.indicator.connect("pause-requested", self.cb_pause_requested)    
+        self.indicator.connect("unpause-requested", self.cb_unpause_requested)    
         
+    def cb_pause_requested(self, indicator):
+        self.recording.pause()
+        
+    def cb_unpause_requested(self, indicator):
+        self.recording.unpause()
+    
     def cb_edit_requested(self, done_recording, data):
         (command, args_list) = data
         

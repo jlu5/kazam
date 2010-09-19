@@ -58,9 +58,14 @@ class Recording(object):
     def get_filename(self):
         return self.tempfile
     
+    def pause(self):
+        self.command.send_signal(signal.SIGTSTP)
+        
+    def unpause(self):
+        self.command.send_signal(signal.SIGCONT)
+    
     def stop(self):
         self.command.send_signal(signal.SIGINT)
-        #self.command.kill()
         
         
 class Convert(object):
