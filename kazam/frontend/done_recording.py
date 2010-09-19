@@ -31,6 +31,7 @@ import gobject
 from gettext import gettext as _
 
 from kazam.frontend.widgets.comboboxes import ExternalEditorCombobox
+from kazam.frontend.widgets.dialogs import new_about_dialog
 from kazam.utils import *
 
 class DoneRecording(gobject.GObject):
@@ -68,8 +69,8 @@ class DoneRecording(gobject.GObject):
     def on_menuitem_quit_activate(self, button):
         gtk.main_quit()
         
-    def on_menuitem_about_activate(self, button):
-        pass
+    def on_menuitem_about_activate(self, menuitem):
+        new_about_dialog()
         
     def on_button_continue_clicked(self, button):
         if self.action == self.ACTION_SAVE:

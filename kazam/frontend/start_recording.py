@@ -27,6 +27,7 @@ import os
 from gettext import gettext as _
 
 from kazam.frontend.widgets.comboboxes import VideoCombobox, AudioCombobox
+from kazam.frontend.widgets.dialogs import new_about_dialog
 from kazam.utils import *
 
 class RecordingStart(gobject.GObject):
@@ -68,7 +69,7 @@ class RecordingStart(gobject.GObject):
         self.emit("quit-requested")
         
     def on_menuitem_about_activate(self, menuitem):
-        pass
+        new_about_dialog()
     
     def on_checkbutton_video_toggled(self, checkbutton):
         self.combobox_video.set_sensitive(checkbutton.get_active())

@@ -24,6 +24,7 @@ import gtk
 import glib
 import gobject
 import os
+import subprocess
 
 from kazam.backend.x11 import get_screens
 
@@ -66,6 +67,8 @@ class EasyTextAndObjectComboBox(EasyComboBox):
         self.set_model(liststore)
 
 class ExternalEditorCombobox(EasyComboBox):
+    
+    KDENLIVE_VERSION = [0,7,7,1]
     
     EDITORS = {
                 "/usr/share/applications/openshot.desktop":[],
@@ -116,7 +119,15 @@ class ExternalEditorCombobox(EasyComboBox):
                 
                 name = desktop_entry.getName()
                 icon_name = desktop_entry.getIcon()
-                self._add_item(icon_name, name, command, args)
+                
+                if command == "kdenlive":
+                    p = subprocess.Popen([command, "-v"], stdout=subprocess.PIPE)
+                    output = p.communicate()[0]
+                    version = output.strip().split("\n")[-1].replace("Kdenlive: ", "").split(".")
+                    if self.version_is_gte(self.KDENLIVE_VERSION, version):
+                        self._add_item(icon_name, name, command, args)
+                else:
+                    self._add_item(icon_name, name, command, args)
         
     def _add_item(self, icon_name, name, command, args):
         liststore = self.get_model()
@@ -125,6 +136,16 @@ class ExternalEditorCombobox(EasyComboBox):
         except glib.GError:
             pixbuf = self.icons.load_icon("application-x-executable", 16, ())
         liststore.append([pixbuf, name, command, args])
+        
+    def version_is_gte(self, required_version, current_version):
+        i = 0
+        for digit in current_version:
+            required_digit = required_version[i]
+            current_digit = int(digit)
+            print "Is %s <= %s" % (current_digit, required_digit)
+            if current_digit < required_digit:
+                return False
+        return True
             
 class ExportCombobox(EasyComboBox):
     

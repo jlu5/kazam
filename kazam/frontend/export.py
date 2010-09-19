@@ -115,8 +115,8 @@ class ExportFrontend(gobject.GObject):
     def on_menuitem_quit_activate(self, button):
         gtk.main_quit()
         
-    def on_menuitem_about_activate(self, button):
-        pass
+    def on_menuitem_about_activate(self, menuitem):
+        new_about_dialog()
         
     def _change_status(self, img, text):
         for child in self.hbox_status.get_children():

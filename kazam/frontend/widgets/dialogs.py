@@ -29,6 +29,26 @@ import logging
 from gettext import gettext as _
 
 from kazam.utils import *
+from kazam.version import VERSION
+
+AUTHORS = """
+Andrew Higginson <rugby471@gmail.com>
+"""
+
+
+def new_about_dialog():
+    dialog = gtk.AboutDialog()
+    dialog.set_name(_("Kazam Screencaster"))
+    dialog.set_comments(_("Record a video of activity on your screen."))
+    dialog.set_version(VERSION)
+    dialog.set_copyright("© 2010 Andrew Higginson")
+    dialog.set_website("http://launchpad.net/kazam")
+    dialog.set_authors(AUTHORS.split("\n"))
+    dialog.set_logo_icon_name("kazam")
+    dialog.show_all()                                      
+    result = dialog.run()
+    dialog.hide()
+        
 
 def new_save_dialog(title, parent=None):
     dialog = gtk.FileChooserDialog(title=title, parent=parent, 
@@ -135,7 +155,6 @@ class AuthenticateDialog(gobject.GObject):
         self.window.show_all()
 
 if __name__ == "__main__":
-    
     if os.path.exists("./data/ui/authenticate.ui"):
         logging.info("Running locally")
         datadir = "./data"
