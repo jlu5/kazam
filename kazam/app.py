@@ -97,6 +97,11 @@ class KazamApp(object):
         self.indicator.connect("recording-done", self.cb_record_done_request_requested)    
         self.indicator.connect("pause-requested", self.cb_pause_requested)    
         self.indicator.connect("unpause-requested", self.cb_unpause_requested)    
+        self.indicator.connect("quit-requested", self.cb_quit_requested)    
+        
+    def cb_quit_requested(self, indicator):
+        self.recording.stop()
+        gtk.main_quit()
         
     def cb_pause_requested(self, indicator):
         self.recording.pause()

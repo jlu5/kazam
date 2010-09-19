@@ -39,6 +39,10 @@ class KazamSuperIndicator(gobject.GObject):
                                    gobject.TYPE_NONE,
                                    (),
                                   ),
+        "quit-requested" : (gobject.SIGNAL_RUN_LAST,
+                                   gobject.TYPE_NONE,
+                                   (),
+                                  ),
         "recording-done" : (gobject.SIGNAL_RUN_LAST,
                                    gobject.TYPE_NONE,
                                    (),
@@ -74,7 +78,7 @@ class KazamSuperIndicator(gobject.GObject):
         self.emit("recording-done")
         
     def on_menuitem_quit_activate(self, menuitem_quit):
-        gtk.main_quit()
+        self.emit("quit-requested")
     
     def count(self, count):
         pass
