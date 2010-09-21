@@ -52,14 +52,33 @@ def new_about_dialog():
 
 def new_save_dialog(title, parent=None):
     dialog = gtk.FileChooserDialog(title=title, parent=parent, 
-        action=gtk.FILE_CHOOSER_ACTION_SAVE, 
-            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, 
-                gtk.STOCK_SAVE, gtk.RESPONSE_OK))
+                        action=gtk.FILE_CHOOSER_ACTION_SAVE, 
+                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, 
+                        gtk.STOCK_SAVE, gtk.RESPONSE_OK))
                 
     dialog.show_all()                                      
     result = dialog.run()
     dialog.hide()
     return dialog, result
+    
+def new_linkbutton_dialog(uri, primary, secondary=None, parent=None):
+    dialog = gtk.MessageDialog(parent=parent, type=gtk.MESSAGE_INFO,
+                    buttons=gtk.BUTTONS_OK, message_format=primary)
+            
+    if secondary:
+        dialog.format_secondary_markup(secondary)
+                
+    hbox = gtk.HBox()
+    linkbutton = gtk.LinkButton(uri, uri)
+    
+    vbox = dialog.get_content_area().get_children()[0].get_children()[1]
+    hbox.pack_start(linkbutton, False, False)
+    vbox.pack_start(hbox, False, False)
+                
+    dialog.show_all()                                      
+    result = dialog.run()
+    dialog.hide()
+    return dialog
     
 def new_info_dialog(primary, secondary=None, parent=None):
     dialog = gtk.MessageDialog(parent=parent, type=gtk.MESSAGE_INFO,
@@ -160,7 +179,7 @@ if __name__ == "__main__":
         datadir = "./data"
     else:
         datadir = "/usr/share/kazam/"
-    
+    """
     icons = gtk.icon_theme_get_default()
     icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
     icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
@@ -170,4 +189,8 @@ if __name__ == "__main__":
     
     authenticate_dialog = AuthenticateDialog(datadir, name, icons, icon, register_url)
     authenticate_dialog.run()
-    gtk.main()
+    gtk.main()"""
+    
+    dialog = new_linkbutton_dialog("http://www.google.com", 
+            _("Your screencast has uploaded successfully."),
+            _("It is available at the location below:"))

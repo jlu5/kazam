@@ -214,8 +214,8 @@ class ExportFrontend(gobject.GObject):
             # Set buttons, combobox and the alignment sensitive
             self.sensitise_content_action_widgets(True)
             # Show a dialog with the url of the uploaded file
-            new_info_dialog(_("Your screencast has uploaded successfully."),
-                            _("It is available here - %s") % url, self.window)
+            new_linkbutton_dialog(url, _("Your screencast has uploaded successfully."),
+                            _("It is available at the location below:"), self.window)
         else:
             self._change_status(gtk.STOCK_DIALOG_ERROR, _("There was an error uploading."))
             # Set buttons, combobox and the alignment sensitive
