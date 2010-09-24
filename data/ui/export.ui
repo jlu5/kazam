@@ -75,12 +75,13 @@
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkHBox" id="hbox2">
-                    <property name="no_show_all">True</property>
+                    <property name="visible">True</property>
+                    <property name="border_width">3</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkDrawingArea" id="drawingarea_video_preview">
-                        <property name="width_request">160</property>
-                        <property name="height_request">150</property>
+                      <object class="GtkImage" id="image1">
+                        <property name="width_request">220</property>
+                        <property name="height_request">100</property>
                         <property name="visible">True</property>
                       </object>
                       <packing>
@@ -88,7 +89,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkVBox" id="vbox4">
+                      <object class="GtkVBox" id="vbox_quality">
+                        <property name="width_request">200</property>
                         <property name="visible">True</property>
                         <child>
                           <object class="GtkVBox" id="vbox6">
@@ -108,7 +110,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkHBox" id="hbox3">
+                              <object class="GtkHBox" id="hbox_quality_video">
                                 <property name="visible">True</property>
                                 <child>
                                   <object class="GtkLabel" id="label3">
@@ -122,14 +124,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkHScale" id="hscale_video_quality">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="draw_value">False</property>
-                                  </object>
-                                  <packing>
-                                    <property name="position">1</property>
-                                  </packing>
+                                  <placeholder/>
                                 </child>
                               </object>
                               <packing>
@@ -139,7 +134,7 @@
                             </child>
                             <child>
                               <object class="GtkHBox" id="hbox5">
-                                <property name="visible">True</property>
+                                <property name="no_show_all">True</property>
                                 <child>
                                   <object class="GtkButton" id="button_crop_video">
                                     <property name="label" translatable="yes">Crop</property>
@@ -185,7 +180,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkHBox" id="hbox6">
+                              <object class="GtkHBox" id="hbox_quality_audio">
                                 <property name="visible">True</property>
                                 <child>
                                   <object class="GtkLabel" id="label4">
@@ -199,14 +194,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkHScale" id="hscale_audio_quality">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="draw_value">False</property>
-                                  </object>
-                                  <packing>
-                                    <property name="position">1</property>
-                                  </packing>
+                                  <placeholder/>
                                 </child>
                               </object>
                               <packing>
@@ -234,7 +222,7 @@
                     <property name="visible">True</property>
                     <property name="spacing">6</property>
                     <child>
-                      <object class="GtkLabel" id="label2">
+                      <object class="GtkLabel" id="label_export">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="xpad">3</property>

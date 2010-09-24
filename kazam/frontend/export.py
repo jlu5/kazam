@@ -69,6 +69,16 @@ class ExportFrontend(gobject.GObject):
         self.window = self.window_export
         self.window.connect("delete-event", gtk.main_quit)
         
+        # Quality Slider Stuff
+        adjustment_quality_video = gtk.Adjustment(6, 1, 12, 1)
+        self.hscale_quality_video = gtk.HScale(adjustment_quality_video)
+        self.hscale_quality_video.set_draw_value(False)
+        self.hbox_quality_video.pack_start(self.hscale_quality_video)
+        adjustment_quality_audio = gtk.Adjustment(5, 1, 10, 1)
+        self.hscale_quality_audio = gtk.HScale(adjustment_quality_audio)
+        self.hscale_quality_audio.set_draw_value(False)
+        self.hbox_quality_audio.pack_start(self.hscale_quality_audio)
+        
         # Export combobox stuff
         export_objects = self.backend.get_export_objects()
         export_object_details = []
@@ -164,6 +174,7 @@ class ExportFrontend(gobject.GObject):
         self.button_export.set_sensitive(sensitive)
         self.button_back.set_sensitive(sensitive)
         self.combobox_export.set_sensitive(sensitive)
+        self.label_export.set_sensitive(sensitive)
     
     def cb_authenticate_requested(self, backend, icons, name, register_url):
         authenticate_dialog = AuthenticateDialog(self.datadir, name, self.icons, icons, register_url)

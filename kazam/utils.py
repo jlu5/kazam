@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 import gtk
+import sys
 from threading import Thread
 
 def menubar_from_dict(self, dictionary):
