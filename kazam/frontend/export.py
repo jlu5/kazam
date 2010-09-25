@@ -82,7 +82,7 @@ class ExportFrontend(gobject.GObject):
             self.hscale_quality_audio.set_draw_value(False)
             self.hbox_quality_audio.pack_start(self.hscale_quality_audio)
         else:
-            self.vbox_quality_video.hide()
+            self.vbox_quality_audio.destroy()
         
         # Export combobox stuff
         export_objects = self.backend.get_export_objects()
