@@ -42,16 +42,10 @@ from kazam.frontend.export import ExportFrontend
 class KazamApp(object):
 
     def __init__(self, datadir):
-    
         self.datadir = datadir
-        gettext.bindtextdomain("kazam", "/usr/share/locale")
-        gettext.textdomain("kazam")
-        
-        try:
-            locale.setlocale(locale.LC_ALL, "")
-        except Exception, e:
-            logging.exception("setlocale failed")
+        self.setup_translations()
     
+        # Setup icons
         self.icons = gtk.icon_theme_get_default()
         self.icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
         self.icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
@@ -64,13 +58,24 @@ class KazamApp(object):
         self.done_recording = None
         self.export = None
         
-        # Create our screencast object (responsisble for the physical screencast)
+        # Create our main screencast object (responsible for the
+        # physical screencast on disk)
         self.screencast = Screencast()
         
         # Let's start!
         self.recording_start = RecordingStart(self.datadir)
         self.recording_start.connect("countdown-requested", self.cb_countdown_requested)
         self.recording_start.connect("quit-requested", gtk.main_quit)
+        
+    # Functions
+
+    def setup_translations(self):
+        gettext.bindtextdomain("kazam", "/usr/share/locale")
+        gettext.textdomain("kazam")
+        try:
+            locale.setlocale(locale.LC_ALL, "")
+        except Exception, e:
+            logging.exception("setlocale failed")
         
     # Callbacks
         
@@ -116,15 +121,15 @@ class KazamApp(object):
     def cb_edit_requested(self, done_recording, data):
         (command, args_list) = data
         
-        args_list.insert(0, command)
-        args_list.append(self.screencast.get_recording_filename())
-        
+        # If the user has selected Kazam, open the export window
         if command.endswith("kazam"):
             self.export = ExportFrontend(self.datadir, self.icons, 
                             self.screencast)
             self.export.connect("back-requested", self.cb_back_done_recording_requested)
             self.export.run()
         else:
+            args_list.insert(0, command)
+            args_list.append(self.screencast.get_recording_filename())
             Popen(args_list)
             gtk.main_quit()
         
@@ -133,15 +138,19 @@ class KazamApp(object):
         self.cb_record_done_request_requested(None)
         
     def cb_save_requested(self, done_recording):
+        # Open the save dialog
         (save_dialog, result) = new_save_dialog(_("Save screencast"), 
                                             self.done_recording.window)
+        # If the user clicks save
         if result == gtk.RESPONSE_OK:
+            # Make sure the filename ends with .mkv
             uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
             if not uri.endswith(".mkv"):
                 uri += ".mkv"
+            # And move the temporary recorded file to the desired save location
             shutil.move(self.screencast.get_recording_filename(), uri)
-        save_dialog.destroy()
-        gtk.main_quit()   
+            # And quit
+            gtk.main_quit()
         
     # Functions
     def run(self):

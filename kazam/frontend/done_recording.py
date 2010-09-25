@@ -75,7 +75,6 @@ class DoneRecording(gobject.GObject):
     def on_button_continue_clicked(self, button):
         if self.action == self.ACTION_SAVE:
             self.emit("save-requested")
-            self.window.destroy()
         elif self.action == self.ACTION_EDIT:
             command = self.combobox_editors.get_active_value(2)
             args = self.combobox_editors.get_active_value(3)

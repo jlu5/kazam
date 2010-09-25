@@ -55,7 +55,21 @@ def new_save_dialog(title, parent=None):
                         action=gtk.FILE_CHOOSER_ACTION_SAVE, 
                         buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, 
                         gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-                
+    
+    dialog.set_current_name("%s.mkv" % _("Untitled Screencast"))
+    
+    # Try to set the default folder to be ~/Videos, otherwise 
+    # ~/Documents, otherwise ~/
+    video_path = os.path.expanduser("~/Videos/")
+    documents_path = os.path.expanduser("~/Documents/")
+    home_path = os.path.expanduser("~/")
+    if os.path.isdir(video_path):
+        dialog.set_current_folder(video_path)
+    elif os.path.isdir(documents_path):
+        dialog.set_current_folder(documents_path)
+    elif os.path.isdir(home_path):
+        dialog.set_current_folder(home_path)
+    
     dialog.show_all()                                      
     result = dialog.run()
     dialog.hide()
