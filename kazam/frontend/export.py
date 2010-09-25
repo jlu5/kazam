@@ -75,10 +75,14 @@ class ExportFrontend(gobject.GObject):
         self.hscale_quality_video = gtk.HScale(self.adjustment_quality_video)
         self.hscale_quality_video.set_draw_value(False)
         self.hbox_quality_video.pack_start(self.hscale_quality_video)
-        self.adjustment_quality_audio = gtk.Adjustment(112, 32, 256, 1)
-        self.hscale_quality_audio = gtk.HScale(self.adjustment_quality_audio)
-        self.hscale_quality_audio.set_draw_value(False)
-        self.hbox_quality_audio.pack_start(self.hscale_quality_audio)
+        
+        if self.screencast.get_audio_recorded():
+            self.adjustment_quality_audio = gtk.Adjustment(112, 32, 256, 1)
+            self.hscale_quality_audio = gtk.HScale(self.adjustment_quality_audio)
+            self.hscale_quality_audio.set_draw_value(False)
+            self.hbox_quality_audio.pack_start(self.hscale_quality_audio)
+        else:
+            self.vbox_quality_video.hide()
         
         # Export combobox stuff
         export_objects = self.backend.get_export_objects()
@@ -161,7 +165,9 @@ class ExportFrontend(gobject.GObject):
         return self.adjustment_quality_video.get_value()
     
     def get_audio_quality(self):
-        return self.adjustment_quality_audio.get_value()
+        if self.screencast.get_audio_recorded():
+            return self.adjustment_quality_audio.get_value()
+        return False
     
     def get_property_value(self, widget):
         # Convenience function to get property value based on widget type

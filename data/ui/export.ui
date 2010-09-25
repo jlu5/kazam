@@ -93,7 +93,7 @@
                         <property name="width_request">200</property>
                         <property name="visible">True</property>
                         <child>
-                          <object class="GtkVBox" id="vbox6">
+                          <object class="GtkVBox" id="vbox_quality_video">
                             <property name="visible">True</property>
                             <child>
                               <object class="GtkLabel" id="label1">
@@ -163,7 +163,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkVBox" id="vbox7">
+                          <object class="GtkVBox" id="vbox_quality_audio">
                             <property name="visible">True</property>
                             <child>
                               <object class="GtkLabel" id="label5">

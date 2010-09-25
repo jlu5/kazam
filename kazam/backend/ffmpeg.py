@@ -32,6 +32,7 @@ class Screencast(object):
         self.tempfile = tempfile.mktemp(suffix=".mkv")
         
     def start_recording(self, video_source, audio=False):
+        self.audio = audio
         x = video_source.x
         y = video_source.y
         width = video_source.width
@@ -66,6 +67,9 @@ class Screencast(object):
         
     def get_recording_filename(self):
         return self.tempfile
+        
+    def get_audio_recorded(self):
+        return self.audio
         
     def convert(self, options, converted_file_extension, video_quality,
                     audio_quality=None):
