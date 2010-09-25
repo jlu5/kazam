@@ -31,7 +31,7 @@ from subprocess import Popen
 from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
-from kazam.backend.ffmpeg import Recording
+from kazam.backend.ffmpeg import Screencast
 from kazam.frontend.widgets.dialogs import new_save_dialog
 from kazam.frontend.window_countdown import CountdownWindow
 from kazam.frontend.indicator import KazamIndicator
@@ -58,10 +58,14 @@ class KazamApp(object):
         gtk.window_set_default_icon_name("kazam")
         
         # Will be set later, here for convenience
+        self.screencast = None
         self.window_countdown = None
         self.indicator = None
         self.done_recording = None
         self.export = None
+        
+        # Create our screencast object (responsisble for the physical screencast)
+        self.screencast = Screencast()
         
         # Let's start!
         self.recording_start = RecordingStart(self.datadir)
@@ -74,7 +78,7 @@ class KazamApp(object):
         self.indicator.count(window_countdown.number)
         
     def cb_record_done_request_requested(self, indicator):
-        self.recording.stop()
+        self.screencast.stop_recording()
         self.done_recording = DoneRecording(self.datadir, self.icons)
         self.done_recording.connect("save-requested", self.cb_save_requested)
         self.done_recording.connect("edit-requested", self.cb_edit_requested)
@@ -82,7 +86,7 @@ class KazamApp(object):
         
     def cb_record_requested(self, window_countdown):
         self.indicator.start_recording()
-        self.recording = Recording(self.video_source, self.audio)
+        self.screencast.start_recording(self.video_source, self.audio)
         
     def cb_countdown_requested(self, recording_start):
         self.audio = self.recording_start.checkbutton_audio.get_active()
@@ -100,23 +104,24 @@ class KazamApp(object):
         self.indicator.connect("quit-requested", self.cb_quit_requested)    
         
     def cb_quit_requested(self, indicator):
-        self.recording.stop()
+        self.screencast.stop_recording()
         gtk.main_quit()
         
     def cb_pause_requested(self, indicator):
-        self.recording.pause()
+        self.screencast.pause()
         
     def cb_unpause_requested(self, indicator):
-        self.recording.unpause()
+        self.screencast.unpause()
     
     def cb_edit_requested(self, done_recording, data):
         (command, args_list) = data
         
         args_list.insert(0, command)
-        args_list.append(self.recording.get_filename())
+        args_list.append(self.screencast.get_recording_filename())
         
         if command.endswith("kazam"):
-            self.export = ExportFrontend(self.datadir, self.icons, self.recording.get_filename())
+            self.export = ExportFrontend(self.datadir, self.icons, 
+                            self.screencast)
             self.export.connect("back-requested", self.cb_back_done_recording_requested)
             self.export.run()
         else:
@@ -134,7 +139,7 @@ class KazamApp(object):
             uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
             if not uri.endswith(".mkv"):
                 uri += ".mkv"
-            shutil.move(self.recording.get_filename(), uri)
+            shutil.move(self.screencast.get_recording_filename(), uri)
         save_dialog.destroy()
         gtk.main_quit()   
         

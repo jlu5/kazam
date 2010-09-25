@@ -27,60 +27,70 @@ import gobject
 import glib
 import signal
 
-class Recording(object):
-    def __init__(self, video_source, audio=False):
-        
+class Screencast(object):
+    def __init__(self):
         self.tempfile = tempfile.mktemp(suffix=".mkv")
         
+    def start_recording(self, video_source, audio=False):
+        self.audio = audio
         x = video_source.x
         y = video_source.y
         width = video_source.width
         height = video_source.height
         display = video_source.display
         
-        # This is horrible :( TODO: use gstreamer pipeline (see below for start)
-        args_list = ["ffmpeg", "-f", "x11grab", "-r", "30", "-s", 
+        # TODO: use gstreamer instead (see gstreamer.py for start)
+        args_list = ["ffmpeg"]
+        
+        # Add the audio source if selected
+        if audio:
+            args_list += ["-f", "alsa", "-ac", "2", "-i", "pulse", 
+                        "-acodec", "vorbis"]
+        
+        # Add the video source
+        args_list += ["-f", "x11grab", "-r", "30", "-s", 
                     "%sx%s" % (width, height), "-i", 
                     "%s+%s,%s" % (display, x, y), "-vcodec", "libx264", 
                     "-vpre", "lossless_ultrafast", "-threads", "0", 
                     self.tempfile]
         
-        if audio:
-            args_list = ["ffmpeg", "-f", "alsa", "-ac", "2", "-i", 
-                        "pulse", "-acodec", "vorbis", "-f", "x11grab",
-                        "-r", "30", "-s", "%sx%s" % (width, height), 
-                        "-i", "%s+%s,%s" % (display, x, y), "-vcodec", 
-                        "libx264", "-vpre", "lossless_ultrafast", 
-                        "-threads", "0", self.tempfile]
-        
-        self.command = Popen(args_list)
+        self.recording_command = Popen(args_list)
     
-    def get_filename(self):
+    def pause_recording(self):
+        self.recording_command.send_signal(signal.SIGTSTP)
+        
+    def unpause_recording(self):
+        self.recording_command.send_signal(signal.SIGCONT)
+    
+    def stop_recording(self):
+        self.recording_command.send_signal(signal.SIGINT)
+        
+    def get_recording_filename(self):
         return self.tempfile
-    
-    def pause(self):
-        self.command.send_signal(signal.SIGTSTP)
         
-    def unpause(self):
-        self.command.send_signal(signal.SIGCONT)
-    
-    def stop(self):
-        self.command.send_signal(signal.SIGINT)
+    def get_audio_recorded(self):
+        return self.audio
         
+    def convert(self, options, converted_file_extension, video_quality,
+                    audio_quality=None):
+                        
+        self.converted_file_extension = converted_file_extension
         
-class Convert(object):
-    def __init__(self, file_, options, file_extension):
-        self.file_ = file_
-        self.options = options
-        self.file_extension = file_extension
+        # Create our ffmpeg arguments list
+        args_list = ["ffmpeg"]
+        # Add the input file
+        args_list += ["-i", self.tempfile]
+        # Add any UploadSource specific options
+        args_list += options
+        # Configure the quality as selected by the user
+        args_list += ["-b", "%sk" % video_quality]
+        if audio_quality:
+            args_list += ["-ab", "%sk" % audio_quality]
+        # Finally add the desired output file
+        args_list += ["%s%s" %(self.tempfile[:-4], converted_file_extension)]
         
-    def convert(self):
-        args_list = ["ffmpeg", "-i"]
-        
-        args_list += [self.file_]
-        args_list += self.options
-        args_list += [self.file_.split(".")[0]+self.file_extension]
-        
+        # Run the ffmpeg command and when it is done, set a variable to 
+        # show we have finished
         command = Popen(args_list)
         glib.timeout_add(100, self._poll, command)
         
@@ -90,31 +100,6 @@ class Convert(object):
             # Keep monitoring
             return True
         else:
-            self.converted_file = self.file_.split(".")[0]+self.file_extension
+            self.converted_file = "%s%s" %(self.tempfile[:-4], self.converted_file_extension)
             return False
         
-    
-        
-"""self.pipeline_string = ""
-self.add_element("pulsesrc")
-self.add_element("audioconvert")
-self.add_element("flacenc")
-self.add_element("matroskamux", {"name":"mux"})
-self.add_element("filesink", {"location":"/tmp/file.mkv"}, endpipe=False)
-self.add_element("ximagesrc", {"startx":20, "starty":20, "endx":300, "endy":300})
-self.add_element("video/x-raw-rgb,framerate=5/1")
-self.add_element("ffmpegcolorspace")
-self.add_element("diracenc", {"lossless":"true"})
-self.add_element("mux.", endpipe=False)
-
-print self.pipeline_string
-self.pipeline = gst.parse_launch(self.pipeline_string)
-
-def add_element(self, element, properties={}, endpipe=True):
-self.pipeline_string += element
-for prop in properties:
-    self.pipeline_string += " %s=%s" % (prop, properties[prop])
-if endpipe:
-    self.pipeline_string += " ! "
-else:
-    self.pipeline_string += "  " """

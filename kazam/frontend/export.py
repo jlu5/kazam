@@ -30,7 +30,8 @@ import gobject
 
 from gettext import gettext as _
 
-from kazam.frontend.widgets.comboboxes import ExportCombobox, EasyComboBox, EasyTextAndObjectComboBox
+from kazam.frontend.widgets.comboboxes import ExportCombobox, \
+    EasyComboBox, EasyTextAndObjectComboBox
 from kazam.frontend.widgets.dialogs import *
 from kazam.backend.export import ExportBackend
 from kazam.utils import *
@@ -46,10 +47,10 @@ class ExportFrontend(gobject.GObject):
                            ( ),)
     }
     
-    def __init__(self, datadir, icons, path):
+    def __init__(self, datadir, icons, screencast):
         super(ExportFrontend, self).__init__()
         self.icons = icons
-        self.path = path
+        self.screencast = screencast
         self.datadir = datadir
         self.backend = ExportBackend(self, datadir)
         self.backend.connect("authenticate-requested", self.cb_authenticate_requested)
@@ -68,6 +69,20 @@ class ExportFrontend(gobject.GObject):
         # Get window
         self.window = self.window_export
         self.window.connect("delete-event", gtk.main_quit)
+        
+        # Quality Slider Stuff
+        self.adjustment_quality_video = gtk.Adjustment(3000, 200, 6001, 1)
+        self.hscale_quality_video = gtk.HScale(self.adjustment_quality_video)
+        self.hscale_quality_video.set_draw_value(False)
+        self.hbox_quality_video.pack_start(self.hscale_quality_video)
+        
+        if self.screencast.get_audio_recorded():
+            self.adjustment_quality_audio = gtk.Adjustment(112, 32, 256, 1)
+            self.hscale_quality_audio = gtk.HScale(self.adjustment_quality_audio)
+            self.hscale_quality_audio.set_draw_value(False)
+            self.hbox_quality_audio.pack_start(self.hscale_quality_audio)
+        else:
+            self.vbox_quality_audio.destroy()
         
         # Export combobox stuff
         export_objects = self.backend.get_export_objects()
@@ -131,8 +146,8 @@ class ExportFrontend(gobject.GObject):
         self.hbox_status.pack_start(text_widget, False, False)
         self.hbox_status.show_all()
         
-    def get_path(self):
-        return self.path
+    def get_screencast(self):
+        return self.screencast
         
     def get_meta(self):
         active_export_object = self.backend.get_active_export_object()
@@ -145,6 +160,14 @@ class ExportFrontend(gobject.GObject):
             # inplace of the widget
             meta[prop] = self.get_property_value(widget)
         return meta
+    
+    def get_video_quality(self):
+        return self.adjustment_quality_video.get_value()
+    
+    def get_audio_quality(self):
+        if self.screencast.get_audio_recorded():
+            return self.adjustment_quality_audio.get_value()
+        return False
     
     def get_property_value(self, widget):
         # Convenience function to get property value based on widget type
@@ -164,6 +187,7 @@ class ExportFrontend(gobject.GObject):
         self.button_export.set_sensitive(sensitive)
         self.button_back.set_sensitive(sensitive)
         self.combobox_export.set_sensitive(sensitive)
+        self.label_export.set_sensitive(sensitive)
     
     def cb_authenticate_requested(self, backend, icons, name, register_url):
         authenticate_dialog = AuthenticateDialog(self.datadir, name, self.icons, icons, register_url)

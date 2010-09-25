@@ -39,7 +39,7 @@ class UploadSource(UploadSuperSource):
 
     META = {}
     
-    FFMPEG_OPTIONS = []
+    FFMPEG_OPTIONS = ["-acodec", "vorbis"]
     FFMPEG_FILE_EXTENSION = ".ogv"
     
     def __init__(self):

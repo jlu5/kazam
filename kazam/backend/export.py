@@ -25,7 +25,6 @@ import gtk
 import os
 
 import kazam.backend.export_sources
-from kazam.backend.ffmpeg import Convert
 from kazam.utils import *
 
 class ExportBackend(gobject.GObject):
@@ -166,13 +165,14 @@ class ExportBackend(gobject.GObject):
     def convert(self):
         self.emit("convert-started")
         try:
-            convert = Convert(self.frontend.get_path(), 
-                                self.active_export_object.FFMPEG_OPTIONS,
-                                self.active_export_object.FFMPEG_FILE_EXTENSION)
-            convert.convert()
-            while not hasattr(convert, "converted_file"):
+            screencast = self.frontend.get_screencast()
+            screencast.convert(self.active_export_object.FFMPEG_OPTIONS,
+                    self.active_export_object.FFMPEG_FILE_EXTENSION,
+                    self.frontend.get_video_quality(),
+                    self.frontend.get_audio_quality())
+            while not hasattr(screencast, "converted_file"):
                 gtk.main_iteration()
-            self.converted_file_path = convert.converted_file 
+            self.converted_file_path = screencast.converted_file 
             self.emit("convert-completed", True)
         except Exception, e:
             print e
