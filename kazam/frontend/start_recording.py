@@ -42,8 +42,10 @@ class RecordingStart(gobject.GObject):
     }
 
     
-    def __init__(self, datadir):
+    def __init__(self, datadir, config):
         gobject.GObject.__init__(self)
+        
+        self.config = config
         
         # Setup UI
         setup_ui(self, os.path.join(datadir, "ui", "start.ui"))   
@@ -58,14 +60,51 @@ class RecordingStart(gobject.GObject):
         self.table_sources.attach(self.combobox_video, 1, 2, 0, 1)
         self.table_sources.attach(self.combobox_audio, 1, 2, 1, 2)
         
+        # Make widgets as they were the last time they were used
+        self.restore_last_state()
+        
+    # Functions
+        
+    def restore_last_state(self):
+        video_toggled = self.config.getboolean("start_recording", "video_toggled")
+        self.checkbutton_video.set_active(video_toggled)
+        audio_toggled = self.config.getboolean("start_recording", "audio_toggled")
+        self.checkbutton_audio.set_active(audio_toggled)
+        
+        video_source = self.config.getint("start_recording", "video_source")
+        self.combobox_video.set_active(video_source)
+        audio_source = self.config.getint("start_recording", "audio_source")
+        self.combobox_audio.set_active(audio_source)
+        
+        # Make sure sensitivity of comboboxes is updated
+        self.on_checkbutton_video_toggled(self.checkbutton_video)
+        self.on_checkbutton_audio_toggled(self.checkbutton_audio)
+        
+    def save_last_state(self):
+        video_toggled = self.checkbutton_video.get_active()
+        self.config.set("start_recording", "video_toggled", video_toggled)
+        audio_toggled = self.checkbutton_audio.get_active()
+        self.config.set("start_recording", "audio_toggled", audio_toggled)
+        
+        video_source = self.combobox_video.get_active()
+        self.config.set("start_recording", "video_source", video_source)
+        audio_source = self.combobox_audio.get_active()
+        self.config.set("start_recording", "audio_source", audio_source)
+        self.config.write()
+        
+    # Callbacks
+        
     def on_button_close_clicked(self, button):
-        gtk.main_quit()
+        self.save_last_state()
+        self.emit("quit-requested")
         
     def on_button_record_clicked(self, button):
         self.emit("countdown-requested")
+        self.save_last_state()
         self.window.destroy()
     
     def on_menuitem_quit_activate(self, menuitem):
+        self.save_last_state()
         self.emit("quit-requested")
         
     def on_menuitem_about_activate(self, menuitem):

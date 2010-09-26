@@ -32,6 +32,7 @@ from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
 from kazam.backend.ffmpeg import Screencast
+from kazam.backend.config import KazamConfig
 from kazam.frontend.widgets.dialogs import new_save_dialog
 from kazam.frontend.window_countdown import CountdownWindow
 from kazam.frontend.indicator import KazamIndicator
@@ -44,6 +45,9 @@ class KazamApp(object):
     def __init__(self, datadir):
         self.datadir = datadir
         self.setup_translations()
+    
+        # Setup config
+        self.config = KazamConfig()
     
         # Setup icons
         self.icons = gtk.icon_theme_get_default()
@@ -63,7 +67,7 @@ class KazamApp(object):
         self.screencast = Screencast()
         
         # Let's start!
-        self.recording_start = RecordingStart(self.datadir)
+        self.recording_start = RecordingStart(self.datadir, self.config)
         self.recording_start.connect("countdown-requested", self.cb_countdown_requested)
         self.recording_start.connect("quit-requested", gtk.main_quit)
         
