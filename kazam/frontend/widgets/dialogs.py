@@ -135,9 +135,9 @@ class AuthenticateDialog(gobject.GObject):
         if not register_url:
             self.radiobutton_register.hide()
         if small_icon:
-            self.window.set_icon_from_file(icontheme.lookup_icon(small_icon, 16, ( )).get_filename())
+            self.window.set_icon_name(small_icon)
         if large_icon:
-            self.image_logo.set_from_file(icontheme.lookup_icon(large_icon, 48, ( )).get_filename())
+            self.image_logo.set_from_pixbuf(icontheme.load_icon(large_icon, 48, ( )))
         
         text = _("To upload a screencast to %s, you need a %s account.") % (name, name)
         self.label_primary.set_text('<span font_size="large">%s</span>' % text)
@@ -193,7 +193,7 @@ if __name__ == "__main__":
         datadir = "./data"
     else:
         datadir = "/usr/share/kazam/"
-    """
+
     icons = gtk.icon_theme_get_default()
     icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
     icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
@@ -203,8 +203,8 @@ if __name__ == "__main__":
     
     authenticate_dialog = AuthenticateDialog(datadir, name, icons, icon, register_url)
     authenticate_dialog.run()
-    gtk.main()"""
+    gtk.main()
     
-    dialog = new_linkbutton_dialog("http://www.google.com", 
+    """dialog = new_linkbutton_dialog("http://www.google.com", 
             _("Your screencast has uploaded successfully."),
-            _("It is available at the location below:"))
+            _("It is available at the location below:"))"""
