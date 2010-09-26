@@ -20,12 +20,10 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import locale
-import gettext
 import logging
 import gtk
 import cairo
-import gtk.gdk as gdk
+import gtk
 import gobject
 import rsvg
 import gobject
@@ -33,7 +31,9 @@ import os
 
 from gettext import gettext as _
 
-class CountdownWindow(gtk.Window):
+from kazam.frontend import KazamStage
+
+class CountdownWindow(KazamStage):
  
     __gsignals__ = {
         "record-requested" : (gobject.SIGNAL_RUN_LAST,
@@ -46,27 +46,28 @@ class CountdownWindow(gtk.Window):
                                   ),
     }
  
-    def __init__(self, datadir):
+    def __init__(self, datadir, icons):
+        super(CountdownWindow, self).__init__(datadir, icons)
         self.number = 5
         self.svg = rsvg.Handle(file=os.path.join(datadir, 
                                                 "images", 
                                                 "countdown.svg"))
         
-        gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
-        self.set_default_size(420, 220)
-        self.set_position(gtk.WIN_POS_CENTER)
-        self.set_app_paintable(True)
+        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        self.window.set_default_size(420, 220)
+        self.window.set_position(gtk.WIN_POS_CENTER)
+        self.window.set_app_paintable(True)
         # Window events
-        self.connect("expose-event", self.on_window_countdown_expose_event)
-        self.connect("screen-changed", self.on_window_screen_changed)
+        self.window.connect("expose-event", self.on_window_countdown_expose_event)
+        self.window.connect("screen-changed", self.on_window_screen_changed)
         # Add button press event
-        self.add_events(gdk.BUTTON_PRESS_MASK)
-        self.connect("button_press_event", self.on_window_button_press_event)
+        self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+        self.window.connect("button_press_event", self.on_window_button_press_event)
         # Do not show the window decoration
-        self.set_decorated (False)
-        self.set_property("skip-taskbar-hint", True)
-        self.on_window_screen_changed(self, None)
-        self.set_keep_above(True)
+        self.window.set_decorated(False)
+        self.window.set_property("skip-taskbar-hint", True)
+        self.window.set_keep_above(True)
+        self.on_window_screen_changed(self.window, None)
 
     def _print_text_center_aligned(self, cairo_context, text, y_pos):
         x1, y1, x2, y2 = cairo_context.clip_extents()
@@ -112,25 +113,25 @@ class CountdownWindow(gtk.Window):
     def on_window_button_press_event(self, button, button_event):
         # Move the window
         if button_event.button is 1:
-            self.begin_move_drag(int(button_event.button), 
+            self.window.begin_move_drag(int(button_event.button), 
                                     int(button_event.x_root), 
                                     int(button_event.y_root), 
                                     button_event.time) 
         return False
         
-    def run_countdown(self):
-        self.show_all()
+    def run(self):
         gobject.timeout_add(1000, self.countdown)
+        super(CountdownWindow, self).run()
         
     def countdown(self):
         if self.number != 1:
             self.number -= 1
             self.emit("count")
-            self.queue_draw()
+            self.window.queue_draw()
             gobject.timeout_add(1000, self.countdown)
         else:
             self.emit("record-requested")
-            self.destroy()
+            self.window.destroy()
 
 
 

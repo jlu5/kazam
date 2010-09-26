@@ -26,25 +26,21 @@ import os
 
 from gettext import gettext as _
 
+from kazam.frontend import KazamStage
 from kazam.frontend.widgets.comboboxes import VideoCombobox, AudioCombobox
-from kazam.frontend.widgets.dialogs import new_about_dialog
 from kazam.utils import *
 
-class RecordingStart(gobject.GObject):
+class RecordingStart(KazamStage):
     
     __gsignals__ = {
     "countdown-requested"     : (gobject.SIGNAL_RUN_LAST,
                            gobject.TYPE_NONE,
                            ( ),),
-    "quit-requested"     : (gobject.SIGNAL_RUN_LAST,
-                           gobject.TYPE_NONE,
-                           ( ),)
     }
 
     
-    def __init__(self, datadir, config):
-        gobject.GObject.__init__(self)
-        
+    def __init__(self, datadir, icons, config):
+        super(RecordingStart, self).__init__(datadir, icons)
         self.config = config
         
         # Setup UI
@@ -96,7 +92,7 @@ class RecordingStart(gobject.GObject):
         
     def on_button_close_clicked(self, button):
         self.save_last_state()
-        self.emit("quit-requested")
+        super(RecordingStart, self).on_button_close_clicked(button)
         
     def on_button_record_clicked(self, button):
         self.emit("countdown-requested")
@@ -105,10 +101,7 @@ class RecordingStart(gobject.GObject):
     
     def on_menuitem_quit_activate(self, menuitem):
         self.save_last_state()
-        self.emit("quit-requested")
-        
-    def on_menuitem_about_activate(self, menuitem):
-        new_about_dialog()
+        super(RecordingStart, self).on_menuitem_quit_activate(menuitem)
     
     def on_checkbutton_video_toggled(self, checkbutton):
         self.combobox_video.set_sensitive(checkbutton.get_active())
@@ -118,9 +111,6 @@ class RecordingStart(gobject.GObject):
         
     def get_selected_video_source(self):
         return self.combobox_video.get_selected_video_source()
-        
-    def run(self):
-        self.window.show_all()
         
         
 

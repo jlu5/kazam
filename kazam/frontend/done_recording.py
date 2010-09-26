@@ -20,21 +20,17 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import locale
-import gettext
 import logging
 import gtk
 import os
-import shutil
 import gobject
-
 from gettext import gettext as _
 
-from kazam.frontend.widgets.comboboxes import ExternalEditorCombobox
-from kazam.frontend.widgets.dialogs import new_about_dialog
 from kazam.utils import *
+from kazam.frontend import KazamStage
+from kazam.frontend.widgets.comboboxes import ExternalEditorCombobox
 
-class DoneRecording(gobject.GObject):
+class DoneRecording(KazamStage):
     
     __gsignals__ = {
     "save-requested"     : (gobject.SIGNAL_RUN_LAST,
@@ -49,8 +45,7 @@ class DoneRecording(gobject.GObject):
     (ACTION_EDIT, ACTION_SAVE) = range(2)
     
     def __init__(self, datadir, icons):
-        gobject.GObject.__init__(self)
-        self.icons = icons
+        super(DoneRecording, self).__init__(datadir, icons)
         
         # Setup UI
         setup_ui(self, os.path.join(datadir, "ui", "done-recording.ui"))        
@@ -62,15 +57,6 @@ class DoneRecording(gobject.GObject):
         # Add editor combobox
         self.combobox_editors = ExternalEditorCombobox(self.icons)
         self.table_actions.attach(self.combobox_editors, 1, 2, 0, 1, gtk.FILL, gtk.FILL)
-        
-    def on_button_cancel_clicked(self, button):
-        gtk.main_quit()
-        
-    def on_menuitem_quit_activate(self, button):
-        gtk.main_quit()
-        
-    def on_menuitem_about_activate(self, menuitem):
-        new_about_dialog()
         
     def on_button_continue_clicked(self, button):
         if self.action == self.ACTION_SAVE:
@@ -94,9 +80,6 @@ class DoneRecording(gobject.GObject):
         else:
             self.action = self.ACTION_EDIT
             self.combobox_editors.set_sensitive(True)
-        
-    def run(self):
-        self.window.show_all()
 
 if __name__ == "__main__":
     icons = gtk.icon_theme_get_default()
@@ -110,6 +93,7 @@ if __name__ == "__main__":
     done_recording = DoneRecording(datadir, icons)
     done_recording.connect("save-requested", gtk.main_quit)
     done_recording.connect("edit-requested", gtk.main_quit)
+    done_recording.connect("quit-requested", gtk.main_quit)
     done_recording.run()
     gtk.main()
 

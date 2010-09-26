@@ -67,7 +67,8 @@ class KazamApp(object):
         self.screencast = Screencast()
         
         # Let's start!
-        self.recording_start = RecordingStart(self.datadir, self.config)
+        self.recording_start = RecordingStart(self.datadir, self.icons, 
+                                                self.config)
         self.recording_start.connect("countdown-requested", self.cb_countdown_requested)
         self.recording_start.connect("quit-requested", gtk.main_quit)
         
@@ -91,6 +92,7 @@ class KazamApp(object):
         self.done_recording = DoneRecording(self.datadir, self.icons)
         self.done_recording.connect("save-requested", self.cb_save_requested)
         self.done_recording.connect("edit-requested", self.cb_edit_requested)
+        self.done_recording.connect("quit-requested", self.cb_quit_requested)
         self.done_recording.run()
         
     def cb_record_requested(self, window_countdown):
@@ -101,10 +103,10 @@ class KazamApp(object):
         self.audio = self.recording_start.checkbutton_audio.get_active()
         self.video_source = self.recording_start.get_selected_video_source()
         
-        self.window_countdown = CountdownWindow(self.datadir)
+        self.window_countdown = CountdownWindow(self.datadir, self.icons)
         self.window_countdown.connect("count", self.on_window_countdown_count)
         self.window_countdown.connect("record-requested", self.cb_record_requested)
-        self.window_countdown.run_countdown()
+        self.window_countdown.run()
         
         self.indicator = KazamIndicator()
         self.indicator.connect("recording-done", self.cb_record_done_request_requested)    
@@ -130,6 +132,7 @@ class KazamApp(object):
             self.export = ExportFrontend(self.datadir, self.icons, 
                             self.screencast)
             self.export.connect("back-requested", self.cb_back_done_recording_requested)
+            self.export.connect("quit-requested", self.cb_quit_requested)
             self.export.run()
         else:
             args_list.insert(0, command)

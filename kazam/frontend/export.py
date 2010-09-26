@@ -20,23 +20,21 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import locale
-import gettext
 import logging
 import gtk
 import os
-import shutil
 import gobject
 
 from gettext import gettext as _
 
+from kazam.frontend import KazamStage
 from kazam.frontend.widgets.comboboxes import ExportCombobox, \
     EasyComboBox, EasyTextAndObjectComboBox
 from kazam.frontend.widgets.dialogs import *
 from kazam.backend.export import ExportBackend
 from kazam.utils import *
 
-class ExportFrontend(gobject.GObject):
+class ExportFrontend(KazamStage):
     
     __gsignals__ = {
     "back-requested"     : (gobject.SIGNAL_RUN_LAST,
@@ -48,10 +46,10 @@ class ExportFrontend(gobject.GObject):
     }
     
     def __init__(self, datadir, icons, screencast):
-        super(ExportFrontend, self).__init__()
-        self.icons = icons
+        super(ExportFrontend, self).__init__(datadir, icons)
         self.screencast = screencast
-        self.datadir = datadir
+        
+        # Setup Backend
         self.backend = ExportBackend(self, datadir)
         self.backend.connect("authenticate-requested", self.cb_authenticate_requested)
         self.backend.connect("login-started", self.cb_login_started)
@@ -70,21 +68,10 @@ class ExportFrontend(gobject.GObject):
         self.window = self.window_export
         self.window.connect("delete-event", gtk.main_quit)
         
-        # Quality Slider Stuff
-        self.adjustment_quality_video = gtk.Adjustment(3000, 200, 6001, 1)
-        self.hscale_quality_video = gtk.HScale(self.adjustment_quality_video)
-        self.hscale_quality_video.set_draw_value(False)
-        self.hbox_quality_video.pack_start(self.hscale_quality_video)
+        # Setup quality sliders
+        self.setup_quality_sliders()
         
-        if self.screencast.get_audio_recorded():
-            self.adjustment_quality_audio = gtk.Adjustment(112, 32, 256, 1)
-            self.hscale_quality_audio = gtk.HScale(self.adjustment_quality_audio)
-            self.hscale_quality_audio.set_draw_value(False)
-            self.hbox_quality_audio.pack_start(self.hscale_quality_audio)
-        else:
-            self.vbox_quality_audio.destroy()
-        
-        # Export combobox stuff
+        # Export combobox setup
         export_objects = self.backend.get_export_objects()
         export_object_details = []
         for obj in export_objects:
@@ -99,8 +86,21 @@ class ExportFrontend(gobject.GObject):
         self.hbox_export.reorder_child(self.combobox_export, 1)
         self.on_combobox_export_changed(None)
         
-    def on_button_close_clicked(self, button):
-        gtk.main_quit()
+    def setup_quality_sliders(self):
+        # Video Quality Slider
+        self.adjustment_quality_video = gtk.Adjustment(3000, 200, 6001, 1)
+        self.hscale_quality_video = gtk.HScale(self.adjustment_quality_video)
+        self.hscale_quality_video.set_draw_value(False)
+        self.hbox_quality_video.pack_start(self.hscale_quality_video)
+        
+        # (If audio was recorded) Audio Quality Slider
+        if self.screencast.get_audio_recorded():
+            self.adjustment_quality_audio = gtk.Adjustment(140, 32, 256, 1)
+            self.hscale_quality_audio = gtk.HScale(self.adjustment_quality_audio)
+            self.hscale_quality_audio.set_draw_value(False)
+            self.hbox_quality_audio.pack_start(self.hscale_quality_audio)
+        else:
+            self.vbox_quality_audio.destroy()
         
     def on_button_back_clicked(self, button):
         self.emit("back-requested")
@@ -126,12 +126,6 @@ class ExportFrontend(gobject.GObject):
         # Pack our alignment
         self.vbox_main.pack_start(self.active_alignment, True, True)
         self.vbox_main.reorder_child(self.active_alignment, 2)
-        
-    def on_menuitem_quit_activate(self, button):
-        gtk.main_quit()
-        
-    def on_menuitem_about_activate(self, menuitem):
-        new_about_dialog()
         
     def _change_status(self, img, text):
         for child in self.hbox_status.get_children():
@@ -205,11 +199,9 @@ class ExportFrontend(gobject.GObject):
         
     def cb_login_started(self, backend):
         self._change_status("spinner", _("Logging in..."))
-        
-        # Set buttons, combobox and the alignment insensitive
+        # Make buttons, combobox, label and the alignment insensitive
         self.sensitise_content_action_widgets(False)
 
-        
     def cb_login_completed(self, backend, success):
         if success:
             self._change_status(gtk.STOCK_OK, _("Log-in completed."))
@@ -244,11 +236,11 @@ class ExportFrontend(gobject.GObject):
             self._change_status(gtk.STOCK_DIALOG_ERROR, _("There was an error uploading."))
             # Set buttons, combobox and the alignment sensitive
             self.sensitise_content_action_widgets(True)
-        
-    def run(self):
-        self.window_export.show_all()
 
-if __name__ == "__main__": 
+
+if __name__ == "__main__":
+    from kazam.backend.ffmpeg import Screencast
+     
     if os.path.exists("./data/ui/export.ui"):
         logging.info("Running locally")
         datadir = "./data"
@@ -258,10 +250,14 @@ if __name__ == "__main__":
     icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
     icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
     
-    done_recording = ExportFrontend(datadir, icons, "/tmp/hi.mkv")
-    #done_recording.connect("save-requested", gtk.main_quit)
-    #done_recording.connect("edit-requested", gtk.main_quit)
-    done_recording.run()
+    screencast = Screencast()
+    screencast.audio = True
+    
+    export = ExportFrontend(datadir, icons, screencast)
+    export.connect("back-requested", gtk.main_quit)
+    export.connect("export-requested", gtk.main_quit)
+    export.connect("quit-requested", gtk.main_quit)
+    export.run()
     gtk.main()
 
 
