@@ -44,15 +44,17 @@ class Screencast(object):
         
         # Add the audio source if selected
         if audio:
-            args_list += ["-f", "alsa", "-ac", "2", "-i", "pulse", 
-                        "-acodec", "pcm_s16le"]
+            args_list += ["-f", "alsa", "-i", "pulse"]
         
         # Add the video source
         args_list += ["-f", "x11grab", "-r", "30", "-s", 
                     "%sx%s" % (width, height), "-i", 
-                    "%s+%s,%s" % (display, x, y), "-vcodec", "libx264", 
-                    "-vpre", "lossless_ultrafast", "-threads", "0", 
-                    self.tempfile]
+                    "%s+%s,%s" % (display, x, y)]
+        if audio:
+            args_list += ["-ac", "2", "-acodec", "pcm_s16le"]
+                    
+        args_list += ["-vcodec", "libx264", "-vpre", 
+                    "lossless_ultrafast", "-threads", "0", self.tempfile]
         
         self.recording_command = Popen(args_list)
     
