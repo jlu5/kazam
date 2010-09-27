@@ -45,7 +45,7 @@ class Screencast(object):
         # Add the audio source if selected
         if audio:
             args_list += ["-f", "alsa", "-ac", "2", "-i", "pulse", 
-                        "-acodec", "vorbis"]
+                        "-acodec", "pcm_s16le"]
         
         # Add the video source
         args_list += ["-f", "x11grab", "-r", "30", "-s", 
@@ -82,8 +82,14 @@ class Screencast(object):
         args_list += ["-i", self.tempfile]
         # Add any UploadSource specific options
         args_list += options
+        
         # Configure the quality as selected by the user
-        args_list += ["-b", "%sk" % video_quality]
+        # If the quality slider circle is at the right-most position
+        # use the same quality option
+        if video_quality == 6001:
+            args_list += ["-sameq"]
+        else:
+            args_list += ["-b", "%sk" % video_quality]
         if audio_quality:
             args_list += ["-ab", "%sk" % audio_quality]
         # Finally add the desired output file
