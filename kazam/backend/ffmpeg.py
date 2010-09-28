@@ -51,7 +51,7 @@ class Screencast(object):
                     "%sx%s" % (width, height), "-i", 
                     "%s+%s,%s" % (display, x, y)]
         if audio:
-            args_list += ["-ac", "2", "-acodec", "pcm_s16le"]
+            args_list += ["-ac", "2", "-acodec", "flac", "-ab", "128k"]
                     
         args_list += ["-vcodec", "libx264", "-vpre", 
                     "lossless_ultrafast", "-threads", "0", self.tempfile]
