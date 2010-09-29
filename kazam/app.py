@@ -119,10 +119,10 @@ class KazamApp(object):
         gtk.main_quit()
         
     def cb_pause_requested(self, indicator):
-        self.screencast.pause()
+        self.screencast.pause_recording()
         
     def cb_unpause_requested(self, indicator):
-        self.screencast.unpause()
+        self.screencast.unpause_recording()
     
     def cb_edit_requested(self, done_recording, data):
         (command, args_list) = data
