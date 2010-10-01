@@ -57,6 +57,7 @@ def new_save_dialog(title, parent=None):
                         gtk.STOCK_SAVE, gtk.RESPONSE_OK))
     
     dialog.set_current_name("%s.mkv" % _("Untitled Screencast"))
+    dialog.set_do_overwrite_confirmation(True)
     
     # Try to set the default folder to be ~/Videos, otherwise 
     # ~/Documents, otherwise ~/
@@ -64,6 +65,7 @@ def new_save_dialog(title, parent=None):
     documents_path = os.path.expanduser("~/Documents/")
     home_path = os.path.expanduser("~/")
     if os.path.isdir(video_path):
+        dialog.add_shortcut_folder(video_path)
         dialog.set_current_folder(video_path)
     elif os.path.isdir(documents_path):
         dialog.set_current_folder(documents_path)
