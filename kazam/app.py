@@ -108,7 +108,7 @@ class KazamApp(object):
         self.window_countdown.connect("record-requested", self.cb_record_requested)
         self.window_countdown.run()
         
-        self.indicator = KazamIndicator()
+        self.indicator = KazamIndicator(self.config)
         self.indicator.connect("recording-done", self.cb_record_done_request_requested)    
         self.indicator.connect("pause-requested", self.cb_pause_requested)    
         self.indicator.connect("unpause-requested", self.cb_unpause_requested)    

@@ -25,6 +25,7 @@ import gettext
 import logging
 import gtk
 import gobject
+import keybinder
 
 from gettext import gettext as _
 
@@ -49,10 +50,11 @@ class KazamSuperIndicator(gobject.GObject):
                                   ),
     }
     
-    def __init__(self):
+    def __init__(self, config):
         super(KazamSuperIndicator, self).__init__()
         
         self.menu = gtk.Menu()
+        
         self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
         self.menuitem_pause.set_sensitive(False)
         self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
@@ -67,6 +69,14 @@ class KazamSuperIndicator(gobject.GObject):
         self.menu.append(self.menuitem_separator)
         self.menu.append(self.menuitem_quit)
         self.menu.show_all()
+        
+        # Set keyboard shortcuts
+        pause_shortcut = config.get("keyboard_shortcuts", "pause")
+        finish_shortcut = config.get("keyboard_shortcuts", "finish")
+        quit_shortcut = config.get("keyboard_shortcuts", "quit")
+        keybinder.bind(pause_shortcut, self.on_pause_shortcut_pressed_)
+        keybinder.bind(finish_shortcut, self.on_finish_shortcut_pressed_)
+        keybinder.bind(quit_shortcut, self.on_quit_shortcut_pressed_)
         
     def on_menuitem_pause_activate(self, menuitem_pause):
         if menuitem_pause.get_active():
@@ -86,14 +96,24 @@ class KazamSuperIndicator(gobject.GObject):
     def start_recording(self):
         self.menuitem_pause.set_sensitive(True)
         self.menuitem_finish.set_sensitive(True)
+        
+    def on_pause_shortcut_pressed_(self):
+        self.on_menuitem_pause_activate(self.menuitem_pause)
+        self.menuitem_pause.set_active(not self.menuitem_pause.get_active())
+        
+    def on_quit_shortcut_pressed_(self):
+        self.on_menuitem_quit_activate(self.menuitem_quit)
+        
+    def on_finish_shortcut_pressed_(self):
+        self.on_menuitem_finish_activate(self.menuitem_finish)
 
 try:
     import appindicator
     
     class KazamIndicator(KazamSuperIndicator):
     
-        def __init__(self):
-            super(KazamIndicator, self).__init__()
+        def __init__(self, config):
+            super(KazamIndicator, self).__init__(config)
             
             self.indicator = appindicator.Indicator("kazam", 
                                 "kazam-recording", 
@@ -128,8 +148,8 @@ except ImportError:
     
     class KazamIndicator(KazamSuperIndicator):
         
-        def __init__(self):
-            super(KazamIndicator, self).__init__()
+        def __init__(self, config):
+            super(KazamIndicator, self).__init__(config)
             
             self.indicator = gtk.StatusIcon()
             self.indicator.set_from_icon_name("kazam-countdown-5")

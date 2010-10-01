@@ -21,7 +21,7 @@
 #       MA 02110-1301, USA.
 
 import os
-from ConfigParser import SafeConfigParser
+from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
 from xdg.BaseDirectory import xdg_config_home
 
 class KazamConfig(SafeConfigParser):
@@ -33,6 +33,14 @@ class KazamConfig(SafeConfigParser):
                         "video_source":0,
                         "audio_toggled":False,
                         "audio_source":0,
+                        },
+                },
+                {
+                "name":"keyboard_shortcuts",
+                "keys":{
+                        "pause":"<Shift><Control>p",
+                        "finish":"<Shift><Control>f",
+                        "quit":"<Shift><Control>q",
                         },
                 }]
     
@@ -58,6 +66,26 @@ class KazamConfig(SafeConfigParser):
                 value = section["keys"][key]
                 self.set(section["name"], key, value)
 
+    def find_default(self, section, key):
+        for d_section in self.DEFAULTS:
+            if d_section["name"] == section:
+                for d_key in d_section["keys"]:
+                    if d_key == key:
+                        return d_section["keys"][key]
+        
+    def get(self, section, key):
+        try:
+            return SafeConfigParser.get(self, section, key)
+        except NoSectionError:
+            default = self.find_default(section, key)
+            self.set(section, key, default)
+            self.write()
+            return default
+        except NoOptionError:
+            default = self.find_default(section, key)
+            self.set(section, key, default)
+            self.write()
+            return default
     
     def set(self, section, option, value):
         # If the section referred to doesn't exist (rare case),
