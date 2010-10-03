@@ -29,7 +29,8 @@ Depends: ${python:Depends},
          python-gnome2-desktop,
          libavdevice52 | libavdevice-extra-52,
          libavcodec-extra-52,
-         python-xlib
+         python-xlib,
+	 python-keybinder
 Recommends: libtheora0,
             python-pycurl, 
             python-gdata
