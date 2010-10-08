@@ -20,6 +20,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import glib
 import gtk
 import gobject
 import webbrowser
@@ -41,7 +42,7 @@ Andrew Higginson <rugby471@gmail.com>
 """
 
 
-def new_about_dialog():
+def new_about_dialog(icons):
     dialog = gtk.AboutDialog()
     dialog.set_name(_("Kazam Screencaster"))
     dialog.set_comments(_("Record a video of activity on your screen."))
@@ -50,7 +51,12 @@ def new_about_dialog():
     dialog.set_website("http://launchpad.net/kazam")
     dialog.set_authors(AUTHORS.split("\n"))
     dialog.set_artists(ARTISTS.split("\n"))
-    dialog.set_logo_icon_name("kazam")
+    try:
+        icon = icons.load_icon("kazam", 96, ())
+        dialog.set_logo(icon)
+    except glib.GError:
+        # Not important, we just don't get to show our lovely logo.. :)
+        pass
     dialog.show_all()                                      
     result = dialog.run()
     dialog.hide()

@@ -39,7 +39,7 @@ class KazamStage(gobject.GObject):
         self.icons = icons
         
     def on_menuitem_about_activate(self, menuitem):
-        new_about_dialog()
+        new_about_dialog(self.icons)
         
     def on_menuitem_quit_activate(self, menuitem):
         self.emit("quit-requested")
