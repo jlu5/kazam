@@ -21,12 +21,10 @@
 #       MA 02110-1301, USA.
 
 import logging
-import gtk
 import cairo
 import gtk
 import gobject
 import rsvg
-import gobject
 import os
 
 from gettext import gettext as _
@@ -88,8 +86,9 @@ class CountdownWindow(KazamStage):
         self.svg.render_cairo(cairo_context)
 
         # Write our text
+        cairo_context.set_operator(cairo.OPERATOR_OVER)
         cairo_context.set_source_rgba(1, 1, 1, 1.0)
-        cairo_context.select_font_face("Aller", cairo.FONT_SLANT_NORMAL, 
+        cairo_context.select_font_face("Ubuntu", cairo.FONT_SLANT_NORMAL, 
                                         cairo.FONT_WEIGHT_NORMAL)
 
         #Set the font size before rendering center aligned
