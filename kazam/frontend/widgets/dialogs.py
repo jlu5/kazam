@@ -35,6 +35,11 @@ AUTHORS = """
 Andrew Higginson <rugby471@gmail.com>
 """
 
+ARTISTS = """
+Robert McKenna <ttk1opc@yahoo.com>
+Andrew Higginson <rugby471@gmail.com>
+"""
+
 
 def new_about_dialog():
     dialog = gtk.AboutDialog()
@@ -44,6 +49,7 @@ def new_about_dialog():
     dialog.set_copyright("© 2010 Andrew Higginson")
     dialog.set_website("http://launchpad.net/kazam")
     dialog.set_authors(AUTHORS.split("\n"))
+    dialog.set_artists(ARTISTS.split("\n"))
     dialog.set_logo_icon_name("kazam")
     dialog.show_all()                                      
     result = dialog.run()
