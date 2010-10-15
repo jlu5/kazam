@@ -68,7 +68,7 @@ class EasyTextAndObjectComboBox(EasyComboBox):
 
 class ExternalEditorCombobox(EasyComboBox):
     
-    KDENLIVE_VERSION = [0,7,7,1]
+    KDENLIVE_VERSION = [0,8]
     
     EDITORS = {
                 "/usr/share/applications/openshot.desktop":[],
