@@ -87,11 +87,15 @@ class ExportFrontend(KazamStage):
         self.on_combobox_export_changed(None)
         
     def setup_quality_sliders(self):
-        # Video Quality Slider
-        self.adjustment_quality_video = gtk.Adjustment(3000, 200, 6001, 1)
-        self.hscale_quality_video = gtk.HScale(self.adjustment_quality_video)
-        self.hscale_quality_video.set_draw_value(False)
-        self.hbox_quality_video.pack_start(self.hscale_quality_video)
+        
+        if self.screencast.get_video_recorded():
+            # Video Quality Slider
+            self.adjustment_quality_video = gtk.Adjustment(3000, 200, 6001, 1)
+            self.hscale_quality_video = gtk.HScale(self.adjustment_quality_video)
+            self.hscale_quality_video.set_draw_value(False)
+            self.hbox_quality_video.pack_start(self.hscale_quality_video)
+        else:
+            self.vbox_quality_video.destroy()
         
         # (If audio was recorded) Audio Quality Slider
         if self.screencast.get_audio_recorded():
@@ -156,7 +160,9 @@ class ExportFrontend(KazamStage):
         return meta
     
     def get_video_quality(self):
-        return self.adjustment_quality_video.get_value()
+        if self.screencast.get_video_recorded():
+            return self.adjustment_quality_video.get_value()
+        return False
     
     def get_audio_quality(self):
         if self.screencast.get_audio_recorded():

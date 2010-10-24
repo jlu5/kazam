@@ -31,32 +31,42 @@ class Screencast(object):
     def __init__(self):
         self.tempfile = tempfile.mktemp(suffix=".mkv")
         
-    def start_recording(self, video_source, audio=False):
-        self.audio = audio
-        x = video_source.x
-        y = video_source.y
-        width = video_source.width
-        height = video_source.height
-        display = video_source.display
+    def setup_sources(self, video_source, audio_source):
+        self.audio_source = audio_source
+        self.video_source = video_source
         
         # TODO: use gstreamer instead (see gstreamer.py for start)
-        args_list = ["ffmpeg"]
+        self.args_list = ["ffmpeg"]
         
         # Add the audio source if selected
-        if audio:
-            args_list += ["-f", "alsa", "-i", "pulse"]
+        if audio_source:
+            self.args_list += ["-f", "alsa", "-i", "pulse"]
         
         # Add the video source
-        args_list += ["-f", "x11grab", "-r", "30", "-s", 
-                    "%sx%s" % (width, height), "-i", 
-                    "%s+%s,%s" % (display, x, y)]
-        if audio:
-            args_list += ["-ac", "2", "-acodec", "flac", "-ab", "128k"]
-                    
-        args_list += ["-vcodec", "libx264", "-vpre", 
-                    "lossless_ultrafast", "-threads", "0", self.tempfile]
-        
-        self.recording_command = Popen(args_list)
+        if video_source:
+            x = video_source.x
+            y = video_source.y
+            width = video_source.width
+            height = video_source.height
+            display = video_source.display
+            self.args_list += ["-f", "x11grab", "-r", "30", "-s", 
+                        "%sx%s" % (width, height), "-i", 
+                        "%s+%s,%s" % (display, x, y)]
+        if audio_source:
+            self.args_list += ["-ac", "2", "-acodec", "flac", "-ab", "128k"]
+
+        if video_source:
+            self.args_list += ["-vcodec", "libx264", "-vpre", 
+                        "lossless_ultrafast"]
+        self.args_list += ["-threads", "0", self.tempfile]
+
+        arg_string = ""
+        for arg in self.args_list:
+            arg_string += " %s" % arg
+        print arg_string
+
+    def start_recording(self):
+        self.recording_command = Popen(self.args_list)
     
     def pause_recording(self):
         self.recording_command.send_signal(signal.SIGTSTP)
@@ -71,9 +81,12 @@ class Screencast(object):
         return self.tempfile
         
     def get_audio_recorded(self):
-        return self.audio
+        return self.audio_source
         
-    def convert(self, options, converted_file_extension, video_quality,
+    def get_video_recorded(self):
+        return self.video_source
+        
+    def convert(self, options, converted_file_extension, video_quality=None,
                     audio_quality=None):
                         
         self.converted_file_extension = converted_file_extension
@@ -90,7 +103,7 @@ class Screencast(object):
         # use the same quality option
         if video_quality == 6001:
             args_list += ["-sameq"]
-        else:
+        elif video_quality:
             args_list += ["-b", "%sk" % video_quality]
         if audio_quality:
             args_list += ["-ab", "%sk" % audio_quality]

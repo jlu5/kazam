@@ -1,12 +1,16 @@
-#, fuzzy
+# English (United Kingdom) translation for kazam
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the kazam package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: kazam\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-08 14:12+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2010-09-06 12:19+0000\n"
+"Last-Translator: jgraeme <Unknown>\n"
+"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,11 +23,11 @@ msgstr ""
 
 #: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 #: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
 msgid "Continue"
-msgstr ""
+msgstr "Continue"
 
 #: ../data/ui/authenticate.ui.h:4
 msgid "Email address:"
@@ -31,19 +35,19 @@ msgstr ""
 
 #: ../data/ui/authenticate.ui.h:5
 msgid "I want to register an account now"
-msgstr ""
+msgstr "I want to register an account now"
 
 #: ../data/ui/authenticate.ui.h:6
 msgid "Password:"
-msgstr ""
+msgstr "Password:"
 
 #: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
 msgid "About"
-msgstr ""
+msgstr "About"
 
 #: ../data/ui/done-recording.ui.h:4
 msgid "Edit with:"
-msgstr ""
+msgstr "Edit with:"
 
 #: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
 #: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
@@ -55,7 +59,7 @@ msgstr ""
 #: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
 #: ../kazam/frontend/indicator.py:65
 msgid "Quit"
-msgstr ""
+msgstr "Quit"
 
 #: ../data/ui/done-recording.ui.h:7
 msgid "Save for later use..."
@@ -70,44 +74,44 @@ msgstr ""
 #: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
 #: ../data/ui/start.ui.h:8
 msgid "_File"
-msgstr ""
+msgstr "_File"
 
 #: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
 #: ../data/ui/start.ui.h:9
 msgid "_Help"
-msgstr ""
+msgstr "_Help"
 
 #: ../data/ui/export.ui.h:1
 msgid "<b>Export to:</b>"
-msgstr ""
+msgstr "<b>Export to:</b>"
 
 #: ../data/ui/export.ui.h:2
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: ../data/ui/export.ui.h:3
 msgid "Back"
-msgstr ""
+msgstr "Back"
 
 #: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
 msgid "Close"
-msgstr ""
+msgstr "Close"
 
 #: ../data/ui/export.ui.h:5
 msgid "Crop"
-msgstr ""
+msgstr "Crop"
 
 #: ../data/ui/export.ui.h:6
 msgid "Export"
-msgstr ""
+msgstr "Export"
 
 #: ../data/ui/export.ui.h:8
 msgid "Quality:"
-msgstr ""
+msgstr "Quality:"
 
 #: ../data/ui/export.ui.h:9
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: ../data/ui/start.ui.h:5
 msgid "Record"
@@ -115,35 +119,35 @@ msgstr ""
 
 #: ../data/ui/start.ui.h:6
 msgid "Record Audio from:"
-msgstr ""
+msgstr "Record Audio from:"
 
 #: ../data/ui/start.ui.h:7
 msgid "Record Video from:"
-msgstr ""
+msgstr "Record Video from:"
 
 #: ../data/ui/export_sources/youtube.ui.h:1
 msgid "Category"
-msgstr ""
+msgstr "Category"
 
 #: ../data/ui/export_sources/youtube.ui.h:2
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #: ../data/ui/export_sources/youtube.ui.h:3
 msgid "Keywords"
-msgstr ""
+msgstr "Keywords"
 
 #: ../data/ui/export_sources/youtube.ui.h:4
 msgid "Private"
-msgstr ""
+msgstr "Private"
 
 #: ../data/ui/export_sources/youtube.ui.h:5
 msgid "Title"
-msgstr ""
+msgstr "Title"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Record a video of activity on your screen"
-msgstr ""
+msgstr "Record a video of activity on your screen"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
@@ -156,7 +160,7 @@ msgstr ""
 
 #: ../kazam/frontend/export.py:201
 msgid "Logging in..."
-msgstr ""
+msgstr "Logging in..."
 
 #: ../kazam/frontend/export.py:207
 msgid "Log-in completed."
@@ -164,7 +168,7 @@ msgstr ""
 
 #: ../kazam/frontend/export.py:209
 msgid "There was an error logging in."
-msgstr ""
+msgstr "There was an error logging in."
 
 #: ../kazam/frontend/export.py:214
 msgid "Converting screencast..."
@@ -176,7 +180,7 @@ msgstr ""
 
 #: ../kazam/frontend/export.py:220
 msgid "There was an error converting."
-msgstr ""
+msgstr "There was an error converting."
 
 #: ../kazam/frontend/export.py:225
 msgid "Uploading screencast..."
@@ -197,7 +201,7 @@ msgstr ""
 
 #: ../kazam/frontend/export.py:236
 msgid "There was an error uploading."
-msgstr ""
+msgstr "There was an error uploading."
 
 #: ../kazam/frontend/indicator.py:58
 msgid "Pause recording"
@@ -205,15 +209,15 @@ msgstr ""
 
 #: ../kazam/frontend/indicator.py:61
 msgid "Finish recording..."
-msgstr ""
+msgstr "Finish recording..."
 
 #: ../kazam/frontend/window_countdown.py:98
 msgid "Recording will start in..."
-msgstr ""
+msgstr "Recording will start in..."
 
 #: ../kazam/frontend/widgets/comboboxes.py:199
 msgid "Screen"
-msgstr ""
+msgstr "Screen"
 
 #: ../kazam/frontend/widgets/comboboxes.py:205
 msgid "All Screens"
@@ -226,7 +230,7 @@ msgstr ""
 
 #: ../kazam/frontend/widgets/comboboxes.py:218
 msgid "Computer"
-msgstr ""
+msgstr "Computer"
 
 #: ../kazam/frontend/widgets/dialogs.py:47
 msgid "Record a video of activity on your screen."
@@ -244,4 +248,4 @@ msgstr ""
 #: ../kazam/frontend/widgets/dialogs.py:154
 #, python-format
 msgid "I have a %s account:"
-msgstr ""
+msgstr "I have a %s account:"

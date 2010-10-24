@@ -1,12 +1,16 @@
-#, fuzzy
+# Hungarian translation for kazam
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the kazam package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: kazam\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-08 14:12+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2010-10-14 18:50+0000\n"
+"Last-Translator: Papp Bence <papp.bence89@gmail.com>\n"
+"Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,233 +19,235 @@ msgstr ""
 
 #: ../data/ui/authenticate.ui.h:1
 msgid " "
-msgstr ""
+msgstr " "
 
 #: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
 msgid "Cancel"
-msgstr ""
+msgstr "Mégsem"
 
 #: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
 msgid "Continue"
-msgstr ""
+msgstr "Folytat"
 
 #: ../data/ui/authenticate.ui.h:4
 msgid "Email address:"
-msgstr ""
+msgstr "E-mail cím:"
 
 #: ../data/ui/authenticate.ui.h:5
 msgid "I want to register an account now"
-msgstr ""
+msgstr "Felhasználói fiók létrehozása most."
 
 #: ../data/ui/authenticate.ui.h:6
 msgid "Password:"
-msgstr ""
+msgstr "Jelszó:"
 
 #: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
 msgid "About"
-msgstr ""
+msgstr "Névjegy"
 
 #: ../data/ui/done-recording.ui.h:4
 msgid "Edit with:"
-msgstr ""
+msgstr "Szerkesztés ezzel:"
 
 #: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
 #: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/widgets/comboboxes.py:106
 #: ../kazam/frontend/widgets/dialogs.py:46
 msgid "Kazam Screencaster"
-msgstr ""
+msgstr "Kazam Screencaster"
 
 #: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
 #: ../kazam/frontend/indicator.py:65
 msgid "Quit"
-msgstr ""
+msgstr "Kilépés"
 
 #: ../data/ui/done-recording.ui.h:7
 msgid "Save for later use..."
-msgstr ""
+msgstr "Mentés későbbi használatra..."
 
 #: ../data/ui/done-recording.ui.h:8
 msgid ""
 "Your screencast has finished recording.\n"
 "What do you want to do now?"
 msgstr ""
+"A képernyőkép rögzítése befejeződött.\n"
+"Mit szeretne most tenni?"
 
 #: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
 #: ../data/ui/start.ui.h:8
 msgid "_File"
-msgstr ""
+msgstr "_Fájl"
 
 #: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
 #: ../data/ui/start.ui.h:9
 msgid "_Help"
-msgstr ""
+msgstr "_Súgó"
 
 #: ../data/ui/export.ui.h:1
 msgid "<b>Export to:</b>"
-msgstr ""
+msgstr "<b>Exportálás ide:</b>"
 
 #: ../data/ui/export.ui.h:2
 msgid "Audio"
-msgstr ""
+msgstr "Hang"
 
 #: ../data/ui/export.ui.h:3
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
 #: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
 msgid "Close"
-msgstr ""
+msgstr "Bezárás"
 
 #: ../data/ui/export.ui.h:5
 msgid "Crop"
-msgstr ""
+msgstr "Vágás"
 
 #: ../data/ui/export.ui.h:6
 msgid "Export"
-msgstr ""
+msgstr "Exportálás"
 
 #: ../data/ui/export.ui.h:8
 msgid "Quality:"
-msgstr ""
+msgstr "Minőség:"
 
 #: ../data/ui/export.ui.h:9
 msgid "Video"
-msgstr ""
+msgstr "Videó"
 
 #: ../data/ui/start.ui.h:5
 msgid "Record"
-msgstr ""
+msgstr "Felvétel"
 
 #: ../data/ui/start.ui.h:6
 msgid "Record Audio from:"
-msgstr ""
+msgstr "Hang rögzítése:"
 
 #: ../data/ui/start.ui.h:7
 msgid "Record Video from:"
-msgstr ""
+msgstr "Videó rögzítése:"
 
 #: ../data/ui/export_sources/youtube.ui.h:1
 msgid "Category"
-msgstr ""
+msgstr "Kategória"
 
 #: ../data/ui/export_sources/youtube.ui.h:2
 msgid "Description"
-msgstr ""
+msgstr "Leírás"
 
 #: ../data/ui/export_sources/youtube.ui.h:3
 msgid "Keywords"
-msgstr ""
+msgstr "Kulcsszavak"
 
 #: ../data/ui/export_sources/youtube.ui.h:4
 msgid "Private"
-msgstr ""
+msgstr "Privát"
 
 #: ../data/ui/export_sources/youtube.ui.h:5
 msgid "Title"
-msgstr ""
+msgstr "Cím"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Record a video of activity on your screen"
-msgstr ""
+msgstr "Rögzítse a képernyőjén történő eseményeket videóba"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
-msgstr ""
+msgstr "Képernyőkép-felvevő"
 
 #. Open the save dialog
 #: ../kazam/app.py:149
 msgid "Save screencast"
-msgstr ""
+msgstr "Képernyőkép-felvétel mentése"
 
 #: ../kazam/frontend/export.py:201
 msgid "Logging in..."
-msgstr ""
+msgstr "Bejelentkezés..."
 
 #: ../kazam/frontend/export.py:207
 msgid "Log-in completed."
-msgstr ""
+msgstr "Bejelentkezés sikeres."
 
 #: ../kazam/frontend/export.py:209
 msgid "There was an error logging in."
-msgstr ""
+msgstr "Bejelentkezés sikertelen."
 
 #: ../kazam/frontend/export.py:214
 msgid "Converting screencast..."
-msgstr ""
+msgstr "Képernyőkép-felvétel konvertálása..."
 
 #: ../kazam/frontend/export.py:218
 msgid "Screencast converted."
-msgstr ""
+msgstr "Képernyőkép-felvétel konvertálva."
 
 #: ../kazam/frontend/export.py:220
 msgid "There was an error converting."
-msgstr ""
+msgstr "Hiba lépett fel a konvertálás során."
 
 #: ../kazam/frontend/export.py:225
 msgid "Uploading screencast..."
-msgstr ""
+msgstr "Képernyőkép-felvétel feltöltése..."
 
 #: ../kazam/frontend/export.py:229
 msgid "Screencast uploaded."
-msgstr ""
+msgstr "Képernyőkép-felvétel feltöltve."
 
 #. Show a dialog with the url of the uploaded file
 #: ../kazam/frontend/export.py:233
 msgid "Your screencast has uploaded successfully."
-msgstr ""
+msgstr "A képernyőkép-felvétel feltöltése sikeres."
 
 #: ../kazam/frontend/export.py:234
 msgid "It is available at the location below:"
-msgstr ""
+msgstr "Ezen a helyen található:"
 
 #: ../kazam/frontend/export.py:236
 msgid "There was an error uploading."
-msgstr ""
+msgstr "Hiba lépett fel a feltöltés során."
 
 #: ../kazam/frontend/indicator.py:58
 msgid "Pause recording"
-msgstr ""
+msgstr "Felvétel szüneteltetése"
 
 #: ../kazam/frontend/indicator.py:61
 msgid "Finish recording..."
-msgstr ""
+msgstr "Felvétel befejezése..."
 
 #: ../kazam/frontend/window_countdown.py:98
 msgid "Recording will start in..."
-msgstr ""
+msgstr "A felvétel elkezdődik..."
 
 #: ../kazam/frontend/widgets/comboboxes.py:199
 msgid "Screen"
-msgstr ""
+msgstr "Képernyő"
 
 #: ../kazam/frontend/widgets/comboboxes.py:205
 msgid "All Screens"
-msgstr ""
+msgstr "Minden képernyőn"
 
 #: ../kazam/frontend/widgets/comboboxes.py:207
 #, python-format
 msgid "Screen %s"
-msgstr ""
+msgstr "„%s” képernyő"
 
 #: ../kazam/frontend/widgets/comboboxes.py:218
 msgid "Computer"
-msgstr ""
+msgstr "Számítógép"
 
 #: ../kazam/frontend/widgets/dialogs.py:47
 msgid "Record a video of activity on your screen."
-msgstr ""
+msgstr "Képernyőképén törnénők rögzítése videóba."
 
 #: ../kazam/frontend/widgets/dialogs.py:65
 msgid "Untitled Screencast"
-msgstr ""
+msgstr "Névtelen képernyőkép felvétel"
 
 #: ../kazam/frontend/widgets/dialogs.py:150
 #, python-format
 msgid "To upload a screencast to %s, you need a %s account."
-msgstr ""
+msgstr "Hogy feltölthesse a videóját a %s, készítsen egy %s fiókot."
 
 #: ../kazam/frontend/widgets/dialogs.py:154
 #, python-format
 msgid "I have a %s account:"
-msgstr ""
+msgstr "Van %s fiókom:"

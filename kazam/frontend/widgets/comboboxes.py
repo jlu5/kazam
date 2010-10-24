@@ -236,5 +236,10 @@ class AudioCombobox(EasyComboBox):
     def _populate(self):
         liststore = self.get_model()
         liststore.append(self.SOURCES)
+
+    def get_selected_audio_source(self):
+        liststore = self.get_model()
+        iter_ = self.get_active_iter()
+        return liststore.get_value(iter_, 0)
             
 

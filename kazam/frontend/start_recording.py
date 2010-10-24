@@ -105,12 +105,26 @@ class RecordingStart(KazamStage):
     
     def on_checkbutton_video_toggled(self, checkbutton):
         self.combobox_video.set_sensitive(checkbutton.get_active())
-        
+        self.sensitise_record_button()
+
     def on_checkbutton_audio_toggled(self, checkbutton):
         self.combobox_audio.set_sensitive(checkbutton.get_active())
+        self.sensitise_record_button()
+
+    def sensitise_record_button(self):
+        video_source = self.checkbutton_video.get_active()
+        audio_source = self.checkbutton_audio.get_active()
+        self.button_record.set_sensitive(video_source or audio_source)
         
     def get_selected_video_source(self):
+        if not self.checkbutton_video.get_active():
+            return None
         return self.combobox_video.get_selected_video_source()
+        
+    def get_selected_audio_source(self):
+        if not self.checkbutton_audio.get_active():
+            return None
+        return self.combobox_audio.get_selected_audio_source()
         
         
 

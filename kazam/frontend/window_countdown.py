@@ -132,5 +132,18 @@ class CountdownWindow(KazamStage):
             self.emit("record-requested")
             self.window.destroy()
 
+if __name__=="__main__":
+
+    if os.path.exists("./data/ui/export.ui"):
+        logging.info("Running locally")
+        datadir = "./data"
+    else:
+        datadir = "/usr/share/kazam/"
+    
+    icons = gtk.icon_theme_get_default()
+    w = CountdownWindow(datadir, icons)
+    w.run()
+    gtk.main()
+
 
 

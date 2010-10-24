@@ -42,7 +42,7 @@ class UploadSource(UploadSuperSource):
     # FIXME: (eventually) These should be OGV options, however
     # Theora  messes up the frame rate :(
     FFMPEG_OPTIONS = []
-    FFMPEG_FILE_EXTENSION = "changed.mkv"
+    FFMPEG_FILE_EXTENSION = "changed.mp4"
     
     def __init__(self):
         super(UploadSource, self).__init__()
