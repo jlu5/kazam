@@ -30,7 +30,7 @@ Depends: ${python:Depends},
          libavdevice52 | libavdevice-extra-52,
          libavcodec-extra-52,
          python-xlib,
-	 python-keybinder
+         python-keybinder
 Recommends: libtheora0,
             python-pycurl, 
             python-gdata
