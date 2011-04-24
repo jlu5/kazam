@@ -37,7 +37,11 @@ class UploadSource(UploadSuperSource):
     NAME = "VideoBin"
     REGISTER_URL = None
 
-    META = {}
+    META = {
+            "title":"entry_title",
+            "description":"textview_description",
+            "email":"entry_email",
+            }
     
     # FIXME: (eventually) These should be OGV options, however
     # Theora  messes up the frame rate :(
@@ -59,7 +63,9 @@ class UploadSource(UploadSuperSource):
         pass
         
     ###
-    
+    def create_meta(self, **args):
+        self.video_entry = args
+
     def upload_pre(self):
         self.curl = pycurl.Curl()
         self.curl.setopt(self.curl.URL, self.URL)
@@ -67,8 +73,12 @@ class UploadSource(UploadSuperSource):
         self.curl.setopt(self.curl.WRITEFUNCTION, self._store)
         
     def upload_in(self, path):
-        self.curl.setopt(self.curl.HTTPPOST, [("api", "1"), 
-                        ("videoFile", (self.curl.FORM_FILE, path))])
+        opts = [("api", "1")]
+        for key in ("email", "title", "description"):
+            if self.video_entry[key]:
+                opts.append((key, self.video_entry[key]))
+        opts.append(("videoFile", (self.curl.FORM_FILE, path)))
+        self.curl.setopt(self.curl.HTTPPOST, opts)
         self.curl.perform()
         
     def upload_post(self):
