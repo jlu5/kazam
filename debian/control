@@ -24,13 +24,13 @@ Depends: ${python:Depends},
          python-cairo,
          python-rsvg,
          ffmpeg,
-         libx264-85 | libx264-98,
-         libmatroska0 | libmatroska2,
+         libx264-85 | libx264-98 | libx264-106,
+         libmatroska0 | libmatroska2 | libmatroska3,
          python-gnomedesktop,
          libavdevice52 | libavdevice-extra-52,
          libavcodec-extra-52,
          python-xlib,
-	 python-keybinder
+         python-keybinder
 Recommends: libtheora0,
             python-pycurl, 
             python-gdata
