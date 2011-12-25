@@ -1,3 +1,9 @@
+kazam (0.2) oneiric; urgency=low
+
+  * Added dependencies for Oneiric and Pangolin 
+
+ -- David Klasinc <bigwhale@lubica.net>  Sun, 25 Dec 2011 16:41:00 +0100
+
 kazam (0.11) maverick; urgency=low
 
   * New upstream version. Contains lots of bug fixes and new features

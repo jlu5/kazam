@@ -26,7 +26,9 @@ dh_installppp
 dh_installudev
 dh_installwm
 dh_installxfonts
+dh_installgsettings
 dh_bugfiles
+dh_ucf
 dh_lintian
 dh_gconf
 dh_icons
