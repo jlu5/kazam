@@ -29,7 +29,7 @@ import signal
 
 class Screencast(object):
     def __init__(self):
-        self.tempfile = tempfile.mktemp(suffix=".mkv")
+        self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".mkv")
         
     def setup_sources(self, video_source, audio_source):
         self.audio_source = audio_source

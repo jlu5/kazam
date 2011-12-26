@@ -65,7 +65,7 @@ class KazamApp(object):
         # Create our main screencast object (responsible for the
         # physical screencast on disk)
         self.screencast = Screencast()
-        
+
         # Let's start!
         self.recording_start = RecordingStart(self.datadir, self.icons, 
                                                 self.config)
@@ -117,8 +117,12 @@ class KazamApp(object):
         
     def cb_quit_requested(self, indicator):
         self.screencast.stop_recording()
+        try:
+            os.remove(self.screencast.tempfile)
+        except:
+            print "Unable to delete temporary file:", self.screencast.tempfile
         gtk.main_quit()
-        
+
     def cb_pause_requested(self, indicator):
         self.screencast.pause_recording()
         

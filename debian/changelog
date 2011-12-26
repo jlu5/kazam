@@ -1,8 +1,16 @@
+kazam (0.11~ppa2) oneiric; urgency=low
+
+  * Changed indicators so that they are more noticable.
+  * Renamed tempfile to kazam_*.mkv.
+  * Added cleanup to quit. No more leftover files in /tmp.
+
+ -- David Klasinc <bigwhale@lubica.net>  Mon, 26 Dec 2011 08:41:00 +0100
+
 kazam (0.11ppa1) oneiric; urgency=low
 
   * Added dependencies for Oneiric and Pangolin 
 
- -- David Klasinc <bigwhale@lubica.net>  Sun, 25 Dec 2011 16:41:00 +0100
+ -- David Klasinc <bigwhale@lubica.net>  Sun 25 Dec 2011 16:41:00 +0100
 
 kazam (0.11) maverick; urgency=low
 
