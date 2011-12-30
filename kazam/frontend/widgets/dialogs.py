@@ -34,6 +34,7 @@ from kazam.version import VERSION
 
 AUTHORS = """
 Andrew Higginson <rugby471@gmail.com>
+David Klasinc <bigwhale@lubica.net>
 """
 
 ARTISTS = """
@@ -62,13 +63,17 @@ def new_about_dialog(icons):
     dialog.hide()
         
 
-def new_save_dialog(title, parent=None):
+def new_save_dialog(title, backend="ffmpeg", parent=None):
     dialog = gtk.FileChooserDialog(title=title, parent=parent, 
                         action=gtk.FILE_CHOOSER_ACTION_SAVE, 
                         buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, 
                         gtk.STOCK_SAVE, gtk.RESPONSE_OK))
     
-    dialog.set_current_name("%s.mkv" % _("Untitled Screencast"))
+    if backend == "ffmpeg":
+        dialog.set_current_name("%s.mkv" % _("Untitled Screencast"))
+    else:
+        dialog.set_current_name("%s.webm" % _("Untitled Screencast"))
+
     dialog.set_do_overwrite_confirmation(True)
     
     # Try to set the default folder to be ~/Videos, otherwise 

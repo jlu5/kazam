@@ -3,7 +3,7 @@
 #
 #       gstreamer.py
 #       
-#       Copyright 2010 Andrew <andrew@karmic-desktop>
+#       Copyright 2010 David Klasinc <bigwhale@lubica.net>
 #       
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -20,26 +20,147 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-"""self.pipeline_string = ""
-self.add_element("pulsesrc")
-self.add_element("audioconvert")
-self.add_element("flacenc")
-self.add_element("matroskamux", {"name":"mux"})
-self.add_element("filesink", {"location":"/tmp/file.mkv"}, endpipe=False)
-self.add_element("ximagesrc", {"startx":20, "starty":20, "endx":300, "endy":300})
-self.add_element("video/x-raw-rgb,framerate=5/1")
-self.add_element("ffmpegcolorspace")
-self.add_element("diracenc", {"lossless":"true"})
-self.add_element("mux.", endpipe=False)
+from subprocess import Popen
+import tempfile
+import os
+import gobject
+import glib
+import signal
+import multiprocessing
+import pygst
+pygst.require("0.10")
+import gst
 
-print self.pipeline_string
-self.pipeline = gst.parse_launch(self.pipeline_string)
 
-def add_element(self, element, properties={}, endpipe=True):
-self.pipeline_string += element
-for prop in properties:
-    self.pipeline_string += " %s=%s" % (prop, properties[prop])
-if endpipe:
-    self.pipeline_string += " ! "
-else:
-    self.pipeline_string += "  " """
+class Screencast(object):
+    def __init__(self):
+        self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".mkv")
+        self.pipeline = gst.Pipeline("Kazam")
+        
+    def setup_sources(self, video_source, audio_source):
+        
+        # Get the number of cores available then use all except one for encoding
+        cores = multiprocessing.cpu_count()
+
+        if cores > 1:
+            cores = cores - 1
+
+        self.audio_source = audio_source
+        x = video_source.x
+        y = video_source.y
+        width = video_source.width
+        height = video_source.height
+        display = video_source.display
+        self.videosrc = gst.element_factory_make("ximagesrc", "video_src")
+        self.videosrc.set_property("startx", x)
+        self.videosrc.set_property("starty", y)
+        self.videosrc.set_property("endx", width)
+        self.videosrc.set_property("endy", height)
+        self.videosrc.set_property("use-damage", False)
+        self.videosrc.set_property("show-pointer", True)   # This should be made customizable
+  
+        self.videorate = gst.element_factory_make("videorate", "video_rate")
+        self.vid_caps = gst.Caps("video/x-raw-rgb, framerate=15/1")  # This also ...
+        self.vid_caps_filter = gst.element_factory_make("capsfilter", "vid_filter")
+        self.vid_caps_filter.set_property("caps", self.vid_caps)
+
+        self.ffmpegcolor = gst.element_factory_make("ffmpegcolorspace", "ffmpeg")
+        self.videnc = gst.element_factory_make("vp8enc", "video_encoder")
+        self.videnc.set_property("speed", 2)
+        self.videnc.set_property("quality", 10)
+        self.videnc.set_property("threads", cores)
+
+        self.sink = gst.element_factory_make("filesink", "sink")
+        self.sink.set_property("location", self.tempfile)
+        self.mux = gst.element_factory_make("webmmux", "muxer")
+        self.vid_in_queue = gst.element_factory_make("queue", "queue_v1")
+        self.vid_out_queue = gst.element_factory_make("queue", "queue_v2")
+
+        self.file_queue = gst.element_factory_make("queue", "queue_file")
+
+        if self.audio_source:
+            self.audiosrc = gst.element_factory_make("pulsesrc", "audio_src")
+            self.aud_caps = gst.Caps("audio/x-raw-int")
+            self.aud_caps_filter = gst.element_factory_make("capsfilter", "aud_filter")
+            self.aud_caps_filter.set_property("caps", self.aud_caps)
+            self.audioconv = gst.element_factory_make("audioconvert", "audio_conv")
+            self.audioenc = gst.element_factory_make("flacenc", "audio_encoder")
+
+            self.aud_in_queue = gst.element_factory_make("queue", "queue_a1")
+            self.aud_out_queue = gst.element_factory_make("queue", "queue_a2")
+
+            self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
+                              self.ffmpegcolor, self.videnc, self.audiosrc, self.aud_in_queue,
+                              self.aud_caps_filter, self.vid_out_queue, self.aud_out_queue,
+                              self.audioenc, self.mux, self.file_queue, self.sink)
+
+            gst.element_link_many(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
+                                  self.ffmpegcolor, self.videnc, self.vid_out_queue, self.mux)
+
+            gst.element_link_many(self.audiosrc, self.aud_in_queue, self.aud_caps_filter,
+                                  self.audioenc, self.aud_out_queue, self.mux)
+
+            gst.element_link_many(self.mux, self.file_queue, self.sink)
+        else:
+            self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
+                              self.ffmpegcolor, self.videnc, self.vid_out_queue, self.mux, self.sink)
+
+            gst.element_link_many(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
+                                  self.ffmpegcolor, self.videnc, self.vid_out_queue, self.mux, self.sink)
+
+    def start_recording(self):
+        self.pipeline.set_state(gst.STATE_PLAYING)
+
+    def pause_recording(self):
+        self.pipeline.set_state(gst.STATE_PAUSED)
+        
+    def unpause_recording(self):
+        self.pipeline.set_state(gst.STATE_PLAYING)
+    
+    def stop_recording(self):
+        self.pipeline.set_state(gst.STATE_NULL)
+        
+    def get_recording_filename(self):
+        return self.tempfile
+        
+    def get_audio_recorded(self):
+        return self.audio
+        
+    def convert(self, options, converted_file_extension, video_quality,
+                    audio_quality=None):
+                        
+        self.converted_file_extension = converted_file_extension
+        
+        # Create our ffmpeg arguments list
+        args_list = ["ffmpeg"]
+        # Add the input file
+        args_list += ["-i", self.tempfile]
+        # Add any UploadSource specific options
+        args_list += options
+        
+        # Configure the quality as selected by the user
+        # If the quality slider circle is at the right-most position
+        # use the same quality option
+        if video_quality == 6001:
+            args_list += ["-sameq"]
+        else:
+            args_list += ["-b", "%sk" % video_quality]
+        if audio_quality:
+            args_list += ["-ab", "%sk" % audio_quality]
+        # Finally add the desired output file
+        args_list += ["%s%s" %(self.tempfile[:-4], converted_file_extension)]
+        
+        # Run the ffmpeg command and when it is done, set a variable to 
+        # show we have finished
+        command = Popen(args_list)
+        glib.timeout_add(100, self._poll, command)
+        
+    def _poll(self, command):
+        ret = command.poll()
+        if ret is None:
+            # Keep monitoring
+            return True
+        else:
+            self.converted_file = "%s%s" %(self.tempfile[:-4], self.converted_file_extension)
+            return False
+ 

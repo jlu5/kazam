@@ -57,25 +57,11 @@ class Screencast(object):
 
         if video_source:
             self.args_list += ["-vcodec", "libx264",
-                               "-coder", "0",
-                               "-flags", "+loop+cgop",
-                               "-cmp", "+chroma",
-                               "-partitions", "-parti8x8-parti4x4-partp8x8-partp4x4-partb8x8",
-                               "-me_method", "dia", 
-                               "-subq", "0",
-                               "-me_range", "16",
-                               "-g", "250",
-                               "-keyint_min", "25",
-                               "-sc_threshold", "40",
-                               "-i_qfactor", "0.71",
-                               "-b_strategy", "1",
-                               "-qcomp", "0.6",
-                               "-qmin", "0",
-                               "-qmax", "69",
-                               "-qdiff", "4",
-                               "-directpred", "1",
-                               "-flags2", "+fastpskip",
-                               "-cqp", "0"
+                               "-crf", "0",
+                               "-preset", "fast",
+                               "-tune", "stillimage",
+                               "-vf", "unsharp=3:3:0.5:3:3:0.0"
+
                               ]
         self.args_list += ["-threads", "0", self.tempfile]
 
