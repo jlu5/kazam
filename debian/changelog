@@ -1,3 +1,20 @@
+kazam (0.12~ppa1) oneiric; urgency=low
+
+  * Temporarily disabled ffmpeg support and removed all dependencies for
+    ffmpeg.
+  * Default backend is now gstreamer and will hopefully stay this way.
+  * Video is now encoded with vp8 instead of x264 due to availability
+    problems.
+  * Audio is now encoded with Ogg Vorbis.
+  * A/V container is now WebM.
+  * Support for multiple displays is somewhat broken. It will probably
+    workif you have two displays side by side.
+  * Audio device selection is now done directly from PulseAudio. To record
+    application sounds instead of microphone input you will have to select
+    one of the monitor devices.
+
+ -- David Klasinc <bigwhale@lubica.net>  Mon, 31 Dec 2011 10:51:00 +0100
+
 kazam (0.11~ppa2) oneiric; urgency=low
 
   * Changed indicators so that they are more noticable.

@@ -39,9 +39,11 @@ class RecordingStart(KazamStage):
     }
 
     
-    def __init__(self, datadir, icons, config):
+    def __init__(self, datadir, icons, config, audio_sources):
         super(RecordingStart, self).__init__(datadir, icons)
         self.config = config
+
+        self.audio_sources = audio_sources
         
         # Setup UI
         setup_ui(self, os.path.join(datadir, "ui", "start.ui"))   
@@ -51,7 +53,7 @@ class RecordingStart(KazamStage):
         
         # Add our comboboxes
         self.combobox_video = VideoCombobox()
-        self.combobox_audio = AudioCombobox()
+        self.combobox_audio = AudioCombobox(self.audio_sources)
         self.combobox_backend = BackendCombobox()
         # Pack them
         self.table_sources.attach(self.combobox_video, 1, 2, 0, 1)

@@ -50,12 +50,14 @@ class Screencast(object):
         y = video_source.y
         width = video_source.width
         height = video_source.height
+        endx = x + width - 1
+        endy = y + height - 1
         display = video_source.display
         self.videosrc = gst.element_factory_make("ximagesrc", "video_src")
         self.videosrc.set_property("startx", x)
         self.videosrc.set_property("starty", y)
-        self.videosrc.set_property("endx", width)
-        self.videosrc.set_property("endy", height)
+        self.videosrc.set_property("endx", endx)
+        self.videosrc.set_property("endy", endy)
         self.videosrc.set_property("use-damage", False)
         self.videosrc.set_property("show-pointer", True)   # This should be made customizable
   
@@ -80,11 +82,13 @@ class Screencast(object):
 
         if self.audio_source:
             self.audiosrc = gst.element_factory_make("pulsesrc", "audio_src")
+            self.audiosrc.set_property("device", self.audio_source)
             self.aud_caps = gst.Caps("audio/x-raw-int")
             self.aud_caps_filter = gst.element_factory_make("capsfilter", "aud_filter")
             self.aud_caps_filter.set_property("caps", self.aud_caps)
             self.audioconv = gst.element_factory_make("audioconvert", "audio_conv")
-            self.audioenc = gst.element_factory_make("flacenc", "audio_encoder")
+            self.audioenc = gst.element_factory_make("vorbisenc", "audio_encoder")
+            self.audioenc.set_property("quality", 1)
 
             self.aud_in_queue = gst.element_factory_make("queue", "queue_a1")
             self.aud_out_queue = gst.element_factory_make("queue", "queue_a2")
@@ -92,13 +96,13 @@ class Screencast(object):
             self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
                               self.ffmpegcolor, self.videnc, self.audiosrc, self.aud_in_queue,
                               self.aud_caps_filter, self.vid_out_queue, self.aud_out_queue,
-                              self.audioenc, self.mux, self.file_queue, self.sink)
+                              self.audioconv, self.audioenc, self.mux, self.file_queue, self.sink)
 
             gst.element_link_many(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
                                   self.ffmpegcolor, self.videnc, self.vid_out_queue, self.mux)
 
-            gst.element_link_many(self.audiosrc, self.aud_in_queue, self.aud_caps_filter,
-                                  self.audioenc, self.aud_out_queue, self.mux)
+            gst.element_link_many(self.audiosrc, self.aud_in_queue, self.aud_caps_filter, 
+                                  self.audioconv, self.audioenc, self.aud_out_queue, self.mux)
 
             gst.element_link_many(self.mux, self.file_queue, self.sink)
         else:

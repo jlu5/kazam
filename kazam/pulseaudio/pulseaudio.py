@@ -29,9 +29,9 @@ try:
 except:
     raise PAError(PA_LOAD_ERROR, "Unable to load pulseaudio wrapper lib. Is PulseAudio installed?")
 
-class PulseAudio_Q:
+class pulseaudio_q:
     def __init__(self):
-        """PulseAudio_Q constructor.
+        """pulseaudio_q constructor.
 
         Initializes and sets all the necessary startup variables.
 
@@ -70,7 +70,6 @@ class PulseAudio_Q:
         Raises:
             PAError, PA_GET_STATE_ERROR if pa_context_get_state() failed.
         """
-
         try:
             state = pa_context_get_state(context)
 
@@ -107,12 +106,11 @@ class PulseAudio_Q:
         Raises:
             None
         """
-
         if eol == 0:
             self.pa_status = PA_WORKING
             self._sources.append([source_info.contents.index,
                                  source_info.contents.name,
-                                 source_info.contents.description])
+                                 " ".join(source_info.contents.description.split())])
         else:
             self.pa_status = PA_FINISHED
 
@@ -148,10 +146,10 @@ class PulseAudio_Q:
                 raise PAError(PA_UNABLE_TO_CONNECT, "Unable to connect to PulseAudio server.")
         except:
             raise PAError(PA_UNABLE_TO_CONNECT2, "Unable to initiate connection to PulseAudio server.")
-
         try:
             pa_context_set_state_callback(self.pa_ctx, self._pa_state_cb, None)
             pa_threaded_mainloop_start(self.pa_ml)
+            time.sleep(0.1)  # Mainloop needs some time to start ...
             pa_context_get_state(self.pa_ctx)
         except:
             raise PAError(PA_MAINLOOP_START_ERROR, "Unable to start mainloop.")
@@ -177,7 +175,7 @@ class PulseAudio_Q:
             raise PAError(PA_MAINLOOP_END_ERROR, "Unable to end mainloop.")
 
     def get_audio_sources(self):
-        try:
+        try: 
             pa_context_get_source_info_list(self.pa_ctx, self._pa_sourcelist_cb, None);
             t = time.clock()
             while time.clock() - t < 5:

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-26 10:39+0100\n"
+"POT-Creation-Date: 2011-12-31 10:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,13 +50,13 @@ msgid "Edit with:"
 msgstr ""
 
 #: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
-#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
+#: ../data/ui/start.ui.h:4 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/widgets/comboboxes.py:106
-#: ../kazam/frontend/widgets/dialogs.py:47
+#: ../kazam/frontend/widgets/dialogs.py:48
 msgid "Kazam Screencaster"
 msgstr ""
 
-#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
+#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:5
 #: ../kazam/frontend/indicator.py:65
 msgid "Quit"
 msgstr ""
@@ -72,12 +72,12 @@ msgid ""
 msgstr ""
 
 #: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
-#: ../data/ui/start.ui.h:8
+#: ../data/ui/start.ui.h:9
 msgid "_File"
 msgstr ""
 
 #: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
-#: ../data/ui/start.ui.h:9
+#: ../data/ui/start.ui.h:10
 msgid "_Help"
 msgstr ""
 
@@ -93,7 +93,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:3
 msgid "Close"
 msgstr ""
 
@@ -113,15 +113,19 @@ msgstr ""
 msgid "Video"
 msgstr ""
 
-#: ../data/ui/start.ui.h:5
-msgid "Record"
+#: ../data/ui/start.ui.h:2
+msgid "Backend selection"
 msgstr ""
 
 #: ../data/ui/start.ui.h:6
-msgid "Record Audio from:"
+msgid "Record"
 msgstr ""
 
 #: ../data/ui/start.ui.h:7
+msgid "Record Audio from:"
+msgstr ""
+
+#: ../data/ui/start.ui.h:8
 msgid "Record Video from:"
 msgstr ""
 
@@ -160,7 +164,7 @@ msgid "Screencaster"
 msgstr ""
 
 #. Open the save dialog
-#: ../kazam/app.py:154
+#: ../kazam/app.py:170
 msgid "Save screencast"
 msgstr ""
 
@@ -234,24 +238,27 @@ msgstr ""
 msgid "Screen %s"
 msgstr ""
 
-#: ../kazam/frontend/widgets/comboboxes.py:218
-msgid "Computer"
+#. ffmpeg is temporarily disabled, until I figure out what to do with it
+#. and which codec should be used for encoding
+#: ../kazam/frontend/widgets/comboboxes.py:248
+msgid "gstreamer"
 msgstr ""
 
-#: ../kazam/frontend/widgets/dialogs.py:48
+#: ../kazam/frontend/widgets/dialogs.py:49
 msgid "Record a video of activity on your screen."
 msgstr ""
 
-#: ../kazam/frontend/widgets/dialogs.py:71
+#: ../kazam/frontend/widgets/dialogs.py:73
+#: ../kazam/frontend/widgets/dialogs.py:75
 msgid "Untitled Screencast"
 msgstr ""
 
-#: ../kazam/frontend/widgets/dialogs.py:156
+#: ../kazam/frontend/widgets/dialogs.py:161
 #, python-format
 msgid "To upload a screencast to %s, you need a %s account."
 msgstr ""
 
-#: ../kazam/frontend/widgets/dialogs.py:160
+#: ../kazam/frontend/widgets/dialogs.py:165
 #, python-format
 msgid "I have a %s account:"
 msgstr ""

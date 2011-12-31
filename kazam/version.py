@@ -1,5 +1,5 @@
 
-VERSION='0.11~ppa2'
+VERSION='0.12~ppa1'
 CODENAME='oneiric'
 DISTRO='Ubuntu'
 RELEASE='11.10'

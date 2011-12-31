@@ -38,6 +38,7 @@ from kazam.frontend.indicator import KazamIndicator
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.start_recording import RecordingStart
 from kazam.frontend.export import ExportFrontend
+from kazam.pulseaudio.pulseaudio import pulseaudio_q
 
 class KazamApp(object):
 
@@ -61,9 +62,19 @@ class KazamApp(object):
         self.done_recording = None
         self.export = None
         
+        # Try to find all the audio sources
+        try:
+            pa_q = pulseaudio_q()
+            pa_q.start()
+            self.audio_sources = pa_q.get_audio_sources()
+            pa_q.end()
+        except:
+            # Something went wrong, just fallback to no-sound
+            self.audio_sources = [[0, 'N/A', 'N/A']]
+
         # Let's start!
         self.recording_start = RecordingStart(self.datadir, self.icons, 
-                                                self.config)
+                                                self.config, self.audio_sources)
         self.recording_start.connect("countdown-requested", self.cb_countdown_requested)
         self.recording_start.connect("quit-requested", gtk.main_quit)
         
@@ -103,7 +114,11 @@ class KazamApp(object):
 
         self.screencast = Screencast()
 
-        self.audio_source = self.recording_start.checkbutton_audio.get_active()
+        if self.recording_start.checkbutton_audio.get_active():
+            self.audio_source = self.audio_sources[self.recording_start.get_selected_audio_source()][1]
+        else:
+            self.audio_source = None
+
         self.video_source = self.recording_start.get_selected_video_source()
 
         self.screencast.setup_sources(self.video_source, self.audio_source)
