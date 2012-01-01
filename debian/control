@@ -1,7 +1,7 @@
 Source: kazam
 Section: video
 Priority: optional
-Maintainer: Andrew Higginson <rugby471@gmail.com>
+Maintainer: David Klasinc <bigwhale@lubica.net> 
 Build-Depends: debhelper (>= 7.0.50),
                lsb-release,
                gettext,
@@ -23,19 +23,16 @@ Depends: ${python:Depends},
          python-xdg,
          python-cairo,
          python-rsvg,
-         ffmpeg,
-         libx264-85 | libx264-98 | libx264-106,
-         libmatroska0 | libmatroska2 | libmatroska3,
-         python-gnomedesktop,
-         libavdevice52 | libavdevice-extra-52,
-         libavcodec-extra-52,
          python-xlib,
-         python-keybinder
+         python-keybinder,
+         gstreamer0.10-plugins-base,
+         gstreamer0.10-plugins-good,
+         gstreamer0.10-plugins-bad
 Recommends: libtheora0,
             python-pycurl, 
             python-gdata
 XB-Python-Version: ${python:Versions}
-Description: easy to use application for recording on-screen action
+Description: Easy to use application for recording on-screen action
  A program that lets you record action on-screen into one video file.
  It's special features include a well designed interface, the ability
  to record audio playing on your computer and built-in exporting 

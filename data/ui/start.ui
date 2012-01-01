@@ -70,7 +70,7 @@
             <child>
               <object class="GtkTable" id="table_sources">
                 <property name="visible">True</property>
-                <property name="n_rows">2</property>
+                <property name="n_rows">3</property>
                 <property name="n_columns">2</property>
                 <property name="column_spacing">3</property>
                 <property name="row_spacing">10</property>
@@ -110,7 +110,20 @@
                 <child>
                   <placeholder/>
                 </child>
-              </object>
+		<child>
+		  <placeholder/>
+		</child>
+		<child>
+		  <object class="GtkLabel" id="label1">
+	            <property name="visible">True</property>
+		    <property name="label" translatable="yes">Backend selection</property>
+	          </object>
+                  <packing> 
+                    <property name="top_attach">2</property>
+		    <property name="bottom_attach">3</property>
+		  </packing>
+   	        </child>
+	    </object>
             </child>
           </object>
           <packing>

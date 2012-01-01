@@ -33,6 +33,7 @@ class KazamConfig(SafeConfigParser):
                         "video_source":0,
                         "audio_toggled":False,
                         "audio_source":0,
+                        "backend":0,
                         },
                 },
                 {

@@ -29,7 +29,7 @@ import signal
 
 class Screencast(object):
     def __init__(self):
-        self.tempfile = tempfile.mktemp(suffix=".mkv")
+        self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".mkv")
         
     def setup_sources(self, video_source, audio_source):
         self.audio_source = audio_source
@@ -56,8 +56,13 @@ class Screencast(object):
             self.args_list += ["-ac", "2", "-acodec", "flac", "-ab", "128k"]
 
         if video_source:
-            self.args_list += ["-vcodec", "libx264", "-vpre", 
-                        "lossless_ultrafast"]
+            self.args_list += ["-vcodec", "libx264",
+                               "-crf", "0",
+                               "-preset", "fast",
+                               "-tune", "stillimage",
+                               "-vf", "unsharp=3:3:0.5:3:3:0.0"
+
+                              ]
         self.args_list += ["-threads", "0", self.tempfile]
 
         arg_string = ""

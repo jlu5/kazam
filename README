@@ -1,1 +1,56 @@
 
+           Kazam Screencaster v0.12 
+
+
+Introduction
+------------
+
+Kazam is a simple screen recording program that will capture the content
+of your screen and record a video file that can be played by any video
+player that supports VP8/WebM video format.
+
+Optionally you can record sound from any sound input device that is
+supported and visible by PulseAudio.
+
+
+
+Latest version
+--------------
+
+Kazam is always available from Launchpad under https://launchpad.net/kazam
+
+Right now there are only unstable versions available, the project is still
+in development and a stable release is planned for Ubuntu 12.04.
+
+
+
+Installation
+------------
+
+For Ubuntu, the best way to install is to add a PPA repository and then
+use apt-get command or Software Center.
+
+For distribution independent installation you will have to get the latest
+source code from Launchpad by running the following command:
+
+   $ bzr branch lp:kazam
+
+Then you need to run setup.py to build and install Kazam:
+
+   $ cd kazam
+   # python setup.py install
+
+You will have to run setup as root user or use sudo. Default installation
+path is /usr/local.
+
+
+
+Known Issues
+------------
+
+- Ffmpeg support is currently not working and has been turned off. Editing
+videos with Kazam will most likely be broken.
+
+- Support for multiple monitors is there, but your mileage may vary. It
+was tested only on two screen setup where both screens are side by side.
+

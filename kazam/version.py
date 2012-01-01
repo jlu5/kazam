@@ -1,5 +1,5 @@
 
-VERSION='0.11'
-CODENAME='maverick'
+VERSION='0.12~ppa1'
+CODENAME='oneiric'
 DISTRO='Ubuntu'
-RELEASE='10.10'
+RELEASE='11.10'

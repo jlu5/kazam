@@ -64,8 +64,12 @@ if __name__ == "__main__":
         logging.info("Running locally")
         datadir = "../data"
     else:
-        datadir = "/usr/share/kazam/"
-    
+        # A bit flexible setting of datadir, it takes care
+        # when base install path is not /usr
+        curpath = os.path.abspath(__file__)
+        datadir = curpath.split('bin/')[0] + "share/kazam/"
+
+
     from kazam.app import KazamApp
     
     app = KazamApp(datadir)

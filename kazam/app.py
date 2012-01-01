@@ -31,7 +31,6 @@ from subprocess import Popen
 from SimpleGtkbuilderApp import SimpleGtkbuilderApp
 from gettext import gettext as _
 
-from kazam.backend.ffmpeg import Screencast
 from kazam.backend.config import KazamConfig
 from kazam.frontend.widgets.dialogs import new_save_dialog
 from kazam.frontend.window_countdown import CountdownWindow
@@ -39,6 +38,7 @@ from kazam.frontend.indicator import KazamIndicator
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.start_recording import RecordingStart
 from kazam.frontend.export import ExportFrontend
+from kazam.pulseaudio.pulseaudio import pulseaudio_q
 
 class KazamApp(object):
 
@@ -62,13 +62,19 @@ class KazamApp(object):
         self.done_recording = None
         self.export = None
         
-        # Create our main screencast object (responsible for the
-        # physical screencast on disk)
-        self.screencast = Screencast()
-        
+        # Try to find all the audio sources
+        try:
+            pa_q = pulseaudio_q()
+            pa_q.start()
+            self.audio_sources = pa_q.get_audio_sources()
+            pa_q.end()
+        except:
+            # Something went wrong, just fallback to no-sound
+            self.audio_sources = [[0, 'N/A', 'N/A']]
+
         # Let's start!
         self.recording_start = RecordingStart(self.datadir, self.icons, 
-                                                self.config)
+                                                self.config, self.audio_sources)
         self.recording_start.connect("countdown-requested", self.cb_countdown_requested)
         self.recording_start.connect("quit-requested", gtk.main_quit)
         
@@ -98,12 +104,25 @@ class KazamApp(object):
     def cb_record_requested(self, window_countdown):
         self.indicator.start_recording()
         self.screencast.start_recording()
-        
+
     def cb_countdown_requested(self, recording_start):
-        audio_source = self.recording_start.checkbutton_audio.get_active()
-        video_source = self.recording_start.get_selected_video_source()
-        self.screencast.setup_sources(video_source, audio_source)
-        
+        self.backend = self.recording_start.get_selected_backend()
+        if self.backend == "gstreamer":
+            from kazam.backend.gstreamer import Screencast
+        else:
+            from kazam.backend.ffmpeg import Screencast
+
+        self.screencast = Screencast()
+
+        if self.recording_start.checkbutton_audio.get_active():
+            self.audio_source = self.audio_sources[self.recording_start.get_selected_audio_source()][1]
+        else:
+            self.audio_source = None
+
+        self.video_source = self.recording_start.get_selected_video_source()
+
+        self.screencast.setup_sources(self.video_source, self.audio_source)
+
         self.window_countdown = CountdownWindow(self.datadir, self.icons)
         self.window_countdown.connect("count", self.on_window_countdown_count)
         self.window_countdown.connect("record-requested", self.cb_record_requested)
@@ -117,8 +136,12 @@ class KazamApp(object):
         
     def cb_quit_requested(self, indicator):
         self.screencast.stop_recording()
+        try:
+            os.remove(self.screencast.tempfile)
+        except:
+            print "Unable to delete temporary file:", self.screencast.tempfile
         gtk.main_quit()
-        
+
     def cb_pause_requested(self, indicator):
         self.screencast.pause_recording()
         
@@ -147,14 +170,19 @@ class KazamApp(object):
         
     def cb_save_requested(self, done_recording):
         # Open the save dialog
-        (save_dialog, result) = new_save_dialog(_("Save screencast"), 
+        (save_dialog, result) = new_save_dialog(_("Save screencast"), self.backend, 
                                             self.done_recording.window)
         # If the user clicks save
         if result == gtk.RESPONSE_OK:
             # Make sure the filename ends with .mkv
             uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
-            if not uri.endswith(".mkv"):
-                uri += ".mkv"
+            if self.backend == "ffmpeg":
+                if not uri.endswith(".mkv"):
+                    uri += ".mkv"
+            else:
+                if not uri.endswith(".webm"):
+                    uri += ".webm"
+
             # And move the temporary recorded file to the desired save location
             shutil.move(self.screencast.get_recording_filename(), uri)
             # And quit

@@ -215,11 +215,10 @@ class VideoCombobox(EasyComboBox):
             
 class AudioCombobox(EasyComboBox):
     
-    SOURCES = [_("Computer")]
-    
-    def __init__(self):
+    def __init__(self, audio_sources):
         super(AudioCombobox, self).__init__()
 
+        self.audio_sources = audio_sources
         # Cell renders
         cr_text = gtk.CellRendererText()
         self.pack_start(cr_text, True)
@@ -235,11 +234,41 @@ class AudioCombobox(EasyComboBox):
         
     def _populate(self):
         liststore = self.get_model()
-        liststore.append(self.SOURCES)
+        for src in self.audio_sources:
+            liststore.append([src[2]])
 
     def get_selected_audio_source(self):
+        return self.get_active()
+
+class BackendCombobox(EasyComboBox):
+
+
+    # ffmpeg is temporarily disabled, until I figure out what to do with it
+    # and which codec should be used for encoding
+    BACKENDS = [_("gstreamer")]
+
+    def __init__(self):
+        super(BackendCombobox, self).__init__()
+
+        # Cell renders
+        cr_text = gtk.CellRendererText()
+        self.pack_start(cr_text, True)
+        self.add_attribute(cr_text, 'text', 0)  
+        # List store
+        liststore = gtk.ListStore(str)
+        self.set_model(liststore)
+        self._populate()
+        
+        self.set_active(1)
+        self.set_sensitive(True)
+        self.show()
+        
+    def _populate(self):
+        liststore = self.get_model()
+        liststore.append(self.BACKENDS)
+
+    def get_selected_backend(self):
         liststore = self.get_model()
         iter_ = self.get_active_iter()
         return liststore.get_value(iter_, 0)
-            
 

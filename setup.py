@@ -34,6 +34,7 @@ setup(name="kazam", version=VERSION,
       scripts=["bin/kazam"
                ],
       packages = ['kazam',
+                  'kazam.pulseaudio',
                   'kazam.backend',
                   'kazam.backend.export_sources',
                   'kazam.frontend',

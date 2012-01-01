@@ -1,1 +1,11 @@
+TODO
+----
+
+Short term:
+ - Video editing and recoding with gstreamer
+ - Support for multiple audio channels
+  
+Long(er) term:
+ - Switch ti GTK3
+ - Support for other codecs
 
