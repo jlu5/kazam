@@ -1,3 +1,9 @@
+kazam (0.13) oneiric; urgency=low
+
+  * Switched to Kazam Team unstable-series PPA.
+
+ -- David Klasinc <bigwhale@lubica.net>  Mon, 31 Dec 2011 10:51:00 +0100
+
 kazam (0.12~ppa1) oneiric; urgency=low
 
   * Temporarily disabled ffmpeg support and removed all dependencies for

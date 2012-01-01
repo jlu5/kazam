@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-01 15:59+0100\n"
+"POT-Creation-Date: 2012-01-01 20:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -248,17 +248,17 @@ msgstr ""
 msgid "Record a video of activity on your screen."
 msgstr ""
 
-#: ../kazam/frontend/widgets/dialogs.py:73
-#: ../kazam/frontend/widgets/dialogs.py:75
-msgid "Untitled Screencast"
+#: ../kazam/frontend/widgets/dialogs.py:74
+#: ../kazam/frontend/widgets/dialogs.py:76
+msgid "Untitled_Screencast"
 msgstr ""
 
-#: ../kazam/frontend/widgets/dialogs.py:161
+#: ../kazam/frontend/widgets/dialogs.py:162
 #, python-format
 msgid "To upload a screencast to %s, you need a %s account."
 msgstr ""
 
-#: ../kazam/frontend/widgets/dialogs.py:165
+#: ../kazam/frontend/widgets/dialogs.py:166
 #, python-format
 msgid "I have a %s account:"
 msgstr ""
