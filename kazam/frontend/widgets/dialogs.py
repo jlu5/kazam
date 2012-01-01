@@ -58,7 +58,8 @@ def new_about_dialog(icons):
     except glib.GError:
         # Not important, we just don't get to show our lovely logo.. :)
         pass
-    dialog.show_all()                                      
+    dialog.show_all()
+    dialog.set_position(gtk.WIN_POS_CENTER_ALWAYS)
     result = dialog.run()
     dialog.hide()
         
