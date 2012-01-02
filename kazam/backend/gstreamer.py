@@ -31,13 +31,15 @@ import pygst
 pygst.require("0.10")
 import gst
 
+from kazam.backend.constants import *
+
 
 class Screencast(object):
     def __init__(self):
         self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".mkv")
         self.pipeline = gst.Pipeline("Kazam")
         
-    def setup_sources(self, video_source, audio_source):
+    def setup_sources(self, video_source, audio_source, codec):
         
         # Get the number of cores available then use all except one for encoding
         cores = multiprocessing.cpu_count()
@@ -62,19 +64,37 @@ class Screencast(object):
         self.videosrc.set_property("show-pointer", True)   # This should be made customizable
   
         self.videorate = gst.element_factory_make("videorate", "video_rate")
-        self.vid_caps = gst.Caps("video/x-raw-rgb, framerate=15/1")  # This also ...
+        self.vid_caps = gst.Caps("video/x-raw-rgb, framerate=25/1")  # This also ...
         self.vid_caps_filter = gst.element_factory_make("capsfilter", "vid_filter")
         self.vid_caps_filter.set_property("caps", self.vid_caps)
-
         self.ffmpegcolor = gst.element_factory_make("ffmpegcolorspace", "ffmpeg")
-        self.videnc = gst.element_factory_make("vp8enc", "video_encoder")
-        self.videnc.set_property("speed", 2)
-        self.videnc.set_property("quality", 10)
-        self.videnc.set_property("threads", cores)
+
+        if codec == CODEC_VP8:
+            self.videnc = gst.element_factory_make("vp8enc", "video_encoder")
+            self.videnc.set_property("speed", 2)
+            self.videnc.set_property("quality", 10)
+            self.videnc.set_property("threads", cores)
+        elif codec == CODEC_H264:
+            self.videnc = gst.element_factory_make("x264enc", "video_encoder")
+            self.videnc.set_property("key-int-max", 10)
+            self.videnc.set_property("bframes", 4)
+            self.videnc.set_property("pass", 4)
+            self.videnc.set_property("cabac", 0)
+            self.videnc.set_property("me", "dia")
+            self.videnc.set_property("subme", 1)
+            self.videnc.set_property("qp-min", 1)
+            self.videnc.set_property("qp-max", 51)
+            self.videnc.set_property("qp-step", 4)
+            self.videnc.set_property("quantizer", 1)
+
 
         self.sink = gst.element_factory_make("filesink", "sink")
         self.sink.set_property("location", self.tempfile)
-        self.mux = gst.element_factory_make("webmmux", "muxer")
+        if codec == CODEC_VP8:
+            self.mux = gst.element_factory_make("webmmux", "muxer")
+        elif codec == CODEC_H264:
+            self.mux = gst.element_factory_make("matroskamux", "muxer")
+
         self.vid_in_queue = gst.element_factory_make("queue", "queue_v1")
         self.vid_out_queue = gst.element_factory_make("queue", "queue_v2")
 
@@ -87,30 +107,43 @@ class Screencast(object):
             self.aud_caps_filter = gst.element_factory_make("capsfilter", "aud_filter")
             self.aud_caps_filter.set_property("caps", self.aud_caps)
             self.audioconv = gst.element_factory_make("audioconvert", "audio_conv")
-            self.audioenc = gst.element_factory_make("vorbisenc", "audio_encoder")
-            self.audioenc.set_property("quality", 1)
+            if codec == CODEC_VP8:
+                self.audioenc = gst.element_factory_make("vorbisenc", "audio_encoder")
+                self.audioenc.set_property("quality", 1)
+            elif codec == CODEC_H264:
+                self.audioenc = gst.element_factory_make("flacenc", "audio_encoder")
 
             self.aud_in_queue = gst.element_factory_make("queue", "queue_a1")
             self.aud_out_queue = gst.element_factory_make("queue", "queue_a2")
 
-            self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
-                              self.ffmpegcolor, self.videnc, self.audiosrc, self.aud_in_queue,
-                              self.aud_caps_filter, self.vid_out_queue, self.aud_out_queue,
-                              self.audioconv, self.audioenc, self.mux, self.file_queue, self.sink)
+            self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
+                              self.vid_caps_filter, self.ffmpegcolor,
+                              self.videnc, self.audiosrc, self.aud_in_queue,
+                              self.aud_caps_filter, self.vid_out_queue,
+                              self.aud_out_queue, self.audioconv,
+                              self.audioenc, self.mux, self.file_queue, self.sink)
 
-            gst.element_link_many(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
-                                  self.ffmpegcolor, self.videnc, self.vid_out_queue, self.mux)
+            gst.element_link_many(self.videosrc, self.vid_in_queue,
+                                  self.videorate, self.vid_caps_filter,
+                                  self.ffmpegcolor, self.videnc,
+                                  self.vid_out_queue, self.mux)
 
-            gst.element_link_many(self.audiosrc, self.aud_in_queue, self.aud_caps_filter, 
-                                  self.audioconv, self.audioenc, self.aud_out_queue, self.mux)
+            gst.element_link_many(self.audiosrc, self.aud_in_queue,
+                                  self.aud_caps_filter, 
+                                  self.audioconv, self.audioenc,
+                                  self.aud_out_queue, self.mux)
 
             gst.element_link_many(self.mux, self.file_queue, self.sink)
         else:
-            self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
-                              self.ffmpegcolor, self.videnc, self.vid_out_queue, self.mux, self.sink)
+            self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
+                              self.vid_caps_filter, self.ffmpegcolor,
+                              self.videnc, self.vid_out_queue, self.mux,
+                              self.sink)
 
-            gst.element_link_many(self.videosrc, self.vid_in_queue, self.videorate, self.vid_caps_filter,
-                                  self.ffmpegcolor, self.videnc, self.vid_out_queue, self.mux, self.sink)
+            gst.element_link_many(self.videosrc, self.vid_in_queue,
+                                  self.videorate, self.vid_caps_filter,
+                                  self.ffmpegcolor, self.videnc,
+                                  self.vid_out_queue, self.mux, self.sink)
 
     def start_recording(self):
         self.pipeline.set_state(gst.STATE_PLAYING)

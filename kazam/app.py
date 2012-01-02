@@ -39,6 +39,8 @@ from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.start_recording import RecordingStart
 from kazam.frontend.export import ExportFrontend
 from kazam.pulseaudio.pulseaudio import pulseaudio_q
+from kazam.backend.gstreamer import Screencast
+from kazam.backend.constants import *
 
 class KazamApp(object):
 
@@ -106,11 +108,11 @@ class KazamApp(object):
         self.screencast.start_recording()
 
     def cb_countdown_requested(self, recording_start):
-        self.backend = self.recording_start.get_selected_backend()
-        if self.backend == "gstreamer":
-            from kazam.backend.gstreamer import Screencast
-        else:
-            from kazam.backend.ffmpeg import Screencast
+        self.codec = self.recording_start.get_selected_codec()
+        # if self.backend == "gstreamer":
+        #     from kazam.backend.gstreamer import Screencast
+        # else:
+        #     from kazam.backend.ffmpeg import Screencast
 
         self.screencast = Screencast()
 
@@ -118,10 +120,10 @@ class KazamApp(object):
             self.audio_source = self.audio_sources[self.recording_start.get_selected_audio_source()][1]
         else:
             self.audio_source = None
-
+        
+        self.codec = self.recording_start.get_selected_codec()
         self.video_source = self.recording_start.get_selected_video_source()
-
-        self.screencast.setup_sources(self.video_source, self.audio_source)
+        self.screencast.setup_sources(self.video_source, self.audio_source, self.codec)
 
         self.window_countdown = CountdownWindow(self.datadir, self.icons)
         self.window_countdown.connect("count", self.on_window_countdown_count)
@@ -170,18 +172,18 @@ class KazamApp(object):
         
     def cb_save_requested(self, done_recording):
         # Open the save dialog
-        (save_dialog, result) = new_save_dialog(_("Save screencast"), self.backend, 
+        (save_dialog, result) = new_save_dialog(_("Save screencast"), self.codec, 
                                             self.done_recording.window)
         # If the user clicks save
         if result == gtk.RESPONSE_OK:
             # Make sure the filename ends with .mkv
             uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
-            if self.backend == "ffmpeg":
-                if not uri.endswith(".mkv"):
-                    uri += ".mkv"
-            else:
+            if self.codec == CODEC_VP8:
                 if not uri.endswith(".webm"):
                     uri += ".webm"
+            else:
+                if not uri.endswith(".mkv"):
+                    uri += ".mkv"
 
             # And move the temporary recorded file to the desired save location
             shutil.move(self.screencast.get_recording_filename(), uri)

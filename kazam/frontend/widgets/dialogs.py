@@ -31,6 +31,7 @@ from gettext import gettext as _
 
 from kazam.utils import *
 from kazam.version import VERSION
+from kazam.backend.constants import *
 
 AUTHORS = """
 Andrew Higginson <rugby471@gmail.com>
@@ -64,16 +65,16 @@ def new_about_dialog(icons):
     dialog.hide()
         
 
-def new_save_dialog(title, backend="ffmpeg", parent=None):
+def new_save_dialog(title, codec, parent=None):
     dialog = gtk.FileChooserDialog(title=title, parent=parent, 
                         action=gtk.FILE_CHOOSER_ACTION_SAVE, 
                         buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, 
                         gtk.STOCK_SAVE, gtk.RESPONSE_OK))
     
-    if backend == "ffmpeg":
-        dialog.set_current_name("%s.mkv" % _("Untitled_Screencast"))
-    else:
+    if codec == CODEC_VP8:
         dialog.set_current_name("%s.webm" % _("Untitled_Screencast"))
+    elif codec == CODEC_H264:
+        dialog.set_current_name("%s.mkv" % _("Untitled_Screencast"))
 
     dialog.set_do_overwrite_confirmation(True)
     

@@ -116,7 +116,7 @@
 		<child>
 		  <object class="GtkLabel" id="label1">
 	            <property name="visible">True</property>
-		    <property name="label" translatable="yes">Backend selection</property>
+		    <property name="label" translatable="yes">Encode with</property>
 	          </object>
                   <packing> 
                     <property name="top_attach">2</property>

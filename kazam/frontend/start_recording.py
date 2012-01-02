@@ -27,7 +27,7 @@ import os
 from gettext import gettext as _
 
 from kazam.frontend import KazamStage
-from kazam.frontend.widgets.comboboxes import VideoCombobox, AudioCombobox, BackendCombobox
+from kazam.frontend.widgets.comboboxes import VideoCombobox, AudioCombobox, CodecCombobox
 from kazam.utils import *
 
 class RecordingStart(KazamStage):
@@ -54,11 +54,11 @@ class RecordingStart(KazamStage):
         # Add our comboboxes
         self.combobox_video = VideoCombobox()
         self.combobox_audio = AudioCombobox(self.audio_sources)
-        self.combobox_backend = BackendCombobox()
+        self.combobox_codec = CodecCombobox()
         # Pack them
         self.table_sources.attach(self.combobox_video, 1, 2, 0, 1)
         self.table_sources.attach(self.combobox_audio, 1, 2, 1, 2)
-        self.table_sources.attach(self.combobox_backend, 1, 2, 2, 3)
+        self.table_sources.attach(self.combobox_codec, 1, 2, 2, 3)
         
         # Make widgets as they were the last time they were used
         self.restore_last_state()
@@ -75,8 +75,8 @@ class RecordingStart(KazamStage):
         self.combobox_video.set_active(video_source)
         audio_source = self.config.getint("start_recording", "audio_source")
         self.combobox_audio.set_active(audio_source)
-        backend = self.config.getint("start_recording", "backend")
-        self.combobox_backend.set_active(backend)
+        codec = self.config.getint("start_recording", "codec")
+        self.combobox_codec.set_active(codec)
 
         # Make sure sensitivity of comboboxes is updated
         self.on_checkbutton_video_toggled(self.checkbutton_video)
@@ -92,8 +92,8 @@ class RecordingStart(KazamStage):
         self.config.set("start_recording", "video_source", video_source)
         audio_source = self.combobox_audio.get_active()
         self.config.set("start_recording", "audio_source", audio_source)
-        backend = self.combobox_backend.get_active()
-        self.config.set("start_recording", "backend", backend)
+        codec = self.combobox_codec.get_active()
+        self.config.set("start_recording", "codec", codec)
         self.config.write()
         
     # Callbacks
@@ -134,7 +134,7 @@ class RecordingStart(KazamStage):
             return None
         return self.combobox_audio.get_selected_audio_source()
         
-    def get_selected_backend(self):
-        return self.combobox_backend.get_selected_backend()
+    def get_selected_codec(self):
+        return self.combobox_codec.get_selected_codec()
 
 

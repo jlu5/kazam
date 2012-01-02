@@ -240,15 +240,13 @@ class AudioCombobox(EasyComboBox):
     def get_selected_audio_source(self):
         return self.get_active()
 
-class BackendCombobox(EasyComboBox):
+class CodecCombobox(EasyComboBox):
 
 
-    # ffmpeg is temporarily disabled, until I figure out what to do with it
-    # and which codec should be used for encoding
-    BACKENDS = [_("gstreamer")]
+    CODECS = [_("VP8/WebM"), _("H264/Matroska")]
 
     def __init__(self):
-        super(BackendCombobox, self).__init__()
+        super(CodecCombobox, self).__init__()
 
         # Cell renders
         cr_text = gtk.CellRendererText()
@@ -265,10 +263,9 @@ class BackendCombobox(EasyComboBox):
         
     def _populate(self):
         liststore = self.get_model()
-        liststore.append(self.BACKENDS)
+        for codec in self.CODECS:
+            liststore.append([codec])
 
-    def get_selected_backend(self):
-        liststore = self.get_model()
-        iter_ = self.get_active_iter()
-        return liststore.get_value(iter_, 0)
+    def get_selected_codec(self):
+        return self.get_active()
 
