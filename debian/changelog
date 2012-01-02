@@ -1,3 +1,9 @@
+kazam (0.13ubuntu1) oneiric; urgency=low
+
+  * Encoding with H264 is back.
+
+ -- David Klasinc <bigwhale@lubica.net>  Mon, 02 Jan 2012 15:22:00 +0100
+
 kazam (0.13) oneiric; urgency=low
 
   * Switched to Kazam Team unstable-series PPA.

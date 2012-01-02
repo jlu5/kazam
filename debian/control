@@ -27,7 +27,8 @@ Depends: ${python:Depends},
          python-keybinder,
          gstreamer0.10-plugins-base,
          gstreamer0.10-plugins-good,
-         gstreamer0.10-plugins-bad
+         gstreamer0.10-plugins-bad,
+         gstreamer0.10-plugins-ugly
 Recommends: libtheora0,
             python-pycurl, 
             python-gdata
