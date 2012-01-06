@@ -1,5 +1,5 @@
-
-VERSION='0.13'
+VERSION='0.13ubuntu1'
 CODENAME='oneiric'
 DISTRO='Ubuntu'
 RELEASE='11.10'
+

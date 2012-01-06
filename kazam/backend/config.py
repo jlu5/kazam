@@ -1,20 +1,20 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 #       config.py
-#       
+#
+#       Copyright 2012 David Klasinc <bigwhale@lubica.net>
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
-#       
+#
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
+#       the Free Software Foundation; either version 3 of the License, or
 #       (at your option) any later version.
-#       
+#
 #       This program is distributed in the hope that it will be useful,
 #       but WITHOUT ANY WARRANTY; without even the implied warranty of
 #       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #       GNU General Public License for more details.
-#       
+#
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -25,15 +25,18 @@ from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
 from xdg.BaseDirectory import xdg_config_home
 
 class KazamConfig(SafeConfigParser):
-    
+
     DEFAULTS = [{
                 "name":"start_recording",
                 "keys":{
-                        "video_toggled":True,
-                        "video_source":0,
-                        "audio_toggled":False,
-                        "audio_source":0,
-                        "codec":0,
+                        "video_toggled": True,
+                        "video_source": 0,
+                        "audio_toggled": False,
+                        "audio_source": 0,
+                        "audio2_toggled": False,
+                        "audio2_source": 0,
+                        "codec": 0,
+                        "counter": 5,
                         },
                 },
                 {
@@ -44,10 +47,10 @@ class KazamConfig(SafeConfigParser):
                         "quit":"<Shift><Control>q",
                         },
                 }]
-    
+
     CONFIGDIR = os.path.join(xdg_config_home, "kazam")
     CONFIGFILE = os.path.join(CONFIGDIR, "kazam.conf")
-    
+
     def __init__(self):
         SafeConfigParser.__init__(self)
         if not os.path.isdir(self.CONFIGDIR):
@@ -56,7 +59,7 @@ class KazamConfig(SafeConfigParser):
             self.create_default()
             self.write()
         self.read(self.CONFIGFILE)
-    
+
     def create_default(self):
         # For every section
         for section in self.DEFAULTS:
@@ -73,7 +76,7 @@ class KazamConfig(SafeConfigParser):
                 for d_key in d_section["keys"]:
                     if d_key == key:
                         return d_section["keys"][key]
-        
+
     def get(self, section, key):
         try:
             return SafeConfigParser.get(self, section, key)
@@ -87,17 +90,17 @@ class KazamConfig(SafeConfigParser):
             self.set(section, key, default)
             self.write()
             return default
-    
+
     def set(self, section, option, value):
         # If the section referred to doesn't exist (rare case),
         # then create it
         if not self.has_section(section):
             self.add_section(section)
         SafeConfigParser.set(self, section, option, str(value))
-        
+
     def write(self):
         file_ = open(self.CONFIGFILE, "w")
         SafeConfigParser.write(self, file_)
         file_.close()
-    
+
 
