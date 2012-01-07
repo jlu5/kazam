@@ -32,11 +32,7 @@ from gi.repository import Gtk, GObject
 class CountdownWindow(GObject.GObject):
 
     __gsignals__ = {
-        "record-requested" : (GObject.SIGNAL_RUN_LAST,
-                                   None,
-                                   (),
-                                  ),
-        "count" : (GObject.SIGNAL_RUN_LAST,
+        "start-request" : (GObject.SIGNAL_RUN_LAST,
                                    None,
                                    (),
                                   ),
@@ -54,7 +50,7 @@ class CountdownWindow(GObject.GObject):
         self.number = number
         box = Gtk.VBox()
         self.lbl_text = Gtk.Label()
-        rec_markup = _("<span size='35000' foreground='#FFFFFF'>Recording starts in ...</span>")
+        rec_markup = _("<span size='35000' foreground='#FFFFFF'>Recording will start in ...</span>")
         self.lbl_text.set_markup(rec_markup)
         self.lbl_number = Gtk.Label()
         num_markup = _("<span size='40000' foreground='#FFFFFF'>%d</span>" % self.number)
@@ -73,7 +69,8 @@ class CountdownWindow(GObject.GObject):
             self.window.set_visual(self.visual)
 
 
-    def run(self):
+    def run(self, counter):
+        self.number = counter
         self.window.show_all()
         self.countdown()
 
@@ -86,7 +83,7 @@ class CountdownWindow(GObject.GObject):
             GObject.timeout_add(1000, self.countdown)
             self.number -= 1
         else:
-            self.emit("record-requested")
+            self.emit("start-request")
             self.window.destroy()
 
     def cb_draw(self, widget, cr):

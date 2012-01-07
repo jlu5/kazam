@@ -31,23 +31,23 @@ from gi.repository import Gtk, GObject
 class KazamSuperIndicator(GObject.GObject):
 
     __gsignals__ = {
-        "pause-requested" : (GObject.SIGNAL_RUN_LAST,
+        "pause-request" : (GObject.SIGNAL_RUN_LAST,
                                    None,
                                    (),
                                   ),
-        "unpause-requested" : (GObject.SIGNAL_RUN_LAST,
+        "unpause-request" : (GObject.SIGNAL_RUN_LAST,
                                    None,
                                    (),
                                   ),
-        "quit-requested" : (GObject.SIGNAL_RUN_LAST,
+        "quit-request" : (GObject.SIGNAL_RUN_LAST,
                                   None,
                                    (),
                                   ),
-        "show-requested" : (GObject.SIGNAL_RUN_LAST,
+        "show-request" : (GObject.SIGNAL_RUN_LAST,
                                   None,
                                    (),
                                   ),
-        "recording-done" : (GObject.SIGNAL_RUN_LAST,
+        "stop-request" : (GObject.SIGNAL_RUN_LAST,
                                   None,
                                    (),
                                   ),
@@ -88,22 +88,22 @@ class KazamSuperIndicator(GObject.GObject):
 
     def on_menuitem_pause_activate(self, menuitem_pause):
         if menuitem_pause.get_active():
-            self.emit("pause-requested")
+            self.emit("pause-request")
         else:
-            self.emit("unpause-requested")
+            self.emit("unpause-request")
 
     def on_menuitem_finish_activate(self):
         self.menuitem_pause.set_sensitive(False)
         self.menuitem_finish.set_sensitive(False)
         self.menuitem_show.set_sensitive(True)
         self.menuitem_pause.set_active(False)
-        self.emit("recording-done")
+        self.emit("stop-request")
 
     def on_menuitem_quit_activate(self, menuitem_quit):
-        self.emit("quit-requested")
+        self.emit("quit-request")
 
     def on_menuitem_show_activate(self, menuitem_show):
-        self.emit("show-requested")
+        self.emit("show-request")
 
     def count(self, count):
         pass

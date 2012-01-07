@@ -3,6 +3,7 @@
 #
 #       kazam
 #
+#       Copyright 2012 David Klasinc <bigwhale@lubica.net>
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
 #
 #       This program is free software; you can redistribute it and/or modify
@@ -35,7 +36,7 @@ if __name__ == "__main__":
         datadir = "../data"
         sys.path.append("..")
     else:
-        # A bit more flexible setting of datadir, it takes care
+        # A bit more flexible setting of datadir, it works
         # when base install path is not /usr
         curpath = os.path.abspath(__file__)
         datadir = curpath.split('bin/')[0] + "share/kazam/"

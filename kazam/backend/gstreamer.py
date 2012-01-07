@@ -2,19 +2,19 @@
 # -*- coding: utf-8 -*-
 #
 #       gstreamer.py
-#       
+#
 #       Copyright 2010 David Klasinc <bigwhale@lubica.net>
-#       
+#
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
 #       the Free Software Foundation; either version 2 of the License, or
 #       (at your option) any later version.
-#       
+#
 #       This program is distributed in the hope that it will be useful,
 #       but WITHOUT ANY WARRANTY; without even the implied warranty of
 #       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #       GNU General Public License for more details.
-#       
+#
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -23,8 +23,6 @@
 from subprocess import Popen
 import tempfile
 import os
-import gobject
-import glib
 import signal
 import multiprocessing
 import pygst
@@ -38,9 +36,9 @@ class Screencast(object):
     def __init__(self):
         self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".mkv")
         self.pipeline = gst.Pipeline("Kazam")
-        
+
     def setup_sources(self, video_source, audio_source, codec):
-        
+
         # Get the number of cores available then use all except one for encoding
         cores = multiprocessing.cpu_count()
 
@@ -62,7 +60,7 @@ class Screencast(object):
         self.videosrc.set_property("endy", endy)
         self.videosrc.set_property("use-damage", False)
         self.videosrc.set_property("show-pointer", True)   # This should be made customizable
-  
+
         self.videorate = gst.element_factory_make("videorate", "video_rate")
         self.vid_caps = gst.Caps("video/x-raw-rgb, framerate=25/1")  # This also ...
         self.vid_caps_filter = gst.element_factory_make("capsfilter", "vid_filter")
@@ -129,7 +127,7 @@ class Screencast(object):
                                   self.vid_out_queue, self.mux)
 
             gst.element_link_many(self.audiosrc, self.aud_in_queue,
-                                  self.aud_caps_filter, 
+                                  self.aud_caps_filter,
                                   self.audioconv, self.audioenc,
                                   self.aud_out_queue, self.mux)
 
@@ -150,31 +148,31 @@ class Screencast(object):
 
     def pause_recording(self):
         self.pipeline.set_state(gst.STATE_PAUSED)
-        
+
     def unpause_recording(self):
         self.pipeline.set_state(gst.STATE_PLAYING)
-    
+
     def stop_recording(self):
         self.pipeline.set_state(gst.STATE_NULL)
-        
+
     def get_recording_filename(self):
         return self.tempfile
-        
+
     def get_audio_recorded(self):
         return self.audio
-        
+
     def convert(self, options, converted_file_extension, video_quality,
                     audio_quality=None):
-                        
+
         self.converted_file_extension = converted_file_extension
-        
+
         # Create our ffmpeg arguments list
         args_list = ["ffmpeg"]
         # Add the input file
         args_list += ["-i", self.tempfile]
         # Add any UploadSource specific options
         args_list += options
-        
+
         # Configure the quality as selected by the user
         # If the quality slider circle is at the right-most position
         # use the same quality option
@@ -186,12 +184,12 @@ class Screencast(object):
             args_list += ["-ab", "%sk" % audio_quality]
         # Finally add the desired output file
         args_list += ["%s%s" %(self.tempfile[:-4], converted_file_extension)]
-        
-        # Run the ffmpeg command and when it is done, set a variable to 
+
+        # Run the ffmpeg command and when it is done, set a variable to
         # show we have finished
         command = Popen(args_list)
         glib.timeout_add(100, self._poll, command)
-        
+
     def _poll(self, command):
         ret = command.poll()
         if ret is None:
@@ -200,4 +198,4 @@ class Screencast(object):
         else:
             self.converted_file = "%s%s" %(self.tempfile[:-4], self.converted_file_extension)
             return False
- 
+

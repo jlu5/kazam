@@ -51,11 +51,12 @@ class KazamApp(Gtk.Window):
         self.connect("delete-event", self.cb_delete_event)
 
         self.indicator = KazamIndicator()
-        self.indicator.connect("quit-requested", self.cb_quit_requested)
-        self.indicator.connect("show-requested", self.cb_show_requested)
+        self.indicator.connect("quit-request", self.cb_quit_request)
+        self.indicator.connect("show-request", self.cb_show_request)
+        self.indicator.connect("stop-request", self.cb_stop_request)
 
-        self.countdown = CountdownWindow(2)
-        self.countdown.connect("record-requested", self.cb_record_requested)
+        self.countdown = CountdownWindow()
+        self.countdown.connect("start-request", self.cb_start_request)
 
         self.set_border_width(10)
 
@@ -104,7 +105,7 @@ class KazamApp(Gtk.Window):
                                 1, 1)
         self.label_counter = Gtk.Label(_("Countdown timer"))
         self.label_counter.set_justify(Gtk.Justification.RIGHT)
-        self.spin_adjustment = Gtk.Adjustment(5, 0, 60, 1, 5, 0)
+        self.spin_adjustment = Gtk.Adjustment(5, 1, 60, 1, 5, 0)
         self.spinbutton_counter = Gtk.SpinButton()
         self.spinbutton_counter.set_adjustment(self.spin_adjustment)
         self.spinbutton_counter.set_size_request(100, -1)
@@ -117,6 +118,7 @@ class KazamApp(Gtk.Window):
                                 Gtk.PositionType.RIGHT,
                                 1, 1)
 
+        self.combobox_video.connect("changed", self.cb_video_changed)
         self.combobox_audio.connect("changed", self.cb_audio_changed)
         self.combobox_audio2.connect("changed", self.cb_audio_changed)
         self.btn_record = Gtk.Button(label = _("Record"))
@@ -144,21 +146,21 @@ class KazamApp(Gtk.Window):
         self.populate_widgets()
         self.restore_state()
 
-        # Simulated stuff
+        # Hardcoded for now
         self.combobox_codec.append(None, "Gstreamer - VP8/WebM")
         self.combobox_codec.append(None, "GStreamer - H264/Matroska")
-        self.combobox_codec.append(None, "Ffmpeg - VP8/WebM")
-        self.combobox_codec.append(None, "Ffmpeg - H264/Matroska")
+        # self.combobox_codec.append(None, "Ffmpeg - VP8/WebM")
+        # self.combobox_codec.append(None, "Ffmpeg - H264/Matroska")
         self.combobox_codec.set_active(0)
 
     #
     # Callbacks, go down here ...
     #
-    def cb_quit_requested(self, indicator):
+    def cb_quit_request(self, indicator):
         self.save_state()
         Gtk.main_quit()
 
-    def cb_show_requested(self, indicator):
+    def cb_show_request(self, indicator):
         self.show_all()
         self.present()
 
@@ -189,6 +191,7 @@ class KazamApp(Gtk.Window):
             self.checkbutton_audio2.set_sensitive(False)
             self.checkbutton_audio2.set_active(False)
 
+        # I hate this spaghetti ...
         if self.combobox_video.get_sensitive() or self.combobox_audio.get_sensitive() or self.combobox_audio2.get_sensitive():
             self.btn_record.set_sensitive(True)
         else:
@@ -206,24 +209,50 @@ class KazamApp(Gtk.Window):
             self.btn_record.set_sensitive(False)
 
     def cb_audio_changed(self, widget):
-        v1 = self.combobox_audio.get_active()
-        v2 = self.combobox_audio2.get_active()
-        if v1 == v2:
+        self.audio_source = self.combobox_audio.get_active()
+        self.audio2_source  = self.combobox_audio2.get_active()
+        if self.audio_source == self.audio2_source:
             self.checkbutton_audio2.set_active(False)
             self.combobox_audio2.set_sensitive(False)
-            if v1 < len(self.audio_sources):
-                v2 = v2 + 1
+            if self.audio_source < len(self.audio_sources):
+                self.audio2_source = self.audio2_source + 1
             else:
-                v2 = 0
-            self.combobox_audio2.set_active(v2)
+                self.audio2_source = 0
+            self.combobox_audio2.set_active(self.audio2_source)
+
+    def cb_video_changed(self, widget):
+        self.video_source = self.combobox_video.get_active()
 
     def cb_record_clicked(self, widget):
-        self.countdown.run()
+        self.countdown.run(self.spinbutton_counter.get_value_as_int())
         self.hide()
 
-    def cb_record_requested(self, widget):
+    def cb_start_request(self, widget):
+        from kazam.backend.gstreamer import Screencast
+
+        recorder = Screencast()
+
+        if self.checkbutton_audio.get_active():
+            audio_source = self.audio_sources[self.audio_source][1]
+        else:
+            audio_source = None
+
+        if self.checkbutton_audio2.get_active():
+            audio2_source = self.audio_sources[self.audio2_source][1]
+        else:
+            audio2_source = None
+
+        if self.checkbutton_video.get_active():
+            video_source = self.video_sources[self.video_source]
+        else:
+            video_source = None
+
+
+#        recorder.setup_sources
         self.indicator.start_recording()
 
+    def cb_stop_request(self, widget):
+        print "yay"
 
     #
     # Other somewhat usefull stuff ...
@@ -249,6 +278,10 @@ class KazamApp(Gtk.Window):
         video_source = self.config.getint("start_recording", "video_source")
         audio_source = self.config.getint("start_recording", "audio_source")
         audio2_source = self.config.getint("start_recording", "audio2_source")
+
+        self.video_source = video_source
+        self.audio_source = audio_source
+        self.audio2_source = audio2_source
 
         self.combobox_video.set_active(video_source)
         self.combobox_video.set_sensitive(video_toggled)
@@ -317,12 +350,12 @@ class KazamApp(Gtk.Window):
         except:
             # Something went wrong, just fallback
             # to no-sound
-            self.audio_sources = [[0, 'N/A', 'N/A']]
+            self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
 
         try:
-            self.screens = get_screens()
+            self.video_sources = get_screens()
         except:
-            self.screens = _("Screen")
+            self.video_sources = [_("Unknown")]
 
     def populate_widgets(self):
         #
@@ -333,8 +366,8 @@ class KazamApp(Gtk.Window):
             self.combobox_audio2.append(None, source[2])
 
         i = 1
-        for s in self.screens:
-            if i == len(self.screens):
+        for s in self.video_sources:
+            if i == len(self.video_sources):
                 dsp_name = _("Combined (%dx%d)" % (s.width, s.height))
             else:
                 dsp_name = _("Display %d (%sx%s)"  % (i, s.width, s.height))
