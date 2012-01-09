@@ -76,7 +76,6 @@ class CountdownWindow(GObject.GObject):
 
     def countdown(self):
         if self.number != 0:
-#            self.emit("count")
             num_markup = _("<span size='40000' foreground='#FFFFFF'>%d</span>" % self.number)
             self.lbl_number.set_markup(num_markup)
             self.window.queue_draw()

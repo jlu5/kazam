@@ -44,6 +44,7 @@ class KazamApp(Gtk.Window):
 
         self.datadir = datadir
         self.setup_translations()
+        self.pa_q = pulseaudio_q()
 
         # Setup config
         self.config = KazamConfig()
@@ -54,9 +55,8 @@ class KazamApp(Gtk.Window):
         self.indicator.connect("quit-request", self.cb_quit_request)
         self.indicator.connect("show-request", self.cb_show_request)
         self.indicator.connect("stop-request", self.cb_stop_request)
-
-        self.countdown = CountdownWindow()
-        self.countdown.connect("start-request", self.cb_start_request)
+        self.indicator.connect("pause-request", self.cb_pause_request)
+        self.indicator.connect("unpause-request", self.cb_unpause_request)
 
         self.set_border_width(10)
 
@@ -81,6 +81,13 @@ class KazamApp(Gtk.Window):
                                 self.checkbutton_audio,
                                 Gtk.PositionType.RIGHT,
                                 1, 1)
+        volume_adjustment = Gtk.Adjustment(0, 0, 65534, 100, 1000, 10)
+        self.volumebutton_audio = Gtk.VolumeButton()
+        self.volumebutton_audio.set_adjustment(volume_adjustment)
+        self.grid.attach_next_to(self.volumebutton_audio,
+                                 self.combobox_audio,
+                                 Gtk.PositionType.RIGHT,
+                                 1, 1)
         self.checkbutton_audio2 = Gtk.CheckButton(label=_("Audio Source 2"))
         self.checkbutton_audio2.connect("toggled", self.cb_audio2_toggled)
         self.combobox_audio2 = Gtk.ComboBoxText()
@@ -92,9 +99,16 @@ class KazamApp(Gtk.Window):
                                 self.checkbutton_audio2,
                                 Gtk.PositionType.RIGHT,
                                 1, 1)
+        self.volumebutton_audio2 = Gtk.VolumeButton()
+        self.volumebutton_audio2.set_adjustment(volume_adjustment)
+        self.grid.attach_next_to(self.volumebutton_audio2,
+                                 self.combobox_audio2,
+                                 Gtk.PositionType.RIGHT,
+                                 1, 1)
         self.label_codec = Gtk.Label(_("Encoder type"))
         self.label_codec.set_justify(Gtk.Justification.RIGHT)
         self.combobox_codec = Gtk.ComboBoxText()
+        self.combobox_codec.connect("changed", self.cb_codec_changed)
         self.grid.attach_next_to(self.label_codec,
                                  self.checkbutton_audio2,
                                  Gtk.PositionType.BOTTOM,
@@ -223,14 +237,13 @@ class KazamApp(Gtk.Window):
     def cb_video_changed(self, widget):
         self.video_source = self.combobox_video.get_active()
 
-    def cb_record_clicked(self, widget):
-        self.countdown.run(self.spinbutton_counter.get_value_as_int())
-        self.hide()
+    def cb_codec_changed(self, widget):
+        self.codec = self.combobox_codec.get_active()
 
-    def cb_start_request(self, widget):
+    def cb_record_clicked(self, widget):
         from kazam.backend.gstreamer import Screencast
 
-        recorder = Screencast()
+        self.recorder = Screencast()
 
         if self.checkbutton_audio.get_active():
             audio_source = self.audio_sources[self.audio_source][1]
@@ -247,12 +260,33 @@ class KazamApp(Gtk.Window):
         else:
             video_source = None
 
+        self.recorder.setup_sources(video_source,
+                                    audio_source,
+                                    audio2_source,
+                                    self.codec)
 
-#        recorder.setup_sources
+        self.countdown = CountdownWindow()
+        self.countdown.connect("start-request", self.cb_start_request)
+        self.countdown.run(self.spinbutton_counter.get_value_as_int())
+        self.hide()
+
+    def cb_start_request(self, widget):
+        print "Staring ..."
+        self.countdown = None
         self.indicator.start_recording()
+        self.recorder.start_recording()
 
     def cb_stop_request(self, widget):
-        print "yay"
+        print "Stopping ..."
+        self.recorder.stop_recording()
+
+    def cb_pause_request(self, widget):
+        print "Pausing ..."
+        self.recorder.pause_recording()
+
+    def cb_unpause_request(self, widget):
+        print "Unpausing ..."
+        self.recorder.unpause_recording()
 
     #
     # Other somewhat usefull stuff ...
@@ -292,8 +326,25 @@ class KazamApp(Gtk.Window):
         self.combobox_audio2.set_active(audio2_source)
         self.combobox_audio2.set_sensitive(audio2_toggled)
 
+        self.pa_q.start()
+        audio_info = self.pa_q.get_source_info_by_index(self.audio_source)
+        audio2_info = self.pa_q.get_source_info_by_index(self.audio2_source)
+        self.pa_q.end()
+
+        audio_vol = audio_info[2].values[0]
+        audio2_vol = audio2_info[2].values[0]
+
+        print "V1", audio_vol
+        print "V2", audio2_vol
+
+        self.volumebutton_audio.set_sensitive(audio_toggled)
+        self.volumebutton_audio.set_value(audio_vol)
+        self.volumebutton_audio2.set_sensitive(audio2_toggled)
+        self.volumebutton_audio2.set_value(audio2_vol)
+
         codec = self.config.getint("start_recording", "codec")
         self.combobox_codec.set_active(codec)
+        self.codec = codec
 
         self.spinbutton_counter.set_value(self.config.getfloat("start_recording", "counter"))
 
@@ -313,7 +364,6 @@ class KazamApp(Gtk.Window):
         else:
             self.checkbutton_audio2.set_sensitive(False)
             self.checkbutton_audio2.set_active(False)
-
 
     def save_state(self):
         video_toggled = self.checkbutton_video.get_active()
@@ -343,10 +393,9 @@ class KazamApp(Gtk.Window):
 
     def get_sources(self):
         try:
-            pa_q = pulseaudio_q()
-            pa_q.start()
-            self.audio_sources = pa_q.get_audio_sources()
-            pa_q.end()
+            self.pa_q.start()
+            self.audio_sources = self.pa_q.get_audio_sources()
+            self.pa_q.end()
         except:
             # Something went wrong, just fallback
             # to no-sound

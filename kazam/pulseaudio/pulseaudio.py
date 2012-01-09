@@ -2,19 +2,19 @@
 # -*- coding: utf-8 -*-
 #
 #       pulseaudio.py
-#       
+#
 #       Copyright 2010 David Klasinc <bigwhale@lubica.net>
-#       
+#
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
 #       the Free Software Foundation; either version 2 of the License, or
 #       (at your option) any later version.
-#       
+#
 #       This program is distributed in the hope that it will be useful,
 #       but WITHOUT ANY WARRANTY; without even the implied warranty of
 #       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #       GNU General Public License for more details.
-#       
+#
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -23,6 +23,7 @@
 import time
 
 from error_handling import *
+from kazam.backend.constants import *
 
 try:
     from ctypes_pulseaudio import *
@@ -46,6 +47,7 @@ class pulseaudio_q:
         self.pa_state = -1
         self.sources = []
         self._sources = []
+        self._return_result = []
         self.pa_status = PA_STOPPED
 
         #
@@ -53,6 +55,12 @@ class pulseaudio_q:
         #
         self._pa_state_cb = pa_context_notify_cb_t(self.pa_state_cb)
         self._pa_sourcelist_cb = pa_source_info_cb_t(self.pa_sourcelist_cb)
+        self._pa_sourceinfo_cb = pa_source_info_cb_t(self.pa_sourceinfo_cb)
+        self._pa_context_success_cb = pa_context_success_cb_t(self.pa_context_success_cb)
+
+    def pa_context_success_cb(self, context, c_int, user_data):
+        self._pa_ctx_success = c_int
+        return
 
     def pa_state_cb(self, context, userdata):
         """Reads PulseAudio context state.
@@ -116,6 +124,47 @@ class pulseaudio_q:
 
         return 0
 
+    def pa_sourceinfo_cb(self, context, source_info, eol, userdata):
+        """Source list callback function
+
+        Called by mainloop thread each time info for a single audio source is requestd.
+        All the parameters to this functions are passed to it automatically by
+        the caller. This is here for convenience.
+
+        Args:
+            context: PulseAudio context.
+            index: Source index
+            source_info: data returned from mainloop.
+            eol: End Of List marker if set to non-zero there is no more date
+            to read and we should bail out.
+            userdata: n/a.
+
+        Returns:
+            self.source_list: Contains list of all Pulse Audio sources.
+            self.pa_status: PA_WORKING or PA_FINISHED
+
+        Raises:
+            None
+        """
+        if eol == 0:
+            self.pa_status = PA_WORKING
+            cvolume = pa_cvolume()
+            v = pa_volume_t * 32
+            cvolume.channels = source_info.contents.volume.channels
+            cvolume.values = v()
+            for i in range(0, source_info.contents.volume.channels):
+                cvolume.values[i] = source_info.contents.volume.values[i]
+
+
+            self._return_result  = [source_info.contents.index,
+                                    source_info.contents.name,
+                                    cvolume,
+                                    " ".join(source_info.contents.description.split())]
+        else:
+            self.pa_status = PA_FINISHED
+
+        return 0
+
     def start(self):
         """Starts PulseAudio threaded mainloop.
 
@@ -171,19 +220,72 @@ class pulseaudio_q:
         """
         try:
             pa_context_disconnect(self.pa_ctx)
+            self.pa_ml = None
+            self.pa_mlapi = None
+            self.pa_ctx = None
         except:
             raise PAError(PA_MAINLOOP_END_ERROR, "Unable to end mainloop.")
 
     def get_audio_sources(self):
-        try: 
+        try:
             pa_context_get_source_info_list(self.pa_ctx, self._pa_sourcelist_cb, None);
             t = time.clock()
             while time.clock() - t < 5:
                 if self.pa_status == PA_FINISHED:
+                    self.pa_status == PA_STOPPED
                     self.sources = self._sources
                     self._sources = []
                     return self.sources
             raise PAError(PA_GET_SOURCES_TIMEOUT, "Unable to get sources, operation timed out.")
         except:
             raise PAError(PA_GET_SOURCES_ERROR, "Unable to get sources.")
+
+    def get_source_info_by_index(self, index):
+        try:
+            pa_context_get_source_info_by_index(self.pa_ctx, index, self._pa_sourceinfo_cb, None);
+            t = time.clock()
+            while time.clock() - t < 5:
+                if self.pa_status == PA_FINISHED:
+                    self.pa_status == PA_STOPPED
+                    time.sleep(0.2)
+                    ret = self._return_result
+                    self._return_result = []
+                    return ret
+            raise PAError(PA_GET_SOURCE_TIMEOUT, "Unable to get source, operation timed out.")
+        except:
+            raise PAError(PA_GET_SOURCE_ERROR, "Unable to get source.")
+
+    def set_source_volume_by_index(self, index, cvolume):
+        try:
+            pa_context_set_source_volume_by_index(self.pa_ctx, index, cvolume,
+                                                  self._pa_context_success_cb, None)
+            t = time.clock()
+            while time.clock() - t < 5:
+                if self.pa_status == PA_FINISHED:
+                    self._pa_status == PA_STOPPED
+                    time.sleep(0.2)  # WTF?
+                    return 1
+            raise PAError(PA_GET_SOURCES_TIMEOUT, "Unable to get sources, operation timed out.")
+        except:
+            raise PAError(PA_GET_SOURCES_ERROR, "Unable to get sources.")
+
+    def volume_to_linear(self, cvolume):
+        avg = 0
+        for chn in range(cvolume.channels):
+            avg = avg + cvolume.values[chn]
+        avg = avg / cvolume.channels
+        volume = pa_sw_volume_to_linear(avg)
+        return volume
+
+    def volume_to_cvolume(self, index, volume):
+        info = self.get_source_info_by_index(index)
+        cvolume = pa_cvolume()
+        v = pa_volume_t * 32
+        cvolume.channels = info[2].channels
+        cvolume.values = v()
+        for i in range(0, info[2].channels):
+            cvolume.values[i] = pa_sw_volume_from_linear(volume)
+        return cvolume
+
+
 
