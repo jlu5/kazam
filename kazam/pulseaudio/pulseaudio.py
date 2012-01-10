@@ -247,7 +247,7 @@ class pulseaudio_q:
             while time.clock() - t < 5:
                 if self.pa_status == PA_FINISHED:
                     self.pa_status == PA_STOPPED
-                    time.sleep(0.2)
+                    time.sleep(0.1)
                     ret = self._return_result
                     self._return_result = []
                     return ret
@@ -262,14 +262,14 @@ class pulseaudio_q:
             t = time.clock()
             while time.clock() - t < 5:
                 if self.pa_status == PA_FINISHED:
-                    self._pa_status == PA_STOPPED
-                    time.sleep(0.2)  # WTF?
+                    self.pa_status == PA_STOPPED
+#                    time.sleep(0.2)  # WTF?
                     return 1
             raise PAError(PA_GET_SOURCES_TIMEOUT, "Unable to get sources, operation timed out.")
         except:
             raise PAError(PA_GET_SOURCES_ERROR, "Unable to get sources.")
 
-    def volume_to_linear(self, cvolume):
+    def cvolume_to_linear(self, cvolume):
         avg = 0
         for chn in range(cvolume.channels):
             avg = avg + cvolume.values[chn]
@@ -277,7 +277,15 @@ class pulseaudio_q:
         volume = pa_sw_volume_to_linear(avg)
         return volume
 
-    def volume_to_cvolume(self, index, volume):
+    def cvolume_to_dB(self, cvolume):
+        avg = 0
+        for chn in range(cvolume.channels):
+            avg = avg + cvolume.values[chn]
+        avg = avg / cvolume.channels
+        volume = pa_sw_volume_to_dB(avg)
+        return volume
+
+    def linear_to_cvolume(self, index, volume):
         info = self.get_source_info_by_index(index)
         cvolume = pa_cvolume()
         v = pa_volume_t * 32
@@ -285,6 +293,16 @@ class pulseaudio_q:
         cvolume.values = v()
         for i in range(0, info[2].channels):
             cvolume.values[i] = pa_sw_volume_from_linear(volume)
+        return cvolume
+
+    def dB_to_cvolume(self, channels, volume):
+        cvolume = pa_cvolume()
+        v = pa_volume_t * 32
+        cvolume.channels = channels
+        cvolume.values = v()
+        value = pa_sw_volume_from_dB(volume)
+        for i in range(0, channels):
+            cvolume.values[i] = value
         return cvolume
 
 

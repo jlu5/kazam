@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 #       gstreamer.py
@@ -7,7 +6,7 @@
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
+#       the Free Software Foundation; either version 3 of the License, or
 #       (at your option) any later version.
 #
 #       This program is distributed in the hope that it will be useful,
@@ -112,7 +111,6 @@ class Screencast(object):
         self.vid_out_queue = gst.element_factory_make("queue", "queue_v2")
 
     def setup_audio_source(self):
-        print "setting audio source:", self.audio_source
         self.audiosrc = gst.element_factory_make("pulsesrc", "audio_src")
         self.audiosrc.set_property("device", self.audio_source)
         self.aud_caps = gst.Caps("audio/x-raw-int")
@@ -129,7 +127,6 @@ class Screencast(object):
         self.aud_out_queue = gst.element_factory_make("queue", "queue_a_out")
 
     def setup_audio2_source(self):
-        print "setting audio2 source:", self.audio2_source
         self.audiomixer = gst.element_factory_make("adder", "audiomixer")
         self.audio2src = gst.element_factory_make("pulsesrc", "audio2_src")
         self.audio2src.set_property("device", self.audio2_source)
@@ -148,7 +145,6 @@ class Screencast(object):
     def setup_pipeline(self):
 
         if self.video_source and not self.audio_source and not self.audio2_source:
-            print "vid only"
             self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
                               self.vid_caps_filter, self.ffmpegcolor,
                               self.videnc, self.vid_out_queue, self.mux,
@@ -160,7 +156,6 @@ class Screencast(object):
                                   self.sink)
 
         elif self.video_source and self.audio_source and not self.audio2_source:
-            print "vid and one audio"
             self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
                               self.vid_caps_filter, self.ffmpegcolor,
                               self.videnc, self.audiosrc, self.aud_in_queue,
@@ -181,7 +176,6 @@ class Screencast(object):
             gst.element_link_many(self.mux, self.file_queue, self.sink)
 
         elif self.video_source and self.audio_source and self.audio2_source:
-            print "vid and two audio"
             self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
                               self.vid_caps_filter, self.ffmpegcolor, self.videnc,
                               self.audiosrc, self.aud_in_queue,
@@ -208,15 +202,18 @@ class Screencast(object):
             gst.element_link_many(self.mux, self.file_queue, self.sink)
 
         elif not self.video_source and self.audio_source and not self.audio2_source:
-            print "one audio"
+            #
+            # TODO: Add audio recording
+            #
+            pass
         elif not self.video_source and self.audio_source and self.audio2_source:
-            print "two audio"
+            #
+            # TODO: Add audio recording
+            #
+            pass
 
     def start_recording(self):
-        print "lala", self.audio_source
         self.pipeline.set_state(gst.STATE_PLAYING)
-        print "fooooo"
-
 
     def pause_recording(self):
         self.pipeline.set_state(gst.STATE_PAUSED)

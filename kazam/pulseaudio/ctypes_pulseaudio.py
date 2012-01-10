@@ -185,6 +185,13 @@ pa_sw_volume_to_linear = PA.pa_sw_volume_to_linear
 pa_sw_volume_to_linear.restype = c_double
 pa_sw_volume_to_linear.argtypes = [pa_volume_t]
 
+pa_sw_volume_from_dB = PA.pa_sw_volume_from_dB
+pa_sw_volume_from_dB.restype = pa_volume_t
+pa_sw_volume_from_dB.argtypes = [c_double]
+pa_sw_volume_to_dB = PA.pa_sw_volume_to_dB
+pa_sw_volume_to_dB.restype = c_double
+pa_sw_volume_to_dB.argtypes = [pa_volume_t]
+
 
 
 
