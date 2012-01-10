@@ -20,34 +20,45 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import os
+import time
 import locale
 import gettext
 import logging
-import os
 import shutil
-import time
-
-from gettext import gettext as _
 
 from gi.repository import Gtk
+from gettext import gettext as _
 
-from kazam.frontend.indicator import KazamIndicator
-from kazam.frontend.window_countdown import CountdownWindow
-from kazam.pulseaudio.pulseaudio import pulseaudio_q
 from kazam.backend.x11 import get_screens
 from kazam.backend.config import KazamConfig
+from kazam.frontend.main_menu import MainMenu
+from kazam.frontend.indicator import KazamIndicator
+from kazam.frontend.about_dialog import AboutDialog
+from kazam.pulseaudio.pulseaudio import pulseaudio_q
+from kazam.frontend.done_recording import DoneRecording
+from kazam.frontend.window_countdown import CountdownWindow
 
 class KazamApp(Gtk.Window):
 
     def __init__(self, datadir):
-        Gtk.Window.__init__(self, title="Kazam Screencaster")
+        Gtk.Window.__init__(self, title=_("Kazam Screencaster"))
 
         self.datadir = datadir
         self.setup_translations()
+
+        self.icons = Gtk.IconTheme.get_default()
+        self.icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
+        self.icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
+
         self.pa_q = pulseaudio_q()
         self.pa_q.start()
 
+        self.mainmenu = MainMenu()
+
+        #
         # Setup config
+        #
         self.config = KazamConfig()
 
         self.connect("delete-event", self.cb_delete_event)
@@ -59,9 +70,17 @@ class KazamApp(Gtk.Window):
         self.indicator.connect("pause-request", self.cb_pause_request)
         self.indicator.connect("unpause-request", self.cb_unpause_request)
 
+        self.mainmenu.connect("file-quit", self.cb_quit_request)
+        self.mainmenu.connect("help-about", self.cb_help_about)
+
+        #
+        # Setup UI
+        #
         self.set_border_width(10)
 
         self.vbox = Gtk.Box(spacing = 20, orientation = Gtk.Orientation.VERTICAL)
+        self.vbox.pack_start(self.mainmenu.menubar, False, False, 0)
+
         self.grid = Gtk.Grid(row_spacing = 10, column_spacing = 5)
         self.checkbutton_video = Gtk.CheckButton(label=_("Video Source"))
         self.checkbutton_video.connect("toggled", self.cb_video_toggled)
@@ -149,8 +168,8 @@ class KazamApp(Gtk.Window):
         self.hbox = Gtk.Box(spacing = 10)
         self.left_hbox = Gtk.Box()
         self.right_hbox = Gtk.Box(spacing = 5)
-        self.right_hbox.pack_start(self.btn_record, False, True, 0)
         self.right_hbox.pack_start(self.btn_close, False, True, 0)
+        self.right_hbox.pack_start(self.btn_record, False, True, 0)
 
         self.hbox.pack_start(self.left_hbox, True, True, 0)
         self.hbox.pack_start(self.right_hbox, False, False, 0)
@@ -159,22 +178,26 @@ class KazamApp(Gtk.Window):
         self.vbox.pack_start(self.hbox, True, True, 0)
         self.add(self.vbox)
 
-        # Fetch sources info
-        self.get_sources()
-        self.populate_widgets()
-        self.restore_state()
-
         # Hardcoded for now
         self.combobox_codec.append(None, "Gstreamer - VP8/WebM")
         self.combobox_codec.append(None, "GStreamer - H264/Matroska")
         # self.combobox_codec.append(None, "Ffmpeg - VP8/WebM")
         # self.combobox_codec.append(None, "Ffmpeg - H264/Matroska")
-        self.combobox_codec.set_active(0)
+
+        # Fetch sources info
+        self.get_sources()
+        self.populate_widgets()
+        self.restore_state()
 
     #
     # Callbacks, go down here ...
     #
     def cb_quit_request(self, indicator):
+        try:
+            os.remove(self.recorder.tempfile)
+        except:
+            pass
+
         self.save_state()
         self.pa_q.end()
         Gtk.main_quit()
@@ -195,7 +218,7 @@ class KazamApp(Gtk.Window):
         else:
             self.combobox_video.set_sensitive(False)
 
-        if self.combobox_video.get_sensitive() or self.combobox_audio.get_sensitive():
+        if self.combobox_video.get_sensitive():
             self.btn_record.set_sensitive(True)
         else:
             self.btn_record.set_sensitive(False)
@@ -213,12 +236,6 @@ class KazamApp(Gtk.Window):
             self.checkbutton_audio2.set_active(False)
             self.volumebutton_audio2.set_sensitive(False)
 
-        # I hate this spaghetti ...
-        if self.combobox_video.get_sensitive() or self.combobox_audio.get_sensitive() or self.combobox_audio2.get_sensitive():
-            self.btn_record.set_sensitive(True)
-        else:
-            self.btn_record.set_sensitive(False)
-
     def cb_audio2_toggled(self, widget):
         if self.checkbutton_audio2.get_active():
             self.combobox_audio2.set_sensitive(True)
@@ -226,11 +243,6 @@ class KazamApp(Gtk.Window):
         else:
             self.combobox_audio2.set_sensitive(False)
             self.volumebutton_audio2.set_sensitive(False)
-
-        if self.combobox_video.get_sensitive() or self.combobox_audio.get_sensitive() or self.combobox_audio2.get_sensitive():
-            self.btn_record.set_sensitive(True)
-        else:
-            self.btn_record.set_sensitive(False)
 
     def cb_audio_changed(self, widget):
         self.audio_source = self.combobox_audio.get_active()
@@ -301,17 +313,36 @@ class KazamApp(Gtk.Window):
 
     def cb_stop_request(self, widget):
         self.recorder.stop_recording()
-        #
-        # TODO: For now ...
-        #
-        self.show_all()
-        self.present()
+        self.tempfile = self.recorder.get_tempfile()
+        self.done_recording = DoneRecording(self.icons, self.tempfile, self.codec)
+        self.done_recording.connect("save-done", self.cb_save_done)
+        self.done_recording.connect("save-cancel", self.cb_save_cancel)
+        self.done_recording.show_all()
+        self.set_sensitive(False)
 
     def cb_pause_request(self, widget):
         self.recorder.pause_recording()
 
     def cb_unpause_request(self, widget):
         self.recorder.unpause_recording()
+
+    def cb_save_done(self, widget):
+        self.set_sensitive(True)
+        self.show_all()
+        self.present()
+
+    def cb_save_cancel(self, widget):
+        try:
+            os.remove(self.tempfile)
+        except:
+            pass
+
+        self.set_sensitive(True)
+        self.show_all()
+        self.present()
+
+    def cb_help_about(self, widget):
+        AboutDialog(self.icons)
 
     #
     # Other somewhat usefull stuff ...

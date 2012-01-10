@@ -224,7 +224,7 @@ class Screencast(object):
     def stop_recording(self):
         self.pipeline.set_state(gst.STATE_NULL)
 
-    def get_recording_filename(self):
+    def get_tempfile(self):
         return self.tempfile
 
     def get_audio_recorded(self):
