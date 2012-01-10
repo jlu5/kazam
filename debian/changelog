@@ -1,3 +1,13 @@
+kazam (0.91-0ubuntu1) oneiric; urgency=low
+
+  * Support for two audio channels, with volume settings.
+  * Gtk3 port mostly done, functionality of 0.13/0.90 version.
+  - Countdown window has now variable width.
+  - Countdown timer is now customizable.
+  - Disabled Record button if Video is not selected.
+
+ -- David Klasinc <bigwhale@thefish>  Tue, 10 Jan 2012 21:27:55 +0100
+
 kazam (0.13ubuntu1) oneiric; urgency=low
 
   * Encoding with H264 is back.
@@ -37,7 +47,7 @@ kazam (0.11~ppa2) oneiric; urgency=low
 
 kazam (0.11ppa1) oneiric; urgency=low
 
-  * Added dependencies for Oneiric and Pangolin 
+  * Added dependencies for Oneiric and Pangolin
 
  -- David Klasinc <bigwhale@lubica.net>  Sun 25 Dec 2011 16:41:00 +0100
 

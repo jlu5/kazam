@@ -1,86 +1,352 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 #       app.py
-#       
+#
+#       Copyright 2012 David Klasinc <bigwhale@lubica.net>
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
-#       
+#
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
+#       the Free Software Foundation; either version 3 of the License, or
 #       (at your option) any later version.
-#       
+#
 #       This program is distributed in the hope that it will be useful,
 #       but WITHOUT ANY WARRANTY; without even the implied warranty of
 #       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #       GNU General Public License for more details.
-#       
+#
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import os
+import time
 import locale
 import gettext
 import logging
-import gtk
-import os
 import shutil
 
-from subprocess import Popen
-from SimpleGtkbuilderApp import SimpleGtkbuilderApp
+from gi.repository import Gtk
 from gettext import gettext as _
 
+from kazam.backend.x11 import get_screens
 from kazam.backend.config import KazamConfig
-from kazam.frontend.widgets.dialogs import new_save_dialog
-from kazam.frontend.window_countdown import CountdownWindow
+from kazam.frontend.main_menu import MainMenu
 from kazam.frontend.indicator import KazamIndicator
-from kazam.frontend.done_recording import DoneRecording
-from kazam.frontend.start_recording import RecordingStart
-from kazam.frontend.export import ExportFrontend
+from kazam.frontend.about_dialog import AboutDialog
 from kazam.pulseaudio.pulseaudio import pulseaudio_q
-from kazam.backend.gstreamer import Screencast
-from kazam.backend.constants import *
+from kazam.frontend.done_recording import DoneRecording
+from kazam.frontend.window_countdown import CountdownWindow
 
-class KazamApp(object):
+class KazamApp(Gtk.Window):
 
     def __init__(self, datadir):
+        Gtk.Window.__init__(self, title=_("Kazam Screencaster"))
+
         self.datadir = datadir
         self.setup_translations()
-    
-        # Setup config
-        self.config = KazamConfig()
-    
-        # Setup icons
-        self.icons = gtk.icon_theme_get_default()
+
+        self.icons = Gtk.IconTheme.get_default()
         self.icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
         self.icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
-        gtk.window_set_default_icon_name("kazam")
-        
-        # Will be set later, here for convenience
-        self.screencast = None
-        self.window_countdown = None
-        self.indicator = None
-        self.done_recording = None
-        self.export = None
-        
-        # Try to find all the audio sources
-        try:
-            pa_q = pulseaudio_q()
-            pa_q.start()
-            self.audio_sources = pa_q.get_audio_sources()
-            pa_q.end()
-        except:
-            # Something went wrong, just fallback to no-sound
-            self.audio_sources = [[0, 'N/A', 'N/A']]
 
-        # Let's start!
-        self.recording_start = RecordingStart(self.datadir, self.icons, 
-                                                self.config, self.audio_sources)
-        self.recording_start.connect("countdown-requested", self.cb_countdown_requested)
-        self.recording_start.connect("quit-requested", gtk.main_quit)
-        
-    # Functions
+        self.pa_q = pulseaudio_q()
+        self.pa_q.start()
+
+        self.mainmenu = MainMenu()
+
+        #
+        # Setup config
+        #
+        self.config = KazamConfig()
+
+        self.connect("delete-event", self.cb_delete_event)
+
+        self.indicator = KazamIndicator()
+        self.indicator.connect("quit-request", self.cb_quit_request)
+        self.indicator.connect("show-request", self.cb_show_request)
+        self.indicator.connect("stop-request", self.cb_stop_request)
+        self.indicator.connect("pause-request", self.cb_pause_request)
+        self.indicator.connect("unpause-request", self.cb_unpause_request)
+
+        self.mainmenu.connect("file-quit", self.cb_quit_request)
+        self.mainmenu.connect("help-about", self.cb_help_about)
+
+        #
+        # Setup UI
+        #
+        self.set_border_width(10)
+
+        self.vbox = Gtk.Box(spacing = 20, orientation = Gtk.Orientation.VERTICAL)
+        self.vbox.pack_start(self.mainmenu.menubar, False, False, 0)
+
+        self.grid = Gtk.Grid(row_spacing = 10, column_spacing = 5)
+        self.checkbutton_video = Gtk.CheckButton(label=_("Video Source"))
+        self.checkbutton_video.connect("toggled", self.cb_video_toggled)
+        self.combobox_video = Gtk.ComboBoxText()
+        self.grid.add(self.checkbutton_video)
+        self.grid.attach_next_to(self.combobox_video,
+                                self.checkbutton_video,
+                                Gtk.PositionType.RIGHT,
+                                1, 1)
+        self.checkbutton_audio = Gtk.CheckButton(label=_("Audio Source 1"))
+        self.checkbutton_audio.connect("toggled", self.cb_audio_toggled)
+        self.combobox_audio = Gtk.ComboBoxText()
+        self.grid.attach_next_to(self.checkbutton_audio,
+                                 self.checkbutton_video,
+                                 Gtk.PositionType.BOTTOM,
+                                 1, 1)
+        self.grid.attach_next_to(self.combobox_audio,
+                                self.checkbutton_audio,
+                                Gtk.PositionType.RIGHT,
+                                1, 1)
+        volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
+        self.volumebutton_audio = Gtk.VolumeButton()
+        self.volumebutton_audio.set_adjustment(volume_adjustment)
+        self.volumebutton_audio.connect("value-changed", self.cb_volume_changed)
+        self.grid.attach_next_to(self.volumebutton_audio,
+                                 self.combobox_audio,
+                                 Gtk.PositionType.RIGHT,
+                                 1, 1)
+        self.checkbutton_audio2 = Gtk.CheckButton(label=_("Audio Source 2"))
+        self.checkbutton_audio2.connect("toggled", self.cb_audio2_toggled)
+        self.combobox_audio2 = Gtk.ComboBoxText()
+        self.grid.attach_next_to(self.checkbutton_audio2,
+                                 self.checkbutton_audio,
+                                 Gtk.PositionType.BOTTOM,
+                                 1, 1)
+        self.grid.attach_next_to(self.combobox_audio2,
+                                self.checkbutton_audio2,
+                                Gtk.PositionType.RIGHT,
+                                1, 1)
+        volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
+        self.volumebutton_audio2 = Gtk.VolumeButton()
+        self.volumebutton_audio2.set_adjustment(volume2_adjustment)
+        self.volumebutton_audio2.connect("value-changed", self.cb_volume2_changed)
+        self.grid.attach_next_to(self.volumebutton_audio2,
+                                 self.combobox_audio2,
+                                 Gtk.PositionType.RIGHT,
+                                 1, 1)
+        self.label_codec = Gtk.Label(_("Encoder type"))
+        self.label_codec.set_justify(Gtk.Justification.RIGHT)
+        self.combobox_codec = Gtk.ComboBoxText()
+        self.combobox_codec.connect("changed", self.cb_codec_changed)
+        self.grid.attach_next_to(self.label_codec,
+                                 self.checkbutton_audio2,
+                                 Gtk.PositionType.BOTTOM,
+                                 1, 1)
+        self.grid.attach_next_to(self.combobox_codec,
+                                self.label_codec,
+                                Gtk.PositionType.RIGHT,
+                                1, 1)
+        self.label_counter = Gtk.Label(_("Countdown timer"))
+        self.label_counter.set_justify(Gtk.Justification.RIGHT)
+        self.spin_adjustment = Gtk.Adjustment(5, 1, 65, 1, 5, 0)
+        self.spinbutton_counter = Gtk.SpinButton()
+        self.spinbutton_counter.set_adjustment(self.spin_adjustment)
+        self.spinbutton_counter.set_size_request(100, -1)
+        self.grid.attach_next_to(self.label_counter,
+                                 self.label_codec,
+                                 Gtk.PositionType.BOTTOM,
+                                 1, 1)
+        self.grid.attach_next_to(self.spinbutton_counter,
+                                self.label_counter,
+                                Gtk.PositionType.RIGHT,
+                                1, 1)
+
+        self.combobox_video.connect("changed", self.cb_video_changed)
+        self.combobox_audio.connect("changed", self.cb_audio_changed)
+        self.combobox_audio2.connect("changed", self.cb_audio_changed)
+        self.btn_record = Gtk.Button(label = _("Record"))
+        self.btn_record.set_size_request(100, -1)
+        self.btn_record.connect("clicked", self.cb_record_clicked)
+        self.btn_close = Gtk.Button(label = _("Close"))
+        self.btn_close.set_size_request(100, -1)
+        self.btn_close.connect("clicked", self.cb_close_clicked)
+
+        self.hbox = Gtk.Box(spacing = 10)
+        self.left_hbox = Gtk.Box()
+        self.right_hbox = Gtk.Box(spacing = 5)
+        self.right_hbox.pack_start(self.btn_close, False, True, 0)
+        self.right_hbox.pack_start(self.btn_record, False, True, 0)
+
+        self.hbox.pack_start(self.left_hbox, True, True, 0)
+        self.hbox.pack_start(self.right_hbox, False, False, 0)
+
+        self.vbox.pack_start(self.grid, True, True, 0)
+        self.vbox.pack_start(self.hbox, True, True, 0)
+        self.add(self.vbox)
+
+        # Hardcoded for now
+        self.combobox_codec.append(None, "Gstreamer - VP8/WebM")
+        self.combobox_codec.append(None, "GStreamer - H264/Matroska")
+        # self.combobox_codec.append(None, "Ffmpeg - VP8/WebM")
+        # self.combobox_codec.append(None, "Ffmpeg - H264/Matroska")
+
+        # Fetch sources info
+        self.get_sources()
+        self.populate_widgets()
+        self.restore_state()
+
+    #
+    # Callbacks, go down here ...
+    #
+    def cb_quit_request(self, indicator):
+        try:
+            os.remove(self.recorder.tempfile)
+        except:
+            pass
+
+        self.save_state()
+        self.pa_q.end()
+        Gtk.main_quit()
+
+    def cb_show_request(self, indicator):
+        self.show_all()
+        self.present()
+
+    def cb_close_clicked(self, indicator):
+        self.hide()
+
+    def cb_delete_event(self, one, two):
+        return self.hide_on_delete()
+
+    def cb_video_toggled(self, widget):
+        if self.checkbutton_video.get_active():
+            self.combobox_video.set_sensitive(True)
+        else:
+            self.combobox_video.set_sensitive(False)
+
+        if self.combobox_video.get_sensitive():
+            self.btn_record.set_sensitive(True)
+        else:
+            self.btn_record.set_sensitive(False)
+
+    def cb_audio_toggled(self, widget):
+        if self.checkbutton_audio.get_active():
+            self.combobox_audio.set_sensitive(True)
+            self.checkbutton_audio2.set_sensitive(True)
+            self.volumebutton_audio.set_sensitive(True)
+        else:
+            self.combobox_audio.set_sensitive(False)
+            self.volumebutton_audio.set_sensitive(False)
+            self.combobox_audio2.set_sensitive(False)
+            self.checkbutton_audio2.set_sensitive(False)
+            self.checkbutton_audio2.set_active(False)
+            self.volumebutton_audio2.set_sensitive(False)
+
+    def cb_audio2_toggled(self, widget):
+        if self.checkbutton_audio2.get_active():
+            self.combobox_audio2.set_sensitive(True)
+            self.volumebutton_audio2.set_sensitive(True)
+        else:
+            self.combobox_audio2.set_sensitive(False)
+            self.volumebutton_audio2.set_sensitive(False)
+
+    def cb_audio_changed(self, widget):
+        self.audio_source = self.combobox_audio.get_active()
+        self.audio2_source  = self.combobox_audio2.get_active()
+        self.audio_source_info = self.pa_q.get_source_info_by_index(self.audio_source)
+        self.audio2_source_info = self.pa_q.get_source_info_by_index(self.audio2_source)
+        if self.audio_source == self.audio2_source:
+            self.checkbutton_audio2.set_active(False)
+            self.combobox_audio2.set_sensitive(False)
+            if self.audio_source < len(self.audio_sources):
+                self.audio2_source = self.audio2_source + 1
+            else:
+                self.audio2_source = 0
+            self.combobox_audio2.set_active(self.audio2_source)
+
+    def cb_video_changed(self, widget):
+        self.video_source = self.combobox_video.get_active()
+
+    def cb_codec_changed(self, widget):
+        self.codec = self.combobox_codec.get_active()
+
+    def cb_record_clicked(self, widget):
+        from kazam.backend.gstreamer import Screencast
+
+        self.recorder = Screencast()
+
+        if self.checkbutton_audio.get_active():
+            audio_source = self.audio_sources[self.audio_source][1]
+        else:
+            audio_source = None
+
+        if self.checkbutton_audio2.get_active():
+            audio2_source = self.audio_sources[self.audio2_source][1]
+        else:
+            audio2_source = None
+
+        if self.checkbutton_video.get_active():
+            video_source = self.video_sources[self.video_source]
+        else:
+            video_source = None
+
+        self.recorder.setup_sources(video_source,
+                                    audio_source,
+                                    audio2_source,
+                                    self.codec)
+
+        self.countdown = CountdownWindow()
+        self.countdown.connect("start-request", self.cb_start_request)
+        self.countdown.run(self.spinbutton_counter.get_value_as_int())
+        self.hide()
+
+    def cb_volume_changed(self, widget, value):
+        idx = self.combobox_audio.get_active()
+        chn = self.audio_source_info[2].channels
+        cvol = self.pa_q.dB_to_cvolume(chn, value-60)
+        self.pa_q.set_source_volume_by_index(idx, cvol)
+
+    def cb_volume2_changed(self, widget, value):
+        idx = self.combobox_audio2.get_active()
+        chn = self.audio2_source_info[2].channels
+        cvol = self.pa_q.dB_to_cvolume(chn, value-60)
+        self.pa_q.set_source_volume_by_index(idx, cvol)
+
+    def cb_start_request(self, widget):
+        self.countdown = None
+        self.indicator.start_recording()
+        self.recorder.start_recording()
+
+    def cb_stop_request(self, widget):
+        self.recorder.stop_recording()
+        self.tempfile = self.recorder.get_tempfile()
+        self.done_recording = DoneRecording(self.icons, self.tempfile, self.codec)
+        self.done_recording.connect("save-done", self.cb_save_done)
+        self.done_recording.connect("save-cancel", self.cb_save_cancel)
+        self.done_recording.show_all()
+        self.set_sensitive(False)
+
+    def cb_pause_request(self, widget):
+        self.recorder.pause_recording()
+
+    def cb_unpause_request(self, widget):
+        self.recorder.unpause_recording()
+
+    def cb_save_done(self, widget):
+        self.set_sensitive(True)
+        self.show_all()
+        self.present()
+
+    def cb_save_cancel(self, widget):
+        try:
+            os.remove(self.tempfile)
+        except:
+            pass
+
+        self.set_sensitive(True)
+        self.show_all()
+        self.present()
+
+    def cb_help_about(self, widget):
+        AboutDialog(self.icons)
+
+    #
+    # Other somewhat usefull stuff ...
+    #
 
     def setup_translations(self):
         gettext.bindtextdomain("kazam", "/usr/share/locale")
@@ -89,111 +355,121 @@ class KazamApp(object):
             locale.setlocale(locale.LC_ALL, "")
         except Exception, e:
             logging.exception("setlocale failed")
-        
-    # Callbacks
-        
-    def on_window_countdown_count(self, window_countdown):
-        self.indicator.count(window_countdown.number)
-        
-    def cb_record_done_request_requested(self, indicator):
-        self.screencast.stop_recording()
-        self.done_recording = DoneRecording(self.datadir, self.icons)
-        self.done_recording.connect("save-requested", self.cb_save_requested)
-        self.done_recording.connect("edit-requested", self.cb_edit_requested)
-        self.done_recording.connect("quit-requested", self.cb_quit_requested)
-        self.done_recording.run()
-        
-    def cb_record_requested(self, window_countdown):
-        self.indicator.start_recording()
-        self.screencast.start_recording()
 
-    def cb_countdown_requested(self, recording_start):
-        self.codec = self.recording_start.get_selected_codec()
-        # if self.backend == "gstreamer":
-        #     from kazam.backend.gstreamer import Screencast
-        # else:
-        #     from kazam.backend.ffmpeg import Screencast
+    def restore_state(self):
+        video_toggled = self.config.getboolean("start_recording", "video_toggled")
+        audio_toggled = self.config.getboolean("start_recording", "audio_toggled")
+        audio2_toggled = self.config.getboolean("start_recording", "audio2_toggled")
 
-        self.screencast = Screencast()
+        self.checkbutton_video.set_active(video_toggled)
+        self.checkbutton_audio.set_active(audio_toggled)
+        self.checkbutton_audio2.set_active(audio2_toggled)
 
-        if self.recording_start.checkbutton_audio.get_active():
-            self.audio_source = self.audio_sources[self.recording_start.get_selected_audio_source()][1]
+        video_source = self.config.getint("start_recording", "video_source")
+        audio_source = self.config.getint("start_recording", "audio_source")
+        audio2_source = self.config.getint("start_recording", "audio2_source")
+
+        self.video_source = video_source
+        self.audio_source = audio_source
+        self.audio2_source = audio2_source
+
+        self.combobox_video.set_active(video_source)
+        self.combobox_video.set_sensitive(video_toggled)
+
+        self.combobox_audio.set_active(audio_source)
+        self.combobox_audio.set_sensitive(audio_toggled)
+
+        self.combobox_audio2.set_active(audio2_source)
+        self.combobox_audio2.set_sensitive(audio2_toggled)
+
+        audio_info = self.pa_q.get_source_info_by_index(self.audio_source)
+        audio2_info = self.pa_q.get_source_info_by_index(self.audio2_source)
+
+        audio_vol = 60 + self.pa_q.cvolume_to_dB(audio_info[2])
+        audio2_vol = 60 + self.pa_q.cvolume_to_dB(audio2_info[2])
+
+        self.volumebutton_audio.set_sensitive(audio_toggled)
+        self.volumebutton_audio.set_value(audio_vol)
+        self.volumebutton_audio2.set_sensitive(audio2_toggled)
+        self.volumebutton_audio2.set_value(audio2_vol)
+
+        codec = self.config.getint("start_recording", "codec")
+        self.combobox_codec.set_active(codec)
+        self.codec = codec
+
+        self.spinbutton_counter.set_value(self.config.getfloat("start_recording", "counter"))
+
+        if len(self.audio_sources) == 1:
+            self.combobox_audio2.set_active(self.combobox_audio.get_active())
+            self.combobox_audio2.set_sensitive(False)
+            self.checkbutton_audio2.set_active(False)
+            self.checkbutton_audio2.set_sensitive(False)
+
+        if audio_toggled or audio2_toggled or video_toggled:
+            self.btn_record.set_sensitive(True)
         else:
-            self.audio_source = None
-        
-        self.codec = self.recording_start.get_selected_codec()
-        self.video_source = self.recording_start.get_selected_video_source()
-        self.screencast.setup_sources(self.video_source, self.audio_source, self.codec)
+            self.btn_record.set_sensitive(False)
 
-        self.window_countdown = CountdownWindow(self.datadir, self.icons)
-        self.window_countdown.connect("count", self.on_window_countdown_count)
-        self.window_countdown.connect("record-requested", self.cb_record_requested)
-        self.window_countdown.run()
-        
-        self.indicator = KazamIndicator(self.config)
-        self.indicator.connect("recording-done", self.cb_record_done_request_requested)    
-        self.indicator.connect("pause-requested", self.cb_pause_requested)    
-        self.indicator.connect("unpause-requested", self.cb_unpause_requested)    
-        self.indicator.connect("quit-requested", self.cb_quit_requested)    
-        
-    def cb_quit_requested(self, indicator):
-        self.screencast.stop_recording()
+        if audio_toggled:
+            self.checkbutton_audio2.set_sensitive(True)
+        else:
+            self.checkbutton_audio2.set_sensitive(False)
+            self.checkbutton_audio2.set_active(False)
+
+    def save_state(self):
+        video_toggled = self.checkbutton_video.get_active()
+        audio_toggled = self.checkbutton_audio.get_active()
+        audio2_toggled = self.checkbutton_audio2.get_active()
+
+        video_source = self.combobox_video.get_active()
+        audio_source = self.combobox_audio.get_active()
+        audio2_source = self.combobox_audio2.get_active()
+
+
+        self.config.set("start_recording", "video_source", video_source)
+        self.config.set("start_recording", "audio_source", audio_source)
+        self.config.set("start_recording", "audio2_source", audio2_source)
+
+        self.config.set("start_recording", "video_toggled", video_toggled)
+        self.config.set("start_recording", "audio_toggled", audio_toggled)
+        self.config.set("start_recording", "audio2_toggled", audio2_toggled)
+
+        codec = self.combobox_codec.get_active()
+        self.config.set("start_recording", "codec", codec)
+
+        counter = int(self.spinbutton_counter.get_value())
+        self.config.set("start_recording", "counter", counter)
+
+        self.config.write()
+
+    def get_sources(self):
         try:
-            os.remove(self.screencast.tempfile)
+            self.audio_sources = self.pa_q.get_audio_sources()
         except:
-            print "Unable to delete temporary file:", self.screencast.tempfile
-        gtk.main_quit()
+            # Something went wrong, just fallback
+            # to no-sound
+            self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
 
-    def cb_pause_requested(self, indicator):
-        self.screencast.pause_recording()
-        
-    def cb_unpause_requested(self, indicator):
-        self.screencast.unpause_recording()
-    
-    def cb_edit_requested(self, done_recording, data):
-        (command, args_list) = data
-        
-        # If the user has selected Kazam, open the export window
-        if command.endswith("kazam"):
-            self.export = ExportFrontend(self.datadir, self.icons, 
-                            self.screencast)
-            self.export.connect("back-requested", self.cb_back_done_recording_requested)
-            self.export.connect("quit-requested", self.cb_quit_requested)
-            self.export.run()
-        else:
-            args_list.insert(0, command)
-            args_list.append(self.screencast.get_recording_filename())
-            Popen(args_list)
-            gtk.main_quit()
-        
-    def cb_back_done_recording_requested(self, export):
-        del self.done_recording, self.export
-        self.cb_record_done_request_requested(None)
-        
-    def cb_save_requested(self, done_recording):
-        # Open the save dialog
-        (save_dialog, result) = new_save_dialog(_("Save screencast"), self.codec, 
-                                            self.done_recording.window)
-        # If the user clicks save
-        if result == gtk.RESPONSE_OK:
-            # Make sure the filename ends with .mkv
-            uri = os.path.join(save_dialog.get_current_folder(), save_dialog.get_filename())
-            if self.codec == CODEC_VP8:
-                if not uri.endswith(".webm"):
-                    uri += ".webm"
+        try:
+            self.video_sources = get_screens()
+        except:
+            self.video_sources = [_("Unknown")]
+
+    def populate_widgets(self):
+        #
+        # Audio first
+        #
+        for source in self.audio_sources:
+            self.combobox_audio.append(None, source[2])
+            self.combobox_audio2.append(None, source[2])
+
+        i = 1
+        for s in self.video_sources:
+            if i == len(self.video_sources):
+                dsp_name = _("Combined (%dx%d)" % (s.width, s.height))
             else:
-                if not uri.endswith(".mkv"):
-                    uri += ".mkv"
+                dsp_name = _("Display %d (%sx%s)"  % (i, s.width, s.height))
 
-            # And move the temporary recorded file to the desired save location
-            shutil.move(self.screencast.get_recording_filename(), uri)
-            # And quit
-            gtk.main_quit()
-        
-    # Functions
-    def run(self):
-        self.recording_start.run()
-        gtk.main()
-
-
+            self.combobox_video.append(None, dsp_name)
+            i = i + 1
 
