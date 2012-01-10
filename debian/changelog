@@ -6,7 +6,7 @@ kazam (0.91-0ubuntu1) oneiric; urgency=low
   - Countdown timer is now customizable.
   - Disabled Record button if Video is not selected.
 
- -- David Klasinc <bigwhale@thefish>  Tue, 10 Jan 2012 21:27:55 +0100
+ -- David Klasinc <bigwhale@lubica.net>  Tue, 10 Jan 2012 21:27:55 +0100
 
 kazam (0.13ubuntu1) oneiric; urgency=low
 
