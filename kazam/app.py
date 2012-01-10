@@ -82,7 +82,7 @@ class KazamApp(Gtk.Window):
                                 self.checkbutton_audio,
                                 Gtk.PositionType.RIGHT,
                                 1, 1)
-        volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 0, 0)
+        volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
         self.volumebutton_audio = Gtk.VolumeButton()
         self.volumebutton_audio.set_adjustment(volume_adjustment)
         self.volumebutton_audio.connect("value-changed", self.cb_volume_changed)
@@ -101,9 +101,10 @@ class KazamApp(Gtk.Window):
                                 self.checkbutton_audio2,
                                 Gtk.PositionType.RIGHT,
                                 1, 1)
-        volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 0, 0)
+        volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
         self.volumebutton_audio2 = Gtk.VolumeButton()
         self.volumebutton_audio2.set_adjustment(volume2_adjustment)
+        self.volumebutton_audio2.connect("value-changed", self.cb_volume2_changed)
         self.grid.attach_next_to(self.volumebutton_audio2,
                                  self.combobox_audio2,
                                  Gtk.PositionType.RIGHT,
