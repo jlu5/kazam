@@ -405,7 +405,7 @@ class KazamApp(Gtk.Window):
             self.checkbutton_audio2.set_active(False)
             self.checkbutton_audio2.set_sensitive(False)
 
-        if audio_toggled or audio2_toggled or video_toggled:
+        if video_toggled:
             self.btn_record.set_sensitive(True)
         else:
             self.btn_record.set_sensitive(False)
@@ -466,9 +466,9 @@ class KazamApp(Gtk.Window):
         i = 1
         for s in self.video_sources:
             if i == len(self.video_sources):
-                dsp_name = _("Combined (%dx%d)" % (s.width, s.height))
+                dsp_name = _("Combined ({w}x{h})".format(w = s.width, h = s.height))
             else:
-                dsp_name = _("Display %d (%sx%s)"  % (i, s.width, s.height))
+                dsp_name = _("Display {n} ({w}x{h})".format(n = i, w = s.width, h = s.height))
 
             self.combobox_video.append(None, dsp_name)
             i = i + 1

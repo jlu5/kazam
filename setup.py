@@ -38,7 +38,6 @@ setup(name="kazam", version=VERSION,
                   'kazam.backend',
                   'kazam.backend.export_sources',
                   'kazam.frontend',
-                  'kazam.frontend.widgets',
                  ],
       data_files=[
                   ('share/kazam/ui/',

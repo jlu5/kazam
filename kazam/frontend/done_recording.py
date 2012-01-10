@@ -124,6 +124,10 @@ class DoneRecording(Gtk.Window):
             dialog.destroy()
             self.emit("save-done")
             self.destroy()
+        else:
+            dialog.destroy()
+            self.emit("save-cancel")
+            self.destroy()
 
     def cb_cancel_clicked(self, widget):
         self.emit("save-cancel")
@@ -132,3 +136,4 @@ class DoneRecording(Gtk.Window):
     def cb_delete_event(self, widget):
         self.emit("save-cancel")
         return 1
+

@@ -1,4 +1,4 @@
-kazam (0.91-0ubuntu1) oneiric; urgency=low
+kazam (0.91-0ubuntu2) precise; urgency=low
 
   * Support for two audio channels, with volume settings.
   * Gtk3 port mostly done, functionality of 0.13/0.90 version.
