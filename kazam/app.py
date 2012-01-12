@@ -465,7 +465,7 @@ class KazamApp(Gtk.Window):
 
         i = 1
         for s in self.video_sources:
-            if i == len(self.video_sources):
+            if i == len(self.video_sources) and len(self.video_sources) > 1:
                 dsp_name = _("Combined ({w}x{h})".format(w = s.width, h = s.height))
             else:
                 dsp_name = _("Display {n} ({w}x{h})".format(n = i, w = s.width, h = s.height))
