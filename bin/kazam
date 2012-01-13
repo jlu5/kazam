@@ -34,7 +34,7 @@ if __name__ == "__main__":
     if os.path.exists("../data"):
         logging.info("Running locally")
         datadir = "../data"
-        sys.path.append("..")
+        sys.path.insert(0, "..")
     else:
         # A bit more flexible setting of datadir, it works
         # when base install path is not /usr

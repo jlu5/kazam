@@ -24,8 +24,8 @@ import os
 import shutil
 import logging
 from gettext import gettext as _
-
 from gi.repository import Gtk, GObject
+
 from kazam.backend.constants import *
 from kazam.frontend.combobox import EditComboBox
 from kazam.frontend.save_dialog import SaveDialog
@@ -36,11 +36,13 @@ class DoneRecording(Gtk.Window):
     "save-done"       : (GObject.SIGNAL_RUN_LAST,
                             None,
                             ( ),),
+    "edit-request"  : (GObject.SIGNAL_RUN_LAST,
+                            None,
+                            [GObject.TYPE_PYOBJECT],),
     "save-cancel"     : (GObject.SIGNAL_RUN_LAST,
                             None,
                             (),)
     }
-
 
     def __init__(self, icons, tempfile, codec):
         Gtk.Window.__init__(self, title=_("Kazam Screencaster - Recording finished"))
@@ -48,8 +50,9 @@ class DoneRecording(Gtk.Window):
         self.icons = icons
         self.tempfile = tempfile
         self.codec = codec
-        # Setup UI
+        self.action = ACTION_SAVE
 
+        # Setup UI
         self.set_border_width(10)
         self.vbox = Gtk.Box(spacing = 20, orientation = Gtk.Orientation.VERTICAL)
         self.label_box = Gtk.Box()
@@ -72,9 +75,12 @@ class DoneRecording(Gtk.Window):
         #
         # Just disable editing for now ...
         #
-        self.radiobutton_edit.set_sensitive(False)
-        self.combobox_editor.set_sensitive(False)
+        #self.radiobutton_edit.set_sensitive(False)
+        #self.combobox_editor.set_sensitive(False)
         self.radiobutton_save.set_active(True)
+
+        self.radiobutton_save.connect("toggled", self.cb_radiobutton_save_toggled)
+        self.radiobutton_edit.connect("toggled", self.cb_radiobutton_edit_toggled)
 
         self.btn_cancel = Gtk.Button(label = _("Cancel"))
         self.btn_cancel.set_size_request(100, -1)
@@ -105,29 +111,30 @@ class DoneRecording(Gtk.Window):
         self.present()
 
     def cb_continue_clicked(self, widget):
-        #
-        # Save to file hardcoded for now
-        #
-        (dialog, result) = SaveDialog(_("Save screencast"),
-                                      self.codec)
-
-        if result == Gtk.ResponseType.OK:
-            uri = os.path.join(dialog.get_current_folder(), dialog.get_filename())
-            if self.codec == CODEC_VP8:
-                if not uri.endswith(".webm"):
-                    uri += ".webm"
-            else:
-                if not uri.endswith(".mkv"):
-                    uri += ".mkv"
-
-            shutil.move(self.tempfile, uri)
-            dialog.destroy()
-            self.emit("save-done")
-            self.destroy()
+        if self.action == ACTION_EDIT:
+            (command, args)  = self.combobox_editor.get_active_value()
+            self.emit("edit-request", (command, args))
         else:
-            dialog.destroy()
-            self.emit("save-cancel")
-            self.destroy()
+            (dialog, result) = SaveDialog(_("Save screencast"),
+                                          self.codec)
+
+            if result == Gtk.ResponseType.OK:
+                uri = os.path.join(dialog.get_current_folder(), dialog.get_filename())
+                if self.codec == CODEC_VP8:
+                    if not uri.endswith(".webm"):
+                        uri += ".webm"
+                else:
+                    if not uri.endswith(".mkv"):
+                        uri += ".mkv"
+
+                shutil.move(self.tempfile, uri)
+                dialog.destroy()
+                self.emit("save-done")
+            else:
+                dialog.destroy()
+                self.emit("save-cancel")
+
+        self.destroy()
 
     def cb_cancel_clicked(self, widget):
         self.emit("save-cancel")
@@ -136,4 +143,18 @@ class DoneRecording(Gtk.Window):
     def cb_delete_event(self, widget):
         self.emit("save-cancel")
         return 1
+
+    def cb_radiobutton_save_toggled(self, widget):
+        if not widget.get_active():
+            return
+        else:
+            self.action = ACTION_SAVE
+            self.combobox_editor.set_sensitive(False)
+
+    def cb_radiobutton_edit_toggled(self, widget):
+        if not widget.get_active():
+            return
+        else:
+            self.action = ACTION_EDIT
+            self.combobox_editor.set_sensitive(True)
 

@@ -27,14 +27,15 @@ import gettext
 import logging
 import shutil
 
+from subprocess import Popen
 from gi.repository import Gtk
 from gettext import gettext as _
 
 from kazam.backend.x11 import get_screens
 from kazam.backend.config import KazamConfig
 from kazam.frontend.main_menu import MainMenu
-from kazam.frontend.indicator import KazamIndicator
 from kazam.frontend.about_dialog import AboutDialog
+from kazam.frontend.indicator import KazamIndicator
 from kazam.pulseaudio.pulseaudio import pulseaudio_q
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.window_countdown import CountdownWindow
@@ -317,6 +318,7 @@ class KazamApp(Gtk.Window):
         self.done_recording = DoneRecording(self.icons, self.tempfile, self.codec)
         self.done_recording.connect("save-done", self.cb_save_done)
         self.done_recording.connect("save-cancel", self.cb_save_cancel)
+        self.done_recording.connect("edit-request", self.cb_edit_request)
         self.done_recording.show_all()
         self.set_sensitive(False)
 
@@ -344,6 +346,13 @@ class KazamApp(Gtk.Window):
     def cb_help_about(self, widget):
         AboutDialog(self.icons)
 
+    def cb_edit_request(self, widget, data):
+        (command, arg_list) = data
+        arg_list.insert(0, command)
+        arg_list.append(self.tempfile)
+        Popen(arg_list)
+        self.set_sensitive(True)
+        self.show_all()
     #
     # Other somewhat usefull stuff ...
     #

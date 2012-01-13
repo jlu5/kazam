@@ -56,13 +56,20 @@ class EditComboBox(Gtk.ComboBox):
         self.set_sensitive(True)
         self.show()
 
+    def get_active_value(self):
+        i = self.get_active()
+        model = self.get_model()
+        model_iter = model.get_iter(i)
+        return (model.get_value(model_iter, 2),
+                model.get_value(model_iter, 3))
+
     def _populate(self):
 
         args = []
-        command = "kazam"
-        name = _("Kazam Screencaster")
-        icon_name = "kazam"
-        self._add_item(icon_name, name, command, args)
+#        command = "kazam"
+#        name = _("Kazam Screencaster")
+#        icon_name = "kazam"
+#        self._add_item(icon_name, name, command, args)
 
         for item in self.EDITORS:
             if os.path.isfile(item):

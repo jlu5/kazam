@@ -44,9 +44,8 @@ class CountdownWindow(GObject.GObject):
         self.window.set_position(Gtk.WindowPosition.CENTER)
         self.window.set_border_width(30)
         self.window.set_app_paintable(True)
-        self.window.set_resize_grip(False)
+        self.window.set_has_resize_grip(False)
         self.window.set_resizable(False)
-        self.window.resize_grip_is_visible(False)
         self.window.connect("delete-event", Gtk.main_quit)
         self.window.connect("draw", self.cb_draw)
 

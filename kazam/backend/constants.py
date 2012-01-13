@@ -45,3 +45,8 @@ PA_WORKING = 1
 PA_FINISHED = 2
 PA_ERROR = 3
 
+
+# Various actions
+ACTION_SAVE = 0
+ACTION_EDIT = 1
+
