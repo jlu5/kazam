@@ -34,8 +34,7 @@ Recommends: libtheora0,
 XB-Python-Version: ${python:Versions}
 Description: Easy to use application for recording on-screen action
  A program that lets you record action on-screen into one video file.
- It's special features include a well designed interface, the ability
- to record audio playing on your computer and built-in exporting
- capabilities to upload screencasts to popular videosharing websites -
- such as YouTube.
+ Its special features include a well designed interface, the ability
+ to record two audio channels and mix them. Built-in support for
+ volume adjustments. You can also chose between VP8 or H264 codecs.
 
