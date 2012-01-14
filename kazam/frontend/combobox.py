@@ -39,6 +39,7 @@ class EditComboBox(Gtk.ComboBox):
     def __init__(self, icons):
         Gtk.ComboBox.__init__(self)
         self.icons = icons
+        self.empty = True
         cr_pixbuf = Gtk.CellRendererPixbuf()
         self.pack_start(cr_pixbuf, True)
         self.add_attribute(cr_pixbuf, 'pixbuf', 0)
@@ -92,11 +93,17 @@ class EditComboBox(Gtk.ComboBox):
                 else:
                     self._add_item(icon_name, name, command, args)
 
+        if len(self.get_model()) == 0:
+            self.emtpy = True
+        else:
+            self.empty = False
+
+
+
     def _add_item(self, icon_name, name, command, args):
         liststore = self.get_model()
         try:
             pixbuf = self.icons.load_icon(icon_name, 16, Gtk.IconLookupFlags.GENERIC_FALLBACK)
-#        except glib.GError:
         except:
             pixbuf = self.icons.load_icon("application-x-executable", 16, Gtk.IconLookupFlags.GENERIC_FALLBACK)
 

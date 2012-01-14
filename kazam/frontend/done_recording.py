@@ -77,6 +77,10 @@ class DoneRecording(Gtk.Window):
         #
         #self.radiobutton_edit.set_sensitive(False)
         #self.combobox_editor.set_sensitive(False)
+        if self.combobox_editor.empty:
+            self.radiobutton_edit.set_active(False)
+            self.radiobutton_edit.set_sensitive(False)
+
         self.radiobutton_save.set_active(True)
 
         self.radiobutton_save.connect("toggled", self.cb_radiobutton_save_toggled)
