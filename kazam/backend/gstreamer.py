@@ -66,8 +66,12 @@ class Screencast(object):
         y = self.video_source.y
         width = self.video_source.width
         height = self.video_source.height
-        endx = x + width - 1
-        endy = y + height - 1
+        #
+        # H264 requirement is that video dimensions are divisible by 2.
+        # If they are not, we have to get rid of that extra pixel.
+        #
+        endx = x + width - 2 if width % 2 and self.codec == CODEC_H264 else x + width - 1
+        endy = y + height - 2 if height % 2 and self.codec == CODEC_H264 else y + height - 1
         display = self.video_source.display
 
         self.videosrc = gst.element_factory_make("ximagesrc", "video_src")
