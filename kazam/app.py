@@ -52,6 +52,18 @@ class KazamApp(Gtk.Window):
         self.icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
         self.icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
 
+        # Initialize all the variables
+
+        self.video_source = 0
+        self.audio_source = 0
+        self.audio_source2 = 0
+        self.codec = 0
+        self.countdown = None
+        self.tempfile = ""
+        self.recorder = None
+        self.capture_cursor = True
+
+
         self.pa_q = pulseaudio_q()
         self.pa_q.start()
 
@@ -141,20 +153,40 @@ class KazamApp(Gtk.Window):
                                 self.label_codec,
                                 Gtk.PositionType.RIGHT,
                                 1, 1)
+
         self.label_counter = Gtk.Label(_("Countdown timer"))
         self.label_counter.set_justify(Gtk.Justification.RIGHT)
-        self.spin_adjustment = Gtk.Adjustment(5, 1, 65, 1, 5, 0)
+        self.counter_adjustment = Gtk.Adjustment(5, 1, 65, 1, 5, 0)
         self.spinbutton_counter = Gtk.SpinButton()
-        self.spinbutton_counter.set_adjustment(self.spin_adjustment)
-        self.spinbutton_counter.set_size_request(100, -1)
+        self.spinbutton_counter.set_adjustment(self.counter_adjustment)
         self.grid.attach_next_to(self.label_counter,
                                  self.label_codec,
                                  Gtk.PositionType.BOTTOM,
                                  1, 1)
-        self.grid.attach_next_to(self.spinbutton_counter,
-                                self.label_counter,
-                                Gtk.PositionType.RIGHT,
-                                1, 1)
+
+        self.opt_box = Gtk.Box()
+        self.grid.attach_next_to(self.opt_box,
+                                 self.label_counter,
+                                 Gtk.PositionType.RIGHT,
+                                 1, 1)
+
+        self.label_framerate = Gtk.Label(_("Framerate"))
+        self.label_framerate.set_justify(Gtk.Justification.RIGHT)
+        self.framerate_adjustment = Gtk.Adjustment(25, 1, 60, 1, 5, 0)
+        self.spinbutton_framerate = Gtk.SpinButton()
+        self.spinbutton_framerate.set_adjustment(self.framerate_adjustment)
+
+        self.checkbutton_cursor = Gtk.CheckButton(label=_("Capture mouse"))
+        self.checkbutton_cursor.set_margin_left(10)
+        self.checkbutton_cursor.connect("toggled", self.cb_checkbutton_cursor_toggled)
+
+        self.btn_region = Gtk.ToggleButton(label = _("Select Region"))
+
+        self.opt_box.pack_start(self.spinbutton_counter, True, True, 0)
+        self.opt_box.pack_start(self.label_framerate, True, True, 0)
+        self.opt_box.pack_start(self.spinbutton_framerate, True, True, 0)
+        self.opt_box.pack_start(self.checkbutton_cursor, True, True, 0)
+        self.opt_box.pack_start(self.btn_region, True, True, 0)
 
         self.combobox_video.connect("changed", self.cb_video_changed)
         self.combobox_audio.connect("changed", self.cb_audio_changed)
@@ -285,10 +317,13 @@ class KazamApp(Gtk.Window):
         else:
             video_source = None
 
+        framerate = self.spinbutton_framerate.get_value_as_int()
         self.recorder.setup_sources(video_source,
                                     audio_source,
                                     audio2_source,
-                                    self.codec)
+                                    self.codec,
+                                    self.capture_cursor,
+                                    framerate)
 
         self.countdown = CountdownWindow()
         self.countdown.connect("start-request", self.cb_start_request)
@@ -353,6 +388,12 @@ class KazamApp(Gtk.Window):
         Popen(arg_list)
         self.set_sensitive(True)
         self.show_all()
+
+    def cb_checkbutton_cursor_toggled(self, widget):
+        if self.checkbutton_cursor.get_active():
+            self.capture_cursor = True
+        else:
+            self.capture_cursor = False
     #
     # Other somewhat usefull stuff ...
     #
@@ -366,17 +407,17 @@ class KazamApp(Gtk.Window):
             logging.exception("setlocale failed")
 
     def restore_state(self):
-        video_toggled = self.config.getboolean("start_recording", "video_toggled")
-        audio_toggled = self.config.getboolean("start_recording", "audio_toggled")
-        audio2_toggled = self.config.getboolean("start_recording", "audio2_toggled")
+        video_toggled = self.config.getboolean("main", "video_toggled")
+        audio_toggled = self.config.getboolean("main", "audio_toggled")
+        audio2_toggled = self.config.getboolean("main", "audio2_toggled")
 
         self.checkbutton_video.set_active(video_toggled)
         self.checkbutton_audio.set_active(audio_toggled)
         self.checkbutton_audio2.set_active(audio2_toggled)
 
-        video_source = self.config.getint("start_recording", "video_source")
-        audio_source = self.config.getint("start_recording", "audio_source")
-        audio2_source = self.config.getint("start_recording", "audio2_source")
+        video_source = self.config.getint("main", "video_source")
+        audio_source = self.config.getint("main", "audio_source")
+        audio2_source = self.config.getint("main", "audio2_source")
 
         self.video_source = video_source
         self.audio_source = audio_source
@@ -402,11 +443,14 @@ class KazamApp(Gtk.Window):
         self.volumebutton_audio2.set_sensitive(audio2_toggled)
         self.volumebutton_audio2.set_value(audio2_vol)
 
-        codec = self.config.getint("start_recording", "codec")
+        codec = self.config.getint("main", "codec")
         self.combobox_codec.set_active(codec)
         self.codec = codec
 
-        self.spinbutton_counter.set_value(self.config.getfloat("start_recording", "counter"))
+        self.spinbutton_counter.set_value(self.config.getfloat("main", "counter"))
+        self.spinbutton_framerate.set_value(self.config.getfloat("main", "framerate"))
+
+        self.checkbutton_cursor.set_active(self.config.getboolean("main", "capture_cursor"))
 
         if len(self.audio_sources) == 1:
             self.combobox_audio2.set_active(self.combobox_audio.get_active())
@@ -435,19 +479,24 @@ class KazamApp(Gtk.Window):
         audio2_source = self.combobox_audio2.get_active()
 
 
-        self.config.set("start_recording", "video_source", video_source)
-        self.config.set("start_recording", "audio_source", audio_source)
-        self.config.set("start_recording", "audio2_source", audio2_source)
+        self.config.set("main", "video_source", video_source)
+        self.config.set("main", "audio_source", audio_source)
+        self.config.set("main", "audio2_source", audio2_source)
 
-        self.config.set("start_recording", "video_toggled", video_toggled)
-        self.config.set("start_recording", "audio_toggled", audio_toggled)
-        self.config.set("start_recording", "audio2_toggled", audio2_toggled)
+        self.config.set("main", "video_toggled", video_toggled)
+        self.config.set("main", "audio_toggled", audio_toggled)
+        self.config.set("main", "audio2_toggled", audio2_toggled)
+
+        self.config.set("main", "capture_cursor", self.capture_cursor)
 
         codec = self.combobox_codec.get_active()
-        self.config.set("start_recording", "codec", codec)
+        self.config.set("main", "codec", codec)
 
         counter = int(self.spinbutton_counter.get_value())
-        self.config.set("start_recording", "counter", counter)
+        self.config.set("main", "counter", counter)
+
+        framerate = int(self.spinbutton_framerate.get_value())
+        self.config.set("main", "framerate", framerate)
 
         self.config.write()
 

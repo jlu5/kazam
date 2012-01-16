@@ -36,7 +36,13 @@ class Screencast(object):
         self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".movie")
         self.pipeline = gst.Pipeline("Kazam")
 
-    def setup_sources(self, video_source, audio_source, audio2_source, codec):
+    def setup_sources(self,
+                      video_source,
+                      audio_source,
+                      audio2_source,
+                      codec,
+                      capture_cursor,
+                      framerate):
 
         self.codec = codec
         # Get the number of cores available then use all except one for encoding
@@ -48,7 +54,9 @@ class Screencast(object):
         self.audio_source = audio_source
         self.audio2_source = audio2_source
         self.video_source = video_source
-
+        self.capture_cursor = capture_cursor
+        self.framerate = framerate
+        print "GOT RATE:", self.framerate
         if self.video_source:
             self.setup_video_source()
 
@@ -80,10 +88,10 @@ class Screencast(object):
         self.videosrc.set_property("endx", endx)
         self.videosrc.set_property("endy", endy)
         self.videosrc.set_property("use-damage", False)
-        self.videosrc.set_property("show-pointer", True)   # This should be made customizable
+        self.videosrc.set_property("show-pointer", self.capture_cursor)
 
         self.videorate = gst.element_factory_make("videorate", "video_rate")
-        self.vid_caps = gst.Caps("video/x-raw-rgb, framerate=25/1")  # This also ...
+        self.vid_caps = gst.Caps("video/x-raw-rgb, framerate={0}/1".format(self.framerate))
         self.vid_caps_filter = gst.element_factory_make("capsfilter", "vid_filter")
         self.vid_caps_filter.set_property("caps", self.vid_caps)
         self.ffmpegcolor = gst.element_factory_make("ffmpegcolorspace", "ffmpeg")

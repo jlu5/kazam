@@ -27,18 +27,20 @@ from xdg.BaseDirectory import xdg_config_home
 class KazamConfig(SafeConfigParser):
 
     DEFAULTS = [{
-                "name":"start_recording",
+                "name":"main",
                 "keys":{
-                        "video_toggled": True,
-                        "video_source": 0,
-                        "audio_toggled": False,
-                        "audio_source": 0,
-                        "audio_volume": 0,
-                        "audio2_toggled": False,
-                        "audio2_source": 0,
-                        "audio2_volume": 0,
-                        "codec": 0,
-                        "counter": 5,
+                        "video_toggled": "True",
+                        "video_source": "0",
+                        "audio_toggled": "False",
+                        "audio_source": "0",
+                        "audio_volume": "0",
+                        "audio2_toggled": "False",
+                        "audio2_source": "0",
+                        "audio2_volume": "0",
+                        "codec": "0",
+                        "counter": "5",
+                        "capture_cursor": "True",
+                        "framerate": "25",
                         },
                 },
                 {
@@ -54,7 +56,7 @@ class KazamConfig(SafeConfigParser):
     CONFIGFILE = os.path.join(CONFIGDIR, "kazam.conf")
 
     def __init__(self):
-        SafeConfigParser.__init__(self)
+        SafeConfigParser.__init__(self, self.DEFAULTS[0]['keys'])
         if not os.path.isdir(self.CONFIGDIR):
             os.makedirs(self.CONFIGDIR)
         if not os.path.isfile(self.CONFIGFILE):
