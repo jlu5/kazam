@@ -121,7 +121,7 @@ class KazamSuperIndicator(GObject.GObject):
         self.on_menuitem_quit_activate(self.menuitem_quit)
 
     def on_finish_shortcut_pressed_(self):
-       self.on_menuitem_finish_activate(self.menuitem_finish)
+        self.on_menuitem_finish_activate(self.menuitem_finish)
 
 
 try:
@@ -141,59 +141,64 @@ try:
             self.indicator.set_icon("kazam-stopped")
 
         def on_menuitem_pause_activate(self, menuitem_pause):
-            KazamSuperIndicator.on_menuitem_pause_activate(self, menuitem_pause)
             if menuitem_pause.get_active():
                 self.indicator.set_attention_icon("kazam-paused")
                 logging.info("Recording paused")
             else:
                 self.indicator.set_attention_icon("kazam-recording")
                 logging.info("Recording started again")
+            KazamSuperIndicator.on_menuitem_pause_activate(self, menuitem_pause)
 
         def on_menuitem_finish_activate(self, menuitem_finish):
             self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
             KazamSuperIndicator.on_menuitem_finish_activate(self)
 
-        def count(self, count):
-            self.indicator.set_attention_icon("kazam-countdown-%s" % count)
-
         def start_recording(self):
-            KazamSuperIndicator.start_recording(self)
             self.indicator.set_status(AppIndicator3.IndicatorStatus.ATTENTION)
+            KazamSuperIndicator.start_recording(self)
 
 except ImportError:
-    pass
+    #
+    # AppIndicator failed to import, not running Ubuntu?
+    # Fallback to Gtk.StatusIcon.
+    #
+    class KazamIndicator(KazamSuperIndicator):
 
-#    class KazamIndicator(KazamSuperIndicator):
-#
-#        def __init__(self, config):
-#            super(KazamIndicator, self).__init__(config)
-#
-#            self.indicator = gtk.StatusIcon()
-#            self.indicator.set_from_icon_name("kazam-countdown-5")
-#            self.indicator.connect("popup-menu", self.on_status_icon_right_click_event)
+        def __init__(self):
+            super(KazamIndicator, self).__init__()
 
-#        def on_status_icon_right_click_event(self, icon, button, time):
-#            self.menu.popup(None, None, gtk.status_icon_position_menu,
-#                            button, time, self.indicator)
+            self.indicator = Gtk.StatusIcon()
+            self.indicator.set_from_icon_name("kazam-stopped")
+            self.indicator.connect("popup-menu", self.cb_indicator_popup_menu)
+            self.indicator.connect("activate", self.cb_indicator_activate)
 
-#        def on_menuitem_pause_activate(self, menuitem_pause):
-#            KazamSuperIndicator.on_menuitem_pause_activate(self,
-#                                                        menuitem_pause)
-#            if menuitem_pause.get_active():
-#                self.indicator.set_from_icon_name("kazam-paused")
-#                logging.info("Recording paused")
-#            else:
-#                self.indicator.set_from_icon_name("kazam-recording")
-#                logging.info("Recording started again")
+        def cb_indicator_activate(self, widget):
+            def position(menu, widget):
+		return (Gtk.StatusIcon.position_menu(self.menu, widget))
+            self.menu.popup(None, None, position, self.indicator, 0, Gtk.get_current_event_time())
 
-#        def on_menuitem_finish_activate(self, menuitem_finish):
-#            KazamSuperIndicator.on_menuitem_finish_activate(self)
-#            self.indicator.set_visible(False)
+        def cb_indicator_popup_menu(self, icon, button, time):
+            def position(menu, icon):
+		return (Gtk.StatusIcon.position_menu(self.menu, icon))
+            self.menu.popup(None, None, position, self.indicator, button, time)
 
-#        def count(self, count):
-#            self.indicator.set_from_icon_name("kazam-countdown-%s" % count)
+        #
+        # on_menuitem overrides
+        #
+        def on_menuitem_finish_activate(self, menuitem_finish):
+            self.indicator.set_from_icon_name("kazam-stopped")
+            KazamSuperIndicator.on_menuitem_finish_activate(self)
 
-#        def start_recording(self):
-#            KazamSuperIndicator.start_recording(self)
-#            self.indicator.set_from_icon_name("kazam-recording")
+        def on_menuitem_pause_activate(self, menuitem_pause):
+            if menuitem_pause.get_active():
+                self.indicator.set_from_icon_name("kazam-paused")
+                logging.info("Recording paused")
+            else:
+                self.indicator.set_from_icon_name("kazam-recording")
+                logging.info("Recording started again")
+            KazamSuperIndicator.on_menuitem_pause_activate(self, menuitem_pause)
+
+        def start_recording(self):
+            self.indicator.set_from_icon_name("kazam-recording")
+            KazamSuperIndicator.start_recording(self)
 
