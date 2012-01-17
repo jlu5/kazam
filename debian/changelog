@@ -1,3 +1,12 @@
+kazam (0.91-0ubuntu4) precise; urgency=low
+
+  * Gtk3 port completed.
+  * Added recording of arbitrary screen regions.
+  - Adjustable framerate added.
+  - Ability to turn off recording of mouse cursor.
+
+ -- David Klasinc <bigwhale@lubica.net>  Tue, 17 Jan 2012 15:49:59 +0100
+
 kazam (0.91-0ubuntu2) precise; urgency=low
 
   * Support for two audio channels, with volume settings.

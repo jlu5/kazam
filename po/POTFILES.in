@@ -1,8 +1,4 @@
 [type: python] bin/kazam
-[type: gettext/glade] data/ui/authenticate.ui
-[type: gettext/glade] data/ui/done-recording.ui
-[type: gettext/glade] data/ui/export.ui
-[type: gettext/glade] data/ui/start.ui
 [type: gettext/glade] data/ui/export_sources/youtube.ui
 [type: gettext/glade] data/ui/export_sources/videobin.ui
 data/kazam.desktop.in
@@ -18,6 +14,7 @@ kazam/frontend/indicator.py
 kazam/frontend/main_menu.py
 kazam/frontend/main_menu.py
 kazam/frontend/window_countdown.py
+kazam/frontend/window_region.py
 kazam/frontend/save_dialog.py
 kazam/frontend/about_dialog.py
 kazam/frontend/combobox.py
