@@ -42,7 +42,8 @@ class Screencast(object):
                       audio2_source,
                       codec,
                       capture_cursor,
-                      framerate):
+                      framerate,
+                      region):
 
         self.codec = codec
         # Get the number of cores available then use all except one for encoding
@@ -56,7 +57,8 @@ class Screencast(object):
         self.video_source = video_source
         self.capture_cursor = capture_cursor
         self.framerate = framerate
-        print "GOT RATE:", self.framerate
+        self.region = region
+
         if self.video_source:
             self.setup_video_source()
 
@@ -70,21 +72,50 @@ class Screencast(object):
         self.setup_pipeline()
 
     def setup_video_source(self):
-        x = self.video_source.x
-        y = self.video_source.y
-        width = self.video_source.width
-        height = self.video_source.height
-        #
-        # H264 requirement is that video dimensions are divisible by 2.
-        # If they are not, we have to get rid of that extra pixel.
-        #
-        endx = x + width - 2 if width % 2 and self.codec == CODEC_H264 else x + width - 1
-        endy = y + height - 2 if height % 2 and self.codec == CODEC_H264 else y + height - 1
-        display = self.video_source.display
 
         self.videosrc = gst.element_factory_make("ximagesrc", "video_src")
-        self.videosrc.set_property("startx", x)
-        self.videosrc.set_property("starty", y)
+
+        if self.region:
+            startx = self.region[0] if self.region[0] > 0 else 0
+            starty = self.region[1] if self.region[1] > 0 else 0
+
+            #
+            # H264 requirement is that video dimensions are divisible by 2.
+            # If they are not, we have to get rid of that extra pixel.
+            #
+            if self.region[2] % 2 and self.codec == CODEC_H264:
+                endx = self.region[2] - 1
+            else:
+                endx = self.region[2]
+
+            if self.region[3] % 2 and self.codec == CODEC_H264:
+                endy = self.region[3] - 1
+            else:
+                endy = self.region[3]
+
+        else:
+            startx = self.video_source.x
+            starty = self.video_source.y
+            width = self.video_source.width
+            height = self.video_source.height
+            #
+            # H264 requirement is that video dimensions are divisible by 2.
+            # If they are not, we have to get rid of that extra pixel.
+            #
+            if width % 2 and self.codec == CODEC_H264:
+                endx = startx + width - 2
+            else:
+                endx = startx + width - 1
+
+            if height % 2 and self.codec == CODEC_H264:
+                endy = starty + height - 2
+            else:
+                endy = starty + height - 1
+
+        display = self.video_source.display
+
+        self.videosrc.set_property("startx", startx)
+        self.videosrc.set_property("starty", starty)
         self.videosrc.set_property("endx", endx)
         self.videosrc.set_property("endy", endy)
         self.videosrc.set_property("use-damage", False)

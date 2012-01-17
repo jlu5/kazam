@@ -37,6 +37,7 @@ from kazam.frontend.main_menu import MainMenu
 from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
 from kazam.pulseaudio.pulseaudio import pulseaudio_q
+from kazam.frontend.window_region import RegionWindow
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.window_countdown import CountdownWindow
 
@@ -62,7 +63,8 @@ class KazamApp(Gtk.Window):
         self.tempfile = ""
         self.recorder = None
         self.capture_cursor = True
-
+        self.region_window = None
+        self.region = None
 
         self.pa_q = pulseaudio_q()
         self.pa_q.start()
@@ -180,7 +182,8 @@ class KazamApp(Gtk.Window):
         self.checkbutton_cursor.set_margin_left(10)
         self.checkbutton_cursor.connect("toggled", self.cb_checkbutton_cursor_toggled)
 
-        self.btn_region = Gtk.ToggleButton(label = _("Select Region"))
+        self.btn_region = Gtk.ToggleButton(label = _("Record Region"))
+        self.btn_region.connect("toggled", self.cb_btn_region_toggled)
 
         self.opt_box.pack_start(self.spinbutton_counter, True, True, 0)
         self.opt_box.pack_start(self.label_framerate, True, True, 0)
@@ -318,12 +321,15 @@ class KazamApp(Gtk.Window):
             video_source = None
 
         framerate = self.spinbutton_framerate.get_value_as_int()
-        self.recorder.setup_sources(video_source,
-                                    audio_source,
-                                    audio2_source,
-                                    self.codec,
-                                    self.capture_cursor,
-                                    framerate)
+
+        if self.btn_region.get_active():
+            self.recorder.setup_sources(video_source,
+                                        audio_source,
+                                        audio2_source,
+                                        self.codec,
+                                        self.capture_cursor,
+                                        framerate,
+                                        self.region)
 
         self.countdown = CountdownWindow()
         self.countdown.connect("start-request", self.cb_start_request)
@@ -394,6 +400,26 @@ class KazamApp(Gtk.Window):
             self.capture_cursor = True
         else:
             self.capture_cursor = False
+
+    def cb_btn_region_toggled(self, widget):
+        if self.btn_region.get_active():
+            self.region_window = RegionWindow(self.region)
+            self.region_window.connect("region-selected", self.cb_region_selected)
+            self.region_window.connect("region-canceled", self.cb_region_canceled)
+        else:
+            self.region_window.window.destroy()
+            self.region_window = None
+
+    def cb_region_selected(self, widget):
+        self.region = (self.region_window.startx,
+                       self.region_window.starty,
+                       self.region_window.endx,
+                       self.region_window.endy)
+
+    def cb_region_canceled(self, widget):
+        self.btn_region.set_active(False)
+
+
     #
     # Other somewhat usefull stuff ...
     #
