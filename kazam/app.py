@@ -322,14 +322,13 @@ class KazamApp(Gtk.Window):
 
         framerate = self.spinbutton_framerate.get_value_as_int()
 
-        if self.btn_region.get_active():
-            self.recorder.setup_sources(video_source,
-                                        audio_source,
-                                        audio2_source,
-                                        self.codec,
-                                        self.capture_cursor,
-                                        framerate,
-                                        self.region)
+        self.recorder.setup_sources(video_source,
+                                    audio_source,
+                                    audio2_source,
+                                    self.codec,
+                                    self.capture_cursor,
+                                    framerate,
+                                    self.region)
 
         self.countdown = CountdownWindow()
         self.countdown.connect("start-request", self.cb_start_request)

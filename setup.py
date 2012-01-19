@@ -12,7 +12,7 @@ import sys
 # update version.py
 try:
     line = open("debian/changelog").readline()
-    m = re.match("^[\w-]+ \(([\w\.~]+)\) ([\w-]+);", line)
+    m = re.search(r'\((.+?)\) ([^;]+);', line)
     VERSION = m.group(1)
     CODENAME = m.group(2)
     DISTRO = Popen(["lsb_release", "-s", "-i"], stdout=PIPE).communicate()[0].strip()
