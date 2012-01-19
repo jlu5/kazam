@@ -81,22 +81,22 @@ class Screencast(object):
             starty = self.region[1] if self.region[1] > 0 else 0
             endx = self.region[2]
             endy = self.region[3]
-
         else:
             startx = self.video_source.x
             starty = self.video_source.y
             width = self.video_source.width
             height = self.video_source.height
-            endx = startx + width
-            endy = starty + height
+            endx = startx + width - 1
+            endy = starty + height - 1
 
         #
         # H264 requirement is that video dimensions are divisible by 2.
         # If they are not, we have to get rid of that extra pixel.
         #
-        if (endx - startx + 1) % 2 and self.codec == CODEC_H264:
+        if not abs(startx - endx) % 2 and self.codec == CODEC_H264:
             endx = endx - 1
-        if (endy - starty + 1) % 2 and self.codec == CODEC_H264:
+
+        if not abs(starty - endy) % 2 and self.codec == CODEC_H264:
             endy = endy - 1
 
         display = self.video_source.display
