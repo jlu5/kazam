@@ -1,5 +1,5 @@
 
-VERSION='0.91-0ubuntu4'
-CODENAME='precise'
+VERSION='0.91-0ubuntu5'
+CODENAME='oneiric'
 DISTRO='Ubuntu'
-RELEASE='11.10'
+RELEASE='12.04'

@@ -2,7 +2,7 @@ kazam (0.91-0ubuntu5) oneiric; urgency=high
 
   * Fixed a showstopper bug #918531.
 
- -- David Klasinc <bigwhale@lubica.lan>  Thu, 19 Jan 2012 10:06:07 +0100
+ -- David Klasinc <bigwhale@lubica.net>  Thu, 19 Jan 2012 10:06:07 +0100
 
 kazam (0.91-0ubuntu4) precise; urgency=low
 
