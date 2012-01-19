@@ -26,7 +26,7 @@ from gi.repository import Gtk
 
 from kazam.backend.constants import *
 
-def SaveDialog(title, codec):
+def SaveDialog(title, old_path, codec):
     dialog = Gtk.FileChooserDialog(title, None,
                                    Gtk.FileChooserAction.SAVE,
                                    (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
@@ -39,13 +39,17 @@ def SaveDialog(title, codec):
 
     dialog.set_do_overwrite_confirmation(True)
 
-    # Try to set the default folder to be ~/Videos, otherwise
-    # ~/Documents, otherwise ~/
+    # Try to set the default folder to be previously selected path
+    # if there was one otherwise try with ~/Videos, ~/Documents
+    # and finally ~/
+
     video_path = os.path.expanduser("~/Videos/")
     documents_path = os.path.expanduser("~/Documents/")
     home_path = os.path.expanduser("~/")
 
-    if os.path.isdir(video_path):
+    if old_path and os.path.isdir(old_path):
+            dialog.set_current_folder(old_path)
+    elif os.path.isdir(video_path):
         dialog.add_shortcut_folder(video_path)
         dialog.set_current_folder(video_path)
     elif os.path.isdir(documents_path):
@@ -60,5 +64,6 @@ def SaveDialog(title, codec):
     # This appears to be a bug in Gtk3 and it is fixed in Precise Pangolin.
     #
     result = dialog.run()
-    return dialog, result
+    old_path = dialog.get_current_folder()
+    return dialog, result, old_path
 

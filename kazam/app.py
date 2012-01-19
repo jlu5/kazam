@@ -65,6 +65,7 @@ class KazamApp(Gtk.Window):
         self.capture_cursor = True
         self.region_window = None
         self.region = None
+        self.old_path = None
 
         self.pa_q = pulseaudio_q()
         self.pa_q.start()
@@ -355,7 +356,12 @@ class KazamApp(Gtk.Window):
     def cb_stop_request(self, widget):
         self.recorder.stop_recording()
         self.tempfile = self.recorder.get_tempfile()
-        self.done_recording = DoneRecording(self.icons, self.tempfile, self.codec)
+
+        self.done_recording = DoneRecording(self.icons,
+                                            self.tempfile,
+                                            self.codec,
+                                            self.old_path)
+
         self.done_recording.connect("save-done", self.cb_save_done)
         self.done_recording.connect("save-cancel", self.cb_save_cancel)
         self.done_recording.connect("edit-request", self.cb_edit_request)
@@ -368,7 +374,8 @@ class KazamApp(Gtk.Window):
     def cb_unpause_request(self, widget):
         self.recorder.unpause_recording()
 
-    def cb_save_done(self, widget):
+    def cb_save_done(self, widget, result):
+        self.old_path = result
         self.set_sensitive(True)
         self.show_all()
         self.present()
@@ -405,17 +412,20 @@ class KazamApp(Gtk.Window):
             self.region_window = RegionWindow(self.region)
             self.region_window.connect("region-selected", self.cb_region_selected)
             self.region_window.connect("region-canceled", self.cb_region_canceled)
+            self.set_sensitive(False)
         else:
             self.region_window.window.destroy()
             self.region_window = None
 
     def cb_region_selected(self, widget):
+        self.set_sensitive(True)
         self.region = (self.region_window.startx,
                        self.region_window.starty,
                        self.region_window.endx,
                        self.region_window.endy)
 
     def cb_region_canceled(self, widget):
+        self.set_sensitive(True)
         self.btn_region.set_active(False)
 
 

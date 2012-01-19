@@ -35,7 +35,7 @@ class DoneRecording(Gtk.Window):
     __gsignals__ = {
     "save-done"       : (GObject.SIGNAL_RUN_LAST,
                             None,
-                            ( ),),
+                            [GObject.TYPE_PYOBJECT],),
     "edit-request"  : (GObject.SIGNAL_RUN_LAST,
                             None,
                             [GObject.TYPE_PYOBJECT],),
@@ -44,13 +44,14 @@ class DoneRecording(Gtk.Window):
                             (),)
     }
 
-    def __init__(self, icons, tempfile, codec):
+    def __init__(self, icons, tempfile, codec, old_path):
         Gtk.Window.__init__(self, title=_("Kazam Screencaster - Recording finished"))
 
         self.icons = icons
         self.tempfile = tempfile
         self.codec = codec
         self.action = ACTION_SAVE
+        self.old_path = old_path
 
         # Setup UI
         self.set_border_width(10)
@@ -60,8 +61,7 @@ class DoneRecording(Gtk.Window):
         self.label_box.add(self.done_label)
 
         self.grid = Gtk.Grid(row_spacing = 10, column_spacing = 5)
-        self.radiobutton_edit = Gtk.RadioButton.new_with_label_from_widget(None,
-                                                               _("Edit with:"))
+        self.radiobutton_edit = Gtk.RadioButton.new_with_label_from_widget(None, _("Edit with:"))
         self.combobox_editor = EditComboBox(self.icons)
         self.grid.add(self.radiobutton_edit)
         self.grid.attach_next_to(self.combobox_editor,
@@ -71,12 +71,6 @@ class DoneRecording(Gtk.Window):
         self.radiobutton_save = Gtk.RadioButton.new_from_widget(self.radiobutton_edit)
         self.radiobutton_save.set_label(_("Save for later"))
 
-
-        #
-        # Just disable editing for now ...
-        #
-        #self.radiobutton_edit.set_sensitive(False)
-        #self.combobox_editor.set_sensitive(False)
         if self.combobox_editor.empty:
             self.radiobutton_edit.set_active(False)
             self.radiobutton_edit.set_sensitive(False)
@@ -119,8 +113,8 @@ class DoneRecording(Gtk.Window):
             (command, args)  = self.combobox_editor.get_active_value()
             self.emit("edit-request", (command, args))
         else:
-            (dialog, result) = SaveDialog(_("Save screencast"),
-                                          self.codec)
+            (dialog, result, self.old_path) = SaveDialog(_("Save screencast"),
+                                          self.old_path, self.codec)
 
             if result == Gtk.ResponseType.OK:
                 uri = os.path.join(dialog.get_current_folder(), dialog.get_filename())
@@ -133,12 +127,11 @@ class DoneRecording(Gtk.Window):
 
                 shutil.move(self.tempfile, uri)
                 dialog.destroy()
-                self.emit("save-done")
+                self.emit("save-done", self.old_path)
+                self.destroy()
             else:
                 dialog.destroy()
-                self.emit("save-cancel")
 
-        self.destroy()
 
     def cb_cancel_clicked(self, widget):
         self.emit("save-cancel")
