@@ -54,7 +54,11 @@ def SaveDialog(title, codec):
         dialog.set_current_folder(home_path)
 
     dialog.show_all()
+    #
+    # In Oneiric Ocelot FileChooser dialog.run() will always report:
+    # (kazam:4692): Gtk-WARNING **: Unable to retrieve the file info for...
+    # This appears to be a bug in Gtk3 and it is fixed in Precise Pangolin.
+    #
     result = dialog.run()
     return dialog, result
-
 

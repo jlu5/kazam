@@ -1,5 +1,5 @@
 
-           Kazam Screencaster v0.12 
+           Kazam Screencaster v0.91
 
 
 Introduction
@@ -13,7 +13,6 @@ Optionally you can record sound from any sound input device that is
 supported and visible by PulseAudio.
 
 
-
 Latest version
 --------------
 
@@ -21,7 +20,6 @@ Kazam is always available from Launchpad under https://launchpad.net/kazam
 
 Right now there are only unstable versions available, the project is still
 in development and a stable release is planned for Ubuntu 12.04.
-
 
 
 Installation
@@ -48,9 +46,30 @@ path is /usr/local.
 Known Issues
 ------------
 
-- Ffmpeg support is currently not working and has been turned off. Editing
-videos with Kazam will most likely be broken.
+- Ffmpeg support and video editing with Kazam are currently not working and
+are disabled, for now.
 
 - Support for multiple monitors is there, but your mileage may vary. It
-was tested only on two screen setup where both screens are side by side.
+was tested only on two screen setup where both screens are side by side. With
+Region recording the Video source is ignored.
+
+- Placing Region selector outside of screen borders will produce unknown
+results and you will probably end up with no recording.
+
+- Two warnings appear during the normal usage:
+
+/usr/lib/python2.7/dist-packages/gobject/constants.py:24: Warning:
+g_boxed_type_register_static: assertion `g_type_from_name (name) == 0' failed
+
+This happens when Gtk.GObject was imported before importing gst in python
+and is still being investigated. So far it appears to be mostly harmless.
+
+Second warning comes from Gtk.FileChooser():
+
+kazam:5144): Gtk-WARNING **: Unable to retrieve the file info for <file>
+Error stating file <file> : No such file or directory
+
+This happens when you confirm file save in the dialog box. This is an error
+in Gtk.FileChooser and in Precise Pangolin it is already fixed.
+
 

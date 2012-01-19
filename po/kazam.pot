@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-17 15:54+0100\n"
+"POT-Creation-Date: 2012-01-19 07:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,28 +18,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../data/ui/export_sources/youtube.ui.h:1
-#: ../data/ui/export_sources/videobin.ui.h:2
-msgid "Title"
-msgstr ""
-
-#: ../data/ui/export_sources/youtube.ui.h:2
-msgid "Keywords"
-msgstr ""
-
-#: ../data/ui/export_sources/youtube.ui.h:3
-#: ../data/ui/export_sources/videobin.ui.h:3
-msgid "Description"
-msgstr ""
-
-#: ../data/ui/export_sources/youtube.ui.h:4
 msgid "Category"
 msgstr ""
 
-#: ../data/ui/export_sources/youtube.ui.h:5
+#: ../data/ui/export_sources/youtube.ui.h:2
+#: ../data/ui/export_sources/videobin.ui.h:1
+msgid "Description"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:3
+msgid "Keywords"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:4
 msgid "Private"
 msgstr ""
 
-#: ../data/ui/export_sources/videobin.ui.h:1
+#: ../data/ui/export_sources/youtube.ui.h:5
+#: ../data/ui/export_sources/videobin.ui.h:3
+msgid "Title"
+msgstr ""
+
+#: ../data/ui/export_sources/videobin.ui.h:2
 msgid "Email"
 msgstr ""
 
@@ -49,11 +49,11 @@ msgid "Kazam Screencaster"
 msgstr ""
 
 #: ../data/kazam.desktop.in.h:2
-msgid "Screencaster"
+msgid "Record a video of activity on your screen"
 msgstr ""
 
 #: ../data/kazam.desktop.in.h:3
-msgid "Record a video of activity on your screen"
+msgid "Screencaster"
 msgstr ""
 
 #: ../kazam/app.py:100
