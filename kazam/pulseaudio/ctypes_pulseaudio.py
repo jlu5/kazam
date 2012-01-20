@@ -2,7 +2,7 @@
 #
 #       ctypes_pulseaudio.py
 #
-#       Copyright 2010 David Klasinc <bigwhale@lubica.net>
+#       Copyright 2012 David Klasinc <bigwhale@lubica.net>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by

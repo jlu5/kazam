@@ -2,6 +2,7 @@
 #
 #       x11.py
 #
+#       Copyright 2012 David Klasinc <bigwhale@lubica.net>
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
 #
 #       This program is free software; you can redistribute it and/or modify

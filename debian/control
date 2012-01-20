@@ -10,9 +10,9 @@ Build-Depends: debhelper (>= 7.0.50),
                python-central,
                python-distutils-extra,
                python-setuptools,
-Standards-Version: 3.8.4
+Standards-Version: 3.9.2
 XS-Python-Version: current
-Vcs-Bzr: https://code.launchpad.net/~and471/kazam/trunk
+Vcs-Bzr: https://code.launchpad.net/~kazam-team/kazam/unstable
 Homepage: https://launchpad.net/kazam
 
 Package: kazam
@@ -37,4 +37,3 @@ Description: Easy to use application for recording on-screen action
  Its special features include a well designed interface, the ability
  to record two audio channels and mix them. Built-in support for
  volume adjustments. You can also chose between VP8 or H264 codecs.
-

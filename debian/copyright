@@ -1,19 +1,16 @@
 Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?rev=59
-Source: https://edge.launchpad.net/kazam
-        https://code.launchpad.net/~and471/kazam/trunk
+Source: https://launchpad.net/kazam
 
 Files: *
-Copyright: © 2010 Andrew Higginson
+Copyright: © 2012 David Klasinc
+           © 2010 Andrew Higginson
            © 2009 Michael Vogt
 License: GPL-3
 
 Files: kazam/*
-Copyright: Copyright (c) 2010 Andrew Higginson
+Copyright: © 2012 David Klasinc
+           © 2010 Andrew Higginson
 License: GPL-3
-
-Files: kazam/SimpleGtkbuilderApp.py
-Copyright: (c) 2009 Michael Vogt
-License: LGPL-3
 
 License: GPL-3
  This package is free software; you can redistribute it and/or modify
