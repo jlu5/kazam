@@ -28,6 +28,8 @@ import logging
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
 
+from kazam.backend.config import KazamConfig
+
 class KazamSuperIndicator(GObject.GObject):
 
     __gsignals__ = {
@@ -56,6 +58,7 @@ class KazamSuperIndicator(GObject.GObject):
     def __init__(self):
         super(KazamSuperIndicator, self).__init__()
 
+        self.config = KazamConfig()
         self.menu = Gtk.Menu()
 
         self.menuitem_pause = Gtk.CheckMenuItem(_("Pause recording"))
@@ -78,31 +81,23 @@ class KazamSuperIndicator(GObject.GObject):
         self.menu.append(self.menuitem_quit)
         self.menu.show_all()
 
-        # Set keyboard shortcuts
-        #pause_shortcut = config.get("keyboard_shortcuts", "pause")
-        #finish_shortcut = config.get("keyboard_shortcuts", "finish")
-        #quit_shortcut = config.get("keyboard_shortcuts", "quit")
-        #keybinder.bind(pause_shortcut, self.on_pause_shortcut_pressed_)
-        #keybinder.bind(finish_shortcut, self.on_finish_shortcut_pressed_)
-        #keybinder.bind(quit_shortcut, self.on_quit_shortcut_pressed_)
-
-    def on_menuitem_pause_activate(self, menuitem_pause):
-        if menuitem_pause.get_active():
+    def on_menuitem_pause_activate(self, menuitem):
+        if self.menuitem_pause.get_active():
             self.emit("pause-request")
         else:
             self.emit("unpause-request")
 
-    def on_menuitem_finish_activate(self):
+    def on_menuitem_finish_activate(self, menuitem):
         self.menuitem_pause.set_sensitive(False)
         self.menuitem_finish.set_sensitive(False)
         self.menuitem_show.set_sensitive(True)
         self.menuitem_pause.set_active(False)
         self.emit("stop-request")
 
-    def on_menuitem_quit_activate(self, menuitem_quit):
+    def on_menuitem_quit_activate(self, menuitem):
         self.emit("quit-request")
 
-    def on_menuitem_show_activate(self, menuitem_show):
+    def on_menuitem_show_activate(self, menuitem):
         self.emit("show-request")
 
     def count(self, count):
@@ -112,16 +107,6 @@ class KazamSuperIndicator(GObject.GObject):
         self.menuitem_pause.set_sensitive(True)
         self.menuitem_finish.set_sensitive(True)
         self.menuitem_show.set_sensitive(False)
-
-    def on_pause_shortcut_pressed_(self):
-        self.on_menuitem_pause_activate(self.menuitem_pause)
-        self.menuitem_pause.set_active(not self.menuitem_pause.get_active())
-
-    def on_quit_shortcut_pressed_(self):
-        self.on_menuitem_quit_activate(self.menuitem_quit)
-
-    def on_finish_shortcut_pressed_(self):
-        self.on_menuitem_finish_activate(self.menuitem_finish)
 
 
 try:

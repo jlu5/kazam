@@ -1,7 +1,7 @@
 Source: kazam
 Section: video
 Priority: optional
-Maintainer: David Klasinc <bigwhale@lubica.net>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: debhelper (>= 7.0.50),
                lsb-release,
                gettext,
@@ -23,14 +23,10 @@ Depends: ${python:Depends},
          python-xlib,
          python-cairo,
          python-gst0.10,
-         python-keybinder,
          gstreamer0.10-plugins-base,
          gstreamer0.10-plugins-good,
          gstreamer0.10-plugins-bad,
          gstreamer0.10-plugins-ugly
-Recommends: libtheora0,
-            python-pycurl,
-            python-gdata
 XB-Python-Version: ${python:Versions}
 Description: Easy to use application for recording on-screen action
  A program that lets you record action on-screen into one video file.

@@ -27,30 +27,31 @@ from xdg.BaseDirectory import xdg_config_home
 class KazamConfig(SafeConfigParser):
 
     DEFAULTS = [{
-                "name":"main",
-                "keys":{
-                        "video_toggled": "True",
-                        "video_source": "0",
-                        "audio_toggled": "False",
-                        "audio_source": "0",
-                        "audio_volume": "0",
-                        "audio2_toggled": "False",
-                        "audio2_source": "0",
-                        "audio2_volume": "0",
-                        "codec": "0",
-                        "counter": "5",
-                        "capture_cursor": "True",
-                        "framerate": "25",
-                        },
+                "name": "main",
+                "keys": {
+                         "video_toggled":  "True",
+                         "video_source":   "0",
+                         "audio_toggled":  "False",
+                         "audio_source":   "0",
+                         "audio_volume":   "0",
+                         "audio2_toggled": "False",
+                         "audio2_source":  "0",
+                         "audio2_volume":  "0",
+                         "codec":          "0",
+                         "counter":        "5",
+                         "capture_cursor": "True",
+                         "framerate":      "25",
+                         },
                 },
                 {
-                "name":"keyboard_shortcuts",
-                "keys":{
-                        "pause":"<Shift><Control>p",
-                        "finish":"<Shift><Control>f",
-                        "quit":"<Shift><Control>q",
-                        },
-                }]
+                 "name": "keyboard_shortcuts",
+                 "keys": {
+                          "pause":  "<Shift><Control>p",
+                          "finish": "<Shift><Control>f",
+                          "show":   "<Shift><Control>s",
+                          "quit":   "<Shift><Control>q",
+                         },
+                 }]
 
     CONFIGDIR = os.path.join(xdg_config_home, "kazam")
     CONFIGFILE = os.path.join(CONFIGDIR, "kazam.conf")
