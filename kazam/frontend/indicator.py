@@ -23,12 +23,9 @@
 import locale
 import gettext
 import logging
-#import keybinder
 
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
-
-from kazam.backend.config import KazamConfig
 
 class KazamSuperIndicator(GObject.GObject):
 
@@ -58,7 +55,6 @@ class KazamSuperIndicator(GObject.GObject):
     def __init__(self):
         super(KazamSuperIndicator, self).__init__()
 
-        self.config = KazamConfig()
         self.menu = Gtk.Menu()
 
         self.menuitem_pause = Gtk.CheckMenuItem(_("Pause recording"))
@@ -107,7 +103,6 @@ class KazamSuperIndicator(GObject.GObject):
         self.menuitem_pause.set_sensitive(True)
         self.menuitem_finish.set_sensitive(True)
         self.menuitem_show.set_sensitive(False)
-
 
 try:
     from gi.repository import AppIndicator3
@@ -167,9 +162,6 @@ except ImportError:
 		return (Gtk.StatusIcon.position_menu(self.menu, icon))
             self.menu.popup(None, None, position, self.indicator, button, time)
 
-        #
-        # on_menuitem overrides
-        #
         def on_menuitem_finish_activate(self, menuitem_finish):
             self.indicator.set_from_icon_name("kazam-stopped")
             KazamSuperIndicator.on_menuitem_finish_activate(self)

@@ -94,10 +94,10 @@ class Screencast(object):
         # If they are not, we have to get rid of that extra pixel.
         #
         if not abs(startx - endx) % 2 and self.codec == CODEC_H264:
-            endx = endx - 1
+            endx -= 1
 
         if not abs(starty - endy) % 2 and self.codec == CODEC_H264:
-            endy = endy - 1
+            endy -= 1
 
         display = self.video_source.display
 
