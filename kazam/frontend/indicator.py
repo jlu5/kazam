@@ -88,6 +88,7 @@ class KazamSuperIndicator(GObject.GObject):
         self.menuitem_finish.set_sensitive(False)
         self.menuitem_show.set_sensitive(True)
         self.menuitem_pause.set_active(False)
+        self.menuitem_quit.set_sensitive(True)
         self.emit("stop-request")
 
     def on_menuitem_quit_activate(self, menuitem):
@@ -103,6 +104,7 @@ class KazamSuperIndicator(GObject.GObject):
         self.menuitem_pause.set_sensitive(True)
         self.menuitem_finish.set_sensitive(True)
         self.menuitem_show.set_sensitive(False)
+        self.menuitem_quit.set_sensitive(False)
 
 try:
     from gi.repository import AppIndicator3
@@ -131,7 +133,7 @@ try:
 
         def on_menuitem_finish_activate(self, menuitem_finish):
             self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
-            KazamSuperIndicator.on_menuitem_finish_activate(self)
+            KazamSuperIndicator.on_menuitem_finish_activate(self, menuitem_finish)
 
         def start_recording(self):
             self.indicator.set_status(AppIndicator3.IndicatorStatus.ATTENTION)

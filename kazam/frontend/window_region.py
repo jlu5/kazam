@@ -79,6 +79,7 @@ class RegionWindow(GObject.GObject):
         self.window.set_keep_above(True)
         self.screen = self.window.get_screen()
         self.visual = self.screen.get_rgba_visual()
+        self.recording = False
 
         if self.visual != None and self.screen.is_composited():
             self.window.set_visual(self.visual)
@@ -110,10 +111,17 @@ class RegionWindow(GObject.GObject):
     def cb_keypress_event(self, widget, event):
         (op, keycode) = event.get_keycode()
         if keycode == 36 or keycode == 104: # Enter
+            self.window.set_default_geometry(self.width, self.height)
             (self.startx, self.starty) = self.window.get_position()
             self.endx = self.startx + self.width - 1
             self.endy = self.starty + self.height - 1
+            self.recording = True
+            self.window.input_shape_combine_region(None)
+            #
+            # When support for masked input is back, remove the hide() call.
+            #
             self.window.hide()
+            # self.window.queue_draw()
             self.emit("region-selected")
         elif keycode == 9: # ESC
             self.window.hide()
@@ -127,7 +135,30 @@ class RegionWindow(GObject.GObject):
     def cb_draw(self, widget, cr):
         w = self.width
         h = self.height
-
+        #
+        # Drawing a red rectangle around selected area would be extremely nice
+        # however, cairo.Region is missing from GIR and from pycairo and
+        # it is needed for input_shape_combine_region().
+        # See: https://bugs.freedesktop.org/show_bug.cgi?id=44336
+        #
+        #if self.recording:
+        #    cr.set_source_rgba(0.0, 0.0, 0.0, 0.0)
+        #    cr.set_operator(cairo.OPERATOR_SOURCE)
+        #    cr.paint()
+        #    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, w , h)
+        #    surface_ctx = cairo.Context(surface)
+        #    surface_ctx.set_source_rgba(1.0, 1.0, 1.0, 0.0)
+        #    surface_ctx.set_operator(cairo.OPERATOR_SOURCE)
+        #    surface_ctx.paint()
+        #    reg = Gdk.cairo_region_create_from_surface(surface)
+        #    widget.input_shape_combine_region(reg)
+        #    cr.move_to(0, 0)
+        #    cr.set_source_rgb(1.0, 0.0, 0.0)
+        #    cr.set_line_width(2.0)
+        #    cr.rectangle(0, 0, w, h)
+        #    cr.stroke()
+        #    cr.set_operator(cairo.OPERATOR_OVER)
+        #else:
         cr.set_source_rgba(0.0, 0.0, 0.0, 0.4)
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
@@ -143,11 +174,13 @@ class RegionWindow(GObject.GObject):
         cr.rectangle(0, 0, w, h)
         cr.stroke()
         cr.set_operator(cairo.OPERATOR_OVER)
-        self._outline_text(cr, w, h, _("Select region by resizing the window"))
-        self._outline_text(cr, w, h + 50, _("Press ENTER to confirm or ESC to cancel."))
+        self._outline_text(cr, w, h, 24, _("Select region by resizing the window"))
+        self._outline_text(cr, w, h + 50, 24, _("Press ENTER to confirm or ESC to cancel."))
+        self._outline_text(cr, w, h + 80, 12, "({0} x {1})".format(w, h))
 
-    def _outline_text(self, cr, w, h, text):
-        cr.set_font_size(24)
+
+    def _outline_text(self, cr, w, h, size, text):
+        cr.set_font_size(size)
         try:
             cr.select_font_face("Ubuntu", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
         except:

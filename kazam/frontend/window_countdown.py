@@ -84,8 +84,13 @@ class CountdownWindow(GObject.GObject):
             GObject.timeout_add(1000, self.countdown)
             self.number -= 1
         else:
-            self.emit("start-request")
             self.window.destroy()
+            GObject.timeout_add(400, self.start_request)
+
+    def start_request(self):
+        self.emit("start-request")
+        return False
+
 
     def cb_draw(self, widget, cr):
         w = widget.get_preferred_width()[0]
