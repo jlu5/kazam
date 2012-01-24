@@ -21,11 +21,9 @@
 #       MA 02110-1301, USA.
 
 import os
-import time
 import locale
 import gettext
 import logging
-import shutil
 
 from subprocess import Popen
 from gi.repository import Gtk
@@ -290,7 +288,7 @@ class KazamApp(Gtk.Window):
             self.checkbutton_audio2.set_active(False)
             self.combobox_audio2.set_sensitive(False)
             if self.audio_source < len(self.audio_sources):
-                self.audio2_source = self.audio2_source + 1
+                self.audio2_source += 1
             else:
                 self.audio2_source = 0
             self.combobox_audio2.set_active(self.audio2_source)
@@ -430,7 +428,7 @@ class KazamApp(Gtk.Window):
 
 
     #
-    # Other somewhat usefull stuff ...
+    # Other somewhat useful stuff ...
     #
 
     def setup_translations(self):
@@ -470,6 +468,9 @@ class KazamApp(Gtk.Window):
         audio_info = self.pa_q.get_source_info_by_index(self.audio_source)
         audio2_info = self.pa_q.get_source_info_by_index(self.audio2_source)
 
+        #
+        # TODO: Deal with this in a different way
+        #
         audio_vol = 60 + self.pa_q.cvolume_to_dB(audio_info[2])
         audio2_vol = 60 + self.pa_q.cvolume_to_dB(audio2_info[2])
 
@@ -564,5 +565,4 @@ class KazamApp(Gtk.Window):
                 dsp_name = _("Display {n} ({w}x{h})".format(n = i, w = s.width, h = s.height))
 
             self.combobox_video.append(None, dsp_name)
-            i = i + 1
-
+            i += 1

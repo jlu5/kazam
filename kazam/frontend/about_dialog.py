@@ -51,6 +51,6 @@ def AboutDialog(icons):
         pass
     dialog.show_all()
     dialog.set_position(Gtk.WindowPosition.CENTER)
-    result = dialog.run()
+    dialog.run()
     dialog.hide()
 

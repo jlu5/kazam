@@ -22,7 +22,7 @@
 
 import os
 import subprocess
-from gettext import gettext as _
+
 from xdg.DesktopEntry import DesktopEntry
 from gi.repository import Gtk, GdkPixbuf, GObject
 
@@ -67,10 +67,6 @@ class EditComboBox(Gtk.ComboBox):
     def _populate(self):
 
         args = []
-#        command = "kazam"
-#        name = _("Kazam Screencaster")
-#        icon_name = "kazam"
-#        self._add_item(icon_name, name, command, args)
 
         for item in self.EDITORS:
             if os.path.isfile(item):
@@ -93,10 +89,10 @@ class EditComboBox(Gtk.ComboBox):
                 else:
                     self._add_item(icon_name, name, command, args)
 
-        if len(self.get_model()) == 0:
-            self.emtpy = True
+        if len(self.get_model()):
+            self.emtpy = False
         else:
-            self.empty = False
+            self.empty = True
 
 
 

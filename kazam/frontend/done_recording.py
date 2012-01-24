@@ -22,7 +22,6 @@
 
 import os
 import shutil
-import logging
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
 
@@ -139,7 +138,7 @@ class DoneRecording(Gtk.Window):
 
     def cb_delete_event(self, widget):
         self.emit("save-cancel")
-        return 1
+        return True
 
     def cb_radiobutton_save_toggled(self, widget):
         if not widget.get_active():

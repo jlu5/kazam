@@ -20,10 +20,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import logging
 import cairo
-import os
-import time
 
 from gettext import gettext as _
 
@@ -67,7 +64,7 @@ class CountdownWindow(GObject.GObject):
         self.screen = self.window.get_screen()
         self.visual = self.screen.get_rgba_visual()
 
-        if self.visual != None and self.screen.is_composited():
+        if self.visual is not None and self.screen.is_composited():
             self.window.set_visual(self.visual)
 
 
@@ -77,7 +74,7 @@ class CountdownWindow(GObject.GObject):
         self.countdown()
 
     def countdown(self):
-        if self.number != 0:
+        if self.number:
             num_markup = _("<span size='40000' foreground='#FFFFFF'>%d</span>" % self.number)
             self.lbl_number.set_markup(num_markup)
             self.window.queue_draw()
@@ -106,13 +103,13 @@ class CountdownWindow(GObject.GObject):
         cr.set_operator(cairo.OPERATOR_OVER)
 
     def draw_rounded(self, cr, x, y, w, h, r=20):
-        cr.move_to(x+r,y)
-        cr.line_to(x+w-r,y)
-        cr.curve_to(x+w,y,x+w,y,x+w,y+r)
-        cr.line_to(x+w,y+h-r)
-        cr.curve_to(x+w,y+h,x+w,y+h,x+w-r,y+h)
-        cr.line_to(x+r,y+h)
-        cr.curve_to(x,y+h,x,y+h,x,y+h-r)
-        cr.line_to(x,y+r)
-        cr.curve_to(x,y,x,y,x+r,y)
+        cr.move_to(x + r, y)
+        cr.line_to(x + w - r, y)
+        cr.curve_to(x + w,y,x+w,y,x+w,y+r)
+        cr.line_to(x + w,y+h-r)
+        cr.curve_to(x + w, y + h, x + w, y + h, x + w - r, y + h)
+        cr.line_to(x + r, y + h)
+        cr.curve_to(x, y + h, x, y + h, x, y + h - r)
+        cr.line_to(x, y + r)
+        cr.curve_to(x, y, x, y, x + r, y)
 

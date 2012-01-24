@@ -20,8 +20,6 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import locale
-import gettext
 import logging
 
 from gettext import gettext as _
@@ -96,9 +94,6 @@ class KazamSuperIndicator(GObject.GObject):
 
     def on_menuitem_show_activate(self, menuitem):
         self.emit("show-request")
-
-    def count(self, count):
-        pass
 
     def start_recording(self):
         self.menuitem_pause.set_sensitive(True)

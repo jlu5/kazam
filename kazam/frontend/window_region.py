@@ -20,10 +20,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import logging
 import cairo
-import os
-import time
 
 from gettext import gettext as _
 
@@ -81,10 +78,9 @@ class RegionWindow(GObject.GObject):
         self.visual = self.screen.get_rgba_visual()
         self.recording = False
 
-        if self.visual != None and self.screen.is_composited():
-            self.window.set_visual(self.visual)
-
-        self.window.show_all()
+        self.window.set_visual(self.visual)
+        if self.visual is not None and self.screen.is_composited():
+            self.window.show_all()
 
     def cb_button_press_event(self, widget, event):
         (op, button) = event.get_button()
@@ -196,8 +192,3 @@ class RegionWindow(GObject.GObject):
         cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
         cr.move_to(cx, cy)
         cr.show_text(text)
-
-
-
-
-
