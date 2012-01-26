@@ -568,10 +568,11 @@ class KazamApp(Gtk.Window):
             #
             # Appen combined display too
             #
-            self.video_sources.append({"x": 0,
-                                       "y": 0,
-                                       "width": self.default_screen.get_width(),
-                                       "height": self.default_screen.get_height()})
+            if self.default_screen.get_n_monitors() > 1:
+                self.video_sources.append({"x": 0,
+                                           "y": 0,
+                                           "width": self.default_screen.get_width(),
+                                           "height": self.default_screen.get_height()})
         except:
             self.video_sources = [_("Unknown")]
 
