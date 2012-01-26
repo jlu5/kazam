@@ -230,7 +230,7 @@ class KazamApp(Gtk.Window):
     # Callbacks, go down here ...
     #
     def cb_screen_size_changed(self, screen):
-        self.get_sources()
+        self.get_sources(audio = False)
         self.populate_widgets()
 
     def cb_quit_request(self, indicator):
@@ -542,13 +542,14 @@ class KazamApp(Gtk.Window):
 
         self.config.write()
 
-    def get_sources(self):
-        try:
-            self.audio_sources = self.pa_q.get_audio_sources()
-        except:
-            # Something went wrong, just fallback
-            # to no-sound
-            self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
+    def get_sources(self, audio = True):
+        if audio:
+            try:
+                self.audio_sources = self.pa_q.get_audio_sources()
+            except:
+                # Something went wrong, just fallback
+                # to no-sound
+                self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
 
         try:
             self.default_screen = Gdk.Screen.get_default()
