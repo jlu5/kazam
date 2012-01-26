@@ -26,10 +26,9 @@ import gettext
 import logging
 
 from subprocess import Popen
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from gettext import gettext as _
 
-from kazam.backend.x11 import get_screens
 from kazam.backend.config import KazamConfig
 from kazam.frontend.main_menu import MainMenu
 from kazam.frontend.about_dialog import AboutDialog
@@ -53,6 +52,7 @@ class KazamApp(Gtk.Window):
 
         # Initialize all the variables
 
+        self.video_sources = []
         self.video_source = 0
         self.audio_source = 0
         self.audio_source2 = 0
@@ -219,6 +219,8 @@ class KazamApp(Gtk.Window):
         # self.combobox_codec.append(None, "Ffmpeg - VP8/WebM")
         # self.combobox_codec.append(None, "Ffmpeg - H264/Matroska")
 
+        self.default_screen = Gdk.Screen.get_default()
+        self.default_screen.connect("size-changed", self.cb_screen_size_changed)
         # Fetch sources info
         self.get_sources()
         self.populate_widgets()
@@ -227,6 +229,10 @@ class KazamApp(Gtk.Window):
     #
     # Callbacks, go down here ...
     #
+    def cb_screen_size_changed(self, screen):
+        self.get_sources()
+        self.populate_widgets()
+
     def cb_quit_request(self, indicator):
         try:
             os.remove(self.recorder.tempfile)
@@ -545,11 +551,35 @@ class KazamApp(Gtk.Window):
             self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
 
         try:
-            self.video_sources = get_screens()
+            self.default_screen = Gdk.Screen.get_default()
+            for i in range(self.default_screen.get_n_monitors()):
+                rect = self.default_screen.get_monitor_geometry(i)
+                self.video_sources.append({"x": rect.x,
+                                           "y": rect.y,
+                                           "width": rect.width,
+                                           "height": rect.height})
+            #
+            # Appen combined display too
+            #
+            self.video_sources.append({"x": 0,
+                                       "y": 0,
+                                       "width": self.default_screen.get_width(),
+                                       "height": self.default_screen.get_height()})
         except:
             self.video_sources = [_("Unknown")]
 
+    #
+    # TODO: Merge with get_sources?
+    #
     def populate_widgets(self):
+
+        #
+        # Clean-up
+        #
+        self.combobox_audio.remove_all()
+        self.combobox_audio2.remove_all()
+        self.combobox_video.remove_all()
+
         #
         # Audio first
         #
@@ -557,12 +587,15 @@ class KazamApp(Gtk.Window):
             self.combobox_audio.append(None, source[2])
             self.combobox_audio2.append(None, source[2])
 
+        #
+        # Now video
+        #
         i = 1
         for s in self.video_sources:
             if i == len(self.video_sources) and len(self.video_sources) > 1:
-                dsp_name = _("Combined ({w}x{h})".format(w = s.width, h = s.height))
+                dsp_name = _("Combined ({w}x{h})".format(w = s['width'], h = s['height']))
             else:
-                dsp_name = _("Display {n} ({w}x{h})".format(n = i, w = s.width, h = s.height))
+                dsp_name = _("Display {n} ({w}x{h})".format(n = i, w = s['width'], h = s['height']))
 
             self.combobox_video.append(None, dsp_name)
             i += 1

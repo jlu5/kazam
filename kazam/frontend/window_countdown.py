@@ -95,7 +95,7 @@ class CountdownWindow(GObject.GObject):
         cr.set_source_rgba(1, 1, 1, 0)
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
-        self.draw_rounded(cr, 1, 1, w-10, h-10, 20)
+        self.draw_rounded(cr, 1, 1, w - 10, h - 10, 20)
         cr.set_line_width(1.0)
         cr.set_source_rgba(.2, .2, .2, 0.8)
         cr.stroke_preserve()
