@@ -82,10 +82,10 @@ class Screencast(object):
             endx = self.region[2]
             endy = self.region[3]
         else:
-            startx = self.video_source.x
-            starty = self.video_source.y
-            width = self.video_source.width
-            height = self.video_source.height
+            startx = self.video_source['x']
+            starty = self.video_source['y']
+            width = self.video_source['width']
+            height = self.video_source.['height']
             endx = startx + width - 1
             endy = starty + height - 1
 
