@@ -85,7 +85,7 @@ class Screencast(object):
             startx = self.video_source['x']
             starty = self.video_source['y']
             width = self.video_source['width']
-            height = self.video_source.['height']
+            height = self.video_source['height']
             endx = startx + width - 1
             endy = starty + height - 1
 
@@ -98,8 +98,6 @@ class Screencast(object):
 
         if not abs(starty - endy) % 2 and self.codec == CODEC_H264:
             endy -= 1
-
-        display = self.video_source.display
 
         self.videosrc.set_property("startx", startx)
         self.videosrc.set_property("starty", starty)

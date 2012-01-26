@@ -94,8 +94,6 @@ class EditComboBox(Gtk.ComboBox):
         else:
             self.empty = True
 
-
-
     def _add_item(self, icon_name, name, command, args):
         liststore = self.get_model()
         try:
@@ -105,3 +103,11 @@ class EditComboBox(Gtk.ComboBox):
 
         liststore.append([pixbuf, name, command, args])
 
+    def version_is_gte(self, required_version, current_version):
+        i = 0
+        for digit in current_version:
+            required_digit = required_version[i]
+            current_digit = int(digit)
+            if current_digit < required_digit:
+                return False
+        return True
