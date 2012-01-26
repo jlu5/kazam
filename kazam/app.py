@@ -230,8 +230,13 @@ class KazamApp(Gtk.Window):
     # Callbacks, go down here ...
     #
     def cb_screen_size_changed(self, screen):
+        old_source = self.video_source
+        old_num = len(self.video_sources)
         self.get_sources(audio = False)
-        self.populate_widgets()
+        self.populate_widgets(audio = False)
+        if old_source > old_num:
+            old_source = 0
+        self.combobox_video.set_active(old_source)
 
     def cb_quit_request(self, indicator):
         try:
@@ -552,6 +557,7 @@ class KazamApp(Gtk.Window):
                 self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
 
         try:
+            self.video_sources = []
             self.default_screen = Gdk.Screen.get_default()
             for i in range(self.default_screen.get_n_monitors()):
                 rect = self.default_screen.get_monitor_geometry(i)
@@ -572,25 +578,22 @@ class KazamApp(Gtk.Window):
     #
     # TODO: Merge with get_sources?
     #
-    def populate_widgets(self):
-
-        #
-        # Clean-up
-        #
-        self.combobox_audio.remove_all()
-        self.combobox_audio2.remove_all()
-        self.combobox_video.remove_all()
+    def populate_widgets(self, audio = True):
 
         #
         # Audio first
         #
-        for source in self.audio_sources:
-            self.combobox_audio.append(None, source[2])
-            self.combobox_audio2.append(None, source[2])
+        if audio:
+            for source in self.audio_sources:
+                self.combobox_audio.append(None, source[2])
+                self.combobox_audio2.append(None, source[2])
 
         #
         # Now video
         #
+
+        self.combobox_video.remove_all()
+
         i = 1
         for s in self.video_sources:
             if i == len(self.video_sources) and len(self.video_sources) > 1:
