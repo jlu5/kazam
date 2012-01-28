@@ -425,6 +425,7 @@ class KazamApp(Gtk.Window):
         else:
             self.region_window.window.destroy()
             self.region_window = None
+            self.region = None
 
     def cb_region_selected(self, widget):
         self.set_sensitive(True)
