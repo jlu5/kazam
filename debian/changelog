@@ -1,3 +1,9 @@
+kazam (0.98-0ubuntu1) oneiric; urgency=low
+
+  - Few fixes of region recording.
+
+ -- David Klasinc <bigwhale@lubica.net>  Sat, 28 Jan 2012 19:59:33 +0100
+
 kazam (0.91-0ubuntu5) oneiric; urgency=high
 
   * Fixed a showstopper bug #918531.

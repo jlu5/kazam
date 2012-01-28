@@ -1,5 +1,5 @@
 
-           Kazam Screencaster v0.91
+           Kazam Screencaster v0.98 "NCC-1701C"
 
 
 Introduction
@@ -54,7 +54,7 @@ was tested only on two screen setup where both screens are side by side. With
 Region recording the Video source is ignored.
 
 - Placing Region selector outside of screen borders will produce unknown
-results and you will probably end up with no recording.
+results and you will probably end up with no video.
 
 - Two warnings appear during the normal usage:
 
@@ -70,6 +70,13 @@ kazam:5144): Gtk-WARNING **: Unable to retrieve the file info for <file>
 Error stating file <file> : No such file or directory
 
 This happens when you confirm file save in the dialog box. This is an error
-in Gtk.FileChooser and in Precise Pangolin it is already fixed.
+in Gtk.FileChooser and in Precise Pangolin it is fixed.
 
+- Trouble with recording from certain Monitor sources. I noticed this with
+Logitech G110 USB Keyboard that can play audio. Pulse Audio will see two
+devices: USP PnP Stereo Device and Monitor of USB PnP Stereo Device. When
+recording from the monitor, volume controls for both devices will affect
+the volume in the final recording.
 
+- I have no idea where to put Mute/Unmute button, so you'll have to check
+that in pavucontrol or sound settings. :)
