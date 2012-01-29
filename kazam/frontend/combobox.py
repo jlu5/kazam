@@ -65,9 +65,6 @@ class EditComboBox(Gtk.ComboBox):
                 model.get_value(model_iter, 3))
 
     def _populate(self):
-
-        args = []
-
         for item in self.EDITORS:
             if os.path.isfile(item):
                 args = self.EDITORS[item]
@@ -84,13 +81,13 @@ class EditComboBox(Gtk.ComboBox):
                     p = subprocess.Popen([command, "-v"], stdout=subprocess.PIPE)
                     output = p.communicate()[0]
                     version = output.strip().split("\n")[-1].replace("Kdenlive: ", "").split(".")
-                    if self.version_is_gte(self.KDENLIVE_VERSION, version):
+                    if self._version_is_gte(self.KDENLIVE_VERSION, version):
                         self._add_item(icon_name, name, command, args)
                 else:
                     self._add_item(icon_name, name, command, args)
 
         if len(self.get_model()):
-            self.emtpy = False
+            self.empty = False
         else:
             self.empty = True
 
@@ -103,7 +100,7 @@ class EditComboBox(Gtk.ComboBox):
 
         liststore.append([pixbuf, name, command, args])
 
-    def version_is_gte(self, required_version, current_version):
+    def _version_is_gte(self, required_version, current_version):
         i = 0
         for digit in current_version:
             required_digit = required_version[i]

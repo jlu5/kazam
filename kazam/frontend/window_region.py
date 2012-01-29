@@ -21,7 +21,7 @@
 #       MA 02110-1301, USA.
 
 import cairo
-
+import logging
 from gettext import gettext as _
 
 from gi.repository import Gtk, GObject, Gdk
@@ -41,7 +41,7 @@ class RegionWindow(GObject.GObject):
 
     def __init__(self, region = None):
         super(RegionWindow, self).__init__()
-
+        logging.debug("Initializing region window.")
         self.window = Gtk.Window()
         self.window.connect("configure-event", self.cb_configure_event)
         self.window.connect("delete-event", Gtk.main_quit)
@@ -50,6 +50,10 @@ class RegionWindow(GObject.GObject):
         self.window.connect("button-press-event", self.cb_button_press_event)
 
         if region:
+            logging.debug("Old region defined at: X: {0}, Y: {1}, W: {2}, H: {3}".format(region[0],
+                                                                                          region[1],
+                                                                                          region[2],
+                                                                                          region[3]))
             self.startx = region[0]
             self.starty = region[1]
             self.endx = region[2]

@@ -40,10 +40,11 @@ from kazam.frontend.window_countdown import CountdownWindow
 
 class KazamApp(Gtk.Window):
 
-    def __init__(self, datadir):
+    def __init__(self, datadir, debug):
         Gtk.Window.__init__(self, title=_("Kazam Screencaster"))
-
+        logging.debug("Setting variables.")
         self.datadir = datadir
+        self.debug = debug
         self.setup_translations()
 
         self.icons = Gtk.IconTheme.get_default()
@@ -77,6 +78,7 @@ class KazamApp(Gtk.Window):
 
         self.connect("delete-event", self.cb_delete_event)
 
+        logging.debug("Connecting indicator signals.")
         self.indicator = KazamIndicator()
         self.indicator.connect("quit-request", self.cb_quit_request)
         self.indicator.connect("show-request", self.cb_show_request)
@@ -90,6 +92,7 @@ class KazamApp(Gtk.Window):
         #
         # Setup UI
         #
+        logging.debug("Main Window UI setup.")
         self.set_border_width(10)
 
         self.vbox = Gtk.Box(spacing = 20, orientation = Gtk.Orientation.VERTICAL)
@@ -200,8 +203,13 @@ class KazamApp(Gtk.Window):
         self.btn_close.set_size_request(100, -1)
         self.btn_close.connect("clicked", self.cb_close_clicked)
 
+        self.btn_quit = Gtk.Button(label = _("Quit"))
+        self.btn_quit.set_size_request(100, -1)
+        self.btn_quit.connect("clicked", self.cb_quit_request)
+
         self.hbox = Gtk.Box(spacing = 10)
-        self.left_hbox = Gtk.Box()
+        self.left_hbox = Gtk.Box(spacing = 5)
+        self.left_hbox.pack_start(self.btn_quit, False, True, 0)
         self.right_hbox = Gtk.Box(spacing = 5)
         self.right_hbox.pack_start(self.btn_close, False, True, 0)
         self.right_hbox.pack_start(self.btn_record, False, True, 0)
@@ -216,8 +224,6 @@ class KazamApp(Gtk.Window):
         # Hardcoded for now
         self.combobox_codec.append(None, "Gstreamer - VP8/WebM")
         self.combobox_codec.append(None, "GStreamer - H264/Matroska")
-        # self.combobox_codec.append(None, "Ffmpeg - VP8/WebM")
-        # self.combobox_codec.append(None, "Ffmpeg - H264/Matroska")
 
         self.default_screen = Gdk.Screen.get_default()
         self.default_screen.connect("size-changed", self.cb_screen_size_changed)
@@ -230,6 +236,7 @@ class KazamApp(Gtk.Window):
     # Callbacks, go down here ...
     #
     def cb_screen_size_changed(self, screen):
+        logging.debug("Screen size changed.")
         old_source = self.video_source
         old_num = len(self.video_sources)
         self.get_sources(audio = False)
@@ -239,6 +246,7 @@ class KazamApp(Gtk.Window):
         self.combobox_video.set_active(old_source)
 
     def cb_quit_request(self, indicator):
+        logging.debug("Quit requested.")
         try:
             os.remove(self.recorder.tempfile)
         except:
@@ -249,16 +257,18 @@ class KazamApp(Gtk.Window):
         Gtk.main_quit()
 
     def cb_show_request(self, indicator):
+        logging.debug("Show requested, raising window.")
         self.show_all()
         self.present()
 
     def cb_close_clicked(self, indicator):
         self.hide()
 
-    def cb_delete_event(self, one, two):
+    def cb_delete_event(self, widget, user_data):
         return self.hide_on_delete()
 
     def cb_video_toggled(self, widget):
+        logging.debug("Video Toggled.")
         if self.checkbutton_video.get_active():
             self.combobox_video.set_sensitive(True)
         else:
@@ -270,6 +280,7 @@ class KazamApp(Gtk.Window):
             self.btn_record.set_sensitive(False)
 
     def cb_audio_toggled(self, widget):
+        logging.debug("Audio1 Toggled.")
         if self.checkbutton_audio.get_active():
             self.combobox_audio.set_sensitive(True)
             self.checkbutton_audio2.set_sensitive(True)
@@ -283,6 +294,7 @@ class KazamApp(Gtk.Window):
             self.volumebutton_audio2.set_sensitive(False)
 
     def cb_audio2_toggled(self, widget):
+        logging.debug("Audio2 Toggled.")
         if self.checkbutton_audio2.get_active():
             self.combobox_audio2.set_sensitive(True)
             self.volumebutton_audio2.set_sensitive(True)
@@ -291,10 +303,13 @@ class KazamApp(Gtk.Window):
             self.volumebutton_audio2.set_sensitive(False)
 
     def cb_audio_changed(self, widget):
+        logging.debug("Audio Changed.")
         self.audio_source = self.combobox_audio.get_active()
         self.audio2_source  = self.combobox_audio2.get_active()
         self.audio_source_info = self.pa_q.get_source_info_by_index(self.audio_source)
         self.audio2_source_info = self.pa_q.get_source_info_by_index(self.audio2_source)
+        logging.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
+        logging.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
         if self.audio_source == self.audio2_source:
             self.checkbutton_audio2.set_active(False)
             self.combobox_audio2.set_sensitive(False)
@@ -305,15 +320,19 @@ class KazamApp(Gtk.Window):
             self.combobox_audio2.set_active(self.audio2_source)
 
     def cb_video_changed(self, widget):
+        logging.debug("Video changed.")
         self.video_source = self.combobox_video.get_active()
+        logging.debug("New Video: {0}".format(self.video_sources[self.video_source]))
 
     def cb_codec_changed(self, widget):
+        logging.debug("Codec changed.")
         self.codec = self.combobox_codec.get_active()
 
     def cb_record_clicked(self, widget):
+        logging.debug("Record clicked, invoking Screencast.")
         from kazam.backend.gstreamer import Screencast
 
-        self.recorder = Screencast()
+        self.recorder = Screencast(self.debug)
 
         if self.checkbutton_audio.get_active():
             audio_source = self.audio_sources[self.audio_source][1]
@@ -329,43 +348,51 @@ class KazamApp(Gtk.Window):
             video_source = self.video_sources[self.video_source]
         else:
             video_source = None
+        if self.btn_region.get_active():
+            region = self.region
+        else:
+            region = None
 
         framerate = self.spinbutton_framerate.get_value_as_int()
-
         self.recorder.setup_sources(video_source,
                                     audio_source,
                                     audio2_source,
                                     self.codec,
                                     self.capture_cursor,
                                     framerate,
-                                    self.region)
+                                    region)
 
         self.countdown = CountdownWindow()
         self.countdown.connect("start-request", self.cb_start_request)
         self.countdown.run(self.spinbutton_counter.get_value_as_int())
+        logging.debug("Hiding main window.")
         self.hide()
 
     def cb_volume_changed(self, widget, value):
+        logging.debug("Volume 1 changed, new value: {0}".format(value))
         idx = self.combobox_audio.get_active()
         chn = self.audio_source_info[2].channels
         cvol = self.pa_q.dB_to_cvolume(chn, value-60)
         self.pa_q.set_source_volume_by_index(idx, cvol)
 
     def cb_volume2_changed(self, widget, value):
+        logging.debug("Volume 2 changed, new value: {0}".format(value))
         idx = self.combobox_audio2.get_active()
         chn = self.audio2_source_info[2].channels
         cvol = self.pa_q.dB_to_cvolume(chn, value-60)
         self.pa_q.set_source_volume_by_index(idx, cvol)
 
     def cb_start_request(self, widget):
+        logging.debug("Start request.")
         self.countdown = None
         self.indicator.start_recording()
         self.recorder.start_recording()
 
     def cb_stop_request(self, widget):
+        logging.debug("Stop request.")
         self.recorder.stop_recording()
         self.tempfile = self.recorder.get_tempfile()
-
+        logging.debug("Recorded tmp file: {0}".format(self.tempfile))
         self.done_recording = DoneRecording(self.icons,
                                             self.tempfile,
                                             self.codec,
@@ -378,12 +405,15 @@ class KazamApp(Gtk.Window):
         self.set_sensitive(False)
 
     def cb_pause_request(self, widget):
+        logging.debug("Pause requested.")
         self.recorder.pause_recording()
 
     def cb_unpause_request(self, widget):
+        logging.debug("Unpause requested.")
         self.recorder.unpause_recording()
 
     def cb_save_done(self, widget, result):
+        logging.debug("Save Done, result: {0}".format(result))
         self.old_path = result
         self.set_sensitive(True)
         self.show_all()
@@ -391,8 +421,10 @@ class KazamApp(Gtk.Window):
 
     def cb_save_cancel(self, widget):
         try:
+            logging.debug("Save canceled, removing {0}".format(self.tempfile))
             os.remove(self.tempfile)
         except:
+            logging.info("Failed to remove tempfile {0}".format(self.tempfile))
             pass
 
         self.set_sensitive(True)
@@ -406,28 +438,37 @@ class KazamApp(Gtk.Window):
         (command, arg_list) = data
         arg_list.insert(0, command)
         arg_list.append(self.tempfile)
+        logging.debug("Edit request, cmd: {0}".format(arg_list))
         Popen(arg_list)
         self.set_sensitive(True)
         self.show_all()
 
     def cb_checkbutton_cursor_toggled(self, widget):
         if self.checkbutton_cursor.get_active():
+            logging.debug("Cursor capturing ON.")
             self.capture_cursor = True
         else:
+            logging.debug("Cursor capturing OFF.")
             self.capture_cursor = False
 
     def cb_btn_region_toggled(self, widget):
+        logging.debug("Toggle region recording.")
         if self.btn_region.get_active():
             self.region_window = RegionWindow(self.region)
             self.region_window.connect("region-selected", self.cb_region_selected)
             self.region_window.connect("region-canceled", self.cb_region_canceled)
             self.set_sensitive(False)
         else:
+            logging.debug("Region cleared.")
             self.region_window.window.destroy()
             self.region_window = None
-            self.region = None
 
     def cb_region_selected(self, widget):
+        logging.debug("Region selected: {0}, {1}, {2}, {3}".format(
+                                                                   self.region_window.startx,
+                                                                   self.region_window.starty,
+                                                                   self.region_window.endx,
+                                                                   self.region_window.endy))
         self.set_sensitive(True)
         self.region = (self.region_window.startx,
                        self.region_window.starty,
@@ -435,6 +476,7 @@ class KazamApp(Gtk.Window):
                        self.region_window.endy)
 
     def cb_region_canceled(self, widget):
+        logging.debug("Region Canceled.")
         self.set_sensitive(True)
         self.btn_region.set_active(False)
 
@@ -463,7 +505,9 @@ class KazamApp(Gtk.Window):
         video_source = self.config.getint("main", "video_source")
         audio_source = self.config.getint("main", "audio_source")
         audio2_source = self.config.getint("main", "audio2_source")
-
+        logging.debug("Restoring state - sources: V ({0}), A_1 ({1}), A_2 ({2})".format(video_source,
+                                                                                        audio_source,
+                                                                                        audio2_source))
         self.video_source = video_source
         self.audio_source = audio_source
         self.audio2_source = audio2_source
@@ -485,6 +529,8 @@ class KazamApp(Gtk.Window):
         #
         audio_vol = 60 + self.pa_q.cvolume_to_dB(audio_info[2])
         audio2_vol = 60 + self.pa_q.cvolume_to_dB(audio2_info[2])
+        logging.debug("Restoring state - volume: A_1 ({0}), A_2 ({1})".format(audio_vol,
+                                                                               audio2_vol))
 
         self.volumebutton_audio.set_sensitive(audio_toggled)
         self.volumebutton_audio.set_value(audio_vol)
@@ -518,6 +564,7 @@ class KazamApp(Gtk.Window):
             self.checkbutton_audio2.set_active(False)
 
     def save_state(self):
+        logging.debug("Saving state.")
         video_toggled = self.checkbutton_video.get_active()
         audio_toggled = self.checkbutton_audio.get_active()
         audio2_toggled = self.checkbutton_audio2.get_active()
@@ -526,6 +573,9 @@ class KazamApp(Gtk.Window):
         audio_source = self.combobox_audio.get_active()
         audio2_source = self.combobox_audio2.get_active()
 
+        logging.debug("Saving state - sources: V ({0}), A_1 ({1}), A_2 ({2})".format(video_source,
+                                                                                        audio_source,
+                                                                                        audio2_source))
 
         self.config.set("main", "video_source", video_source)
         self.config.set("main", "audio_source", audio_source)
@@ -550,18 +600,26 @@ class KazamApp(Gtk.Window):
 
     def get_sources(self, audio = True):
         if audio:
+            logging.debug("Getting Audio sources.")
             try:
                 self.audio_sources = self.pa_q.get_audio_sources()
             except:
-                # Something went wrong, just fallback
-                # to no-sound
+                # Something went wrong, just fallback to no-sound
+                logging.warning("Unable to find any audio devices.")
                 self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
 
         try:
+            logging.debug("Getting Video sources.")
             self.video_sources = []
             self.default_screen = Gdk.Screen.get_default()
+            logging.debug("Found {0} monitors.".format(self.default_screen.get_n_monitors()))
             for i in range(self.default_screen.get_n_monitors()):
                 rect = self.default_screen.get_monitor_geometry(i)
+                logging.debug("  Monitor {0} - X: {1}, Y: {2}, W: {3}, H: {4}".format(i,
+                                                                                       rect.x,
+                                                                                       rect.y,
+                                                                                       rect.width,
+                                                                                       rect.height))
                 self.video_sources.append({"x": rect.x,
                                            "y": rect.y,
                                            "width": rect.width,
@@ -575,13 +633,13 @@ class KazamApp(Gtk.Window):
                                            "width": self.default_screen.get_width(),
                                            "height": self.default_screen.get_height()})
         except:
+            logging.warning("Unable to find any video sources.")
             self.video_sources = [_("Unknown")]
 
     #
     # TODO: Merge with get_sources?
     #
     def populate_widgets(self, audio = True):
-
         #
         # Audio first
         #

@@ -97,12 +97,12 @@ class CountdownWindow(GObject.GObject):
         cr.paint()
         self.draw_rounded(cr, 1, 1, w - 10, h - 10, 20)
         cr.set_line_width(1.0)
-        cr.set_source_rgba(.2, .2, .2, 0.8)
+        cr.set_source_rgba(0.0, 0.0, 0.0, 0.4)
         cr.stroke_preserve()
         cr.fill()
         cr.set_operator(cairo.OPERATOR_OVER)
 
-    def draw_rounded(self, cr, x, y, w, h, r=20):
+    def draw_rounded(self, cr, x, y, w, h, r = 20):
         cr.move_to(x + r, y)
         cr.line_to(x + w - r, y)
         cr.curve_to(x + w,y,x+w,y,x+w,y+r)
@@ -112,4 +112,3 @@ class CountdownWindow(GObject.GObject):
         cr.curve_to(x, y + h, x, y + h, x, y + h - r)
         cr.line_to(x, y + r)
         cr.curve_to(x, y, x, y, x + r, y)
-

@@ -42,7 +42,6 @@ You will have to run setup as root user or use sudo. Default installation
 path is /usr/local.
 
 
-
 Known Issues
 ------------
 
@@ -80,3 +79,17 @@ the volume in the final recording.
 
 - I have no idea where to put Mute/Unmute button, so you'll have to check
 that in pavucontrol or sound settings. :)
+
+
+Recording Tips
+--------------
+
+Framerates above 20fps are unlikely to work because of software and hardware
+limitations. If you increase framerate and framerate in resulting video drops,
+that is because encoder can't keep up with the framerate.
+
+Always do a sound check. Especially if you are recording a live commentary with
+background sound. I got the best results when I used earphones to listen to the
+audio while recording. This way your mic will not pick up any audio coming from
+speakers.
+

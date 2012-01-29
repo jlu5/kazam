@@ -22,7 +22,6 @@
 #       MA 02110-1301, USA.
 
 from optparse import OptionParser
-import gettext
 import logging
 import os
 import sys
@@ -31,8 +30,23 @@ from gi.repository import Gtk
 
 if __name__ == "__main__":
 
+    parser = OptionParser("usage: %prog [options] package",
+                          version="%prog ")
+    parser.add_option("--debug", action="store_true",
+                      help="enable debug mode", default=False)
+    (options, args) = parser.parse_args()
+
+    if options.debug:
+        logging.basicConfig(level = logging.DEBUG,
+                            format = '%(levelname)s (%(asctime)s): %(message)s',
+                            datefmt = '%H:%M:%S')
+    else:
+        logging.basicConfig(level = logging.INFO,
+                            format = '%(levelname)s (%(asctime)s): %(message)s',
+                            datefmt = '%H:%M:%S')
+
     if os.path.exists("../data"):
-        logging.info("Running locally")
+        logging.info("Running locally, AppIndicator icons might be missing.")
         datadir = "../data"
         sys.path.insert(0, "..")
     else:
@@ -41,22 +55,10 @@ if __name__ == "__main__":
         curpath = os.path.abspath(__file__)
         datadir = curpath.split('bin/')[0] + "share/kazam/"
 
-    from kazam.version import *
-    parser = OptionParser("usage: %prog [options] package",
-                          version="%prog "+VERSION)
-    parser.add_option("--debug", action="store_true",
-                      help="enable debug mode", default=False)
-    (options, args) = parser.parse_args()
-
-    if options.debug:
-        logging.basicConfig(level=logging.DEBUG)
-    else:
-        logging.basicConfig(level=logging.INFO)
-
-
     from kazam.app import KazamApp
 
-    appWindow = KazamApp(datadir)
+    logging.debug("Starting ...")
+    appWindow = KazamApp(datadir, options.debug)
     appWindow.show_all()
     Gtk.main()
-
+    logging.debug("Finishing ...")

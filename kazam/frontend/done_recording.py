@@ -111,6 +111,7 @@ class DoneRecording(Gtk.Window):
         if self.action == ACTION_EDIT:
             (command, args)  = self.combobox_editor.get_active_value()
             self.emit("edit-request", (command, args))
+            self.destroy()
         else:
             (dialog, result, self.old_path) = SaveDialog(_("Save screencast"),
                                           self.old_path, self.codec)

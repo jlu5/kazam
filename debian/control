@@ -20,13 +20,14 @@ Architecture: all
 Depends: ${python:Depends},
          ${misc:Depends},
          python-xdg,
-         python-xlib,
          python-cairo,
          python-gst0.10,
          gstreamer0.10-plugins-base,
          gstreamer0.10-plugins-good,
          gstreamer0.10-plugins-bad,
          gstreamer0.10-plugins-ugly
+Recommends: graphviz
+
 XB-Python-Version: ${python:Versions}
 Description: Easy to use application for recording on-screen action
  A program that lets you record action on-screen into one video file.
