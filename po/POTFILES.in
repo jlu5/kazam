@@ -3,7 +3,6 @@
 [type: gettext/glade] data/ui/export_sources/videobin.ui
 data/kazam.desktop.in
 kazam/app.py
-kazam/backend/x11.py
 kazam/backend/export.py
 kazam/backend/export_sources/__init__.py
 kazam/backend/export_sources/youtube.py
