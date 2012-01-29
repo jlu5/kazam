@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-19 07:10+0100\n"
+"POT-Creation-Date: 2012-01-29 21:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,99 +18,102 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../data/ui/export_sources/youtube.ui.h:1
-msgid "Category"
-msgstr ""
-
-#: ../data/ui/export_sources/youtube.ui.h:2
-#: ../data/ui/export_sources/videobin.ui.h:1
-msgid "Description"
-msgstr ""
-
-#: ../data/ui/export_sources/youtube.ui.h:3
-msgid "Keywords"
-msgstr ""
-
-#: ../data/ui/export_sources/youtube.ui.h:4
-msgid "Private"
-msgstr ""
-
-#: ../data/ui/export_sources/youtube.ui.h:5
-#: ../data/ui/export_sources/videobin.ui.h:3
+#: ../data/ui/export_sources/videobin.ui.h:2
 msgid "Title"
 msgstr ""
 
-#: ../data/ui/export_sources/videobin.ui.h:2
+#: ../data/ui/export_sources/youtube.ui.h:2
+msgid "Keywords"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:3
+#: ../data/ui/export_sources/videobin.ui.h:3
+msgid "Description"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:4
+msgid "Category"
+msgstr ""
+
+#: ../data/ui/export_sources/youtube.ui.h:5
+msgid "Private"
+msgstr ""
+
+#: ../data/ui/export_sources/videobin.ui.h:1
 msgid "Email"
 msgstr ""
 
-#: ../data/kazam.desktop.in.h:1 ../kazam/app.py:47
-#: ../kazam/frontend/about_dialog.py:39
+#: ../data/kazam.desktop.in.h:1 ../kazam/app.py:44
+#: ../kazam/frontend/about_dialog.py:53
 msgid "Kazam Screencaster"
 msgstr ""
 
 #: ../data/kazam.desktop.in.h:2
-msgid "Record a video of activity on your screen"
-msgstr ""
-
-#: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
 msgstr ""
 
-#: ../kazam/app.py:100
+#: ../data/kazam.desktop.in.h:3
+msgid "Record a video of activity on your screen"
+msgstr ""
+
+#: ../kazam/app.py:102
 msgid "Video Source"
 msgstr ""
 
-#: ../kazam/app.py:108
+#: ../kazam/app.py:110
 msgid "Audio Source 1"
 msgstr ""
 
-#: ../kazam/app.py:127
+#: ../kazam/app.py:129
 msgid "Audio Source 2"
 msgstr ""
 
-#: ../kazam/app.py:146
+#: ../kazam/app.py:148
 msgid "Encoder type"
 msgstr ""
 
-#: ../kazam/app.py:159
+#: ../kazam/app.py:161
 msgid "Countdown timer"
 msgstr ""
 
-#: ../kazam/app.py:175
+#: ../kazam/app.py:177
 msgid "Framerate"
 msgstr ""
 
-#: ../kazam/app.py:181
+#: ../kazam/app.py:183
 msgid "Capture mouse"
 msgstr ""
 
-#: ../kazam/app.py:185
+#: ../kazam/app.py:187
 msgid "Record Region"
 msgstr ""
 
-#: ../kazam/app.py:197
+#: ../kazam/app.py:199
 msgid "Record"
 msgstr ""
 
-#: ../kazam/app.py:200
+#: ../kazam/app.py:202
 msgid "Close"
 msgstr ""
 
-#. Something went wrong, just fallback
-#. to no-sound
-#: ../kazam/app.py:535 ../kazam/app.py:540
+#: ../kazam/app.py:206 ../kazam/frontend/indicator.py:68
+#: ../kazam/frontend/main_menu.py:57
+msgid "Quit"
+msgstr ""
+
+#: ../kazam/app.py:609 ../kazam/app.py:637
 msgid "Unknown"
 msgstr ""
 
-#: ../kazam/app.py:553
+#: ../kazam/app.py:660
 msgid "Combined ({w}x{h})"
 msgstr ""
 
-#: ../kazam/app.py:555
+#: ../kazam/app.py:662
 msgid "Display {n} ({w}x{h})"
 msgstr ""
 
-#: ../kazam/frontend/done_recording.py:48
+#: ../kazam/frontend/done_recording.py:47
 msgid "Kazam Screencaster - Recording finished"
 msgstr ""
 
@@ -120,23 +123,23 @@ msgid ""
 "What do you want to do now?"
 msgstr ""
 
-#: ../kazam/frontend/done_recording.py:64
+#: ../kazam/frontend/done_recording.py:63
 msgid "Edit with:"
 msgstr ""
 
-#: ../kazam/frontend/done_recording.py:72
+#: ../kazam/frontend/done_recording.py:71
 msgid "Save for later"
 msgstr ""
 
-#: ../kazam/frontend/done_recording.py:89
+#: ../kazam/frontend/done_recording.py:82
 msgid "Cancel"
 msgstr ""
 
-#: ../kazam/frontend/done_recording.py:91
+#: ../kazam/frontend/done_recording.py:84
 msgid "Continue"
 msgstr ""
 
-#: ../kazam/frontend/done_recording.py:122
+#: ../kazam/frontend/done_recording.py:116
 msgid "Save screencast"
 msgstr ""
 
@@ -185,20 +188,16 @@ msgstr ""
 msgid "There was an error uploading."
 msgstr ""
 
-#: ../kazam/frontend/indicator.py:61
+#: ../kazam/frontend/indicator.py:58
 msgid "Pause recording"
 msgstr ""
 
-#: ../kazam/frontend/indicator.py:64
+#: ../kazam/frontend/indicator.py:61
 msgid "Finish recording"
 msgstr ""
 
-#: ../kazam/frontend/indicator.py:69
+#: ../kazam/frontend/indicator.py:66
 msgid "Record setup"
-msgstr ""
-
-#: ../kazam/frontend/indicator.py:71 ../kazam/frontend/main_menu.py:57
-msgid "Quit"
 msgstr ""
 
 #: ../kazam/frontend/main_menu.py:56
@@ -221,33 +220,30 @@ msgstr ""
 msgid "About Kazam"
 msgstr ""
 
-#: ../kazam/frontend/window_countdown.py:55
-msgid ""
-"<span size='35000' foreground='#FFFFFF'>Recording will start in ...</span>"
+#: ../kazam/frontend/window_countdown.py:93
+msgid "Recording will start in ..."
 msgstr ""
 
-#: ../kazam/frontend/window_countdown.py:58
-#: ../kazam/frontend/window_countdown.py:81
-#, python-format
-msgid "<span size='40000' foreground='#FFFFFF'>%d</span>"
+#: ../kazam/frontend/window_countdown.py:94
+msgid "{0}"
 msgstr ""
 
-#: ../kazam/frontend/window_region.py:146
+#: ../kazam/frontend/window_region.py:177
 msgid "Select region by resizing the window"
 msgstr ""
 
-#: ../kazam/frontend/window_region.py:147
+#: ../kazam/frontend/window_region.py:178
 msgid "Press ENTER to confirm or ESC to cancel."
 msgstr ""
 
-#: ../kazam/frontend/save_dialog.py:33
+#: ../kazam/frontend/save_dialog.py:35
 msgid "Save"
 msgstr ""
 
-#: ../kazam/frontend/save_dialog.py:36 ../kazam/frontend/save_dialog.py:38
+#: ../kazam/frontend/save_dialog.py:38 ../kazam/frontend/save_dialog.py:40
 msgid "Untitled_Screencast"
 msgstr ""
 
-#: ../kazam/frontend/about_dialog.py:40
+#: ../kazam/frontend/about_dialog.py:54
 msgid "Record a video of activity on your screen."
 msgstr ""
