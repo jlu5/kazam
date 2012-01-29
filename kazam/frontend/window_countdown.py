@@ -38,25 +38,17 @@ class CountdownWindow(GObject.GObject):
     def __init__(self, number = 5):
         super(CountdownWindow, self).__init__()
         self.window = Gtk.Window()
-        self.window.set_position(Gtk.WindowPosition.CENTER)
-        self.window.set_border_width(30)
-        self.window.set_app_paintable(True)
-        self.window.set_has_resize_grip(False)
-        self.window.set_resizable(False)
         self.window.connect("delete-event", Gtk.main_quit)
         self.window.connect("draw", self.cb_draw)
-
+        self.width = 600
+        self.height = 240
+        self.window.set_default_geometry(self.height, self.width)
+        self.window.set_default_size(self.width, self.height)
+        self.window.set_position(Gtk.WindowPosition.CENTER)
+        self.window.set_app_paintable(True)
+        self.window.set_has_resize_grip(False)
+        self.window.set_resizable(True)
         self.number = number
-        box = Gtk.VBox()
-        self.lbl_text = Gtk.Label()
-        rec_markup = _("<span size='35000' foreground='#FFFFFF'>Recording will start in ...</span>")
-        self.lbl_text.set_markup(rec_markup)
-        self.lbl_number = Gtk.Label()
-        num_markup = _("<span size='40000' foreground='#FFFFFF'>%d</span>" % self.number)
-        self.lbl_number.set_markup(num_markup)
-        box.add(self.lbl_text)
-        box.add(self.lbl_number)
-        self.window.add(box)
 
         self.window.set_decorated(False)
         self.window.set_property("skip-taskbar-hint", True)
@@ -69,14 +61,12 @@ class CountdownWindow(GObject.GObject):
 
 
     def run(self, counter):
-        self.number = counter
+        self.number = counter + 1
         self.window.show_all()
         self.countdown()
 
     def countdown(self):
-        if self.number:
-            num_markup = _("<span size='40000' foreground='#FFFFFF'>%d</span>" % self.number)
-            self.lbl_number.set_markup(num_markup)
+        if self.number > 1:
             self.window.queue_draw()
             GObject.timeout_add(1000, self.countdown)
             self.number -= 1
@@ -88,21 +78,22 @@ class CountdownWindow(GObject.GObject):
         self.emit("start-request")
         return False
 
-
     def cb_draw(self, widget, cr):
-        w = widget.get_preferred_width()[0]
-        h = widget.get_preferred_height()[0]
+        w = self.width
+        h = self.height
         cr.set_source_rgba(1, 1, 1, 0)
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
-        self.draw_rounded(cr, 1, 1, w - 10, h - 10, 20)
+        self._draw_rounded(cr, 1, 1, w - 10, h - 10, 20)
         cr.set_line_width(1.0)
         cr.set_source_rgba(0.0, 0.0, 0.0, 0.4)
         cr.stroke_preserve()
         cr.fill()
         cr.set_operator(cairo.OPERATOR_OVER)
+        self._outline_text(cr, w, h, 36, _("Recording will start in ..."))
+        self._outline_text(cr, w, h + 70, 36, _("{0}".format(self.number)))
 
-    def draw_rounded(self, cr, x, y, w, h, r = 20):
+    def _draw_rounded(self, cr, x, y, w, h, r = 20):
         cr.move_to(x + r, y)
         cr.line_to(x + w - r, y)
         cr.curve_to(x + w,y,x+w,y,x+w,y+r)
@@ -112,3 +103,21 @@ class CountdownWindow(GObject.GObject):
         cr.curve_to(x, y + h, x, y + h, x, y + h - r)
         cr.line_to(x, y + r)
         cr.curve_to(x, y, x, y, x + r, y)
+
+    def _outline_text(self, cr, w, h, size, text):
+        cr.set_font_size(size)
+        try:
+            cr.select_font_face("Ubuntu", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
+        except:
+            pass
+        te = cr.text_extents(text)
+        cr.set_source_rgba(0.0, 0.0, 0.0, 1.0)
+        cr.set_line_width(2.0)
+        cx = w/2 - te[2]/2
+        cy = h/2 - te[3]/2
+        cr.move_to(cx, cy)
+        cr.text_path(text)
+        cr.stroke()
+        cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
+        cr.move_to(cx, cy)
+        cr.show_text(text)

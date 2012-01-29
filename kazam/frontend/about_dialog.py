@@ -33,12 +33,27 @@ ARTISTS = """
 Robert McKenna <ttk1opc@yahoo.com>
 Andrew Higginson <rugby471@gmail.com>
 """
+LICENSE = """
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 def AboutDialog(icons):
     dialog = Gtk.AboutDialog()
-    dialog.set_name(_("Kazam Screencaster"))
+    dialog.set_program_name(_("Kazam Screencaster") + " - \"" + CODENAME + "\"")
     dialog.set_comments(_("Record a video of activity on your screen."))
-    dialog.set_version(VERSION + " - \"" + CODENAME + "\"")
+    dialog.set_license(LICENSE)
+    dialog.set_version(VERSION)
     dialog.set_copyright("© 2010 Andrew Higginson, © 2012 David Klasinc")
     dialog.set_website("http://launchpad.net/kazam")
     dialog.set_authors(AUTHORS.split("\n"))
@@ -53,4 +68,3 @@ def AboutDialog(icons):
     dialog.set_position(Gtk.WindowPosition.CENTER)
     dialog.run()
     dialog.hide()
-
