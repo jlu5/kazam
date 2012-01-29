@@ -38,7 +38,7 @@ def AboutDialog(icons):
     dialog = Gtk.AboutDialog()
     dialog.set_name(_("Kazam Screencaster"))
     dialog.set_comments(_("Record a video of activity on your screen."))
-    dialog.set_version(VERSION + " " + CODENAME)
+    dialog.set_version(VERSION + " - \"" + CODENAME + "\"")
     dialog.set_copyright("© 2010 Andrew Higginson, © 2012 David Klasinc")
     dialog.set_website("http://launchpad.net/kazam")
     dialog.set_authors(AUTHORS.split("\n"))
