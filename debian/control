@@ -27,7 +27,6 @@ Depends: ${python:Depends},
          gstreamer0.10-plugins-bad,
          gstreamer0.10-plugins-ugly
 Recommends: graphviz
-
 XB-Python-Version: ${python:Versions}
 Description: Easy to use application for recording on-screen action
  A program that lets you record action on-screen into one video file.
