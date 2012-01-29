@@ -1,6 +1,9 @@
 kazam (0.98-0ubuntu1) oneiric; urgency=low
 
   - Few fixes of region recording.
+  - Debugging info added.
+  - Minor changes to About dialog.
+  - Minor changes to Countdown window.
 
  -- David Klasinc <bigwhale@lubica.net>  Sat, 28 Jan 2012 19:59:33 +0100
 
