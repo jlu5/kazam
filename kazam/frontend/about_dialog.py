@@ -38,15 +38,15 @@ def AboutDialog(icons):
     dialog = Gtk.AboutDialog()
     dialog.set_name(_("Kazam Screencaster"))
     dialog.set_comments(_("Record a video of activity on your screen."))
-    dialog.set_version(VERSION)
-    dialog.set_copyright("© 2010 Andrew Higginson")
+    dialog.set_version(VERSION + " " + CODENAME)
+    dialog.set_copyright("© 2010 Andrew Higginson, © 2012 David Klasinc")
     dialog.set_website("http://launchpad.net/kazam")
     dialog.set_authors(AUTHORS.split("\n"))
     dialog.set_artists(ARTISTS.split("\n"))
     try:
         icon = icons.load_icon("kazam", 96, Gtk.IconLookupFlags.GENERIC_FALLBACK)
         dialog.set_logo(icon)
-    except glib.GError:
+    except:
         # Not important, we just don't get to show our lovely logo.. :)
         pass
     dialog.show_all()

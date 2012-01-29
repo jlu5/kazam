@@ -85,11 +85,24 @@ Recording Tips
 --------------
 
 Framerates above 20fps are unlikely to work because of software and hardware
-limitations. If you increase framerate and framerate in resulting video drops,
-that is because encoder can't keep up with the framerate.
+limitations. If you increase framerate and framerate in resulting video
+drops, that is because encoder can't keep up with the framerate.
 
-Always do a sound check. Especially if you are recording a live commentary with
-background sound. I got the best results when I used earphones to listen to the
-audio while recording. This way your mic will not pick up any audio coming from
-speakers.
+Always do a sound check. Especially if you are recording a live commentary
+with background sound. I got the best results when I used earphones to listen
+to the audio while recording. This way your mic will not pick up any audio
+coming from speakers.
+
+
+Debugging & reporting problems
+------------------------------
+
+If you encounter a bug or any kind of unexpected behavior please try to
+reproduce it while you run Kazam from standard terminal with --debug option.
+Use Launchpad to report bugs (https://bugs.launchpad.net/kazam/+filebug) and
+include generated output. It will also be helpful if you can attach generated
+'dot' file. You will find this file in /tmp/kazam_debug.dot.
+
+If you have graphviz package installed there is also /tmp/kazam_pipeline.png
+file and you can inspect GStreamer pipeline if everything checks out ok.
 

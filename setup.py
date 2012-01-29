@@ -5,20 +5,17 @@ from DistUtilsExtra.command import *
 
 import re
 import glob
-import os
-from subprocess import Popen, PIPE, call
-import sys
+from subprocess import Popen, PIPE
 
 # update version.py
 try:
     line = open("debian/changelog").readline()
     m = re.search(r'\((.+?)\) ([^;]+);', line)
     VERSION = m.group(1)
-    CODENAME = m.group(2)
+    CODENAME = open("CODENAME").readline().strip()
     DISTRO = Popen(["lsb_release", "-s", "-i"], stdout=PIPE).communicate()[0].strip()
     RELEASE = Popen(["lsb_release", "-s", "-r"], stdout=PIPE).communicate()[0].strip()
-    open("kazam/version.py","w").write("""
-VERSION='%s'
+    open("kazam/version.py","w").write("""VERSION='%s'
 CODENAME='%s'
 DISTRO='%s'
 RELEASE='%s'
