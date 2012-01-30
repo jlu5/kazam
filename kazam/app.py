@@ -146,7 +146,7 @@ class KazamApp(Gtk.Window):
                                  Gtk.PositionType.RIGHT,
                                  1, 1)
         self.label_codec = Gtk.Label(_("Encoder type"))
-        self.label_codec.set_justify(Gtk.Justification.RIGHT)
+        self.label_codec.set_justify(Gtk.Justification.LEFT)
         self.combobox_codec = Gtk.ComboBoxText()
         self.combobox_codec.connect("changed", self.cb_codec_changed)
         self.grid.attach_next_to(self.label_codec,
@@ -159,7 +159,7 @@ class KazamApp(Gtk.Window):
                                 1, 1)
 
         self.label_counter = Gtk.Label(_("Countdown timer"))
-        self.label_counter.set_justify(Gtk.Justification.RIGHT)
+        self.label_counter.set_justify(Gtk.Justification.LEFT)
         self.counter_adjustment = Gtk.Adjustment(5, 1, 65, 1, 5, 0)
         self.spinbutton_counter = Gtk.SpinButton()
         self.spinbutton_counter.set_adjustment(self.counter_adjustment)
@@ -177,14 +177,18 @@ class KazamApp(Gtk.Window):
         self.label_framerate = Gtk.Label(_("Framerate"))
         self.label_framerate.set_justify(Gtk.Justification.RIGHT)
         self.framerate_adjustment = Gtk.Adjustment(25, 1, 60, 1, 5, 0)
+        self.label_framerate.set_margin_left(10)
         self.spinbutton_framerate = Gtk.SpinButton()
         self.spinbutton_framerate.set_adjustment(self.framerate_adjustment)
+        self.spinbutton_framerate.set_margin_left(10)
 
         self.checkbutton_cursor = Gtk.CheckButton(label=_("Capture mouse"))
         self.checkbutton_cursor.set_margin_left(10)
+        self.checkbutton_cursor.set_margin_right(10)
         self.checkbutton_cursor.connect("toggled", self.cb_checkbutton_cursor_toggled)
 
         self.btn_region = Gtk.ToggleButton(label = _("Record Region"))
+        self.btn_region.set_size_request(120, -1)
         self.btn_region.connect("toggled", self.cb_btn_region_toggled)
 
         self.opt_box.pack_start(self.spinbutton_counter, True, True, 0)
