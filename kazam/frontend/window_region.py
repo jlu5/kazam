@@ -89,19 +89,19 @@ class RegionWindow(GObject.GObject):
     def cb_button_press_event(self, widget, event):
         (op, button) = event.get_button()
         if button == 1:
-            if event.x in range(0, 15) and event.y in range(0,15):
+            if int(event.x) in range(0, 15) and int(event.y) in range(0,15):
                 self.window.begin_resize_drag(Gdk.WindowEdge.NORTH_WEST, button,
                                               event.x_root, event.y_root, event.time)
 
-            elif event.x in range(self.width-15, self.width) and event.y in range(0,15):
+            elif int(event.x) in range(self.width-15, self.width) and int(event.y) in range(0,15):
                 self.window.begin_resize_drag(Gdk.WindowEdge.NORTH_EAST, button,
                                               event.x_root, event.y_root, event.time)
 
-            elif event.x in range(self.width-15, self.width) and event.y in range(self.height-15,self.height):
+            elif int(event.x) in range(self.width-15, self.width) and int(event.y) in range(self.height-15,self.height):
                 self.window.begin_resize_drag(Gdk.WindowEdge.SOUTH_EAST, button,
                                               event.x_root, event.y_root, event.time)
 
-            elif event.x in range(0, 15) and event.y in range(self.height-15, self.height):
+            elif int(event.x) in range(0, 15) and int(event.y) in range(self.height-15, self.height):
                 self.window.begin_resize_drag(Gdk.WindowEdge.SOUTH_WEST, button,
                                               event.x_root, event.y_root, event.time)
 
