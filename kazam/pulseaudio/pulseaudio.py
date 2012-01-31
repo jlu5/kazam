@@ -20,6 +20,7 @@
 #       MA 02110-1301, USA.
 
 import time
+import logging
 
 from error_handling import *
 from kazam.backend.constants import *
@@ -114,11 +115,16 @@ class pulseaudio_q:
             None
         """
         if eol == 0:
+            logging.debug("PA - pa_sourcelist_cb()")
+            logging.debug("  - IDX: {0}".format(source_info.contents.index))
+            logging.debug("  - Name: {0}".format(source_info.contents.name))
+            logging.debug("  - Desc: {0}".format(source_info.contents.description))
             self.pa_status = PA_WORKING
             self._sources.append([source_info.contents.index,
                                  source_info.contents.name,
                                  " ".join(source_info.contents.description.split())])
         else:
+            logging.debug("PA - pa_sourcelist_cb() -- finished")
             self.pa_status = PA_FINISHED
 
         return 0
@@ -146,6 +152,10 @@ class pulseaudio_q:
             None
         """
         if eol == 0:
+            logging.debug("PA - pa_sourceinfo_cb()")
+            logging.debug("  - IDX: {0}".format(source_info.contents.index))
+            logging.debug("  - Name: {0}".format(source_info.contents.name))
+            logging.debug("  - Desc: {0}".format(source_info.contents.description))
             self.pa_status = PA_WORKING
             cvolume = pa_cvolume()
             v = pa_volume_t * 32
@@ -160,6 +170,7 @@ class pulseaudio_q:
                                     cvolume,
                                     " ".join(source_info.contents.description.split())]
         else:
+            logging.debug("PA - pa_sourceinfo_cb() -- finished")
             self.pa_status = PA_FINISHED
 
         return 0
@@ -183,14 +194,18 @@ class pulseaudio_q:
             PAError, PA_MAINLOOP_START_ERROR - if not able to start mainloop.
         """
         try:
+            logging.debug("PA - Starting mainloop.")
             self.pa_ml = pa_threaded_mainloop_new()
+            logging.debug("PA - Getting API.")
             self.pa_mlapi = pa_threaded_mainloop_get_api(self.pa_ml)
+            logging.debug("PA - Setting context.")
             self.pa_ctx = pa_context_new(self.pa_mlapi, "kazam-pulse")
         except:
             raise PAError(PA_STARTUP_ERROR, "Unable to access PulseAudio API.")
 
         try:
-            if pa_context_connect(self.pa_ctx, None, 0, None) != 0:
+            logging.debug("PA - Connecting to server.")
+            if pa_context_connect(self.pa_ctx, None, 0, None):
                 raise PAError(PA_UNABLE_TO_CONNECT, "Unable to connect to PulseAudio server.")
         except:
             raise PAError(PA_UNABLE_TO_CONNECT2, "Unable to initiate connection to PulseAudio server.")
@@ -218,6 +233,7 @@ class pulseaudio_q:
             PAError, PA_MAINLOOP_END_ERROR - if not able to disconnect.
         """
         try:
+            logging.debug("PA - Disconnecting from server.")
             pa_context_disconnect(self.pa_ctx)
             self.pa_ml = None
             self.pa_mlapi = None
@@ -227,25 +243,26 @@ class pulseaudio_q:
 
     def get_audio_sources(self):
         try:
-            pa_context_get_source_info_list(self.pa_ctx, self._pa_sourcelist_cb, None);
+            logging.debug("PA - get_audio_sources() called.")
+            pa_context_get_source_info_list(self.pa_ctx, self._pa_sourcelist_cb, None)
             t = time.clock()
             while time.clock() - t < 5:
                 if self.pa_status == PA_FINISHED:
-                    self.pa_status == PA_STOPPED
                     self.sources = self._sources
                     self._sources = []
                     return self.sources
             raise PAError(PA_GET_SOURCES_TIMEOUT, "Unable to get sources, operation timed out.")
         except:
+            logging.debug("PA - Unable to get audio sources.")
             raise PAError(PA_GET_SOURCES_ERROR, "Unable to get sources.")
 
     def get_source_info_by_index(self, index):
         try:
-            pa_context_get_source_info_by_index(self.pa_ctx, index, self._pa_sourceinfo_cb, None);
+            logging.debug("PA - get_source_info_by_index() called.")
+            pa_context_get_source_info_by_index(self.pa_ctx, index, self._pa_sourceinfo_cb, None)
             t = time.clock()
             while time.clock() - t < 5:
                 if self.pa_status == PA_FINISHED:
-                    self.pa_status == PA_STOPPED
                     time.sleep(0.1)
                     ret = self._return_result
                     self._return_result = []
@@ -261,8 +278,6 @@ class pulseaudio_q:
             t = time.clock()
             while time.clock() - t < 5:
                 if self.pa_status == PA_FINISHED:
-                    self.pa_status == PA_STOPPED
-#                    time.sleep(0.2)  # WTF?
                     return 1
             raise PAError(PA_GET_SOURCES_TIMEOUT, "Unable to get sources, operation timed out.")
         except:

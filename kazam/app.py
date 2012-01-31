@@ -312,8 +312,17 @@ class KazamApp(Gtk.Window):
         self.audio2_source  = self.combobox_audio2.get_active()
         self.audio_source_info = self.pa_q.get_source_info_by_index(self.audio_source)
         self.audio2_source_info = self.pa_q.get_source_info_by_index(self.audio2_source)
-        logging.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
-        logging.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
+
+        if len(self.audio_source_info):
+            logging.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
+        else:
+            logging.debug("New Audio1:\n  Error retrieving data.")
+
+        if len(self.audio2_source_info):
+            logging.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
+        else:
+            logging.debug("New Audio2:\n  Error retrieving data.")
+
         if self.audio_source == self.audio2_source:
             self.checkbutton_audio2.set_active(False)
             self.combobox_audio2.set_sensitive(False)
@@ -525,17 +534,26 @@ class KazamApp(Gtk.Window):
         self.combobox_audio2.set_active(audio2_source)
         self.combobox_audio2.set_sensitive(audio2_toggled)
 
+        logging.debug("Getting volume info.")
         audio_info = self.pa_q.get_source_info_by_index(self.audio_source)
         audio2_info = self.pa_q.get_source_info_by_index(self.audio2_source)
 
         #
         # TODO: Deal with this in a different way
         #
-        audio_vol = 60 + self.pa_q.cvolume_to_dB(audio_info[2])
-        audio2_vol = 60 + self.pa_q.cvolume_to_dB(audio2_info[2])
+        if len(audio_info) > 0:
+            audio_vol = 60 + self.pa_q.cvolume_to_dB(audio_info[2])
+        else:
+            logging.debug("Error getting volume info for Audio 1")
+            audio_vol = 0
+        if len(audio2_info) > 0:
+            audio2_vol = 60 + self.pa_q.cvolume_to_dB(audio2_info[2])
+        else:
+            logging.debug("Error getting volume info for Audio 2")
+            audio2_vol = 0
+
         logging.debug("Restoring state - volume: A_1 ({0}), A_2 ({1})".format(audio_vol,
                                                                                audio2_vol))
-
         self.volumebutton_audio.set_sensitive(audio_toggled)
         self.volumebutton_audio.set_value(audio_vol)
         self.volumebutton_audio2.set_sensitive(audio2_toggled)
@@ -607,6 +625,11 @@ class KazamApp(Gtk.Window):
             logging.debug("Getting Audio sources.")
             try:
                 self.audio_sources = self.pa_q.get_audio_sources()
+                if self.debug:
+                    for src in self.audio_sources:
+                        logging.debug(" Device found: ")
+                        for item in src:
+                            logging.debug("  - {0}".format(item))
             except:
                 # Something went wrong, just fallback to no-sound
                 logging.warning("Unable to find any audio devices.")
