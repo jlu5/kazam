@@ -310,6 +310,10 @@ class KazamApp(Gtk.Window):
         logging.debug("Audio Changed.")
         self.audio_source = self.combobox_audio.get_active()
         self.audio2_source  = self.combobox_audio2.get_active()
+
+        logging.debug("  - A_1 {0}".format(self.audio_source))
+        logging.debug("  - A_2 {0}".format(self.audio2_source))
+
         self.audio_source_info = self.pa_q.get_source_info_by_index(self.audio_source)
         self.audio2_source_info = self.pa_q.get_source_info_by_index(self.audio2_source)
 

@@ -171,9 +171,15 @@ class pulseaudio_q:
                                     cvolume,
                                     " ".join(source_info.contents.description.split())]
         else:
-            logging.debug("PA - pa_sourceinfo_cb() -- finished")
+            try:
+                logging.debug("PA - pa_sourceinfo_cb() -- Hit EOL")
+                logging.debug("  - EOL IDX: {0}".format(source_info.contents.index))
+                logging.debug("  - EOL Name: {0}".format(source_info.contents.name))
+                logging.debug("  - EOL Desc: {0}".format(source_info.contents.description))
+            except:
+                logging.debug("PA - pa_sourceinfo_cb() -- EOL no data!")
             self.pa_status = PA_FINISHED
-
+        logging.debug("PA - pa_sourceinfo_cb() -- finished")
         return 0
 
     def start(self):
@@ -261,7 +267,7 @@ class pulseaudio_q:
 
     def get_source_info_by_index(self, index):
         try:
-            logging.debug("PA - get_source_info_by_index() called.")
+            logging.debug("PA - get_source_info_by_index() called. IDX: {0}".format(index))
             pa_context_get_source_info_by_index(self.pa_ctx, index, self._pa_sourceinfo_cb, None)
             t = time.clock()
             while time.clock() - t < 5:
