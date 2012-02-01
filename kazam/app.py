@@ -314,8 +314,12 @@ class KazamApp(Gtk.Window):
         logging.debug("  - A_1 {0}".format(self.audio_source))
         logging.debug("  - A_2 {0}".format(self.audio2_source))
 
-        self.audio_source_info = self.pa_q.get_source_info_by_index(self.audio_source)
-        self.audio2_source_info = self.pa_q.get_source_info_by_index(self.audio2_source)
+        pa_audio_idx =  self.audio_sources[self.audio_source][0]
+        pa_audio2_idx =  self.audio_sources[self.audio2_source][0]
+        logging.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
+        logging.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
+        self.audio_source_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
+        self.audio2_source_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
 
         if len(self.audio_source_info):
             logging.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
@@ -388,16 +392,18 @@ class KazamApp(Gtk.Window):
     def cb_volume_changed(self, widget, value):
         logging.debug("Volume 1 changed, new value: {0}".format(value))
         idx = self.combobox_audio.get_active()
+        pa_idx =  self.audio_sources[idx][0]
         chn = self.audio_source_info[2].channels
         cvol = self.pa_q.dB_to_cvolume(chn, value-60)
-        self.pa_q.set_source_volume_by_index(idx, cvol)
+        self.pa_q.set_source_volume_by_index(pa_idx, cvol)
 
     def cb_volume2_changed(self, widget, value):
         logging.debug("Volume 2 changed, new value: {0}".format(value))
         idx = self.combobox_audio2.get_active()
+        pa_idx =  self.audio_sources[idx][0]
         chn = self.audio2_source_info[2].channels
         cvol = self.pa_q.dB_to_cvolume(chn, value-60)
-        self.pa_q.set_source_volume_by_index(idx, cvol)
+        self.pa_q.set_source_volume_by_index(pa_idx, cvol)
 
     def cb_start_request(self, widget):
         logging.debug("Start request.")
@@ -539,8 +545,10 @@ class KazamApp(Gtk.Window):
         self.combobox_audio2.set_sensitive(audio2_toggled)
 
         logging.debug("Getting volume info.")
-        audio_info = self.pa_q.get_source_info_by_index(self.audio_source)
-        audio2_info = self.pa_q.get_source_info_by_index(self.audio2_source)
+        pa_audio_idx =  self.audio_sources[self.audio_source][0]
+        pa_audio2_idx =  self.audio_sources[self.audio2_source][0]
+        audio_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
+        audio2_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
 
         #
         # TODO: Deal with this in a different way
