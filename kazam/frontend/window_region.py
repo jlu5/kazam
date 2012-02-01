@@ -186,10 +186,10 @@ class RegionWindow(GObject.GObject):
         except:
             pass
         te = cr.text_extents(text)
-        cr.set_source_rgba(0.0, 0.0, 0.0, 1.0)
         cr.set_line_width(2.0)
         cx = w/2 - te[2]/2
         cy = h/2 - te[3]/2
+        cr.set_source_rgba(0.4, 0.4, 0.4, 1.0)
         cr.move_to(cx, cy)
         cr.text_path(text)
         cr.stroke()
