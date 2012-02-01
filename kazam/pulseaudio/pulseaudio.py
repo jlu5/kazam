@@ -83,11 +83,12 @@ class pulseaudio_q:
 
             if state in [PA_CONTEXT_UNCONNECTED, PA_CONTEXT_CONNECTING, PA_CONTEXT_AUTHORIZING,
                          PA_CONTEXT_SETTING_NAME]:
-                self.pa_state = 0
+                self.pa_state = PA_STATE_WORKING
             elif state == PA_CONTEXT_FAILED:
-                self.pa_state = 2
+                self.pa_state = PA_STATE_FAILED
             elif state == PA_CONTEXT_READY:
-                self.pa_state = 1
+                self.pa_state = PA_STATE_READY
+                logging.debug("PA - Connected.")
         except:
             raise PAError(PA_GET_STATE_ERROR, "Unable to read context state.")
 
@@ -200,6 +201,8 @@ class pulseaudio_q:
             self.pa_mlapi = pa_threaded_mainloop_get_api(self.pa_ml)
             logging.debug("PA - Setting context.")
             self.pa_ctx = pa_context_new(self.pa_mlapi, "kazam-pulse")
+            logging.debug("PA - Set state callback.")
+            pa_context_set_state_callback(self.pa_ctx, self._pa_state_cb, None)
         except:
             raise PAError(PA_STARTUP_ERROR, "Unable to access PulseAudio API.")
 
@@ -210,7 +213,7 @@ class pulseaudio_q:
         except:
             raise PAError(PA_UNABLE_TO_CONNECT2, "Unable to initiate connection to PulseAudio server.")
         try:
-            pa_context_set_state_callback(self.pa_ctx, self._pa_state_cb, None)
+            logging.debug("PA - Start mainloop.")
             pa_threaded_mainloop_start(self.pa_ml)
             time.sleep(0.1)  # Mainloop needs some time to start ...
             pa_context_get_state(self.pa_ctx)

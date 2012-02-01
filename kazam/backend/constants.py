@@ -46,6 +46,12 @@ PA_WORKING = 1
 PA_FINISHED = 2
 PA_ERROR = 3
 
+# PulseAudio State Codes
+PA_STATE_READY = 0
+PA_STATE_BUSY = 1
+PA_STATE_FAILED = 2
+PA_STATE_WORKING = 3
+
 
 # Various actions
 ACTION_SAVE = 0
