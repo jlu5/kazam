@@ -12,6 +12,10 @@ Copyright: © 2012 David Klasinc
            © 2010 Andrew Higginson
 License: GPL-3
 
+Files: kazam/pulseaudio/ctypes_pulseaudio.py
+Copyright: © 2012 David Klasinc
+License: LGPL-3
+
 License: GPL-3
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

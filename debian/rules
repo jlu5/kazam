@@ -1,5 +1,4 @@
 #!/usr/bin/make -f
-share:=usr/share/kazam
-
 %:
-	dh --with=python-central $@
+	dh --with python2 $@
+
