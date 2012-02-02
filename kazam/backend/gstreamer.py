@@ -82,6 +82,10 @@ class Screencast(object):
         self.setup_filesink()
         self.setup_pipeline()
 
+        self.bus = self.pipeline.get_bus()
+        self.bus.add_signal_watch()
+        self.bus.connect("message", self.on_message)
+
     def setup_video_source(self):
 
         self.videosrc = gst.element_factory_make("ximagesrc", "video_src")
@@ -279,8 +283,8 @@ class Screencast(object):
         self.pipeline.set_state(gst.STATE_PLAYING)
 
     def stop_recording(self):
-        logging.debug("Recording - Setting STATE_NULL")
-        self.pipeline.set_state(gst.STATE_NULL)
+        logging.debug("Recording - Sending new EOS event")
+        self.pipeline.send_event(gst.event_new_eos())
         #
         # TODO: Improve this ;)
         #
@@ -338,3 +342,10 @@ class Screencast(object):
             self.converted_file = "%s%s" %(self.tempfile[:-4], self.converted_file_extension)
             return False
 
+    def on_message(self, bus, message):
+        t = message.type
+        if t == gst.MESSAGE_EOS:
+            logging.debug("Recorder - Received EOS, setting pipeline to NULL.")
+            self.pipeline.set_state(gst.STATE_NULL)
+        elif t == gst.MESSAGE_ERROR:
+            logging.debug("Recorder - Received an error message.")
