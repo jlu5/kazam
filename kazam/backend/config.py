@@ -40,7 +40,7 @@ class KazamConfig(SafeConfigParser):
                          "codec":          "0",
                          "counter":        "5",
                          "capture_cursor": "True",
-                         "framerate":      "25",
+                         "framerate":      "15",
                          },
                 },
                 {
