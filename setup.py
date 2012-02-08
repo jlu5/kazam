@@ -28,6 +28,22 @@ except:
 
 # real setup
 setup(name="kazam", version=VERSION,
+      description="A screencasting program created with design in mind.",
+      long_description= ( open('README').read() + '\n'),
+      classifiers=[
+        "Development Status :: 4 - Beta",
+        "Environment :: X11 Applications :: GTK",
+        "Intended Audience :: End Users/Desktop",
+        "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python",
+        "Topic :: Multimedia :: Graphics :: Capture :: Screen Capture",
+        "Topic :: Multimedia :: Sound/Audio :: Capture/Recording",
+        "Topic :: Multimedia :: Video :: Capture",
+       ],
+      keywords='kazam screen audio recorder',
+      url='https://launchpad.net/kazam',
+      license='GPLv3',
       scripts=["bin/kazam"
                ],
       packages = ['kazam',

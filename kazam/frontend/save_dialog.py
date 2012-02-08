@@ -21,7 +21,6 @@
 #       MA 02110-1301, USA.
 
 import os
-
 from gi.repository import Gtk
 from gettext import gettext as _
 from xdg.BaseDirectory import xdg_config_home
@@ -60,7 +59,6 @@ def SaveDialog(title, old_path, codec):
     if old_path and os.path.isdir(old_path):
             dialog.set_current_folder(old_path)
     elif os.path.isdir(paths['XDG_VIDEOS_DIR']):
-        dialog.add_shortcut_folder(paths['XDG_VIDEOS_DIR'])
         dialog.set_current_folder(paths['XDG_VIDEOS_DIR'])
     elif os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
         dialog.set_current_folder(paths['XDG_DOCUMENTS_DIR'])
