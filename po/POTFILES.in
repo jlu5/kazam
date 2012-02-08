@@ -1,14 +1,7 @@
 [type: python] bin/kazam
-[type: gettext/glade] data/ui/export_sources/youtube.ui
-[type: gettext/glade] data/ui/export_sources/videobin.ui
 data/kazam.desktop.in
 kazam/app.py
-kazam/backend/export.py
-kazam/backend/export_sources/__init__.py
-kazam/backend/export_sources/youtube.py
-kazam/backend/export_sources/videobin.py
 kazam/frontend/done_recording.py
-kazam/frontend/export.py
 kazam/frontend/indicator.py
 kazam/frontend/main_menu.py
 kazam/frontend/main_menu.py
@@ -17,4 +10,3 @@ kazam/frontend/window_region.py
 kazam/frontend/save_dialog.py
 kazam/frontend/about_dialog.py
 kazam/frontend/combobox.py
-
