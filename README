@@ -1,5 +1,5 @@
 
-           Kazam Screencaster v1.0.1 "NCC-2000"
+           Kazam Screencaster v1.0.3 "NCC-2000"
 
 
 Introduction
@@ -31,12 +31,12 @@ use apt-get command or Software Center.
 For distribution independent installation you will have to get the latest
 tarball release from Launchpad:
 
-http://launchpad.net/kazam/unstable/1.0.1/+download/kazam_1.0.1.tar.gz
+http://launchpad.net/kazam/unstable/1.0.3/+download/kazam_1.0.3.tar.gz
 
 Unpack it and then run setup:
 
-   $ tar -xzf kazam_1.0.1.tar.gz
-   $ cd kazam-1.0.1
+   $ tar -xzf kazam_1.0.3.tar.gz
+   $ cd kazam-1.0.3
 
 Run installation as root user, or use sudo:
 

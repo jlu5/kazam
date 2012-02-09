@@ -1,5 +1,5 @@
-kazam (1.0.2-0ubuntu1) precise; urgency=low
+kazam (1.0.3-0ubuntu1) precise; urgency=low
 
   * Initial Ubuntu release.
 
- -- David Klasinc <bigwhale@lubica.net>  Wed, 08 Feb 2012 10:22:49 +0100
+ -- David Klasinc <bigwhale@lubica.net>  Thu, 09 Feb 2012 21:56:49 +0100
