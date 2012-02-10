@@ -1,1 +1,122 @@
 
+           Kazam Screencaster v1.0.3 "NCC-2000"
+
+
+Introduction
+------------
+
+Kazam is a simple screen recording program that will capture the content
+of your screen and record a video file that can be played by any video
+player that supports VP8/WebM video format.
+
+Optionally you can record sound from any sound input device that is
+supported and visible by PulseAudio.
+
+
+Latest version
+--------------
+
+Kazam is always available from Launchpad under https://launchpad.net/kazam
+
+Right now there are only unstable versions available, the project is still
+in development and a stable release is planned for Ubuntu 12.04.
+
+
+Installation
+------------
+
+For Ubuntu, the best way to install is to add a PPA repository and then
+use apt-get command or Software Center.
+
+For distribution independent installation you will have to get the latest
+tarball release from Launchpad:
+
+http://launchpad.net/kazam/unstable/1.0.3/+download/kazam_1.0.3.tar.gz
+
+Unpack it and then run setup:
+
+   $ tar -xzf kazam_1.0.3.tar.gz
+   $ cd kazam-1.0.3
+
+Run installation as root user, or use sudo:
+
+   # python setup.py install
+
+
+If you want bleeding edge, development version then you will have to get
+source code from Launchpad by running the following command:
+
+   $ bzr branch lp:kazam
+
+Then you need to run setup.py to build and install Kazam:
+
+   $ cd kazam
+   # python setup.py install
+
+You will have to run setup as root user or use sudo. Default installation
+path is /usr/local.
+
+
+Known Issues
+------------
+
+- Ffmpeg support and video editing with Kazam are currently not working and
+are disabled, for now.
+
+- Support for multiple monitors is there, but your mileage may vary. It
+was tested only on two screen setup where both screens are side by side. With
+Region recording the Video source is ignored.
+
+- Placing Region selector outside of screen borders will produce unknown
+results and you will probably end up with no video.
+
+- Two warnings appear during the normal usage:
+
+/usr/lib/python2.7/dist-packages/gobject/constants.py:24: Warning:
+g_boxed_type_register_static: assertion `g_type_from_name (name) == 0' failed
+
+This happens when Gtk.GObject was imported before importing gst in python
+and is still being investigated. So far it appears to be mostly harmless.
+
+Second warning comes from Gtk.FileChooser():
+
+kazam:5144): Gtk-WARNING **: Unable to retrieve the file info for <file>
+Error stating file <file> : No such file or directory
+
+This happens when you confirm file save in the dialog box. This is an error
+in Gtk.FileChooser and in Precise Pangolin it is fixed.
+
+- Trouble with recording from certain Monitor sources. I noticed this with
+Logitech G110 USB Keyboard that can play audio. Pulse Audio will see two
+devices: USP PnP Stereo Device and Monitor of USB PnP Stereo Device. When
+recording from the monitor, volume controls for both devices will affect
+the volume in the final recording.
+
+- I have no idea where to put Mute/Unmute button, so you'll have to check
+that in pavucontrol or sound settings. :)
+
+
+Recording Tips
+--------------
+
+Framerates above 20fps are unlikely to work because of software and hardware
+limitations. If you increase framerate and framerate in resulting video
+drops, that is because encoder can't keep up with the framerate.
+
+Always do a sound check. Especially if you are recording a live commentary
+with background sound. I got the best results when I used earphones to listen
+to the audio while recording. This way your mic will not pick up any audio
+coming from speakers.
+
+
+Debugging & reporting problems
+------------------------------
+
+If you encounter a bug or any kind of unexpected behavior please try to
+reproduce it while you run Kazam from standard terminal with --debug option.
+Use Launchpad to report bugs (https://bugs.launchpad.net/kazam/+filebug) and
+include generated output. It will also be helpful if you can attach generated
+'dot' file. You will find this file in /tmp/kazam_debug.dot.
+
+If you have graphviz package installed there is also /tmp/kazam_pipeline.png
+file and you can inspect GStreamer pipeline if everything checks out ok.

@@ -2,71 +2,72 @@
 # -*- coding: utf-8 -*-
 #
 #       kazam
-#       
+#
+#       Copyright 2012 David Klasinc <bigwhale@lubica.net>
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
-#       
+#
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
+#       the Free Software Foundation; either version 3 of the License, or
 #       (at your option) any later version.
-#       
+#
 #       This program is distributed in the hope that it will be useful,
 #       but WITHOUT ANY WARRANTY; without even the implied warranty of
 #       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #       GNU General Public License for more details.
-#       
+#
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-# Check if we are working in the source tree or from the installed 
-# package and mangle the python path accordingly
-
-import pygtk
-pygtk.require("2.0")
-import gtk
-gtk.gdk.threads_init()
-
-from optparse import OptionParser
-import gettext
+from argparse import ArgumentParser
 import logging
 import os
 import sys
 
-if os.path.exists("../data/ui/start.ui"):
-    (head, tail) = os.path.split(os.getcwd())
-    sys.path.insert(0, os.path.abspath(head))
-
-from kazam.version import *
+from gi.repository import Gtk
 
 if __name__ == "__main__":
 
-    parser = OptionParser("usage: %prog [options] package", 
-                          version="%prog "+VERSION)
-    parser.add_option("--debug", action="store_true",
-                      help="enable debug mode", default=False)
-    parser.add_option("--force-rtl", action="store_true",
-                      help="force rtl mode (useful for debugging)", 
-                      default=False)  
-    (options, args) = parser.parse_args()
-        
-    if options.debug:
-        logging.basicConfig(level=logging.DEBUG)
-    else:
-        logging.basicConfig(level=logging.INFO)
-    
-    # override text direction for testing purposes
-    if options.force_rtl:
-        gtk.widget_set_default_direction(gtk.TEXT_DIR_RTL)
-
-    if os.path.exists("../data/ui/start.ui"):
-        logging.info("Running locally")
+    if os.path.exists("../data"):
+        logging.info("Running locally, AppIndicator icons might be missing.")
         datadir = "../data"
+        sys.path.insert(0, "..")
     else:
-        datadir = "/usr/share/kazam/"
-    
+        # A bit more flexible setting of datadir, it works
+        # when base install path is not /usr
+        curpath = os.path.abspath(__file__)
+        datadir = curpath.split('bin/')[0] + "share/kazam/"
+
+    from kazam.version import *
+    version = "%(prog)s {0} '{1}'".format(VERSION, CODENAME)
+    parser = ArgumentParser(description = "Screen recording program.")
+
+    parser.add_argument("-d", "--debug",
+                        action = "store_true",
+                        help = "enable debug mode",
+                        default = False)
+
+    parser.add_argument("-v", "--version",
+                        action = "version",
+                        version = version)
+
+    args = parser.parse_args()
+
+    if args.debug:
+        logging.basicConfig(level = logging.DEBUG,
+                            format = '%(levelname)s (%(asctime)s): %(message)s',
+                            datefmt = '%H:%M:%S')
+    else:
+        logging.basicConfig(level = logging.INFO,
+                            format = '%(levelname)s (%(asctime)s): %(message)s',
+                            datefmt = '%H:%M:%S')
+
     from kazam.app import KazamApp
-    
-    app = KazamApp(datadir)
-    app.run()
+
+    logging.debug("Starting ...")
+    appWindow = KazamApp(datadir, args.debug)
+    appWindow.show_all()
+    Gtk.main()
+    logging.debug("Finishing ...")

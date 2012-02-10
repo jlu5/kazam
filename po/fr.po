@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-09-05 18:24+0100\n"
-"PO-Revision-Date: 2010-09-06 20:28+0000\n"
-"Last-Translator: Tuxargon <Unknown>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-08 14:12+0100\n"
+"PO-Revision-Date: 2010-10-20 10:18-0500\n"
+"Last-Translator: Jean-François Fortin Tam\n"
 "Language-Team: French <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,17 +22,19 @@ msgstr ""
 msgid " "
 msgstr " "
 
-#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
+#: ../data/ui/authenticate.ui.h:2
+#: ../data/ui/done-recording.ui.h:2
 msgid "Cancel"
 msgstr "Annuler"
 
 #: ../data/ui/authenticate.ui.h:3
+#: ../data/ui/done-recording.ui.h:3
 msgid "Continue"
 msgstr "Continuer"
 
 #: ../data/ui/authenticate.ui.h:4
 msgid "Email address:"
-msgstr "E-mail :"
+msgstr "Courriel :"
 
 #: ../data/ui/authenticate.ui.h:5
 msgid "I want to register an account now"
@@ -41,32 +44,33 @@ msgstr "Je veux créer un compte"
 msgid "Password:"
 msgstr "Mot de passe :"
 
-#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
+#: ../data/ui/done-recording.ui.h:1
+#: ../data/ui/start.ui.h:1
 msgid "About"
 msgstr "À propos"
-
-#: ../data/ui/done-recording.ui.h:3
-msgid "Continue..."
-msgstr "Continuer..."
 
 #: ../data/ui/done-recording.ui.h:4
 msgid "Edit with:"
 msgstr "Éditer avec :"
 
-#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
-#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/widgets/comboboxes.py:88
+#: ../data/ui/done-recording.ui.h:5
+#: ../data/ui/export.ui.h:7
+#: ../data/ui/start.ui.h:3
+#: ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/widgets/comboboxes.py:106
+#: ../kazam/frontend/widgets/dialogs.py:46
 msgid "Kazam Screencaster"
 msgstr "Capture vidéo Kazam"
 
-#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
-#: ../kazam/frontend/indicator.py:52
+#: ../data/ui/done-recording.ui.h:6
+#: ../data/ui/start.ui.h:4
+#: ../kazam/frontend/indicator.py:65
 msgid "Quit"
 msgstr "Quitter"
 
 #: ../data/ui/done-recording.ui.h:7
-msgid "Save for later use"
-msgstr "Enregistrer pour plus tard"
+msgid "Save for later use..."
+msgstr "Enregistrer sous..."
 
 #: ../data/ui/done-recording.ui.h:8
 msgid ""
@@ -76,12 +80,14 @@ msgstr ""
 "Votre screencast est enregistré.\n"
 "Que désirez-vous faire à présent ?"
 
-#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
+#: ../data/ui/done-recording.ui.h:10
+#: ../data/ui/export.ui.h:10
 #: ../data/ui/start.ui.h:8
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
+#: ../data/ui/done-recording.ui.h:11
+#: ../data/ui/export.ui.h:11
 #: ../data/ui/start.ui.h:9
 msgid "_Help"
 msgstr "Aid_e"
@@ -98,7 +104,8 @@ msgstr "Audio"
 msgid "Back"
 msgstr "Précédent"
 
-#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+#: ../data/ui/export.ui.h:4
+#: ../data/ui/start.ui.h:2
 msgid "Close"
 msgstr "Fermer"
 
@@ -119,16 +126,16 @@ msgid "Video"
 msgstr "Vidéo"
 
 #: ../data/ui/start.ui.h:5
+msgid "Record"
+msgstr "Démarrer l'enregistrement"
+
+#: ../data/ui/start.ui.h:6
 msgid "Record Audio from:"
 msgstr "Enregistrer l'audio depuis :"
 
-#: ../data/ui/start.ui.h:6
+#: ../data/ui/start.ui.h:7
 msgid "Record Video from:"
 msgstr "Enregistrer la vidéo depuis :"
-
-#: ../data/ui/start.ui.h:7
-msgid "Record..."
-msgstr "Enregistrer"
 
 #: ../data/ui/export_sources/youtube.ui.h:1
 msgid "Category"
@@ -152,89 +159,109 @@ msgstr "Titre"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Record a video of activity on your screen"
-msgstr "Enregistrer les actions à l'écran"
+msgstr "Enregistrer une vidéo de votre écran."
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
 msgstr "Enregistreur d'écran"
 
-#: ../kazam/app.py:112
+#. Open the save dialog
+#: ../kazam/app.py:149
 msgid "Save screencast"
 msgstr "Sauvegarder le screencast"
 
-#: ../kazam/frontend/export.py:179
+#: ../kazam/frontend/export.py:201
 msgid "Logging in..."
 msgstr "Authentification..."
 
-#: ../kazam/frontend/export.py:187
+#: ../kazam/frontend/export.py:207
 msgid "Log-in completed."
-msgstr ""
+msgstr "Connexion établie."
 
-#: ../kazam/frontend/export.py:189
+#: ../kazam/frontend/export.py:209
 msgid "There was an error logging in."
 msgstr "Erreur d'identification."
 
-#: ../kazam/frontend/export.py:194
+#: ../kazam/frontend/export.py:214
 msgid "Converting screencast..."
 msgstr "Conversion du screencast..."
 
-#: ../kazam/frontend/export.py:198
+#: ../kazam/frontend/export.py:218
 msgid "Screencast converted."
 msgstr "Screencast converti."
 
-#: ../kazam/frontend/export.py:200
+#: ../kazam/frontend/export.py:220
 msgid "There was an error converting."
-msgstr "Une erreur s'est produite durant la conversion."
+msgstr "Une erreur est survenue durant la conversion."
 
-#: ../kazam/frontend/export.py:205
+#: ../kazam/frontend/export.py:225
 msgid "Uploading screencast..."
-msgstr ""
+msgstr "Envoi du screencast..."
 
-#: ../kazam/frontend/export.py:209
+#: ../kazam/frontend/export.py:229
 msgid "Screencast uploaded."
-msgstr ""
+msgstr "Screencast envoyé."
 
 #. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:213
+#: ../kazam/frontend/export.py:233
 msgid "Your screencast has uploaded successfully."
-msgstr ""
+msgstr "Votre screencast a bien été envoyé."
 
-#: ../kazam/frontend/export.py:214
-#, python-format
-msgid "It is available here - %s"
-msgstr ""
+#: ../kazam/frontend/export.py:234
+msgid "It is available at the location below:"
+msgstr "Il est disponible ici:"
 
-#: ../kazam/frontend/export.py:216
+#: ../kazam/frontend/export.py:236
 msgid "There was an error uploading."
-msgstr ""
+msgstr "Une erreur est survenue lors de l'envoi."
 
-#. TODO: get pause menuitem working
-#. #self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
-#. #self.menuitem_pause.set_sensitive(False)
-#. #self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
-#: ../kazam/frontend/indicator.py:48
+#: ../kazam/frontend/indicator.py:58
+msgid "Pause recording"
+msgstr "Mettre l'enregistrement en pause"
+
+#: ../kazam/frontend/indicator.py:61
 msgid "Finish recording..."
-msgstr "Termine d'enregistrer..."
+msgstr "Terminer l'enregistrement..."
 
-#: ../kazam/frontend/window_countdown.py:97
+#: ../kazam/frontend/window_countdown.py:98
 msgid "Recording will start in..."
-msgstr "L'enregsitrement démarrera dans..."
+msgstr "L'enregistrement démarrera dans..."
 
-#: ../kazam/frontend/widgets/comboboxes.py:140
+#: ../kazam/frontend/widgets/comboboxes.py:199
 msgid "Screen"
 msgstr "Écran"
 
-#: ../kazam/frontend/widgets/comboboxes.py:164
+#: ../kazam/frontend/widgets/comboboxes.py:205
+msgid "All Screens"
+msgstr "Tous les écrans"
+
+#: ../kazam/frontend/widgets/comboboxes.py:207
+#, python-format
+msgid "Screen %s"
+msgstr "Écran %s"
+
+#: ../kazam/frontend/widgets/comboboxes.py:218
 msgid "Computer"
 msgstr "Ordinateur"
 
-#: ../kazam/frontend/widgets/dialogs.py:89
+#: ../kazam/frontend/widgets/dialogs.py:47
+msgid "Record a video of activity on your screen."
+msgstr "Enregistrer une vidéo de votre écran."
+
+#: ../kazam/frontend/widgets/dialogs.py:65
+msgid "Untitled Screencast"
+msgstr "Sans titre"
+
+#: ../kazam/frontend/widgets/dialogs.py:150
 #, python-format
 msgid "To upload a screencast to %s, you need a %s account."
-msgstr ""
-"Pour télécharger un screencast sur %s, vous avez besoin d'un compte %s."
+msgstr "Pour publier un screencast sur %s, vous avez besoin d'un compte %s."
 
-#: ../kazam/frontend/widgets/dialogs.py:93
+#: ../kazam/frontend/widgets/dialogs.py:154
 #, python-format
 msgid "I have a %s account:"
 msgstr "J'ai un compte %s :"
+
+#~ msgid "Continue..."
+#~ msgstr "Continuer..."
+

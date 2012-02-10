@@ -1,44 +1,34 @@
 Source: kazam
 Section: video
 Priority: optional
-Maintainer: Andrew Higginson <rugby471@gmail.com>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: debhelper (>= 7.0.50),
                lsb-release,
                gettext,
                intltool,
                python,
-               python-central,
                python-distutils-extra,
                python-setuptools,
-Standards-Version: 3.8.4
+Standards-Version: 3.9.2
 XS-Python-Version: current
-Vcs-Bzr: https://code.launchpad.net/~and471/kazam/trunk
+Vcs-Bzr: https://code.launchpad.net/~kazam-team/kazam/unstable
 Homepage: https://launchpad.net/kazam
 
 Package: kazam
 Architecture: all
 Depends: ${python:Depends},
          ${misc:Depends},
-         python-gtk2,
          python-xdg,
          python-cairo,
-         python-rsvg,
-         ffmpeg,
-         libx264-85 | libx264-98,
-         libmatroska0 | libmatroska2,
-         python-gnomedesktop,
-         libavdevice52 | libavdevice-extra-52,
-         libavcodec-extra-52,
-         python-xlib,
-         python-keybinder
-Recommends: libtheora0,
-            python-pycurl, 
-            python-gdata
+         python-gst0.10,
+         gstreamer0.10-plugins-base,
+         gstreamer0.10-plugins-good,
+         gstreamer0.10-plugins-bad,
+         gstreamer0.10-plugins-ugly
+Recommends: graphviz
 XB-Python-Version: ${python:Versions}
-Description: easy to use application for recording on-screen action
+Description: Easy to use application for recording on-screen action
  A program that lets you record action on-screen into one video file.
- It's special features include a well designed interface, the ability
- to record audio playing on your computer and built-in exporting 
- capabilities to upload screencasts to popular videosharing websites - 
- such as YouTube.
-
+ Its special features include a well designed interface, the ability
+ to record two audio channels and mix them. Built-in support for
+ volume adjustments. You can also chose between VP8 or H264 codecs.

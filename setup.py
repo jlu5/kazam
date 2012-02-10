@@ -5,20 +5,17 @@ from DistUtilsExtra.command import *
 
 import re
 import glob
-import os
-from subprocess import Popen, PIPE, call
-import sys
+from subprocess import Popen, PIPE
 
 # update version.py
 try:
     line = open("debian/changelog").readline()
-    m = re.match("^[\w-]+ \(([\w\.~]+)\) ([\w-]+);", line)
+    m = re.search(r'\((.+?)\) ([^;]+);', line)
     VERSION = m.group(1)
-    CODENAME = m.group(2)
+    CODENAME = open("CODENAME").readline().strip()
     DISTRO = Popen(["lsb_release", "-s", "-i"], stdout=PIPE).communicate()[0].strip()
     RELEASE = Popen(["lsb_release", "-s", "-r"], stdout=PIPE).communicate()[0].strip()
-    open("kazam/version.py","w").write("""
-VERSION='%s'
+    open("kazam/version.py","w").write("""VERSION='%s'
 CODENAME='%s'
 DISTRO='%s'
 RELEASE='%s'
@@ -31,13 +28,29 @@ except:
 
 # real setup
 setup(name="kazam", version=VERSION,
+      description="A screencasting program created with design in mind.",
+      long_description= ( open('README').read() + '\n'),
+      classifiers=[
+        "Development Status :: 4 - Beta",
+        "Environment :: X11 Applications :: GTK",
+        "Intended Audience :: End Users/Desktop",
+        "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python",
+        "Topic :: Multimedia :: Graphics :: Capture :: Screen Capture",
+        "Topic :: Multimedia :: Sound/Audio :: Capture/Recording",
+        "Topic :: Multimedia :: Video :: Capture",
+       ],
+      keywords='kazam screen audio recorder',
+      url='https://launchpad.net/kazam',
+      license='GPLv3',
       scripts=["bin/kazam"
                ],
       packages = ['kazam',
+                  'kazam.pulseaudio',
                   'kazam.backend',
                   'kazam.backend.export_sources',
                   'kazam.frontend',
-                  'kazam.frontend.widgets',
                  ],
       data_files=[
                   ('share/kazam/ui/',

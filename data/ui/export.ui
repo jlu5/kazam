@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkWindow" id="window_export">
     <property name="title" translatable="yes">Kazam Screencaster</property>
@@ -28,7 +27,7 @@
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="on_menuitem_quit_activate"/>
+                        <signal handler="on_menuitem_quit_activate" name="activate"/>
                       </object>
                     </child>
                   </object>
@@ -49,7 +48,7 @@
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="on_menuitem_about_activate"/>
+                        <signal handler="on_menuitem_about_activate" name="activate"/>
                       </object>
                     </child>
                   </object>
@@ -283,7 +282,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_button_back_clicked"/>
+                    <signal handler="on_button_back_clicked" name="clicked"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -306,7 +305,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_button_export_clicked"/>
+                    <signal handler="on_button_export_clicked" name="clicked"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -320,7 +319,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="clicked" handler="on_button_close_clicked"/>
+                    <signal handler="on_button_close_clicked" name="clicked"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>

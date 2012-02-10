@@ -1,11 +1,5 @@
-kazam (0.11) maverick; urgency=low
+kazam (1.0.3-0ubuntu1) precise; urgency=low
 
-  * New upstream version. Contains lots of bug fixes and new features
+  * Initial Ubuntu release.
 
- -- Andrew Higginson <rugby471@gmail.com>  Sun, 10 Oct 2010 08:11:40 +0100
-
-kazam (0.1) maverick; urgency=low
-
-  * Initial release.
-
- -- Andrew Higginson <rugby471@gmail.com>  Mon, 30 Aug 2010 14:56:46 +0100
+ -- David Klasinc <bigwhale@lubica.net>  Thu, 09 Feb 2012 21:56:49 +0100

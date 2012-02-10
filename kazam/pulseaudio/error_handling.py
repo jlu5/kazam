@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-#       utils.py
+#       error_handling.py
 #
 #       Copyright 2012 David Klasinc <bigwhale@lubica.net>
-#       Copyright 2010 Andrew <andrew@karmic-desktop>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -20,14 +19,9 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-def remove_list_dups(seq, idfun = None):
-    if idfun is None:
-        def idfun(x): return x
-    seen = {}
-    result = []
-    for item in seq:
-        marker = idfun(item)
-        if marker in seen: continue
-        seen[marker] = 1
-        result.append(item)
-    return result
+class PAError(Exception):
+    """Used for reporting various Pulse Audio Errors"""
+    def __init__(self, value, msg):
+        self.value = value
+        self.msg = msg
+

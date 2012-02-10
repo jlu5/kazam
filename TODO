@@ -1,1 +1,12 @@
+TODO
+----
+In progress:
+ - Support for multiple audio channels
+ - Switch to GTK3
+
+Short term:
+ - Video editing and recoding with gstreamer
+
+Long(er) term:
+ - Support for other codecs
 
