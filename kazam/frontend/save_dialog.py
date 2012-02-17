@@ -21,6 +21,9 @@
 #       MA 02110-1301, USA.
 
 import os
+import logging
+logger = logging.getLogger("Save Dialog")
+
 from gi.repository import Gtk
 from gettext import gettext as _
 from xdg.BaseDirectory import xdg_config_home
@@ -28,6 +31,7 @@ from xdg.BaseDirectory import xdg_config_home
 from kazam.backend.constants import *
 
 def SaveDialog(title, old_path, codec):
+    logger.debug("Save dialog called.")
     dialog = Gtk.FileChooserDialog(title, None,
                                    Gtk.FileChooserAction.SAVE,
                                    (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,

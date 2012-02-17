@@ -24,6 +24,7 @@ import os
 import locale
 import gettext
 import logging
+logger = logging.getLogger("App")
 
 from subprocess import Popen
 from gi.repository import Gtk, Gdk

@@ -1,5 +1,5 @@
 
-           Kazam Screencaster v1.0.3 "NCC-2000"
+           Kazam Screencaster v1.2.0 "NCC-1701D"
 
 
 Introduction
@@ -26,17 +26,17 @@ Installation
 ------------
 
 For Ubuntu, the best way to install is to add a PPA repository and then
-use apt-get command or Software Center.
+use apt-get command or Software Centre.
 
 For distribution independent installation you will have to get the latest
 tarball release from Launchpad:
 
-http://launchpad.net/kazam/unstable/1.0.3/+download/kazam_1.0.3.tar.gz
+http://launchpad.net/kazam/stable/1.2.0/+download/kazam_1.2.0.tar.gz
 
 Unpack it and then run setup:
 
-   $ tar -xzf kazam_1.0.3.tar.gz
-   $ cd kazam-1.0.3
+   $ tar -xzf kazam_1.2.0.tar.gz
+   $ cd kazam-1.2.0
 
 Run installation as root user, or use sudo:
 
@@ -120,3 +120,4 @@ include generated output. It will also be helpful if you can attach generated
 
 If you have graphviz package installed there is also /tmp/kazam_pipeline.png
 file and you can inspect GStreamer pipeline if everything checks out ok.
+

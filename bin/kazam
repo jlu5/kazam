@@ -30,8 +30,17 @@ from gi.repository import Gtk
 
 if __name__ == "__main__":
 
+    log =  logging.getLogger()
+    log.name = "Kazam"
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter('%(levelname)s %(name)-10s - %(message)s')
+    handler.setFormatter(formatter)
+    log.addHandler(handler)
+
+    log.info("Logger intialized.")
+
     if os.path.exists("../data"):
-        logging.info("Running locally, AppIndicator icons might be missing.")
+        log.info("Running locally, AppIndicator icons might be missing.")
         datadir = "../data"
         sys.path.insert(0, "..")
     else:
@@ -54,20 +63,15 @@ if __name__ == "__main__":
                         version = version)
 
     args = parser.parse_args()
-
     if args.debug:
-        logging.basicConfig(level = logging.DEBUG,
-                            format = '%(levelname)s (%(asctime)s): %(message)s',
-                            datefmt = '%H:%M:%S')
+        log.setLevel(logging.DEBUG)
     else:
-        logging.basicConfig(level = logging.INFO,
-                            format = '%(levelname)s (%(asctime)s): %(message)s',
-                            datefmt = '%H:%M:%S')
+        log.setLevel(logging.INFO)
 
     from kazam.app import KazamApp
 
-    logging.debug("Starting ...")
+    log.debug("Starting ...")
     appWindow = KazamApp(datadir, args.debug)
     appWindow.show_all()
     Gtk.main()
-    logging.debug("Finishing ...")
+    log.debug("Finishing ...")
