@@ -34,12 +34,21 @@ import pygst
 pygst.require("0.10")
 import gst
 
+from gi.repository import GObject
+
 from subprocess import Popen
 from kazam.backend.constants import *
 
 
-class Screencast(object):
+class Screencast(GObject.GObject):
+    __gsignals__ = {
+        "flush-done" : (GObject.SIGNAL_RUN_LAST,
+                        None,
+                        (),
+            ),
+        }
     def __init__(self, debug):
+        GObject.GObject.__init__(self)
         self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".movie")
         self.pipeline = gst.Pipeline("Kazam")
         self.debug = debug
@@ -345,7 +354,8 @@ class Screencast(object):
     def on_message(self, bus, message):
         t = message.type
         if t == gst.MESSAGE_EOS:
-            logging.debug("Recorder - Received EOS, setting pipeline to NULL.")
             self.pipeline.set_state(gst.STATE_NULL)
+            self.emit("flush-done")
+            logging.debug("Recorder - Received EOS, setting pipeline to NULL.")
         elif t == gst.MESSAGE_ERROR:
             logging.debug("Recorder - Received an error message.")

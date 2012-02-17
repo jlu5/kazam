@@ -383,6 +383,7 @@ class KazamApp(Gtk.Window):
                                     framerate,
                                     region)
 
+        self.recorder.connect("flush-done", self.cb_flush_done)
         self.countdown = CountdownWindow()
         self.countdown.connect("start-request", self.cb_start_request)
         self.countdown.run(self.spinbutton_counter.get_value_as_int())
@@ -416,6 +417,9 @@ class KazamApp(Gtk.Window):
         self.recorder.stop_recording()
         self.tempfile = self.recorder.get_tempfile()
         logging.debug("Recorded tmp file: {0}".format(self.tempfile))
+        logging.debug("Waiting for data to flush.")
+
+    def cb_flush_done(self, widget):
         self.done_recording = DoneRecording(self.icons,
                                             self.tempfile,
                                             self.codec,
