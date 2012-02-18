@@ -61,8 +61,11 @@ class CountdownWindow(GObject.GObject):
 
 
     def run(self, counter):
-        self.number = counter + 1
-        self.window.show_all()
+        if counter > 0:
+            self.number = counter + 1
+            self.window.show_all()
+        else:
+            self.number = 0
         self.countdown()
 
     def countdown(self):

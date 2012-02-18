@@ -161,7 +161,7 @@ class KazamApp(Gtk.Window):
 
         self.label_counter = Gtk.Label(_("Countdown timer"))
         self.label_counter.set_justify(Gtk.Justification.LEFT)
-        self.counter_adjustment = Gtk.Adjustment(5, 1, 65, 1, 5, 0)
+        self.counter_adjustment = Gtk.Adjustment(5, 0, 65, 1, 5, 0)
         self.spinbutton_counter = Gtk.SpinButton()
         self.spinbutton_counter.set_adjustment(self.counter_adjustment)
         self.grid.attach_next_to(self.label_counter,
