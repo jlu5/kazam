@@ -24,6 +24,7 @@ import os
 import locale
 import gettext
 import logging
+logger = logging.getLogger("App")
 
 from subprocess import Popen
 from gi.repository import Gtk, Gdk
@@ -160,7 +161,7 @@ class KazamApp(Gtk.Window):
 
         self.label_counter = Gtk.Label(_("Countdown timer"))
         self.label_counter.set_justify(Gtk.Justification.LEFT)
-        self.counter_adjustment = Gtk.Adjustment(5, 1, 65, 1, 5, 0)
+        self.counter_adjustment = Gtk.Adjustment(5, 0, 65, 1, 5, 0)
         self.spinbutton_counter = Gtk.SpinButton()
         self.spinbutton_counter.set_adjustment(self.counter_adjustment)
         self.grid.attach_next_to(self.label_counter,
@@ -383,6 +384,7 @@ class KazamApp(Gtk.Window):
                                     framerate,
                                     region)
 
+        self.recorder.connect("flush-done", self.cb_flush_done)
         self.countdown = CountdownWindow()
         self.countdown.connect("start-request", self.cb_start_request)
         self.countdown.run(self.spinbutton_counter.get_value_as_int())
@@ -416,6 +418,9 @@ class KazamApp(Gtk.Window):
         self.recorder.stop_recording()
         self.tempfile = self.recorder.get_tempfile()
         logging.debug("Recorded tmp file: {0}".format(self.tempfile))
+        logging.debug("Waiting for data to flush.")
+
+    def cb_flush_done(self, widget):
         self.done_recording = DoneRecording(self.icons,
                                             self.tempfile,
                                             self.codec,

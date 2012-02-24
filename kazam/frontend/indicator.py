@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 import logging
+logger = logging.getLogger("Indicator")
 
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
@@ -120,17 +121,19 @@ try:
         def on_menuitem_pause_activate(self, menuitem):
             if menuitem.get_active():
                 self.indicator.set_attention_icon("kazam-paused")
-                logging.info("Recording paused")
+                logger.info("Recording paused.")
             else:
                 self.indicator.set_attention_icon("kazam-recording")
-                logging.info("Recording started again")
+                logger.info("Recording resumed.")
             KazamSuperIndicator.on_menuitem_pause_activate(self, menuitem)
 
         def on_menuitem_finish_activate(self, menuitem):
+            logger.info("Recording stopped.")
             self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
             KazamSuperIndicator.on_menuitem_finish_activate(self, menuitem)
 
         def start_recording(self):
+            logger.info("Recording started.")
             self.indicator.set_status(AppIndicator3.IndicatorStatus.ATTENTION)
             KazamSuperIndicator.start_recording(self)
 
@@ -160,19 +163,21 @@ except ImportError:
             self.menu.popup(None, None, position, self.indicator, button, time)
 
         def on_menuitem_finish_activate(self, menuitem):
+            logger.info("Recording stopped.")
             self.indicator.set_from_icon_name("kazam-stopped")
             KazamSuperIndicator.on_menuitem_finish_activate(self, menuitem)
 
         def on_menuitem_pause_activate(self, menuitem):
             if menuitem.get_active():
                 self.indicator.set_from_icon_name("kazam-paused")
-                logging.info("Recording paused")
+                logger.info("Recording paused.")
             else:
                 self.indicator.set_from_icon_name("kazam-recording")
-                logging.info("Recording started again")
+                logger.info("Recording resumed.")
             KazamSuperIndicator.on_menuitem_pause_activate(self, menuitem)
 
         def start_recording(self):
+            logger.info("Recording started.")
             self.indicator.set_from_icon_name("kazam-recording")
             KazamSuperIndicator.start_recording(self)
 

@@ -22,6 +22,9 @@
 
 import os
 import shutil
+import logging
+logger = logging.getLogger("Done Recording")
+
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
 
@@ -109,10 +112,12 @@ class DoneRecording(Gtk.Window):
 
     def cb_continue_clicked(self, widget):
         if self.action == ACTION_EDIT:
+            logger.debug("Continue - Edit.")
             (command, args)  = self.combobox_editor.get_active_value()
             self.emit("edit-request", (command, args))
             self.destroy()
         else:
+            logger.debug("Continue - Save.")
             (dialog, result, self.old_path) = SaveDialog(_("Save screencast"),
                                           self.old_path, self.codec)
 
@@ -137,7 +142,7 @@ class DoneRecording(Gtk.Window):
         self.emit("save-cancel")
         self.destroy()
 
-    def cb_delete_event(self, widget):
+    def cb_delete_event(self, widget, data):
         self.emit("save-cancel")
         return True
 

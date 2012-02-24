@@ -1,11 +1,12 @@
+kazam (1.2.1-0ubuntu1) precise; urgency=low
+
+  * Fixed issue with flushing data to disk before saving file (lp:933796)
+  - Fixed logger not displaying logs in Precise Pangolin
+
+ -- David Klasinc <bigwhale@lubica.net>  Fri, 24 Feb 2012 09:27:10 +0100
+
 kazam (1.2.0-0ubuntu1) precise; urgency=low
 
   * First Stable Release
 
  -- David Klasinc <bigwhale@lubica.net>  Fri, 10 Feb 2012 18:03:25 +0100
-
-kazam (1.0.3-0ubuntu1) precise; urgency=low
-
-  * Initial Ubuntu release.
-
- -- David Klasinc <bigwhale@lubica.net>  Thu, 09 Feb 2012 21:56:49 +0100
