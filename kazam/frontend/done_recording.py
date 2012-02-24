@@ -48,7 +48,6 @@ class DoneRecording(Gtk.Window):
 
     def __init__(self, icons, tempfile, codec, old_path):
         Gtk.Window.__init__(self, title=_("Kazam Screencaster - Recording finished"))
-
         self.icons = icons
         self.tempfile = tempfile
         self.codec = codec
@@ -61,7 +60,6 @@ class DoneRecording(Gtk.Window):
         self.label_box = Gtk.Box()
         self.done_label = Gtk.Label(_("Kazam finished recording.\nWhat do you want to do now?"))
         self.label_box.add(self.done_label)
-
         self.grid = Gtk.Grid(row_spacing = 10, column_spacing = 5)
         self.radiobutton_edit = Gtk.RadioButton.new_with_label_from_widget(None, _("Edit with:"))
         self.combobox_editor = EditComboBox(self.icons)
@@ -81,7 +79,6 @@ class DoneRecording(Gtk.Window):
 
         self.radiobutton_save.connect("toggled", self.cb_radiobutton_save_toggled)
         self.radiobutton_edit.connect("toggled", self.cb_radiobutton_edit_toggled)
-
         self.btn_cancel = Gtk.Button(label = _("Cancel"))
         self.btn_cancel.set_size_request(100, -1)
         self.btn_continue = Gtk.Button(label = _("Continue"))
@@ -105,10 +102,10 @@ class DoneRecording(Gtk.Window):
         self.vbox.pack_start(self.radiobutton_save, True, True, 0)
         self.vbox.pack_start(self.hbox, True, True, 0)
         self.add(self.vbox)
-
         self.connect("delete-event", self.cb_delete_event)
         self.show_all()
         self.present()
+
 
     def cb_continue_clicked(self, widget):
         if self.action == ACTION_EDIT:

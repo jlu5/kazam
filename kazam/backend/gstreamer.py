@@ -79,8 +79,8 @@ class Screencast(GObject.GObject):
         self.framerate = framerate
         self.region = region
 
-        logger.debug("Recording - Capture Cursor: {0}".format(capture_cursor))
-        logger.debug("Recording - Framerate : {0}".format(capture_cursor))
+        logger.debug("Capture Cursor: {0}".format(capture_cursor))
+        logger.debug("Framerate : {0}".format(capture_cursor))
         if self.video_source:
             self.setup_video_source()
 
@@ -125,7 +125,7 @@ class Screencast(GObject.GObject):
         if not abs(starty - endy) % 2 and self.codec == CODEC_H264:
             endy -= 1
 
-        logger.debug("Recording - Coordinates: {0} {1} {2} {3}".format(startx, starty, endx, endy))
+        logger.debug("Coordinates: {0} {1} {2} {3}".format(startx, starty, endx, endy))
 
         self.videosrc.set_property("startx", startx)
         self.videosrc.set_property("starty", starty)
@@ -141,14 +141,14 @@ class Screencast(GObject.GObject):
         self.ffmpegcolor = gst.element_factory_make("ffmpegcolorspace", "ffmpeg")
 
         if self.codec == CODEC_VP8:
-            logger.debug("Recording - Codec: VP8/WEBM")
+            logger.debug("Codec: VP8/WEBM")
             self.videnc = gst.element_factory_make("vp8enc", "video_encoder")
             self.videnc.set_property("speed", 2)
             self.videnc.set_property("quality", 10)
             self.videnc.set_property("threads", self.cores)
             self.mux = gst.element_factory_make("webmmux", "muxer")
         elif self.codec == CODEC_H264:
-            logger.debug("Recording - Codec: H264/MATROSKA")
+            logger.debug("Codec: H264/MATROSKA")
             self.videnc = gst.element_factory_make("x264enc", "video_encoder")
             self.videnc.set_property("key-int-max", 10)
             self.videnc.set_property("bframes", 4)
@@ -166,7 +166,7 @@ class Screencast(GObject.GObject):
         self.vid_out_queue = gst.element_factory_make("queue", "queue_v2")
 
     def setup_audio_source(self):
-        logger.debug("Recording - Audio1 Source:\n  {0}".format(self.audio_source))
+        logger.debug("Audio1 Source:\n  {0}".format(self.audio_source))
         self.audiosrc = gst.element_factory_make("pulsesrc", "audio_src")
         self.audiosrc.set_property("device", self.audio_source)
         self.aud_caps = gst.Caps("audio/x-raw-int")
@@ -183,7 +183,7 @@ class Screencast(GObject.GObject):
         self.aud_out_queue = gst.element_factory_make("queue", "queue_a_out")
 
     def setup_audio2_source(self):
-        logger.debug("Recording - Audio2 Source:\n  {0}".format(self.audio2_source))
+        logger.debug("Audio2 Source:\n  {0}".format(self.audio2_source))
         self.audiomixer = gst.element_factory_make("adder", "audiomixer")
         self.audio2src = gst.element_factory_make("pulsesrc", "audio2_src")
         self.audio2src.set_property("device", self.audio2_source)
@@ -195,14 +195,14 @@ class Screencast(GObject.GObject):
         self.aud2_in_queue = gst.element_factory_make("queue", "queue_a2_in")
 
     def setup_filesink(self):
-        logger.debug("Recording - Filesink: {0}".format(self.tempfile))
+        logger.debug("Filesink: {0}".format(self.tempfile))
         self.sink = gst.element_factory_make("filesink", "sink")
         self.sink.set_property("location", self.tempfile)
         self.file_queue = gst.element_factory_make("queue", "queue_file")
 
     def setup_pipeline(self):
         if self.video_source and not self.audio_source and not self.audio2_source:
-            logger.debug("Recording - Pipline - Video only".format(self.audio_source))
+            logger.debug("Pipline - Video only".format(self.audio_source))
             self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
                               self.vid_caps_filter, self.ffmpegcolor,
                               self.videnc, self.vid_out_queue, self.mux,
@@ -214,7 +214,7 @@ class Screencast(GObject.GObject):
                                   self.sink)
 
         elif self.video_source and self.audio_source and not self.audio2_source:
-            logger.debug("Recording - Pipline - Video + Audio".format(self.audio_source))
+            logger.debug("Pipline - Video + Audio".format(self.audio_source))
             self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
                               self.vid_caps_filter, self.ffmpegcolor,
                               self.videnc, self.audiosrc, self.aud_in_queue,
@@ -235,7 +235,7 @@ class Screencast(GObject.GObject):
             gst.element_link_many(self.mux, self.file_queue, self.sink)
 
         elif self.video_source and self.audio_source and self.audio2_source:
-            logger.debug("Recording - Pipline - Video + Dual Audio".format(self.audio_source))
+            logger.debug("Pipline - Video + Dual Audio".format(self.audio_source))
             self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
                               self.vid_caps_filter, self.ffmpegcolor, self.videnc,
                               self.audiosrc, self.aud_in_queue,
@@ -274,7 +274,7 @@ class Screencast(GObject.GObject):
 
     def start_recording(self):
         if self.debug:
-            logger.debug("Recording - Generating dot file.")
+            logger.debug("Generating dot file.")
             gst.DEBUG_BIN_TO_DOT_FILE(self.pipeline,
                                       gst.DEBUG_GRAPH_SHOW_MEDIA_TYPE |
                                       gst.DEBUG_GRAPH_SHOW_NON_DEFAULT_PARAMS |
@@ -282,31 +282,31 @@ class Screencast(GObject.GObject):
                                       "kazam_debug")
 
 
-        logger.debug("Recording - Setting STATE_PLAYING")
+        logger.debug("Setting STATE_PLAYING")
         self.pipeline.set_state(gst.STATE_PLAYING)
 
     def pause_recording(self):
-        logger.debug("Recording - Setting STATE_PAUSED")
+        logger.debug("Setting STATE_PAUSED")
         self.pipeline.set_state(gst.STATE_PAUSED)
 
     def unpause_recording(self):
-        logger.debug("Recording - Setting STATE_PLAYING - UNPAUSE")
+        logger.debug("Setting STATE_PLAYING - UNPAUSE")
         self.pipeline.set_state(gst.STATE_PLAYING)
 
     def stop_recording(self):
-        logger.debug("Recording - Sending new EOS event")
+        logger.debug("Sending new EOS event")
         self.pipeline.send_event(gst.event_new_eos())
         #
         # TODO: Improve this ;)
         #
         if self.debug:
-            logger.debug("Recording - Generating PNG file from DOT file.")
+            logger.debug("Generating PNG file from DOT file.")
             if os.path.isfile("/usr/bin/dot"):
                 os.system("/usr/bin/dot" + " -Tpng -o " + "/tmp/kazam_pipeline.png" + " " + "/tmp/kazam_debug.dot")
             elif os.path.isfile("/usr/local/bin/dot"):
                 os.system("/usr/local/bin/dot" + " -Tpng -o " + "/tmp/kazam_pipeline.png" + " " + "/tmp/kazam_debug.dot")
             else:
-                logger.debug("Recording - 'dot' not found. Unable to generate PNG.")
+                logger.debug("Program 'dot' not found. Unable to generate PNG.")
                 pass
 
     def get_tempfile(self):
@@ -356,8 +356,9 @@ class Screencast(GObject.GObject):
     def on_message(self, bus, message):
         t = message.type
         if t == gst.MESSAGE_EOS:
+            logger.debug("Received EOS, setting pipeline to NULL.")
             self.pipeline.set_state(gst.STATE_NULL)
+            logger.debug("Emitting flush-done.")
             self.emit("flush-done")
-            logger.debug("Recorder - Received EOS, setting pipeline to NULL.")
         elif t == gst.MESSAGE_ERROR:
-            logger.debug("Recorder - Received an error message.")
+            logger.debug("Received an error message.")
