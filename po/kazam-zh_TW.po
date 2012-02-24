@@ -1,0 +1,250 @@
+# Chinese (Traditional) translation for kazam
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the kazam package.
+# Wei-Lun Chao <william.chao@ossii.com.tw>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kazam 1.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-01-29 21:01+0100\n"
+"PO-Revision-Date: 2012-01-30 14:48+0800\n"
+"Last-Translator: Wei-Lun Chao <william.chao@ossii.com.tw>\n"
+"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../data/ui/export_sources/youtube.ui.h:1
+#: ../data/ui/export_sources/videobin.ui.h:2
+msgid "Title"
+msgstr "標題"
+
+#: ../data/ui/export_sources/youtube.ui.h:2
+msgid "Keywords"
+msgstr "關鍵詞"
+
+#: ../data/ui/export_sources/youtube.ui.h:3
+#: ../data/ui/export_sources/videobin.ui.h:3
+msgid "Description"
+msgstr "描述"
+
+#: ../data/ui/export_sources/youtube.ui.h:4
+msgid "Category"
+msgstr "分類"
+
+#: ../data/ui/export_sources/youtube.ui.h:5
+msgid "Private"
+msgstr "私有"
+
+#: ../data/ui/export_sources/videobin.ui.h:1
+msgid "Email"
+msgstr "電子郵件"
+
+#: ../data/kazam.desktop.in.h:1 ../kazam/app.py:44
+#: ../kazam/frontend/about_dialog.py:53
+msgid "Kazam Screencaster"
+msgstr "Kazam 螢幕擷取器"
+
+#: ../data/kazam.desktop.in.h:2
+msgid "Screencaster"
+msgstr "螢幕擷取器"
+
+#: ../data/kazam.desktop.in.h:3
+msgid "Record a video of activity on your screen"
+msgstr "將您螢幕上的活動錄成視訊"
+
+#: ../kazam/app.py:102
+msgid "Video Source"
+msgstr "視訊來源"
+
+#: ../kazam/app.py:110
+msgid "Audio Source 1"
+msgstr "音訊來源 1"
+
+#: ../kazam/app.py:129
+msgid "Audio Source 2"
+msgstr "音訊來源 2"
+
+#: ../kazam/app.py:148
+msgid "Encoder type"
+msgstr "編碼器型態"
+
+#: ../kazam/app.py:161
+msgid "Countdown timer"
+msgstr "倒數計時器"
+
+#: ../kazam/app.py:177
+msgid "Framerate"
+msgstr "影格率"
+
+#: ../kazam/app.py:183
+msgid "Capture mouse"
+msgstr "擷取滑鼠"
+
+#: ../kazam/app.py:187
+msgid "Record Region"
+msgstr "錄製區域"
+
+#: ../kazam/app.py:199
+msgid "Record"
+msgstr "錄製"
+
+#: ../kazam/app.py:202
+msgid "Close"
+msgstr "關閉"
+
+#: ../kazam/app.py:206 ../kazam/frontend/indicator.py:68
+#: ../kazam/frontend/main_menu.py:57
+msgid "Quit"
+msgstr "離開"
+
+#: ../kazam/app.py:609 ../kazam/app.py:637
+msgid "Unknown"
+msgstr "不明"
+
+#: ../kazam/app.py:660
+msgid "Combined ({w}x{h})"
+msgstr "合併 ({w}x{h})"
+
+#: ../kazam/app.py:662
+msgid "Display {n} ({w}x{h})"
+msgstr "顯示 {n} ({w}x{h})"
+
+#: ../kazam/frontend/done_recording.py:47
+msgid "Kazam Screencaster - Recording finished"
+msgstr "Kazam 螢幕擷取器 - 錄製完成"
+
+#: ../kazam/frontend/done_recording.py:59
+msgid ""
+"Kazam finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+"Kazam 已完成螢幕錄製。\n"
+"您現在打算做什麼？"
+
+#: ../kazam/frontend/done_recording.py:63
+msgid "Edit with:"
+msgstr "編輯方式："
+
+#: ../kazam/frontend/done_recording.py:71
+msgid "Save for later"
+msgstr "儲存供稍後使用"
+
+#: ../kazam/frontend/done_recording.py:82
+msgid "Cancel"
+msgstr "取消"
+
+#: ../kazam/frontend/done_recording.py:84
+msgid "Continue"
+msgstr "繼續"
+
+#: ../kazam/frontend/done_recording.py:116
+msgid "Save screencast"
+msgstr "儲存螢幕擷取"
+
+#: ../kazam/frontend/export.py:207
+msgid "Logging in..."
+msgstr "正在登入…"
+
+#: ../kazam/frontend/export.py:213
+msgid "Log-in completed."
+msgstr "登入完成。"
+
+#: ../kazam/frontend/export.py:215
+msgid "There was an error logging in."
+msgstr "登入時出現了一個錯誤。"
+
+#: ../kazam/frontend/export.py:220
+msgid "Converting screencast..."
+msgstr "正在轉換螢幕擷取…"
+
+#: ../kazam/frontend/export.py:224
+msgid "Screencast converted."
+msgstr "螢幕擷取轉換完成。"
+
+#: ../kazam/frontend/export.py:226
+msgid "There was an error converting."
+msgstr "轉換時出現了一個錯誤。"
+
+#: ../kazam/frontend/export.py:231
+msgid "Uploading screencast..."
+msgstr "正在上傳螢幕擷取…"
+
+#: ../kazam/frontend/export.py:235
+msgid "Screencast uploaded."
+msgstr "螢幕擷取已上傳。"
+
+#. Show a dialog with the url of the uploaded file
+#: ../kazam/frontend/export.py:239
+msgid "Your screencast has uploaded successfully."
+msgstr "您的螢幕擷取已經成功上傳。"
+
+#: ../kazam/frontend/export.py:240
+msgid "It is available at the location below:"
+msgstr "可供取得於以下的位置："
+
+#: ../kazam/frontend/export.py:242
+msgid "There was an error uploading."
+msgstr "上傳時出現了一個錯誤。"
+
+#: ../kazam/frontend/indicator.py:58
+msgid "Pause recording"
+msgstr "暫停錄製"
+
+#: ../kazam/frontend/indicator.py:61
+msgid "Finish recording"
+msgstr "完成錄製"
+
+#: ../kazam/frontend/indicator.py:66
+msgid "Record setup"
+msgstr "錄製設定"
+
+#: ../kazam/frontend/main_menu.py:56
+msgid "File"
+msgstr "檔案"
+
+#: ../kazam/frontend/main_menu.py:57
+msgid "Quit Kazam"
+msgstr "離開 Kazam"
+
+#: ../kazam/frontend/main_menu.py:59
+msgid "Help"
+msgstr "求助"
+
+#: ../kazam/frontend/main_menu.py:60
+msgid "About"
+msgstr "關於"
+
+#: ../kazam/frontend/main_menu.py:60
+msgid "About Kazam"
+msgstr "關於 Kazam"
+
+#: ../kazam/frontend/window_countdown.py:93
+msgid "Recording will start in ..."
+msgstr "錄製開始倒數…"
+
+#: ../kazam/frontend/window_countdown.py:94
+msgid "{0}"
+msgstr "{0}"
+
+#: ../kazam/frontend/window_region.py:177
+msgid "Select region by resizing the window"
+msgstr "藉由調整視窗大小來選取區域"
+
+#: ../kazam/frontend/window_region.py:178
+msgid "Press ENTER to confirm or ESC to cancel."
+msgstr "按下 ENTER 以確認或 ESC 以取消。"
+
+#: ../kazam/frontend/save_dialog.py:35
+msgid "Save"
+msgstr "儲存"
+
+#: ../kazam/frontend/save_dialog.py:38 ../kazam/frontend/save_dialog.py:40
+msgid "Untitled_Screencast"
+msgstr "未命名視訊"
+
+#: ../kazam/frontend/about_dialog.py:54
+msgid "Record a video of activity on your screen."
+msgstr "將螢幕上的活動錄製為視訊。"

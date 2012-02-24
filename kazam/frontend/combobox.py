@@ -77,14 +77,7 @@ class EditComboBox(Gtk.ComboBox):
                 name = desktop_entry.getName()
                 icon_name = desktop_entry.getIcon()
 
-                if command == "kdenlive":
-                    p = subprocess.Popen([command, "-v"], stdout=subprocess.PIPE)
-                    output = p.communicate()[0]
-                    version = output.strip().split("\n")[-1].replace("Kdenlive: ", "").split(".")
-                    if self._version_is_gte(self.KDENLIVE_VERSION, version):
-                        self._add_item(icon_name, name, command, args)
-                else:
-                    self._add_item(icon_name, name, command, args)
+                self._add_item(icon_name, name, command, args)
 
         if len(self.get_model()):
             self.empty = False
