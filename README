@@ -1,5 +1,5 @@
 
-           Kazam Screencaster v1.2.0 "NCC-1701D"
+           Kazam Screencaster v1.2.1 "NCC-1701D"
 
 
 Introduction
@@ -31,12 +31,12 @@ use apt-get command or Software Centre.
 For distribution independent installation you will have to get the latest
 tarball release from Launchpad:
 
-http://launchpad.net/kazam/stable/1.2.0/+download/kazam_1.2.0.tar.gz
+http://launchpad.net/kazam/stable/1.2.1/+download/kazam_1.2.1.tar.gz
 
 Unpack it and then run setup:
 
-   $ tar -xzf kazam_1.2.0.tar.gz
-   $ cd kazam-1.2.0
+   $ tar -xzf kazam_1.2.1.tar.gz
+   $ cd kazam-1.2.1
 
 Run installation as root user, or use sudo:
 
@@ -59,9 +59,6 @@ path is /usr/local.
 
 Known Issues
 ------------
-
-- Ffmpeg support and video editing with Kazam are currently not working and
-are disabled, for now.
 
 - Support for multiple monitors is there, but your mileage may vary. It
 was tested only on two screen setup where both screens are side by side. With
@@ -95,6 +92,10 @@ the volume in the final recording.
 - I have no idea where to put Mute/Unmute button, so you'll have to check
 that in pavucontrol or sound settings. :)
 
+- It was reported that sound is disappearing after couple of minutes into
+the recording. I wasn't able to reproduce this bug and any more info is
+appreciated. See https://bugs.launchpad.net/kazam/+bug/933835 for more
+details.
 
 Recording Tips
 --------------
