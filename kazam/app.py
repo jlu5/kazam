@@ -27,7 +27,7 @@ import logging
 logger = logging.getLogger("Main")
 
 from subprocess import Popen
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GObject
 from gettext import gettext as _
 
 from kazam.backend.config import KazamConfig
@@ -39,10 +39,10 @@ from kazam.frontend.window_region import RegionWindow
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.window_countdown import CountdownWindow
 
-class KazamApp(Gtk.Window):
+class KazamApp(GObject.GObject):
 
     def __init__(self, datadir, debug):
-        Gtk.Window.__init__(self, title=_("Kazam Screencaster"))
+        GObject.GObject.__init__(self)
         logger.debug("Setting variables.")
         self.datadir = datadir
         self.debug = debug
@@ -77,7 +77,7 @@ class KazamApp(Gtk.Window):
         #
         self.config = KazamConfig()
 
-        self.connect("delete-event", self.cb_delete_event)
+        # self.connect("delete-event", self.cb_delete_event)
 
         logger.debug("Connecting indicator signals.")
         self.indicator = KazamIndicator()
@@ -94,148 +94,25 @@ class KazamApp(Gtk.Window):
         # Setup UI
         #
         logger.debug("Main Window UI setup.")
-        self.set_border_width(10)
 
-        self.vbox = Gtk.Box(spacing = 20, orientation = Gtk.Orientation.VERTICAL)
-        self.vbox.pack_start(self.mainmenu.menubar, False, False, 0)
-
-        self.grid = Gtk.Grid(row_spacing = 10, column_spacing = 5)
-        self.checkbutton_video = Gtk.CheckButton(label=_("Video Source"))
-        self.checkbutton_video.connect("toggled", self.cb_video_toggled)
-        self.combobox_video = Gtk.ComboBoxText()
-        self.grid.add(self.checkbutton_video)
-        self.grid.attach_next_to(self.combobox_video,
-                                self.checkbutton_video,
-                                Gtk.PositionType.RIGHT,
-                                1, 1)
-        self.checkbutton_audio = Gtk.CheckButton(label=_("Audio Source 1"))
-        self.checkbutton_audio.connect("toggled", self.cb_audio_toggled)
-        self.combobox_audio = Gtk.ComboBoxText()
-        self.grid.attach_next_to(self.checkbutton_audio,
-                                 self.checkbutton_video,
-                                 Gtk.PositionType.BOTTOM,
-                                 1, 1)
-        self.grid.attach_next_to(self.combobox_audio,
-                                self.checkbutton_audio,
-                                Gtk.PositionType.RIGHT,
-                                1, 1)
-        volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
-        self.volumebutton_audio = Gtk.VolumeButton()
-        self.volumebutton_audio.set_adjustment(volume_adjustment)
-        self.volumebutton_audio.connect("value-changed", self.cb_volume_changed)
-        self.grid.attach_next_to(self.volumebutton_audio,
-                                 self.combobox_audio,
-                                 Gtk.PositionType.RIGHT,
-                                 1, 1)
-        self.checkbutton_audio2 = Gtk.CheckButton(label=_("Audio Source 2"))
-        self.checkbutton_audio2.connect("toggled", self.cb_audio2_toggled)
-        self.combobox_audio2 = Gtk.ComboBoxText()
-        self.grid.attach_next_to(self.checkbutton_audio2,
-                                 self.checkbutton_audio,
-                                 Gtk.PositionType.BOTTOM,
-                                 1, 1)
-        self.grid.attach_next_to(self.combobox_audio2,
-                                self.checkbutton_audio2,
-                                Gtk.PositionType.RIGHT,
-                                1, 1)
-        volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
-        self.volumebutton_audio2 = Gtk.VolumeButton()
-        self.volumebutton_audio2.set_adjustment(volume2_adjustment)
-        self.volumebutton_audio2.connect("value-changed", self.cb_volume2_changed)
-        self.grid.attach_next_to(self.volumebutton_audio2,
-                                 self.combobox_audio2,
-                                 Gtk.PositionType.RIGHT,
-                                 1, 1)
-        self.label_codec = Gtk.Label(_("Encoder type"))
-        self.label_codec.set_justify(Gtk.Justification.LEFT)
-        self.combobox_codec = Gtk.ComboBoxText()
-        self.combobox_codec.connect("changed", self.cb_codec_changed)
-        self.grid.attach_next_to(self.label_codec,
-                                 self.checkbutton_audio2,
-                                 Gtk.PositionType.BOTTOM,
-                                 1, 1)
-        self.grid.attach_next_to(self.combobox_codec,
-                                self.label_codec,
-                                Gtk.PositionType.RIGHT,
-                                1, 1)
-
-        self.label_counter = Gtk.Label(_("Countdown timer"))
-        self.label_counter.set_justify(Gtk.Justification.LEFT)
-        self.counter_adjustment = Gtk.Adjustment(5, 0, 65, 1, 5, 0)
-        self.spinbutton_counter = Gtk.SpinButton()
-        self.spinbutton_counter.set_adjustment(self.counter_adjustment)
-        self.grid.attach_next_to(self.label_counter,
-                                 self.label_codec,
-                                 Gtk.PositionType.BOTTOM,
-                                 1, 1)
-
-        self.opt_box = Gtk.Box()
-        self.grid.attach_next_to(self.opt_box,
-                                 self.label_counter,
-                                 Gtk.PositionType.RIGHT,
-                                 1, 1)
-
-        self.label_framerate = Gtk.Label(_("Framerate"))
-        self.label_framerate.set_justify(Gtk.Justification.RIGHT)
-        self.framerate_adjustment = Gtk.Adjustment(25, 1, 60, 1, 5, 0)
-        self.label_framerate.set_margin_left(10)
-        self.spinbutton_framerate = Gtk.SpinButton()
-        self.spinbutton_framerate.set_adjustment(self.framerate_adjustment)
-        self.spinbutton_framerate.set_margin_left(10)
-
-        self.checkbutton_cursor = Gtk.CheckButton(label=_("Capture mouse"))
-        self.checkbutton_cursor.set_margin_left(10)
-        self.checkbutton_cursor.set_margin_right(10)
-        self.checkbutton_cursor.connect("toggled", self.cb_checkbutton_cursor_toggled)
-
-        self.btn_region = Gtk.ToggleButton(label = _("Record Region"))
-        self.btn_region.set_size_request(120, -1)
-        self.btn_region.connect("toggled", self.cb_btn_region_toggled)
-
-        self.opt_box.pack_start(self.spinbutton_counter, True, True, 0)
-        self.opt_box.pack_start(self.label_framerate, True, True, 0)
-        self.opt_box.pack_start(self.spinbutton_framerate, True, True, 0)
-        self.opt_box.pack_start(self.checkbutton_cursor, True, True, 0)
-        self.opt_box.pack_start(self.btn_region, True, True, 0)
-
-        self.combobox_video.connect("changed", self.cb_video_changed)
-        self.combobox_audio.connect("changed", self.cb_audio_changed)
-        self.combobox_audio2.connect("changed", self.cb_audio_changed)
-        self.btn_record = Gtk.Button(label = _("Record"))
-        self.btn_record.set_size_request(100, -1)
-        self.btn_record.connect("clicked", self.cb_record_clicked)
-        self.btn_close = Gtk.Button(label = _("Close"))
-        self.btn_close.set_size_request(100, -1)
-        self.btn_close.connect("clicked", self.cb_close_clicked)
-
-        self.btn_quit = Gtk.Button(label = _("Quit"))
-        self.btn_quit.set_size_request(100, -1)
-        self.btn_quit.connect("clicked", self.cb_quit_request)
-
-        self.hbox = Gtk.Box(spacing = 10)
-        self.left_hbox = Gtk.Box(spacing = 5)
-        self.left_hbox.pack_start(self.btn_quit, False, True, 0)
-        self.right_hbox = Gtk.Box(spacing = 5)
-        self.right_hbox.pack_start(self.btn_close, False, True, 0)
-        self.right_hbox.pack_start(self.btn_record, False, True, 0)
-
-        self.hbox.pack_start(self.left_hbox, True, True, 0)
-        self.hbox.pack_start(self.right_hbox, False, False, 0)
-
-        self.vbox.pack_start(self.grid, True, True, 0)
-        self.vbox.pack_start(self.hbox, True, True, 0)
-        self.add(self.vbox)
-
-        # Hardcoded for now
-        self.combobox_codec.append(None, "Gstreamer - VP8/WebM")
-        self.combobox_codec.append(None, "GStreamer - H264/Matroska")
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file(os.path.join(self.datadir, "ui", "kazam.ui"))
+        self.builder.connect_signals(self)
+        for w in self.builder.get_objects():
+            if issubclass(type(w), Gtk.Buildable):
+                name = Gtk.Buildable.get_name(w)
+                print "GOT:", name
+                setattr(self, name, w)
+            else:
+                logger.debug("Unable to get name for '%s'" % w)
 
         self.default_screen = Gdk.Screen.get_default()
         self.default_screen.connect("size-changed", self.cb_screen_size_changed)
         # Fetch sources info
         self.get_sources()
         self.populate_widgets()
-        self.restore_state()
+        self.window.show_all()
+        #self.restore_state()
 
     #
     # Callbacks, go down here ...
@@ -356,17 +233,17 @@ class KazamApp(Gtk.Window):
 
         self.recorder = Screencast(self.debug)
 
-        if self.checkbutton_audio.get_active():
+        if self.switch_audio.get_active():
             audio_source = self.audio_sources[self.audio_source][1]
         else:
             audio_source = None
 
-        if self.checkbutton_audio2.get_active():
+        if self.switch.audio2.get_active():
             audio2_source = self.audio_sources[self.audio2_source][1]
         else:
             audio2_source = None
 
-        if self.checkbutton_video.get_active():
+        if self.switch_button_video.get_active():
             video_source = self.video_sources[self.video_source]
         else:
             video_source = None
@@ -444,9 +321,9 @@ class KazamApp(Gtk.Window):
     def cb_save_done(self, widget, result):
         logger.debug("Save Done, result: {0}".format(result))
         self.old_path = result
-        self.set_sensitive(True)
-        self.show_all()
-        self.present()
+        self.window.set_sensitive(True)
+        self.window.show_all()
+        self.window.present()
 
     def cb_save_cancel(self, widget):
         try:
@@ -456,9 +333,9 @@ class KazamApp(Gtk.Window):
             logger.info("Failed to remove tempfile {0}".format(self.tempfile))
             pass
 
-        self.set_sensitive(True)
-        self.show_all()
-        self.present()
+        self.window.set_sensitive(True)
+        self.window.show_all()
+        self.window.present()
 
     def cb_help_about(self, widget):
         AboutDialog(self.icons)
@@ -469,11 +346,11 @@ class KazamApp(Gtk.Window):
         arg_list.append(self.tempfile)
         logger.debug("Edit request, cmd: {0}".format(arg_list))
         Popen(arg_list)
-        self.set_sensitive(True)
-        self.show_all()
+        self.window.set_sensitive(True)
+        self.window.show_all()
 
     def cb_checkbutton_cursor_toggled(self, widget):
-        if self.checkbutton_cursor.get_active():
+        if self.switch_cursor.get_active():
             logger.debug("Cursor capturing ON.")
             self.capture_cursor = True
         else:
@@ -498,7 +375,7 @@ class KazamApp(Gtk.Window):
                                                                    self.region_window.starty,
                                                                    self.region_window.endx,
                                                                    self.region_window.endy))
-        self.set_sensitive(True)
+        self.window.set_sensitive(True)
         self.region = (self.region_window.startx,
                        self.region_window.starty,
                        self.region_window.endx,
@@ -527,9 +404,9 @@ class KazamApp(Gtk.Window):
         audio_toggled = self.config.getboolean("main", "audio_toggled")
         audio2_toggled = self.config.getboolean("main", "audio2_toggled")
 
-        self.checkbutton_video.set_active(video_toggled)
-        self.checkbutton_audio.set_active(audio_toggled)
-        self.checkbutton_audio2.set_active(audio2_toggled)
+        self.switch_video.set_active(video_toggled)
+        self.switch_audio.set_active(audio_toggled)
+        self.switch_audio2.set_active(audio2_toggled)
 
         video_source = self.config.getint("main", "video_source")
         audio_source = self.config.getint("main", "audio_source")
@@ -584,13 +461,13 @@ class KazamApp(Gtk.Window):
         self.spinbutton_counter.set_value(self.config.getfloat("main", "counter"))
         self.spinbutton_framerate.set_value(self.config.getfloat("main", "framerate"))
 
-        self.checkbutton_cursor.set_active(self.config.getboolean("main", "capture_cursor"))
+        self.switch_cursor.set_active(self.config.getboolean("main", "capture_cursor"))
 
         if len(self.audio_sources) == 1:
             self.combobox_audio2.set_active(self.combobox_audio.get_active())
             self.combobox_audio2.set_sensitive(False)
-            self.checkbutton_audio2.set_active(False)
-            self.checkbutton_audio2.set_sensitive(False)
+            self.switch_audio2.set_active(False)
+            self.switch_audio2.set_sensitive(False)
 
         if video_toggled:
             self.btn_record.set_sensitive(True)
@@ -598,16 +475,16 @@ class KazamApp(Gtk.Window):
             self.btn_record.set_sensitive(False)
 
         if audio_toggled:
-            self.checkbutton_audio2.set_sensitive(True)
+            self.switch_audio2.set_sensitive(True)
         else:
-            self.checkbutton_audio2.set_sensitive(False)
-            self.checkbutton_audio2.set_active(False)
+            self.switch_audio2.set_sensitive(False)
+            self.switch_audio2.set_active(False)
 
     def save_state(self):
         logger.debug("Saving state.")
-        video_toggled = self.checkbutton_video.get_active()
-        audio_toggled = self.checkbutton_audio.get_active()
-        audio2_toggled = self.checkbutton_audio2.get_active()
+        video_toggled = self.switch_video.get_active()
+        audio_toggled = self.switch_audio.get_active()
+        audio2_toggled = self.switch_audio2.get_active()
 
         video_source = self.combobox_video.get_active()
         audio_source = self.combobox_audio.get_active()

@@ -72,6 +72,5 @@ if __name__ == "__main__":
 
     log.debug("Starting ...")
     appWindow = KazamApp(datadir, args.debug)
-    appWindow.show_all()
     Gtk.main()
     log.debug("Finishing ...")
