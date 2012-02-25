@@ -160,7 +160,7 @@ try:
                 if self.blink_state == BLINK_SLOW:
                     GObject.timeout_add(500, self.blink)
                 elif self.blink_state == BLINK_FAST:
-                    GObject.timeout_add(100, self.blink)
+                    GObject.timeout_add(200, self.blink)
 
         def start_recording(self):
             logger.info("Recording started.")

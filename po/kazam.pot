@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-25 10:38+0100\n"
+"POT-Creation-Date: 2012-02-25 15:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,35 +31,35 @@ msgid "Select video source."
 msgstr ""
 
 #: ../data/ui/kazam.ui.h:4
-msgid "Toggle video source."
-msgstr ""
-
-#: ../data/ui/kazam.ui.h:5
 msgid "Audio Source 1"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:6
+#: ../data/ui/kazam.ui.h:5
 msgid "Select audio source."
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:7
+#: ../data/ui/kazam.ui.h:6
 msgid "Toggle audio source."
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:8
+#: ../data/ui/kazam.ui.h:7
 msgid "Set volume."
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:9
+#: ../data/ui/kazam.ui.h:8
 msgid "Audio Source 2"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:10
+#: ../data/ui/kazam.ui.h:9
 msgid "Encoder type"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:11
+#: ../data/ui/kazam.ui.h:10
 msgid "Select encoder type."
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:11
+msgid "Toggle video source."
 msgstr ""
 
 #: ../data/ui/kazam.ui.h:12
@@ -102,7 +102,7 @@ msgstr ""
 msgid "Select screen region to record."
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:22 ../kazam/frontend/indicator.py:69
+#: ../data/ui/kazam.ui.h:22 ../kazam/frontend/indicator.py:73
 #: ../kazam/frontend/main_menu.py:57
 msgid "Quit"
 msgstr ""
@@ -135,15 +135,15 @@ msgstr ""
 msgid "Record a video of activity on your screen"
 msgstr ""
 
-#: ../kazam/app.py:552 ../kazam/app.py:580
+#: ../kazam/app.py:554 ../kazam/app.py:582
 msgid "Unknown"
 msgstr ""
 
-#: ../kazam/app.py:603
+#: ../kazam/app.py:605
 msgid "Combined ({w}x{h})"
 msgstr ""
 
-#: ../kazam/app.py:605
+#: ../kazam/app.py:607
 msgid "Display {n} ({w}x{h})"
 msgstr ""
 
@@ -177,15 +177,15 @@ msgstr ""
 msgid "Save screencast"
 msgstr ""
 
-#: ../kazam/frontend/indicator.py:59
+#: ../kazam/frontend/indicator.py:63
 msgid "Pause recording"
 msgstr ""
 
-#: ../kazam/frontend/indicator.py:62
+#: ../kazam/frontend/indicator.py:66
 msgid "Finish recording"
 msgstr ""
 
-#: ../kazam/frontend/indicator.py:67
+#: ../kazam/frontend/indicator.py:71
 msgid "Record setup"
 msgstr ""
 
@@ -209,11 +209,11 @@ msgstr ""
 msgid "About Kazam"
 msgstr ""
 
-#: ../kazam/frontend/window_countdown.py:98
+#: ../kazam/frontend/window_countdown.py:102
 msgid "Recording will start in ..."
 msgstr ""
 
-#: ../kazam/frontend/window_countdown.py:99
+#: ../kazam/frontend/window_countdown.py:103
 msgid "{0}"
 msgstr ""
 
