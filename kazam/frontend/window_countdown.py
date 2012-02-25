@@ -35,7 +35,7 @@ class CountdownWindow(GObject.GObject):
                                   ),
     }
 
-    def __init__(self, number = 5):
+    def __init__(self, number = 5, show_window = True):
         super(CountdownWindow, self).__init__()
         self.window = Gtk.Window()
         self.window.connect("delete-event", Gtk.main_quit)
@@ -48,6 +48,7 @@ class CountdownWindow(GObject.GObject):
         self.window.set_app_paintable(True)
         self.window.set_has_resize_grip(False)
         self.window.set_resizable(True)
+        self.show_window = show_window
         self.number = number
 
         self.window.set_decorated(False)
@@ -63,7 +64,8 @@ class CountdownWindow(GObject.GObject):
     def run(self, counter):
         if counter > 0:
             self.number = counter + 1
-            self.window.show_all()
+            if self.show_window:
+                self.window.show_all()
         else:
             self.number = 0
         self.countdown()

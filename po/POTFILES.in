@@ -1,4 +1,5 @@
 [type: python] bin/kazam
+[type: gettext/glade] data/ui/kazam.ui
 data/kazam.desktop.in
 kazam/app.py
 kazam/frontend/done_recording.py

@@ -89,7 +89,7 @@ class pulseaudio_q:
                 self.pa_state = PA_STATE_FAILED
             elif state == PA_CONTEXT_READY:
                 self.pa_state = PA_STATE_READY
-                logger.debug("PA - Connected.")
+                logger.debug("State connected.")
         except:
             raise PAError(PA_GET_STATE_ERROR, "Unable to read context state.")
 
@@ -117,16 +117,16 @@ class pulseaudio_q:
             None
         """
         if eol == 0:
-            logger.debug("PA - pa_sourcelist_cb()")
-            logger.debug("  - IDX: {0}".format(source_info.contents.index))
-            logger.debug("  - Name: {0}".format(source_info.contents.name))
-            logger.debug("  - Desc: {0}".format(source_info.contents.description))
+            logger.debug("pa_sourcelist_cb()")
+            logger.debug("  IDX: {0}".format(source_info.contents.index))
+            logger.debug("  Name: {0}".format(source_info.contents.name))
+            logger.debug("  Desc: {0}".format(source_info.contents.description))
             self.pa_status = PA_WORKING
             self._sources.append([source_info.contents.index,
                                  source_info.contents.name,
                                  " ".join(source_info.contents.description.split())])
         else:
-            logger.debug("PA - pa_sourcelist_cb() -- finished")
+            logger.debug("pa_sourcelist_cb() -- finished")
             self.pa_status = PA_FINISHED
 
         return 0
@@ -154,10 +154,10 @@ class pulseaudio_q:
             None
         """
         if eol == 0:
-            logger.debug("PA - pa_sourceinfo_cb()")
-            logger.debug("  - IDX: {0}".format(source_info.contents.index))
-            logger.debug("  - Name: {0}".format(source_info.contents.name))
-            logger.debug("  - Desc: {0}".format(source_info.contents.description))
+            logger.debug("pa_sourceinfo_cb()")
+            logger.debug("  IDX: {0}".format(source_info.contents.index))
+            logger.debug("  Name: {0}".format(source_info.contents.name))
+            logger.debug("  Desc: {0}".format(source_info.contents.description))
             self.pa_status = PA_WORKING
             cvolume = pa_cvolume()
             v = pa_volume_t * 32
@@ -173,14 +173,14 @@ class pulseaudio_q:
                                     " ".join(source_info.contents.description.split())]
         else:
             try:
-                logger.debug("PA - pa_sourceinfo_cb() -- Hit EOL")
-                logger.debug("  - EOL IDX: {0}".format(source_info.contents.index))
-                logger.debug("  - EOL Name: {0}".format(source_info.contents.name))
-                logger.debug("  - EOL Desc: {0}".format(source_info.contents.description))
+                logger.debug("pa_sourceinfo_cb() -- Hit EOL")
+                logger.debug("  EOL IDX: {0}".format(source_info.contents.index))
+                logger.debug("  EOL Name: {0}".format(source_info.contents.name))
+                logger.debug("  EOL Desc: {0}".format(source_info.contents.description))
             except:
-                logger.debug("PA - pa_sourceinfo_cb() -- EOL no data!")
+                logger.debug("pa_sourceinfo_cb() -- EOL no data!")
             self.pa_status = PA_FINISHED
-        logger.debug("PA - pa_sourceinfo_cb() -- finished")
+        logger.debug("pa_sourceinfo_cb() -- finished")
         return 0
 
     def start(self):
@@ -202,25 +202,25 @@ class pulseaudio_q:
             PAError, PA_MAINLOOP_START_ERROR - if not able to start mainloop.
         """
         try:
-            logger.debug("PA - Starting mainloop.")
+            logger.debug("Starting mainloop.")
             self.pa_ml = pa_threaded_mainloop_new()
-            logger.debug("PA - Getting API.")
+            logger.debug("Getting API.")
             self.pa_mlapi = pa_threaded_mainloop_get_api(self.pa_ml)
-            logger.debug("PA - Setting context.")
+            logger.debug("Setting context.")
             self.pa_ctx = pa_context_new(self.pa_mlapi, "kazam-pulse")
-            logger.debug("PA - Set state callback.")
+            logger.debug("Set state callback.")
             pa_context_set_state_callback(self.pa_ctx, self._pa_state_cb, None)
         except:
             raise PAError(PA_STARTUP_ERROR, "Unable to access PulseAudio API.")
 
         try:
-            logger.debug("PA - Connecting to server.")
+            logger.debug("Connecting to server.")
             if pa_context_connect(self.pa_ctx, None, 0, None):
                 raise PAError(PA_UNABLE_TO_CONNECT, "Unable to connect to PulseAudio server.")
         except:
             raise PAError(PA_UNABLE_TO_CONNECT2, "Unable to initiate connection to PulseAudio server.")
         try:
-            logger.debug("PA - Start mainloop.")
+            logger.debug("Start mainloop.")
             pa_threaded_mainloop_start(self.pa_ml)
             time.sleep(0.1)  # Mainloop needs some time to start ...
             pa_context_get_state(self.pa_ctx)
@@ -243,7 +243,7 @@ class pulseaudio_q:
             PAError, PA_MAINLOOP_END_ERROR - if not able to disconnect.
         """
         try:
-            logger.debug("PA - Disconnecting from server.")
+            logger.debug("Disconnecting from server.")
             pa_context_disconnect(self.pa_ctx)
             self.pa_ml = None
             self.pa_mlapi = None
@@ -253,7 +253,7 @@ class pulseaudio_q:
 
     def get_audio_sources(self):
         try:
-            logger.debug("PA - get_audio_sources() called.")
+            logger.debug("get_audio_sources() called.")
             pa_context_get_source_info_list(self.pa_ctx, self._pa_sourcelist_cb, None)
             t = time.clock()
             while time.clock() - t < 5:
@@ -263,12 +263,12 @@ class pulseaudio_q:
                     return self.sources
             raise PAError(PA_GET_SOURCES_TIMEOUT, "Unable to get sources, operation timed out.")
         except:
-            logger.debug("PA - Unable to get audio sources.")
+            logger.debug("Unable to get audio sources.")
             raise PAError(PA_GET_SOURCES_ERROR, "Unable to get sources.")
 
     def get_source_info_by_index(self, index):
         try:
-            logger.debug("PA - get_source_info_by_index() called. IDX: {0}".format(index))
+            logger.debug("get_source_info_by_index() called. IDX: {0}".format(index))
             pa_context_get_source_info_by_index(self.pa_ctx, index, self._pa_sourceinfo_cb, None)
             t = time.clock()
             while time.clock() - t < 5:

@@ -66,6 +66,7 @@ class KazamApp(GObject.GObject):
         self.region_window = None
         self.region = None
         self.old_path = None
+        self.timer_window = True
 
         self.pa_q = pulseaudio_q()
         self.pa_q.start()
@@ -106,13 +107,23 @@ class KazamApp(GObject.GObject):
             else:
                 logger.debug("Unable to get name for '%s'" % w)
 
+        self.volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
+        self.volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
+        self.framerate_adjustment = Gtk.Adjustment(25, 1, 60, 1, 5, 0)
+        self.counter_adjustment = Gtk.Adjustment(5, 0, 65, 1, 5, 0)
+
+        self.volumebutton_audio.set_adjustment(self.volume_adjustment)
+        self.volumebutton_audio2.set_adjustment(self.volume2_adjustment)
+        self.spinbutton_framerate.set_adjustment(self.framerate_adjustment)
+        self.spinbutton_counter.set_adjustment(self.counter_adjustment)
+
         self.default_screen = Gdk.Screen.get_default()
         self.default_screen.connect("size-changed", self.cb_screen_size_changed)
         # Fetch sources info
         self.get_sources()
         self.populate_widgets()
         self.window.show_all()
-        #self.restore_state()
+        self.restore_state()
 
     #
     # Callbacks, go down here ...
@@ -140,18 +151,18 @@ class KazamApp(GObject.GObject):
 
     def cb_show_request(self, indicator):
         logger.debug("Show requested, raising window.")
-        self.show_all()
-        self.present()
+        self.window.show_all()
+        self.window.present()
 
     def cb_close_clicked(self, indicator):
-        self.hide()
+        self.window.hide()
 
     def cb_delete_event(self, widget, user_data):
         return self.hide_on_delete()
 
-    def cb_video_toggled(self, widget):
+    def cb_video_switch(self, widget, user_data):
         logger.debug("Video Toggled.")
-        if self.checkbutton_video.get_active():
+        if widget.get_active():
             self.combobox_video.set_sensitive(True)
         else:
             self.combobox_video.set_sensitive(False)
@@ -161,23 +172,23 @@ class KazamApp(GObject.GObject):
         else:
             self.btn_record.set_sensitive(False)
 
-    def cb_audio_toggled(self, widget):
+    def cb_audio_switch(self, widget, user_data):
         logger.debug("Audio1 Toggled.")
-        if self.checkbutton_audio.get_active():
+        if widget.get_active():
             self.combobox_audio.set_sensitive(True)
-            self.checkbutton_audio2.set_sensitive(True)
+            self.switch_audio2.set_sensitive(True)
             self.volumebutton_audio.set_sensitive(True)
         else:
             self.combobox_audio.set_sensitive(False)
             self.volumebutton_audio.set_sensitive(False)
             self.combobox_audio2.set_sensitive(False)
-            self.checkbutton_audio2.set_sensitive(False)
-            self.checkbutton_audio2.set_active(False)
+            self.switch_audio2.set_sensitive(False)
+            self.switch_audio2.set_active(False)
             self.volumebutton_audio2.set_sensitive(False)
 
-    def cb_audio2_toggled(self, widget):
+    def cb_audio2_switch(self, widget, user_data):
         logger.debug("Audio2 Toggled.")
-        if self.checkbutton_audio2.get_active():
+        if widget.get_active():
             self.combobox_audio2.set_sensitive(True)
             self.volumebutton_audio2.set_sensitive(True)
         else:
@@ -210,7 +221,7 @@ class KazamApp(GObject.GObject):
             logger.debug("New Audio2:\n  Error retrieving data.")
 
         if self.audio_source == self.audio2_source:
-            self.checkbutton_audio2.set_active(False)
+            self.switch_audio2.set_active(False)
             self.combobox_audio2.set_sensitive(False)
             if self.audio_source < len(self.audio_sources):
                 self.audio2_source += 1
@@ -238,12 +249,12 @@ class KazamApp(GObject.GObject):
         else:
             audio_source = None
 
-        if self.switch.audio2.get_active():
+        if self.switch_audio2.get_active():
             audio2_source = self.audio_sources[self.audio2_source][1]
         else:
             audio2_source = None
 
-        if self.switch_button_video.get_active():
+        if self.switch_video.get_active():
             video_source = self.video_sources[self.video_source]
         else:
             video_source = None
@@ -262,11 +273,11 @@ class KazamApp(GObject.GObject):
                                     region)
 
         self.recorder.connect("flush-done", self.cb_flush_done)
-        self.countdown = CountdownWindow()
+        self.countdown = CountdownWindow(show_window = self.timer_window)
         self.countdown.connect("start-request", self.cb_start_request)
         self.countdown.run(self.spinbutton_counter.get_value_as_int())
         logger.debug("Hiding main window.")
-        self.hide()
+        self.window.hide()
 
     def cb_volume_changed(self, widget, value):
         logger.debug("Volume 1 changed, new value: {0}".format(value))
@@ -307,8 +318,8 @@ class KazamApp(GObject.GObject):
         self.done_recording.connect("save-cancel", self.cb_save_cancel)
         self.done_recording.connect("edit-request", self.cb_edit_request)
         self.done_recording.show_all()
-        logger.debug("Signals connected.")
-        self.set_sensitive(False)
+        logger.debug("Done recording signals connected.")
+        self.window.set_sensitive(False)
 
     def cb_pause_request(self, widget):
         logger.debug("Pause requested.")
@@ -349,7 +360,7 @@ class KazamApp(GObject.GObject):
         self.window.set_sensitive(True)
         self.window.show_all()
 
-    def cb_checkbutton_cursor_toggled(self, widget):
+    def cb_cursor_switch(self, widget, user_data):
         if self.switch_cursor.get_active():
             logger.debug("Cursor capturing ON.")
             self.capture_cursor = True
@@ -357,13 +368,21 @@ class KazamApp(GObject.GObject):
             logger.debug("Cursor capturing OFF.")
             self.capture_cursor = False
 
-    def cb_btn_region_toggled(self, widget):
+    def cb_timer_switch(self, widget, user_data):
+        if self.switch_timer.get_active():
+            logger.debug("Show timer window.")
+            self.timer_window = True
+        else:
+            logger.debug("Hide timer window.")
+            self.timer_window = False
+
+    def cb_region_toggled(self, widget):
         logger.debug("Toggle region recording.")
         if self.btn_region.get_active():
             self.region_window = RegionWindow(self.region)
             self.region_window.connect("region-selected", self.cb_region_selected)
             self.region_window.connect("region-canceled", self.cb_region_canceled)
-            self.set_sensitive(False)
+            self.window.set_sensitive(False)
         else:
             logger.debug("Region cleared.")
             self.region_window.window.destroy()
@@ -383,7 +402,7 @@ class KazamApp(GObject.GObject):
 
     def cb_region_canceled(self, widget):
         logger.debug("Region Canceled.")
-        self.set_sensitive(True)
+        self.window.set_sensitive(True)
         self.btn_region.set_active(False)
 
 
@@ -462,6 +481,7 @@ class KazamApp(GObject.GObject):
         self.spinbutton_framerate.set_value(self.config.getfloat("main", "framerate"))
 
         self.switch_cursor.set_active(self.config.getboolean("main", "capture_cursor"))
+        self.switch_timer.set_active(self.config.getboolean("main", "timer_window"))
 
         if len(self.audio_sources) == 1:
             self.combobox_audio2.set_active(self.combobox_audio.get_active())
@@ -503,6 +523,7 @@ class KazamApp(GObject.GObject):
         self.config.set("main", "audio2_toggled", audio2_toggled)
 
         self.config.set("main", "capture_cursor", self.capture_cursor)
+        self.config.set("main", "timer_window", self.timer_window)
 
         codec = self.combobox_codec.get_active()
         self.config.set("main", "codec", codec)
@@ -585,3 +606,9 @@ class KazamApp(GObject.GObject):
 
             self.combobox_video.append(None, dsp_name)
             i += 1
+
+        #
+        # Encoders
+        #
+        self.combobox_codec.append(None, "Gstreamer - VP8/WebM")
+        self.combobox_codec.append(None, "GStreamer - H264/Matroska")
