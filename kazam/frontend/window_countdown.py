@@ -23,8 +23,8 @@
 import cairo
 
 from gettext import gettext as _
-
 from gi.repository import Gtk, GObject
+from kazam.backend.constants import *
 
 class CountdownWindow(GObject.GObject):
 
@@ -35,8 +35,12 @@ class CountdownWindow(GObject.GObject):
                                   ),
     }
 
-    def __init__(self, number = 5, show_window = True):
+    def __init__(self, indicator, number = 5, show_window = True):
         super(CountdownWindow, self).__init__()
+        self.indicator = indicator
+        self.number = number
+        self.show_window = show_window
+
         self.window = Gtk.Window()
         self.window.connect("delete-event", Gtk.main_quit)
         self.window.connect("draw", self.cb_draw)
@@ -48,8 +52,6 @@ class CountdownWindow(GObject.GObject):
         self.window.set_app_paintable(True)
         self.window.set_has_resize_grip(False)
         self.window.set_resizable(True)
-        self.show_window = show_window
-        self.number = number
 
         self.window.set_decorated(False)
         self.window.set_property("skip-taskbar-hint", True)
@@ -71,6 +73,8 @@ class CountdownWindow(GObject.GObject):
         self.countdown()
 
     def countdown(self):
+        if self.number < 5:
+            self.indicator.blink_set_state(BLINK_FAST)
         if self.number > 1:
             self.window.queue_draw()
             GObject.timeout_add(1000, self.countdown)

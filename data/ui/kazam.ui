@@ -52,24 +52,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSwitch" id="switch_video">
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">Toggle video source.</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="use_action_appearance">False</property>
-                <signal name="notify" handler="cb_video_switch" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="top_attach">0</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -247,6 +229,24 @@ audio-volume-medium</property>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="top_attach">3</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="switch_video">
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">Toggle video source.</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="notify" handler="cb_video_switch" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">0</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>

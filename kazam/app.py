@@ -30,6 +30,7 @@ from subprocess import Popen
 from gi.repository import Gtk, Gdk, GObject
 from gettext import gettext as _
 
+from kazam.backend.constants import *
 from kazam.backend.config import KazamConfig
 from kazam.frontend.main_menu import MainMenu
 from kazam.frontend.about_dialog import AboutDialog
@@ -102,7 +103,6 @@ class KazamApp(GObject.GObject):
         for w in self.builder.get_objects():
             if issubclass(type(w), Gtk.Buildable):
                 name = Gtk.Buildable.get_name(w)
-                print "GOT:", name
                 setattr(self, name, w)
             else:
                 logger.debug("Unable to get name for '%s'" % w)
@@ -243,6 +243,7 @@ class KazamApp(GObject.GObject):
         from kazam.backend.gstreamer import Screencast
 
         self.recorder = Screencast(self.debug)
+        self.indicator.blink_set_state(BLINK_START)
 
         if self.switch_audio.get_active():
             audio_source = self.audio_sources[self.audio_source][1]
@@ -273,7 +274,7 @@ class KazamApp(GObject.GObject):
                                     region)
 
         self.recorder.connect("flush-done", self.cb_flush_done)
-        self.countdown = CountdownWindow(show_window = self.timer_window)
+        self.countdown = CountdownWindow(self.indicator, show_window = self.timer_window)
         self.countdown.connect("start-request", self.cb_start_request)
         self.countdown.run(self.spinbutton_counter.get_value_as_int())
         logger.debug("Hiding main window.")
@@ -298,6 +299,7 @@ class KazamApp(GObject.GObject):
     def cb_start_request(self, widget):
         logger.debug("Start request.")
         self.countdown = None
+        self.indicator.blink_set_state(BLINK_STOP)
         self.indicator.start_recording()
         self.recorder.start_recording()
 
