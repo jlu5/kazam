@@ -7,7 +7,15 @@ import re
 import glob
 from subprocess import Popen, PIPE
 
-setup(name="kazam", version=VERSION,
+
+try:
+    line = open("kazam/version.py").readline()
+    VERSION = re.search(r"VERSION='(.*)'", line).group(1)
+except:
+    VERSION="1.0.0"
+
+setup(name="kazam",
+      version=VERSION,
       description="A screencasting program created with design in mind.",
       long_description= ( open('README').read() + '\n'),
       classifiers=[
