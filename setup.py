@@ -7,26 +7,6 @@ import re
 import glob
 from subprocess import Popen, PIPE
 
-# update version.py
-try:
-    line = open("debian/changelog").readline()
-    m = re.search(r'\((.+?)\) ([^;]+);', line)
-    VERSION = m.group(1)
-    CODENAME = open("CODENAME").readline().strip()
-    DISTRO = Popen(["lsb_release", "-s", "-i"], stdout=PIPE).communicate()[0].strip()
-    RELEASE = Popen(["lsb_release", "-s", "-r"], stdout=PIPE).communicate()[0].strip()
-    open("kazam/version.py","w").write("""VERSION='%s'
-CODENAME='%s'
-DISTRO='%s'
-RELEASE='%s'
-""" % (VERSION, CODENAME, DISTRO, RELEASE))
-except:
-    VERSION='0.1'
-    CODENAME='maverick'
-    DISTRO='Ubuntu'
-    RELEASE='10.04'
-
-# real setup
 setup(name="kazam", version=VERSION,
       description="A screencasting program created with design in mind.",
       long_description= ( open('README').read() + '\n'),
@@ -65,3 +45,4 @@ setup(name="kazam", version=VERSION,
                    "build_help" : build_help.build_help,
                    "build_icons" : build_icons.build_icons}
       )
+
