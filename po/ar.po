@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-09-05 18:24+0100\n"
-"PO-Revision-Date: 2010-09-06 20:54+0000\n"
-"Last-Translator: Ali AlNoaimi علي النعيمي <the-ghost@live.com>\n"
+"POT-Creation-Date: 2010-10-08 14:12+0100\n"
+"PO-Revision-Date: 2010-09-11 02:56+0000\n"
+"Last-Translator: drsaudi <mon7b6@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-10 09:48+0000\n"
+"X-Launchpad-Export-Date: 2010-10-24 16:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/ui/authenticate.ui.h:1
@@ -25,7 +25,7 @@ msgstr ". "
 msgid "Cancel"
 msgstr "إلغاء"
 
-#: ../data/ui/authenticate.ui.h:3
+#: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
 msgid "Continue"
 msgstr "تابع"
 
@@ -45,28 +45,25 @@ msgstr "كلمة السر:"
 msgid "About"
 msgstr "عن"
 
-#: ../data/ui/done-recording.ui.h:3
-msgid "Continue..."
-msgstr "تابع..."
-
 #: ../data/ui/done-recording.ui.h:4
 msgid "Edit with:"
 msgstr "حرّر بواسطة:"
 
 #: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
 #: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/widgets/comboboxes.py:88
+#: ../kazam/frontend/widgets/comboboxes.py:106
+#: ../kazam/frontend/widgets/dialogs.py:46
 msgid "Kazam Screencaster"
 msgstr "مسجل الشاشة \"كّزام\""
 
 #: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
-#: ../kazam/frontend/indicator.py:52
+#: ../kazam/frontend/indicator.py:65
 msgid "Quit"
 msgstr "خروج"
 
 #: ../data/ui/done-recording.ui.h:7
-msgid "Save for later use"
-msgstr "حفظ للإستخدام لاحقاً"
+msgid "Save for later use..."
+msgstr ""
 
 #: ../data/ui/done-recording.ui.h:8
 msgid ""
@@ -119,16 +116,16 @@ msgid "Video"
 msgstr "فيديو"
 
 #: ../data/ui/start.ui.h:5
+msgid "Record"
+msgstr ""
+
+#: ../data/ui/start.ui.h:6
 msgid "Record Audio from:"
 msgstr "تسجيل الصوت من:"
 
-#: ../data/ui/start.ui.h:6
+#: ../data/ui/start.ui.h:7
 msgid "Record Video from:"
 msgstr "تسجيل الفيديو من:"
-
-#: ../data/ui/start.ui.h:7
-msgid "Record..."
-msgstr "تسجيل..."
 
 #: ../data/ui/export_sources/youtube.ui.h:1
 msgid "Category"
@@ -158,82 +155,99 @@ msgstr "سجل فيديو لنشاط على شاشتك"
 msgid "Screencaster"
 msgstr "مسجل الشاشة"
 
-#: ../kazam/app.py:112
+#. Open the save dialog
+#: ../kazam/app.py:149
 msgid "Save screencast"
 msgstr "حفظ التسجيل"
 
-#: ../kazam/frontend/export.py:179
+#: ../kazam/frontend/export.py:201
 msgid "Logging in..."
 msgstr "جار الولوج..."
 
-#: ../kazam/frontend/export.py:187
+#: ../kazam/frontend/export.py:207
 msgid "Log-in completed."
 msgstr "تم تسجيل الدخول."
 
-#: ../kazam/frontend/export.py:189
+#: ../kazam/frontend/export.py:209
 msgid "There was an error logging in."
 msgstr "خطأ في تسجيل الدخول."
 
-#: ../kazam/frontend/export.py:194
+#: ../kazam/frontend/export.py:214
 msgid "Converting screencast..."
 msgstr "جار التحويل..."
 
-#: ../kazam/frontend/export.py:198
+#: ../kazam/frontend/export.py:218
 msgid "Screencast converted."
 msgstr "تم التحويل."
 
-#: ../kazam/frontend/export.py:200
+#: ../kazam/frontend/export.py:220
 msgid "There was an error converting."
 msgstr "حصل خطأ أثناء التحويل"
 
-#: ../kazam/frontend/export.py:205
+#: ../kazam/frontend/export.py:225
 msgid "Uploading screencast..."
 msgstr "جار رفع التسجيل..."
 
-#: ../kazam/frontend/export.py:209
+#: ../kazam/frontend/export.py:229
 msgid "Screencast uploaded."
 msgstr "رُفِع التسجيل."
 
 #. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:213
+#: ../kazam/frontend/export.py:233
 msgid "Your screencast has uploaded successfully."
 msgstr "تسجيلك تم رفعه بنجاح."
 
-#: ../kazam/frontend/export.py:214
-#, python-format
-msgid "It is available here - %s"
-msgstr "متوفرة هنا - %s"
+#: ../kazam/frontend/export.py:234
+msgid "It is available at the location below:"
+msgstr ""
 
-#: ../kazam/frontend/export.py:216
+#: ../kazam/frontend/export.py:236
 msgid "There was an error uploading."
 msgstr "حصل خطأ أثناء الرفع"
 
-#. TODO: get pause menuitem working
-#. #self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
-#. #self.menuitem_pause.set_sensitive(False)
-#. #self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
-#: ../kazam/frontend/indicator.py:48
+#: ../kazam/frontend/indicator.py:58
+msgid "Pause recording"
+msgstr ""
+
+#: ../kazam/frontend/indicator.py:61
 msgid "Finish recording..."
 msgstr "إنهاء التسجيل..."
 
-#: ../kazam/frontend/window_countdown.py:97
+#: ../kazam/frontend/window_countdown.py:98
 msgid "Recording will start in..."
 msgstr "التسجيل سيبدأ في..."
 
-#: ../kazam/frontend/widgets/comboboxes.py:140
+#: ../kazam/frontend/widgets/comboboxes.py:199
 msgid "Screen"
 msgstr "الشاشة"
 
-#: ../kazam/frontend/widgets/comboboxes.py:164
+#: ../kazam/frontend/widgets/comboboxes.py:205
+msgid "All Screens"
+msgstr "جميع الشاشات"
+
+#: ../kazam/frontend/widgets/comboboxes.py:207
+#, python-format
+msgid "Screen %s"
+msgstr "الشاشة %s"
+
+#: ../kazam/frontend/widgets/comboboxes.py:218
 msgid "Computer"
 msgstr "الحاسب"
 
-#: ../kazam/frontend/widgets/dialogs.py:89
+#: ../kazam/frontend/widgets/dialogs.py:47
+msgid "Record a video of activity on your screen."
+msgstr ""
+
+#: ../kazam/frontend/widgets/dialogs.py:65
+msgid "Untitled Screencast"
+msgstr ""
+
+#: ../kazam/frontend/widgets/dialogs.py:150
 #, python-format
 msgid "To upload a screencast to %s, you need a %s account."
 msgstr "لرفع التسجيل لـ%s, انت بحاجة لحساب %s."
 
-#: ../kazam/frontend/widgets/dialogs.py:93
+#: ../kazam/frontend/widgets/dialogs.py:154
 #, python-format
 msgid "I have a %s account:"
 msgstr "لدي حساب %s:"

@@ -6,35 +6,32 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-08 14:12+0100\n"
-"PO-Revision-Date: 2010-10-20 10:18-0500\n"
-"Last-Translator: Jean-François Fortin Tam\n"
+"PO-Revision-Date: 2010-10-06 15:48+0000\n"
+"Last-Translator: Ugo <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-10 09:48+0000\n"
+"X-Launchpad-Export-Date: 2010-10-24 16:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/ui/authenticate.ui.h:1
 msgid " "
 msgstr " "
 
-#: ../data/ui/authenticate.ui.h:2
-#: ../data/ui/done-recording.ui.h:2
+#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../data/ui/authenticate.ui.h:3
-#: ../data/ui/done-recording.ui.h:3
+#: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
 msgid "Continue"
 msgstr "Continuer"
 
 #: ../data/ui/authenticate.ui.h:4
 msgid "Email address:"
-msgstr "Courriel :"
+msgstr "E-mail :"
 
 #: ../data/ui/authenticate.ui.h:5
 msgid "I want to register an account now"
@@ -44,8 +41,7 @@ msgstr "Je veux créer un compte"
 msgid "Password:"
 msgstr "Mot de passe :"
 
-#: ../data/ui/done-recording.ui.h:1
-#: ../data/ui/start.ui.h:1
+#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
 msgid "About"
 msgstr "À propos"
 
@@ -53,24 +49,21 @@ msgstr "À propos"
 msgid "Edit with:"
 msgstr "Éditer avec :"
 
-#: ../data/ui/done-recording.ui.h:5
-#: ../data/ui/export.ui.h:7
-#: ../data/ui/start.ui.h:3
-#: ../data/kazam.desktop.in.h:1
+#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
+#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/widgets/comboboxes.py:106
 #: ../kazam/frontend/widgets/dialogs.py:46
 msgid "Kazam Screencaster"
 msgstr "Capture vidéo Kazam"
 
-#: ../data/ui/done-recording.ui.h:6
-#: ../data/ui/start.ui.h:4
+#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
 #: ../kazam/frontend/indicator.py:65
 msgid "Quit"
 msgstr "Quitter"
 
 #: ../data/ui/done-recording.ui.h:7
 msgid "Save for later use..."
-msgstr "Enregistrer sous..."
+msgstr ""
 
 #: ../data/ui/done-recording.ui.h:8
 msgid ""
@@ -80,14 +73,12 @@ msgstr ""
 "Votre screencast est enregistré.\n"
 "Que désirez-vous faire à présent ?"
 
-#: ../data/ui/done-recording.ui.h:10
-#: ../data/ui/export.ui.h:10
+#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
 #: ../data/ui/start.ui.h:8
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../data/ui/done-recording.ui.h:11
-#: ../data/ui/export.ui.h:11
+#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
 #: ../data/ui/start.ui.h:9
 msgid "_Help"
 msgstr "Aid_e"
@@ -104,8 +95,7 @@ msgstr "Audio"
 msgid "Back"
 msgstr "Précédent"
 
-#: ../data/ui/export.ui.h:4
-#: ../data/ui/start.ui.h:2
+#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
 msgid "Close"
 msgstr "Fermer"
 
@@ -127,7 +117,7 @@ msgstr "Vidéo"
 
 #: ../data/ui/start.ui.h:5
 msgid "Record"
-msgstr "Démarrer l'enregistrement"
+msgstr ""
 
 #: ../data/ui/start.ui.h:6
 msgid "Record Audio from:"
@@ -159,7 +149,7 @@ msgstr "Titre"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Record a video of activity on your screen"
-msgstr "Enregistrer une vidéo de votre écran."
+msgstr "Enregistrer les actions à l'écran"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
@@ -176,7 +166,7 @@ msgstr "Authentification..."
 
 #: ../kazam/frontend/export.py:207
 msgid "Log-in completed."
-msgstr "Connexion établie."
+msgstr "Authentification terminé"
 
 #: ../kazam/frontend/export.py:209
 msgid "There was an error logging in."
@@ -192,40 +182,40 @@ msgstr "Screencast converti."
 
 #: ../kazam/frontend/export.py:220
 msgid "There was an error converting."
-msgstr "Une erreur est survenue durant la conversion."
+msgstr "Une erreur s'est produite durant la conversion."
 
 #: ../kazam/frontend/export.py:225
 msgid "Uploading screencast..."
-msgstr "Envoi du screencast..."
+msgstr "Transfert du screencast…"
 
 #: ../kazam/frontend/export.py:229
 msgid "Screencast uploaded."
-msgstr "Screencast envoyé."
+msgstr "Screencast transféré."
 
 #. Show a dialog with the url of the uploaded file
 #: ../kazam/frontend/export.py:233
 msgid "Your screencast has uploaded successfully."
-msgstr "Votre screencast a bien été envoyé."
+msgstr "Votre capture vidéo a été chargée avec succès"
 
 #: ../kazam/frontend/export.py:234
 msgid "It is available at the location below:"
-msgstr "Il est disponible ici:"
+msgstr ""
 
 #: ../kazam/frontend/export.py:236
 msgid "There was an error uploading."
-msgstr "Une erreur est survenue lors de l'envoi."
+msgstr "Une erreur s'est produite durant le chargement"
 
 #: ../kazam/frontend/indicator.py:58
 msgid "Pause recording"
-msgstr "Mettre l'enregistrement en pause"
+msgstr ""
 
 #: ../kazam/frontend/indicator.py:61
 msgid "Finish recording..."
-msgstr "Terminer l'enregistrement..."
+msgstr "Termine d'enregistrer..."
 
 #: ../kazam/frontend/window_countdown.py:98
 msgid "Recording will start in..."
-msgstr "L'enregistrement démarrera dans..."
+msgstr "L'enregsitrement démarrera dans..."
 
 #: ../kazam/frontend/widgets/comboboxes.py:199
 msgid "Screen"
@@ -242,26 +232,22 @@ msgstr "Écran %s"
 
 #: ../kazam/frontend/widgets/comboboxes.py:218
 msgid "Computer"
-msgstr "Ordinateur"
+msgstr "Poste de travail"
 
 #: ../kazam/frontend/widgets/dialogs.py:47
 msgid "Record a video of activity on your screen."
-msgstr "Enregistrer une vidéo de votre écran."
+msgstr ""
 
 #: ../kazam/frontend/widgets/dialogs.py:65
 msgid "Untitled Screencast"
-msgstr "Sans titre"
+msgstr ""
 
 #: ../kazam/frontend/widgets/dialogs.py:150
 #, python-format
 msgid "To upload a screencast to %s, you need a %s account."
-msgstr "Pour publier un screencast sur %s, vous avez besoin d'un compte %s."
+msgstr "Pour charger un screencast sur %s, vous avez besoin d'un compte %s."
 
 #: ../kazam/frontend/widgets/dialogs.py:154
 #, python-format
 msgid "I have a %s account:"
 msgstr "J'ai un compte %s :"
-
-#~ msgid "Continue..."
-#~ msgstr "Continuer..."
-

@@ -7,25 +7,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-09-05 18:24+0100\n"
-"PO-Revision-Date: 2010-09-06 18:58+0000\n"
-"Last-Translator: Jonathan Lindén <Unknown>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"POT-Creation-Date: 2010-10-08 14:12+0100\n"
+"PO-Revision-Date: 2010-10-14 16:44+0000\n"
+"Last-Translator: David Bengtsson <Unknown>\n"
+"Language-Team: Launchpad Swedish Translators <lp-l10n-"
+"sv@lists.launchpad.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-10 09:48+0000\n"
+"X-Launchpad-Export-Date: 2010-10-24 16:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+"X-Poedit-Language: Swedish\n"
 
 #: ../data/ui/authenticate.ui.h:1
 msgid " "
-msgstr ""
+msgstr " "
 
 #: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../data/ui/authenticate.ui.h:3
+#: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
 msgid "Continue"
 msgstr "Fortsätt"
 
@@ -45,34 +47,33 @@ msgstr "Lösenord:"
 msgid "About"
 msgstr "Om"
 
-#: ../data/ui/done-recording.ui.h:3
-msgid "Continue..."
-msgstr "Fortsätt..."
-
 #: ../data/ui/done-recording.ui.h:4
 msgid "Edit with:"
 msgstr "Redigera med:"
 
 #: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
 #: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/widgets/comboboxes.py:88
+#: ../kazam/frontend/widgets/comboboxes.py:106
+#: ../kazam/frontend/widgets/dialogs.py:46
 msgid "Kazam Screencaster"
-msgstr "Kazam Skärminspelare"
+msgstr "Skärminspelaren Kazam"
 
 #: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
-#: ../kazam/frontend/indicator.py:52
+#: ../kazam/frontend/indicator.py:65
 msgid "Quit"
 msgstr "Avsluta"
 
 #: ../data/ui/done-recording.ui.h:7
-msgid "Save for later use"
-msgstr "Spara för senare användning"
+msgid "Save for later use..."
+msgstr "Spara för senare användning..."
 
 #: ../data/ui/done-recording.ui.h:8
 msgid ""
 "Your screencast has finished recording.\n"
 "What do you want to do now?"
-msgstr "Din skärminspelning är klar. Vad vill du göra nu?"
+msgstr ""
+"Din skärminspelning är slutförd.\n"
+"Vad vill du göra nu?"
 
 #: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
 #: ../data/ui/start.ui.h:8
@@ -117,16 +118,16 @@ msgid "Video"
 msgstr "Video"
 
 #: ../data/ui/start.ui.h:5
+msgid "Record"
+msgstr "Spela in"
+
+#: ../data/ui/start.ui.h:6
 msgid "Record Audio from:"
 msgstr "Spela in ljud från:"
 
-#: ../data/ui/start.ui.h:6
+#: ../data/ui/start.ui.h:7
 msgid "Record Video from:"
 msgstr "Spela in video från:"
-
-#: ../data/ui/start.ui.h:7
-msgid "Record..."
-msgstr "Spela in..."
 
 #: ../data/ui/export_sources/youtube.ui.h:1
 msgid "Category"
@@ -150,90 +151,105 @@ msgstr "Titel"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Record a video of activity on your screen"
-msgstr ""
+msgstr "Spela in en video över aktiviteten på din skärm"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
 msgstr "Skärminspelare"
 
-#: ../kazam/app.py:112
+#. Open the save dialog
+#: ../kazam/app.py:149
 msgid "Save screencast"
 msgstr "Spara skärminspelning"
 
-#: ../kazam/frontend/export.py:179
+#: ../kazam/frontend/export.py:201
 msgid "Logging in..."
 msgstr "Loggar in..."
 
-#: ../kazam/frontend/export.py:187
+#: ../kazam/frontend/export.py:207
 msgid "Log-in completed."
-msgstr "Inloggning lyckades."
+msgstr "Inloggningen lyckades."
 
-#: ../kazam/frontend/export.py:189
+#: ../kazam/frontend/export.py:209
 msgid "There was an error logging in."
-msgstr "Inloggningen misslyckades."
+msgstr "Det uppstod ett fel vid inloggning."
 
-#: ../kazam/frontend/export.py:194
+#: ../kazam/frontend/export.py:214
 msgid "Converting screencast..."
 msgstr "Konverterar skärminspelning..."
 
-#: ../kazam/frontend/export.py:198
+#: ../kazam/frontend/export.py:218
 msgid "Screencast converted."
-msgstr "Skärminspelning konverterad."
+msgstr "Skärminspelningen konverterad."
 
-#: ../kazam/frontend/export.py:200
+#: ../kazam/frontend/export.py:220
 msgid "There was an error converting."
-msgstr "Konverteringen misslyckades."
+msgstr "Det uppstod ett fel vid konvertering."
 
-#: ../kazam/frontend/export.py:205
+#: ../kazam/frontend/export.py:225
 msgid "Uploading screencast..."
-msgstr "Laddar upp skärminspelning"
+msgstr "Skickar skärminspelning..."
 
-#: ../kazam/frontend/export.py:209
+#: ../kazam/frontend/export.py:229
 msgid "Screencast uploaded."
-msgstr "Skärminspelning uppladdad"
+msgstr "Skärminspelningen skickad."
 
 #. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:213
+#: ../kazam/frontend/export.py:233
 msgid "Your screencast has uploaded successfully."
-msgstr "Uppladdning av skärminspelning lyckades."
+msgstr "Sändning av din skärminspelning lyckades."
 
-#: ../kazam/frontend/export.py:214
-#, python-format
-msgid "It is available here - %s"
-msgstr ""
+#: ../kazam/frontend/export.py:234
+msgid "It is available at the location below:"
+msgstr "Den är tillgänglig på platsen nedan:"
 
-#: ../kazam/frontend/export.py:216
+#: ../kazam/frontend/export.py:236
 msgid "There was an error uploading."
-msgstr "Uppladdningen misslyckades"
+msgstr "Det uppstod ett fel vid vid sändning."
 
-#. TODO: get pause menuitem working
-#. #self.menuitem_pause = gtk.CheckMenuItem(_("Pause recording"))
-#. #self.menuitem_pause.set_sensitive(False)
-#. #self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
-#: ../kazam/frontend/indicator.py:48
+#: ../kazam/frontend/indicator.py:58
+msgid "Pause recording"
+msgstr "Gör paus i inspelning"
+
+#: ../kazam/frontend/indicator.py:61
 msgid "Finish recording..."
-msgstr "Avsluta inspelningen..."
+msgstr "Slutför inspelning..."
 
-#: ../kazam/frontend/window_countdown.py:97
+#: ../kazam/frontend/window_countdown.py:98
 msgid "Recording will start in..."
-msgstr "Inspelning startar om..."
+msgstr "Inspelningen påbörjas om..."
 
-#: ../kazam/frontend/widgets/comboboxes.py:140
+#: ../kazam/frontend/widgets/comboboxes.py:199
 msgid "Screen"
 msgstr "Skärm"
 
-#: ../kazam/frontend/widgets/comboboxes.py:164
+#: ../kazam/frontend/widgets/comboboxes.py:205
+msgid "All Screens"
+msgstr "Alla skärmar"
+
+#: ../kazam/frontend/widgets/comboboxes.py:207
+#, python-format
+msgid "Screen %s"
+msgstr "Skärm %s"
+
+#: ../kazam/frontend/widgets/comboboxes.py:218
 msgid "Computer"
 msgstr "Dator"
 
-#: ../kazam/frontend/widgets/dialogs.py:89
+#: ../kazam/frontend/widgets/dialogs.py:47
+msgid "Record a video of activity on your screen."
+msgstr "Spela in en video över aktiviteten på din skärm."
+
+#: ../kazam/frontend/widgets/dialogs.py:65
+msgid "Untitled Screencast"
+msgstr "Namnlös skärminspelning"
+
+#: ../kazam/frontend/widgets/dialogs.py:150
 #, python-format
 msgid "To upload a screencast to %s, you need a %s account."
-msgstr ""
-"För att ladda upp en skärminspelning till %s behöver du ett användarkonto på "
-"%s."
+msgstr "För att skicka en skärminspelning till %s, behöver du ett %s-konto."
 
-#: ../kazam/frontend/widgets/dialogs.py:93
+#: ../kazam/frontend/widgets/dialogs.py:154
 #, python-format
 msgid "I have a %s account:"
-msgstr "Jag har ett användarkonto på %s:"
+msgstr "Jag har ett %s-konto:"
