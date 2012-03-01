@@ -1,4 +1,7 @@
 build
+dist
+.idea
+MANIFEST
 debian/kazam
 debian/kazam
 docs/.~lock.how-to-add-export-source.odt#
