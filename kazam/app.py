@@ -68,6 +68,7 @@ class KazamApp(GObject.GObject):
         self.region = None
         self.old_path = None
         self.timer_window = True
+        self.in_countdown = False
 
         self.pa_q = pulseaudio_q()
         self.pa_q.start()
@@ -83,11 +84,12 @@ class KazamApp(GObject.GObject):
 
         logger.debug("Connecting indicator signals.")
         self.indicator = KazamIndicator()
-        self.indicator.connect("quit-request", self.cb_quit_request)
-        self.indicator.connect("show-request", self.cb_show_request)
-        self.indicator.connect("stop-request", self.cb_stop_request)
-        self.indicator.connect("pause-request", self.cb_pause_request)
-        self.indicator.connect("unpause-request", self.cb_unpause_request)
+        self.indicator.connect("indicator-quit-request", self.cb_quit_request)
+        self.indicator.connect("indicator-show-request", self.cb_show_request)
+        self.indicator.connect("indicator-start-request", self.cb_start_request)
+        self.indicator.connect("indicator-stop-request", self.cb_stop_request)
+        self.indicator.connect("indicator-pause-request", self.cb_pause_request)
+        self.indicator.connect("indicator-unpause-request", self.cb_unpause_request)
 
         self.mainmenu.connect("file-quit", self.cb_quit_request)
         self.mainmenu.connect("help-about", self.cb_help_about)
@@ -238,47 +240,13 @@ class KazamApp(GObject.GObject):
         logger.debug("Codec changed.")
         self.codec = self.combobox_codec.get_active()
 
+    def cb_start_request(self, widget):
+        logger.debug("Start recording selected.")
+        self.run_counter()
+
     def cb_record_clicked(self, widget):
         logger.debug("Record clicked, invoking Screencast.")
-        from kazam.backend.gstreamer import Screencast
-
-        self.recorder = Screencast(self.debug)
-        self.indicator.blink_set_state(BLINK_START)
-
-        if self.switch_audio.get_active():
-            audio_source = self.audio_sources[self.audio_source][1]
-        else:
-            audio_source = None
-
-        if self.switch_audio2.get_active():
-            audio2_source = self.audio_sources[self.audio2_source][1]
-        else:
-            audio2_source = None
-
-        if self.switch_video.get_active():
-            video_source = self.video_sources[self.video_source]
-        else:
-            video_source = None
-        if self.btn_region.get_active():
-            region = self.region
-        else:
-            region = None
-
-        framerate = self.spinbutton_framerate.get_value_as_int()
-        self.recorder.setup_sources(video_source,
-                                    audio_source,
-                                    audio2_source,
-                                    self.codec,
-                                    self.capture_cursor,
-                                    framerate,
-                                    region)
-
-        self.recorder.connect("flush-done", self.cb_flush_done)
-        self.countdown = CountdownWindow(self.indicator, show_window = self.timer_window)
-        self.countdown.connect("start-request", self.cb_start_request)
-        self.countdown.run(self.spinbutton_counter.get_value_as_int())
-        logger.debug("Hiding main window.")
-        self.window.hide()
+        self.run_counter()
 
     def cb_volume_changed(self, widget, value):
         logger.debug("Volume 1 changed, new value: {0}".format(value))
@@ -296,19 +264,27 @@ class KazamApp(GObject.GObject):
         cvol = self.pa_q.dB_to_cvolume(chn, value-60)
         self.pa_q.set_source_volume_by_index(pa_idx, cvol)
 
-    def cb_start_request(self, widget):
-        logger.debug("Start request.")
+    def cb_counter_finished(self, widget):
+        logger.debug("Counter finished.")
+        self.in_countdown = False
+        self.indicator.menuitem_finish.set_label(_("Finish recording"))
         self.countdown = None
         self.indicator.blink_set_state(BLINK_STOP)
         self.indicator.start_recording()
         self.recorder.start_recording()
 
     def cb_stop_request(self, widget):
-        logger.debug("Stop request.")
-        self.recorder.stop_recording()
-        self.tempfile = self.recorder.get_tempfile()
-        logger.debug("Recorded tmp file: {0}".format(self.tempfile))
-        logger.debug("Waiting for data to flush.")
+        if self.in_countdown:
+            logger.debug("Cancel countdown request.")
+            self.countdown.cancel_countdown()
+            self.countdown = None
+            self.indicator.menuitem_finish.set_label(_("Finish recording"))
+        else:
+            logger.debug("Stop request.")
+            self.recorder.stop_recording()
+            self.tempfile = self.recorder.get_tempfile()
+            logger.debug("Recorded tmp file: {0}".format(self.tempfile))
+            logger.debug("Waiting for data to flush.")
 
     def cb_flush_done(self, widget):
         self.done_recording = DoneRecording(self.icons,
@@ -407,10 +383,65 @@ class KazamApp(GObject.GObject):
         self.window.set_sensitive(True)
         self.btn_region.set_active(False)
 
-
     #
     # Other somewhat useful stuff ...
     #
+
+    def run_counter(self):
+        #
+        # Annoyances with the menus
+        #
+
+        self.indicator.menuitem_start.set_sensitive(False)
+        self.indicator.menuitem_pause.set_sensitive(False)
+        self.indicator.menuitem_finish.set_sensitive(True)
+        self.indicator.menuitem_show.set_sensitive(False)
+        self.indicator.menuitem_quit.set_sensitive(False)
+        self.indicator.menuitem_finish.set_label(_("Cancel countdown"))
+        self.in_countdown = True
+
+        from kazam.backend.gstreamer import Screencast
+
+        self.recorder = Screencast(self.debug)
+        self.indicator.blink_set_state(BLINK_START)
+
+        if self.switch_audio.get_active():
+            audio_source = self.audio_sources[self.audio_source][1]
+        else:
+            audio_source = None
+
+        if self.switch_audio2.get_active():
+            audio2_source = self.audio_sources[self.audio2_source][1]
+        else:
+            audio2_source = None
+
+        if self.switch_video.get_active():
+            video_source = self.video_sources[self.video_source]
+        else:
+            video_source = None
+        if self.btn_region.get_active():
+            region = self.region
+        else:
+            region = None
+
+        framerate = self.spinbutton_framerate.get_value_as_int()
+        self.recorder.setup_sources(video_source,
+                                    audio_source,
+                                    audio2_source,
+                                    self.codec,
+                                    self.capture_cursor,
+                                    framerate,
+                                    region)
+
+        self.recorder.connect("flush-done", self.cb_flush_done)
+        self.countdown = CountdownWindow(self.indicator, show_window = self.timer_window)
+        self.countdown.connect("counter-finished", self.cb_counter_finished)
+        self.countdown.run(self.spinbutton_counter.get_value_as_int())
+        logger.debug("Hiding main window.")
+        self.window.hide()
+
+
+
 
     def setup_translations(self):
         gettext.bindtextdomain("kazam", "/usr/share/locale")
