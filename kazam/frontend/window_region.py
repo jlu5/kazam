@@ -91,20 +91,37 @@ class RegionWindow(GObject.GObject):
     def cb_button_press_event(self, widget, event):
         (op, button) = event.get_button()
         if button == 1:
-            if int(event.x) in range(0, 15) and int(event.y) in range(0,15):
+            # TODO: Lure someone into making this code a little less ugly ...
+            if int(event.x) in range(0, 16) and int(event.y) in range(0,16):
                 self.window.begin_resize_drag(Gdk.WindowEdge.NORTH_WEST, button,
                                               event.x_root, event.y_root, event.time)
 
-            elif int(event.x) in range(self.width-15, self.width) and int(event.y) in range(0,15):
+            elif int(event.x) in range(self.width-16, self.width) and int(event.y) in range(0,16):
                 self.window.begin_resize_drag(Gdk.WindowEdge.NORTH_EAST, button,
                                               event.x_root, event.y_root, event.time)
 
-            elif int(event.x) in range(self.width-15, self.width) and int(event.y) in range(self.height-15,self.height):
+            elif int(event.x) in range(self.width-16, self.width) and int(event.y) in range(self.height-16,self.height):
                 self.window.begin_resize_drag(Gdk.WindowEdge.SOUTH_EAST, button,
                                               event.x_root, event.y_root, event.time)
 
-            elif int(event.x) in range(0, 15) and int(event.y) in range(self.height-15, self.height):
+            elif int(event.x) in range(0, 16) and int(event.y) in range(self.height-16, self.height):
                 self.window.begin_resize_drag(Gdk.WindowEdge.SOUTH_WEST, button,
+                                              event.x_root, event.y_root, event.time)
+
+            elif int(event.x) in range(self.width/2-8, self.width/2+8) and int(event.y) in range(0,16):
+                self.window.begin_resize_drag(Gdk.WindowEdge.NORTH, button,
+                                              event.x_root, event.y_root, event.time)
+
+            elif int(event.x) in range(self.width/2-8, self.width/2+8) and int(event.y) in range(self.height-16, self.height):
+                self.window.begin_resize_drag(Gdk.WindowEdge.SOUTH, button,
+                                              event.x_root, event.y_root, event.time)
+
+            elif int(event.x) in range(0, 16) and int(event.y) in range(self.height/2-8,self.height/2+8):
+                self.window.begin_resize_drag(Gdk.WindowEdge.WEST, button,
+                                              event.x_root, event.y_root, event.time)
+
+            elif int(event.x) in range(self.width-16, self.width) and int(event.y) in range(self.height/2-8,self.height/2+8):
+                self.window.begin_resize_drag(Gdk.WindowEdge.EAST, button,
                                               event.x_root, event.y_root, event.time)
 
             else:
@@ -167,10 +184,16 @@ class RegionWindow(GObject.GObject):
         cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
         cr.set_line_width(1.0)
         cr.move_to(0, 0)
-        cr.rectangle(0, 0, 15, 15)
-        cr.rectangle(w-15, 0, w, 15)
-        cr.rectangle(0, h-15, 15, h)
-        cr.rectangle(w-15, h-15, w, h)
+        cr.rectangle(0, 0, 16, 16)
+        cr.rectangle(w-16, 0, 16, 16)
+        cr.rectangle(0, h-16, 16, 16)
+        cr.rectangle(w-16, h-16, 16, 16)
+        cr.rectangle(w/2-8, 0, 16, 16)
+        cr.rectangle(w/2-8, h-16, 16, 16)
+
+        cr.rectangle(0, h/2-8, 16, 16)
+        cr.rectangle(w-16, h/2-8, 16, 16)
+
         cr.fill()
         cr.set_source_rgb(0.0, 0.0, 0.0)
         cr.rectangle(0, 0, w, h)
