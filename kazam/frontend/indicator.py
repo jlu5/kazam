@@ -206,6 +206,32 @@ except ImportError:
                 logger.info("Recording resumed.")
             KazamSuperIndicator.on_menuitem_pause_activate(self, menuitem)
 
+        def blink_set_state(self, state):
+            if state == BLINK_STOP:
+                self.blink_state = BLINK_STOP
+                self.indicator.set_from_icon_name("kazam-stopped")
+            elif state == BLINK_START:
+                self.blink_state = BLINK_SLOW
+                GObject.timeout_add(500, self.blink)
+            elif state == BLINK_SLOW:
+                self.blink_state = BLINK_SLOW
+            elif state == BLINK_FAST:
+                self.blink_state = BLINK_FAST
+
+        def blink(self):
+            if self.blink_state != BLINK_STOP:
+                if self.blink_icon == BLINK_READY_ICON:
+                    self.indicator.set_from_icon_name("kazam-stopped")
+                    self.blink_icon = BLINK_STOP_ICON
+                else:
+                    self.indicator.set_from_icon_name("kazam-countdown")
+                    self.blink_icon = BLINK_READY_ICON
+
+                if self.blink_state == BLINK_SLOW:
+                    GObject.timeout_add(500, self.blink)
+                elif self.blink_state == BLINK_FAST:
+                    GObject.timeout_add(200, self.blink)
+
         def start_recording(self):
             logger.info("Recording started.")
             self.indicator.set_from_icon_name("kazam-recording")
