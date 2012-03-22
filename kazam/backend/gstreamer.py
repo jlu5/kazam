@@ -158,8 +158,8 @@ class Screencast(GObject.GObject):
         if self.codec == CODEC_VP8:
             logger.debug("Codec: VP8/WEBM")
             self.videnc = gst.element_factory_make("vp8enc", "video_encoder")
-            self.videnc.set_property("speed", 2)
-            self.videnc.set_property("quality", 10)
+            self.videnc.set_property("speed", 6)
+            self.videnc.set_property("quality", 8)
             self.videnc.set_property("threads", self.cores)
             self.mux = gst.element_factory_make("webmmux", "muxer")
         elif self.codec == CODEC_H264:
