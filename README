@@ -1,5 +1,5 @@
 
-           Kazam Screencaster v1.0.4 "NCC-1701D"
+           Kazam Screencaster v1.0.6 "NCC-1701D"
 
 
 Introduction
@@ -31,12 +31,12 @@ use apt-get command or Software Centre.
 For distribution independent installation you will have to get the latest
 tarball release from Launchpad:
 
-http://launchpad.net/kazam/stable/1.0.4/+download/kazam_1.0.4.tar.gz
+http://launchpad.net/kazam/stable/1.0.6/+download/kazam_1.0.6.tar.gz
 
 Unpack it and then run setup:
 
-   $ tar -xzf kazam_1.0.4.tar.gz
-   $ cd kazam-1.0.4
+   $ tar -xzf kazam_1.0.6.tar.gz
+   $ cd kazam-1.0.6
 
 Run installation as root user, or use sudo:
 
@@ -101,8 +101,9 @@ Recording Tips
 --------------
 
 Framerates above 20fps are unlikely to work because of software and hardware
-limitations. If you increase framerate and framerate in resulting video
-drops, that is because encoder can't keep up with the framerate.
+limitations. If you increase framerate and in resulting video
+framerate actually drops, that is because encoder can't keep up with
+the framerate.
 
 Always do a sound check. Especially if you are recording a live commentary
 with background sound. I got the best results when I used earphones to listen
