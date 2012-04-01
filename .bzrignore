@@ -1,6 +1,5 @@
-dist
 build
-debian
-docs/.~lock.how-to-add-export-source.odt#
-docs/.~lock.how-to-add-export-source.odt#
+dist
 .idea
+MANIFEST
+debian

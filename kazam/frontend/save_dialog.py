@@ -40,7 +40,7 @@ def SaveDialog(title, old_path, codec):
     if codec == CODEC_VP8:
         dialog.set_current_name("%s.webm" % _("Untitled_Screencast"))
     elif codec == CODEC_H264:
-        dialog.set_current_name("%s.mkv" % _("Untitled_Screencast"))
+        dialog.set_current_name("%s.mp4" % _("Untitled_Screencast"))
 
     dialog.set_do_overwrite_confirmation(True)
 

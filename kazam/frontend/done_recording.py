@@ -124,8 +124,8 @@ class DoneRecording(Gtk.Window):
                     if not uri.endswith(".webm"):
                         uri += ".webm"
                 else:
-                    if not uri.endswith(".mkv"):
-                        uri += ".mkv"
+                    if not uri.endswith(".mp4"):
+                        uri += ".mp4"
 
                 shutil.move(self.tempfile, uri)
                 dialog.destroy()
