@@ -228,7 +228,7 @@ class KazamApp(Gtk.Window):
 
         # Hardcoded for now
         self.combobox_codec.append(None, "Gstreamer - VP8/WebM")
-        self.combobox_codec.append(None, "GStreamer - H264/Matroska")
+        self.combobox_codec.append(None, "GStreamer - H264/MP4")
 
         self.default_screen = Gdk.Screen.get_default()
         self.default_screen.connect("size-changed", self.cb_screen_size_changed)
