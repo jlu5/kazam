@@ -71,6 +71,7 @@ class KazamApp(GObject.GObject):
         self.old_path = None
         self.timer_window = True
         self.in_countdown = False
+        self.recording_paused = False
 
         self.pa_q = pulseaudio_q()
         self.pa_q.start()
@@ -277,8 +278,9 @@ class KazamApp(GObject.GObject):
     def cb_counter_finished(self, widget):
         logger.debug("Counter finished.")
         self.in_countdown = False
-        self.indicator.menuitem_finish.set_label(_("Finish recording"))
         self.countdown = None
+        self.indicator.menuitem_finish.set_label(_("Finish recording"))
+        self.indicator.menuitem_pause.set_sensitive(True)
         self.indicator.blink_set_state(BLINK_STOP)
         self.indicator.start_recording()
         self.recorder.start_recording()
@@ -295,6 +297,9 @@ class KazamApp(GObject.GObject):
 
 
         else:
+
+            if self.recording_paused:
+                self.recorder.unpause_recording()
             logger.debug("Stop request.")
             self.recorder.stop_recording()
             self.tempfile = self.recorder.get_tempfile()
@@ -316,10 +321,12 @@ class KazamApp(GObject.GObject):
 
     def cb_pause_request(self, widget):
         logger.debug("Pause requested.")
+        self.recording_paused = True
         self.recorder.pause_recording()
 
     def cb_unpause_request(self, widget):
         logger.debug("Unpause requested.")
+        self.recording_paused = False
         self.recorder.unpause_recording()
 
     def cb_save_done(self, widget, result):
@@ -647,4 +654,4 @@ class KazamApp(GObject.GObject):
             i += 1
 
         self.combobox_codec.append(None, "Gstreamer - VP8/WebM")
-        self.combobox_codec.append(None, "GStreamer - H264/Matroska")
+        self.combobox_codec.append(None, "GStreamer - H264/MP4")
