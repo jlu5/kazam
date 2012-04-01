@@ -92,7 +92,7 @@
                 <property name="tooltip_text" translatable="yes">Toggle audio source.</property>
                 <property name="valign">center</property>
                 <property name="use_action_appearance">False</property>
-                <signal name="notify" handler="cb_audio_switch" swapped="no"/>
+                <signal name="notify::active" handler="cb_audio_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -167,7 +167,7 @@ audio-volume-medium</property>
                 <property name="tooltip_text" translatable="yes">Toggle audio source.</property>
                 <property name="valign">center</property>
                 <property name="use_action_appearance">False</property>
-                <signal name="notify" handler="cb_audio2_switch" swapped="no"/>
+                <signal name="notify::active" handler="cb_audio2_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -225,6 +225,7 @@ audio-volume-medium</property>
                 <property name="margin_right">5</property>
                 <property name="entry_text_column">0</property>
                 <property name="id_column">1</property>
+                <signal name="changed" handler="cb_codec_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -242,7 +243,7 @@ audio-volume-medium</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="use_action_appearance">False</property>
-                <signal name="notify" handler="cb_video_switch" swapped="no"/>
+                <signal name="notify::active" handler="cb_video_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -440,7 +441,7 @@ audio-volume-medium</property>
                 <property name="valign">end</property>
                 <property name="margin_right">10</property>
                 <property name="use_action_appearance">False</property>
-                <signal name="notify" handler="cb_timer_switch" swapped="no"/>
+                <signal name="notify::active" handler="cb_timer_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -459,7 +460,7 @@ audio-volume-medium</property>
                 <property name="valign">center</property>
                 <property name="margin_right">10</property>
                 <property name="use_action_appearance">False</property>
-                <signal name="notify" handler="cb_cursor_switch" swapped="no"/>
+                <signal name="notify::active" handler="cb_cursor_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -502,21 +503,6 @@ audio-volume-medium</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
             </child>
             <child>
               <placeholder/>

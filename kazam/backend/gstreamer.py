@@ -40,6 +40,7 @@ from gi.repository import GObject
 
 from subprocess import Popen
 from kazam.backend.constants import *
+from kazam.utils import *
 
 
 class Screencast(GObject.GObject):
@@ -62,7 +63,8 @@ class Screencast(GObject.GObject):
                       codec,
                       capture_cursor,
                       framerate,
-                      region):
+                      region,
+                      test):
 
 
         self.codec = codec
@@ -78,9 +80,12 @@ class Screencast(GObject.GObject):
         self.capture_cursor = capture_cursor
         self.framerate = framerate
         self.region = region
+        self.test = test
 
         logger.debug("Capture Cursor: {0}".format(capture_cursor))
         logger.debug("Framerate : {0}".format(capture_cursor))
+        logger.debug("Codec: {0}".format(get_codec_name(codec)))
+
         if self.video_source:
             self.setup_video_source()
 
@@ -99,7 +104,11 @@ class Screencast(GObject.GObject):
 
     def setup_video_source(self):
 
-        self.videosrc = gst.element_factory_make("ximagesrc", "video_src")
+        if self.test:
+            self.videosrc = gst.element_factory_make("videotestsrc", "video_src")
+            self.videosrc.set_property("pattern", "smpte")
+        else:
+            self.videosrc = gst.element_factory_make("ximagesrc", "video_src")
 
         if self.region:
             startx = self.region[0] if self.region[0] > 0 else 0
@@ -127,24 +136,33 @@ class Screencast(GObject.GObject):
 
         logger.debug("Coordinates: {0} {1} {2} {3}".format(startx, starty, endx, endy))
 
-        self.videosrc.set_property("startx", startx)
-        self.videosrc.set_property("starty", starty)
-        self.videosrc.set_property("endx", endx)
-        self.videosrc.set_property("endy", endy)
-        self.videosrc.set_property("use-damage", False)
-        self.videosrc.set_property("show-pointer", self.capture_cursor)
+        if self.test:
+            self.vid_caps = gst.Caps("video/x-raw-rgb, framerate={0}/1, width={1}, height={2}".format(
+                  self.framerate,
+                  endx - startx,
+                  endy - starty))
+            self.vid_caps_filter = gst.element_factory_make("capsfilter", "vid_filter")
+            self.vid_caps_filter.set_property("caps", self.vid_caps)
+        else:
+            self.videosrc.set_property("startx", startx)
+            self.videosrc.set_property("starty", starty)
+            self.videosrc.set_property("endx", endx)
+            self.videosrc.set_property("endy", endy)
+            self.videosrc.set_property("use-damage", False)
+            self.videosrc.set_property("show-pointer", self.capture_cursor)
 
-        self.videorate = gst.element_factory_make("videorate", "video_rate")
-        self.vid_caps = gst.Caps("video/x-raw-rgb, framerate={0}/1".format(self.framerate))
-        self.vid_caps_filter = gst.element_factory_make("capsfilter", "vid_filter")
-        self.vid_caps_filter.set_property("caps", self.vid_caps)
+            self.vid_caps = gst.Caps("video/x-raw-rgb, framerate={0}/1".format(self.framerate))
+            self.vid_caps_filter = gst.element_factory_make("capsfilter", "vid_filter")
+            self.vid_caps_filter.set_property("caps", self.vid_caps)
+
         self.ffmpegcolor = gst.element_factory_make("ffmpegcolorspace", "ffmpeg")
+        self.videorate = gst.element_factory_make("videorate", "video_rate")
 
         if self.codec == CODEC_VP8:
             logger.debug("Codec: VP8/WEBM")
             self.videnc = gst.element_factory_make("vp8enc", "video_encoder")
-            self.videnc.set_property("speed", 2)
-            self.videnc.set_property("quality", 10)
+            self.videnc.set_property("speed", 6)
+            self.videnc.set_property("quality", 8)
             self.videnc.set_property("threads", self.cores)
             self.mux = gst.element_factory_make("webmmux", "muxer")
         elif self.codec == CODEC_H264:
@@ -160,6 +178,7 @@ class Screencast(GObject.GObject):
             self.videnc.set_property("qp-max", 51)
             self.videnc.set_property("qp-step", 4)
             self.videnc.set_property("quantizer", 1)
+            self.videnc.set_property("threads", self.cores)
             self.mux = gst.element_factory_make("matroskamux", "muxer")
 
         self.vid_in_queue = gst.element_factory_make("queue", "queue_v1")

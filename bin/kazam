@@ -62,6 +62,11 @@ if __name__ == "__main__":
                         action = "version",
                         version = version)
 
+    parser.add_argument("-t", "--test",
+                        action = "store_true",
+                        help = "generate test video signal",
+                        default = False)
+
     args = parser.parse_args()
     if args.debug:
         log.setLevel(logging.DEBUG)
@@ -71,6 +76,7 @@ if __name__ == "__main__":
     from kazam.app import KazamApp
 
     log.debug("Starting ...")
-    appWindow = KazamApp(datadir, args.debug)
+    appWindow = KazamApp(datadir, args.debug, args.test)
     Gtk.main()
     log.debug("Finishing ...")
+

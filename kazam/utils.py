@@ -20,6 +20,8 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+from kazam.backend.constants import *
+
 def remove_list_dups(seq, idfun = None):
     if idfun is None:
         def idfun(x): return x
@@ -31,3 +33,11 @@ def remove_list_dups(seq, idfun = None):
         seen[marker] = 1
         result.append(item)
     return result
+
+def get_codec_name(codec):
+    if codec == CODEC_H264:
+        return "H264"
+    elif codec == CODEC_VP8:
+        return "VP8"
+    else:
+        return "(unknown)"

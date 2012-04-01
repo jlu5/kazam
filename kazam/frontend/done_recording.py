@@ -114,7 +114,7 @@ class DoneRecording(Gtk.Window):
             self.emit("edit-request", (command, args))
             self.destroy()
         else:
-            logger.debug("Continue - Save.")
+            logger.debug("Continue - Save ({0}).".format(self.codec))
             (dialog, result, self.old_path) = SaveDialog(_("Save screencast"),
                                           self.old_path, self.codec)
 

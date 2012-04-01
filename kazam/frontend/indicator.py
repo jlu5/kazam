@@ -117,9 +117,6 @@ class KazamSuperIndicator(GObject.GObject):
     def on_menuitem_show_activate(self, menuitem):
         self.emit("indicator-show-request")
 
-    def on_menuitem_cancel_activate(self):
-        print "**** CANCELING!"
-
 try:
     from gi.repository import AppIndicator3
 
