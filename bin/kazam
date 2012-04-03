@@ -30,17 +30,18 @@ from gi.repository import Gtk
 
 if __name__ == "__main__":
 
-    log =  logging.getLogger()
-    log.name = "Kazam"
+    logger =  logging.getLogger()
+    logger.name = "Kazam"
     handler = logging.StreamHandler()
     formatter = logging.Formatter('%(levelname)s %(name)s - %(message)s')
     handler.setFormatter(formatter)
-    log.addHandler(handler)
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
 
-    log.info("Logger intialized.")
+    logger.info("Logger intialized.")
 
     if os.path.exists("../data"):
-        log.info("Running locally, AppIndicator icons might be missing.")
+        logger.info("Running locally, AppIndicator icons might be missing.")
         datadir = "../data"
         sys.path.insert(0, "..")
     else:
@@ -48,6 +49,15 @@ if __name__ == "__main__":
         # when base install path is not /usr
         curpath = os.path.abspath(__file__)
         datadir = curpath.split('bin/')[0] + "share/kazam/"
+
+    try:
+        import platform
+        dist = platform.linux_distribution()
+        logger.info("Running on: {0} {1}".format(dist[0], dist[1]))
+    except:
+        # Fallback to the almighty Ubuntu 12.04 ;)
+        dist = ('Ubuntu', '12.04', 'precise')
+        logger.warning("Failed to correctly detect operating system.")
 
     from kazam.version import *
     version = "%(prog)s {0} '{1}'".format(VERSION, CODENAME)
@@ -69,14 +79,13 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     if args.debug:
-        log.setLevel(logging.DEBUG)
+        logger.setLevel(logging.DEBUG)
     else:
-        log.setLevel(logging.INFO)
+        logger.setLevel(logging.INFO)
 
     from kazam.app import KazamApp
 
-    log.debug("Starting ...")
-    appWindow = KazamApp(datadir, args.debug, args.test)
+    logger.debug("Starting ...")
+    appWindow = KazamApp(datadir, dist, args.debug, args.test)
     Gtk.main()
-    log.debug("Finishing ...")
-
+    logger.debug("Finishing ...")

@@ -43,12 +43,13 @@ from kazam.frontend.window_countdown import CountdownWindow
 
 class KazamApp(GObject.GObject):
 
-    def __init__(self, datadir, debug, test):
+    def __init__(self, datadir, dist, debug, test):
         GObject.GObject.__init__(self)
         logger.debug("Setting variables.")
         self.datadir = datadir
         self.debug = debug
         self.test = test
+        self.dist = dist
         self.setup_translations()
 
         self.icons = Gtk.IconTheme.get_default()
@@ -111,16 +112,6 @@ class KazamApp(GObject.GObject):
                 setattr(self, name, w)
             else:
                 logger.debug("Unable to get name for '%s'" % w)
-
-        self.volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
-        self.volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
-        self.framerate_adjustment = Gtk.Adjustment(25, 1, 60, 1, 5, 0)
-        self.counter_adjustment = Gtk.Adjustment(5, 0, 65, 1, 5, 0)
-
-        self.volumebutton_audio.set_adjustment(self.volume_adjustment)
-        self.volumebutton_audio2.set_adjustment(self.volume2_adjustment)
-        self.spinbutton_framerate.set_adjustment(self.framerate_adjustment)
-        self.spinbutton_counter.set_adjustment(self.counter_adjustment)
 
         self.default_screen = Gdk.Screen.get_default()
         self.default_screen.connect("size-changed", self.cb_screen_size_changed)
@@ -186,27 +177,30 @@ class KazamApp(GObject.GObject):
             self.combobox_audio.set_sensitive(True)
             self.switch_audio2.set_sensitive(True)
             self.volumebutton_audio.set_sensitive(True)
+            self.audio_source = self.combobox_audio.get_active()
         else:
             logger.debug("Audio1 OFF.")
-            self.audio_source = None
-            self.audio2_source = None
             self.combobox_audio.set_sensitive(False)
             self.volumebutton_audio.set_sensitive(False)
             self.combobox_audio2.set_sensitive(False)
             self.switch_audio2.set_sensitive(False)
             self.switch_audio2.set_active(False)
             self.volumebutton_audio2.set_sensitive(False)
+            self.audio_source = None
+            self.audio2_source = None
 
     def cb_audio2_switch(self, widget, user_data):
         if widget.get_active():
             logger.debug("Audio2 ON.")
             self.combobox_audio2.set_sensitive(True)
             self.volumebutton_audio2.set_sensitive(True)
+            self.audio2_source  = self.combobox_audio2.get_active()
         else:
             logger.debug("Audio2 OFF.")
             self.audio2_source = None
             self.combobox_audio2.set_sensitive(False)
             self.volumebutton_audio2.set_sensitive(False)
+            self.audio2_source = None
 
     def cb_audio_changed(self, widget):
         logger.debug("Audio Changed.")
@@ -292,12 +286,9 @@ class KazamApp(GObject.GObject):
             self.countdown = None
             self.indicator.menuitem_finish.set_label(_("Finish recording"))
             self.window.set_sensitive(True)
-            self.window.hide()
+            self.window.show()
             self.window.present()
-
-
         else:
-
             if self.recording_paused:
                 self.recorder.unpause_recording()
             logger.debug("Stop request.")
@@ -453,7 +444,8 @@ class KazamApp(GObject.GObject):
                                     self.capture_cursor,
                                     framerate,
                                     self.region,
-                                    self.test)
+                                    self.test,
+                                    self.dist)
 
         self.recorder.connect("flush-done", self.cb_flush_done)
         self.countdown = CountdownWindow(self.indicator, show_window = self.timer_window)
@@ -485,9 +477,8 @@ class KazamApp(GObject.GObject):
         logger.debug("Restoring state - sources: V ({0}), A_1 ({1}), A_2 ({2})".format(video_source,
                                                                                         audio_source,
                                                                                         audio2_source))
+
         self.video_source = video_source
-        self.audio_source = audio_source
-        self.audio2_source = audio2_source
 
         self.combobox_video.set_active(video_source)
         self.combobox_video.set_sensitive(video_toggled)
@@ -548,9 +539,17 @@ class KazamApp(GObject.GObject):
 
         if audio_toggled:
             self.switch_audio2.set_sensitive(True)
+            self.audio_source = audio_source
         else:
             self.switch_audio2.set_sensitive(False)
             self.switch_audio2.set_active(False)
+            self.audio_source = None
+
+        if audio2_toggled:
+            self.audio2_source = audio2_source
+        else:
+            self.audio2_source = None
+
 
     def save_state(self):
         logger.debug("Saving state.")

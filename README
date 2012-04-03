@@ -1,5 +1,5 @@
 
-           Kazam Screencaster v1.0.4 "NCC-1701D"
+           Kazam Screencaster v1.4.0 "NCC-74656"
 
 
 Introduction
@@ -25,18 +25,28 @@ in development and a stable release is planned for Ubuntu 12.04.
 Installation
 ------------
 
-For Ubuntu, the best way to install is to add a PPA repository and then
-use apt-get command or Software Centre.
+If you are using Ubuntu 12.04 - Precise Pangolin then stable version (1.0.x)
+is available from universe repository. You can find it in Ubuntu Softare
+Center or install it from the terminal with the following command:
+
+$ sudo apt-get install kazam
+
+For Ubuntu 11.10 - Oneiric Ocelot, the best way to install Kazam is to add
+a PPA repository and then use apt-get command or Software Centre.
+
+$ sudo add-apt-repository ppa:kazam-team/stable-series
+$ sudo apt-get update
+$ sudo apt-get install kazam
 
 For distribution independent installation you will have to get the latest
 tarball release from Launchpad:
 
-http://launchpad.net/kazam/stable/1.0.4/+download/kazam_1.0.4.tar.gz
+http://launchpad.net/kazam/stable/1.4.0/+download/kazam_1.4.0.tar.gz
 
 Unpack it and then run setup:
 
-   $ tar -xzf kazam_1.0.4.tar.gz
-   $ cd kazam-1.0.4
+   $ tar -xzf kazam_1.4.0.tar.gz
+   $ cd kazam-1.4.0
 
 Run installation as root user, or use sudo:
 
@@ -71,7 +81,7 @@ To run Kazam simply execute te following commands in the source tree:
 $ cd bin
 $ ./kazam
 
-If you already have Kazam installed then Kazam icon will show in the 
+If you already have Kazam installed then Kazam icon will show in the
 indicator, if not, the only way to get to the menu is to click on one
 of the icons in the indicator and then move around with the cursor keys.
 

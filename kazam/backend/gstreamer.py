@@ -64,7 +64,8 @@ class Screencast(GObject.GObject):
                       capture_cursor,
                       framerate,
                       region,
-                      test):
+                      test,
+                      dist):
 
 
         self.codec = codec
@@ -81,6 +82,7 @@ class Screencast(GObject.GObject):
         self.framerate = framerate
         self.region = region
         self.test = test
+        self.dist = dist
 
         logger.debug("Capture Cursor: {0}".format(capture_cursor))
         logger.debug("Framerate : {0}".format(capture_cursor))
@@ -137,6 +139,7 @@ class Screencast(GObject.GObject):
         logger.debug("Coordinates: {0} {1} {2} {3}".format(startx, starty, endx, endy))
 
         if self.test:
+            logger.info("Using test signal instead of screen capture.")
             self.vid_caps = gst.Caps("video/x-raw-rgb, framerate={0}/1, width={1}, height={2}".format(
                   self.framerate,
                   endx - startx,
@@ -161,7 +164,13 @@ class Screencast(GObject.GObject):
         if self.codec == CODEC_VP8:
             logger.debug("Codec: VP8/WEBM")
             self.videnc = gst.element_factory_make("vp8enc", "video_encoder")
-            self.videnc.set_property("speed", 6)
+
+
+            if self.dist[0] == 'Ubuntu':
+                self.videnc.set_property("speed", 6)
+            elif self.dist[0] == 'LinuxMint':
+                self.videnc.set_property("speed", 1)
+
             self.videnc.set_property("quality", 8)
             self.videnc.set_property("threads", self.cores)
             self.mux = gst.element_factory_make("webmmux", "muxer")
@@ -276,17 +285,6 @@ class Screencast(GObject.GObject):
 
             gst.element_link_many(self.mux, self.file_queue, self.sink)
 
-        elif not self.video_source and self.audio_source and not self.audio2_source:
-            #
-            # TODO: Add audio recording
-            #
-            pass
-        elif not self.video_source and self.audio_source and self.audio2_source:
-            #
-            # TODO: Add audio recording
-            #
-            pass
-
     def start_recording(self):
         if self.debug:
             logger.debug("Generating dot file.")
@@ -322,51 +320,12 @@ class Screencast(GObject.GObject):
                 os.system("/usr/local/bin/dot" + " -Tpng -o " + "/tmp/kazam_pipeline.png" + " " + "/tmp/kazam_debug.dot")
             else:
                 logger.debug("Program 'dot' not found. Unable to generate PNG.")
-                pass
 
     def get_tempfile(self):
         return self.tempfile
 
     def get_audio_recorded(self):
         return self.audio
-
-    def convert(self, options, converted_file_extension, video_quality,
-                    audio_quality=None):
-
-        self.converted_file_extension = converted_file_extension
-
-        # Create our ffmpeg arguments list
-        args_list = ["ffmpeg"]
-        # Add the input file
-        args_list += ["-i", self.tempfile]
-        # Add any UploadSource specific options
-        args_list += options
-
-        # Configure the quality as selected by the user
-        # If the quality slider circle is at the right-most position
-        # use the same quality option
-        if video_quality == 6001:
-            args_list += ["-sameq"]
-        else:
-            args_list += ["-b", "%sk" % video_quality]
-        if audio_quality:
-            args_list += ["-ab", "%sk" % audio_quality]
-        # Finally add the desired output file
-        args_list += ["%s%s" %(self.tempfile[:-4], converted_file_extension)]
-
-        # Run the ffmpeg command and when it is done, set a variable to
-        # show we have finished
-        command = Popen(args_list)
-        glib.timeout_add(100, self._poll, command)
-
-    def _poll(self, command):
-        ret = command.poll()
-        if ret is None:
-            # Keep monitoring
-            return True
-        else:
-            self.converted_file = "%s%s" %(self.tempfile[:-4], self.converted_file_extension)
-            return False
 
     def on_message(self, bus, message):
         t = message.type
