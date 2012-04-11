@@ -165,12 +165,12 @@ class Screencast(GObject.GObject):
             logger.debug("Codec: VP8/WEBM")
             self.videnc = gst.element_factory_make("vp8enc", "video_encoder")
 
-
             if self.dist[0] == 'Ubuntu':
                 self.videnc.set_property("speed", 6)
             elif self.dist[0] == 'LinuxMint':
-                self.videnc.set_property("speed", 1)
+                self.videnc.set_property("speed", 2)
 
+            self.videnc.set_property("max-latency", 1)
             self.videnc.set_property("quality", 8)
             self.videnc.set_property("threads", self.cores)
             self.mux = gst.element_factory_make("webmmux", "muxer")
