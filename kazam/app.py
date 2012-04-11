@@ -33,7 +33,10 @@ from gettext import gettext as _
 from kazam.utils import *
 from kazam.backend.constants import *
 from kazam.backend.config import KazamConfig
-from kazam.frontend.main_menu import MainMenu
+
+#DELETE ALL THE MAINMENUS
+#from kazam.frontend.main_menu import MainMenu
+
 from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
 from kazam.pulseaudio.pulseaudio import pulseaudio_q
@@ -77,8 +80,6 @@ class KazamApp(GObject.GObject):
         self.pa_q = pulseaudio_q()
         self.pa_q.start()
 
-        self.mainmenu = MainMenu()
-
         #
         # Setup config
         #
@@ -94,9 +95,6 @@ class KazamApp(GObject.GObject):
         self.indicator.connect("indicator-stop-request", self.cb_stop_request)
         self.indicator.connect("indicator-pause-request", self.cb_pause_request)
         self.indicator.connect("indicator-unpause-request", self.cb_unpause_request)
-
-        self.mainmenu.connect("file-quit", self.cb_quit_request)
-        self.mainmenu.connect("help-about", self.cb_help_about)
 
         #
         # Setup UI
@@ -155,6 +153,9 @@ class KazamApp(GObject.GObject):
 
     def cb_close_clicked(self, indicator):
         self.window.hide()
+        
+    def on_button_about_clicked(self, activated):
+        AboutDialog(self.icons)    
 
     def cb_delete_event(self, widget, user_data):
         return self.window.hide_on_delete()
@@ -394,7 +395,19 @@ class KazamApp(GObject.GObject):
     def cb_region_canceled(self, widget):
         logger.debug("Region Canceled.")
         self.window.set_sensitive(True)
-        self.btn_region.set_active(False)
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False) 
 
     # def cb_keyboard_press(self):
     #     print "YAY BACK"
