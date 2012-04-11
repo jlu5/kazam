@@ -33,10 +33,6 @@ from gettext import gettext as _
 from kazam.utils import *
 from kazam.backend.constants import *
 from kazam.backend.config import KazamConfig
-
-#DELETE ALL THE MAINMENUS
-#from kazam.frontend.main_menu import MainMenu
-
 from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
 from kazam.pulseaudio.pulseaudio import pulseaudio_q
@@ -154,7 +150,7 @@ class KazamApp(GObject.GObject):
     def cb_close_clicked(self, indicator):
         self.window.hide()
         
-    def on_button_about_clicked(self, activated):
+    def cb_about_clicked(self, activated):
         AboutDialog(self.icons)    
 
     def cb_delete_event(self, widget, user_data):
@@ -395,19 +391,7 @@ class KazamApp(GObject.GObject):
     def cb_region_canceled(self, widget):
         logger.debug("Region Canceled.")
         self.window.set_sensitive(True)
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
-        self.btn_region.set_active(False) 
+        self.btn_region.set_active(False)
 
     # def cb_keyboard_press(self):
     #     print "YAY BACK"

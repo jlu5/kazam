@@ -116,6 +116,7 @@
                 <property name="tooltip_text" translatable="yes">Toggle audio source.</property>
                 <property name="valign">center</property>
                 <property name="use_action_appearance">False</property>
+                <signal name="notify::active" handler="cb_audio_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -191,6 +192,7 @@ audio-volume-medium</property>
                 <property name="tooltip_text" translatable="yes">Toggle audio source.</property>
                 <property name="valign">center</property>
                 <property name="use_action_appearance">False</property>
+                <signal name="notify::active" handler="cb_audio2_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -267,6 +269,7 @@ audio-volume-medium</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="use_action_appearance">False</property>
+                <signal name="notify::active" handler="cb_video_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -466,6 +469,7 @@ audio-volume-medium</property>
                 <property name="valign">end</property>
                 <property name="margin_right">10</property>
                 <property name="use_action_appearance">False</property>
+                <signal name="notify::active" handler="cb_timer_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -484,6 +488,7 @@ audio-volume-medium</property>
                 <property name="valign">center</property>
                 <property name="margin_right">10</property>
                 <property name="use_action_appearance">False</property>
+                <signal name="notify::active" handler="cb_cursor_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -562,6 +567,7 @@ audio-volume-medium</property>
                 <property name="non_homogeneous">True</property>
               </packing>
             </child>
+            
             <child>
               <object class="GtkButton" id="btn_about">
                 <property name="label" translatable="yes">About</property>
@@ -572,7 +578,7 @@ audio-volume-medium</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">About Kazam.</property>
                 <property name="use_action_appearance">False</property>
-                <signal name="clicked" handler="on_button_about_clicked" swapped="no"/>
+                <signal name="clicked" handler="cb_about_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -581,6 +587,7 @@ audio-volume-medium</property>
                 <property name="non_homogeneous">True</property>
               </packing>
             </child>
+            
             <child>
               <object class="GtkButton" id="btn_close">
                 <property name="label" translatable="yes">Close</property>
