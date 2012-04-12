@@ -53,6 +53,7 @@ class DoneRecording(Gtk.Window):
         self.codec = codec
         self.action = ACTION_SAVE
         self.old_path = old_path
+        self.set_position(Gtk.WindowPosition.NONE)
 
         # Setup UI
         self.set_border_width(10)
@@ -114,6 +115,7 @@ class DoneRecording(Gtk.Window):
             self.emit("edit-request", (command, args))
             self.destroy()
         else:
+            self.set_sensitive(False)
             logger.debug("Continue - Save ({0}).".format(self.codec))
             (dialog, result, self.old_path) = SaveDialog(_("Save screencast"),
                                           self.old_path, self.codec)
@@ -126,12 +128,12 @@ class DoneRecording(Gtk.Window):
                 else:
                     if not uri.endswith(".mp4"):
                         uri += ".mp4"
-
                 shutil.move(self.tempfile, uri)
                 dialog.destroy()
                 self.emit("save-done", self.old_path)
                 self.destroy()
             else:
+                self.set_sensitive(True)
                 dialog.destroy()
 
 

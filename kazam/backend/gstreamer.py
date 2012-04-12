@@ -53,6 +53,7 @@ class Screencast(GObject.GObject):
     def __init__(self, debug):
         GObject.GObject.__init__(self)
         self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".movie")
+        self.muxer_tempfile = "{0}.mux".format(self.tempfile)
         self.pipeline = gst.Pipeline("Kazam")
         self.debug = debug
 
@@ -183,6 +184,7 @@ class Screencast(GObject.GObject):
             self.videnc.set_property("threads", self.cores)
             self.mux = gst.element_factory_make("mp4mux", "muxer")
             self.mux.set_property("faststart", 1)
+            self.mux.set_property("faststart-file", self.muxer_tempfile)
             self.mux.set_property("streamable", 1)
 
         self.vid_in_queue = gst.element_factory_make("queue", "queue_v1")

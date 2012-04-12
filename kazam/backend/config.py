@@ -42,6 +42,8 @@ class KazamConfig(SafeConfigParser):
                          "capture_cursor": "True",
                          "framerate":      "15",
                          "timer_window":   "True",
+                         "last_x":         "60",
+                         "last_y":         "25",
                          },
                 },
                 {

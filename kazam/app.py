@@ -62,6 +62,8 @@ class KazamApp(GObject.GObject):
         self.audio_source = 0
         self.audio_source2 = 0
         self.codec = 0
+        self.main_x = 0
+        self.main_y = 0
         self.countdown = None
         self.tempfile = ""
         self.recorder = None
@@ -80,8 +82,6 @@ class KazamApp(GObject.GObject):
         # Setup config
         #
         self.config = KazamConfig()
-
-        # self.connect("delete-event", self.cb_delete_event)
 
         logger.debug("Connecting indicator signals.")
         self.indicator = KazamIndicator()
@@ -107,9 +107,14 @@ class KazamApp(GObject.GObject):
             else:
                 logger.debug("Unable to get name for '%s'" % w)
 
+        #
+        # Take care of screen size changes.
+        #
         self.default_screen = Gdk.Screen.get_default()
         self.default_screen.connect("size-changed", self.cb_screen_size_changed)
-        # Fetch sources info
+        self.window.connect("configure-event", self.cb_configure_event)
+
+        # Fetch sources info, take care of all the widgets and saved settings and show main window
         self.get_sources()
         self.populate_widgets()
         self.window.show_all()
@@ -131,10 +136,21 @@ class KazamApp(GObject.GObject):
             old_source = 0
         self.combobox_video.set_active(old_source)
 
+    def cb_configure_event(self, widget, event):
+        if event.type == Gdk.EventType.CONFIGURE:
+            #
+            # When you close main window up to 5 configure events fire up some of them have X and Y set to 0 ?!?
+            #
+            if event.x or event.y > 0:
+                self.main_x = event.x
+                self.main_y = event.y
+
+
     def cb_quit_request(self, indicator):
         logger.debug("Quit requested.")
         try:
             os.remove(self.recorder.tempfile)
+            os.remove("{0}.mux".format(self.recorder.tempfile))
         except:
             pass
 
@@ -146,14 +162,19 @@ class KazamApp(GObject.GObject):
         logger.debug("Show requested, raising window.")
         self.window.show_all()
         self.window.present()
+        print "Moving to:", self.main_x, self.main_y
+        self.window.move(self.main_x, self.main_y)
 
     def cb_close_clicked(self, indicator):
+        (self.main_x, self.main_y) = self.window.get_position()
+        print "Recorded:", self.main_x, self.main_y
         self.window.hide()
         
     def cb_about_clicked(self, activated):
         AboutDialog(self.icons)    
 
     def cb_delete_event(self, widget, user_data):
+        (self.main_x, self.main_y) = self.window.get_position()
         return self.window.hide_on_delete()
 
     def cb_video_switch(self, widget, user_data):
@@ -323,6 +344,7 @@ class KazamApp(GObject.GObject):
         self.window.set_sensitive(True)
         self.window.show_all()
         self.window.present()
+        self.window.move(self.main_x, self.main_y)
 
     def cb_save_cancel(self, widget):
         try:
@@ -335,6 +357,7 @@ class KazamApp(GObject.GObject):
         self.window.set_sensitive(True)
         self.window.show_all()
         self.window.present()
+        self.window.move(self.main_x, self.main_y)
 
     def cb_help_about(self, widget):
         AboutDialog(self.icons)
@@ -404,6 +427,7 @@ class KazamApp(GObject.GObject):
         #
         # Annoyances with the menus
         #
+        (self.main_x, self.main_y) = self.window.get_position()
 
         self.indicator.menuitem_start.set_sensitive(False)
         self.indicator.menuitem_pause.set_sensitive(False)
@@ -467,6 +491,10 @@ class KazamApp(GObject.GObject):
         self.switch_video.set_active(video_toggled)
         self.switch_audio.set_active(audio_toggled)
         self.switch_audio2.set_active(audio2_toggled)
+        self.main_x = self.config.getint("main", "last_x")
+        self.main_y = self.config.getint("main", "last_y")
+
+        self.window.move(self.main_x, self.main_y)
 
         video_source = self.config.getint("main", "video_source")
         audio_source = self.config.getint("main", "audio_source")
@@ -474,7 +502,6 @@ class KazamApp(GObject.GObject):
         logger.debug("Restoring state - sources: V ({0}), A_1 ({1}), A_2 ({2})".format(video_source,
                                                                                         audio_source,
                                                                                         audio2_source))
-
         self.video_source = video_source
 
         self.combobox_video.set_active(video_source)
@@ -572,6 +599,10 @@ class KazamApp(GObject.GObject):
 
         self.config.set("main", "capture_cursor", self.capture_cursor)
         self.config.set("main", "timer_window", self.timer_window)
+
+        self.config.set("main", "last_x", self.main_x)
+        self.config.set("main", "last_y", self.main_y)
+
 
         codec = self.combobox_codec.get_active()
         self.config.set("main", "codec", codec)
