@@ -4,8 +4,6 @@ data/kazam.desktop.in
 kazam/app.py
 kazam/frontend/done_recording.py
 kazam/frontend/indicator.py
-kazam/frontend/main_menu.py
-kazam/frontend/main_menu.py
 kazam/frontend/window_countdown.py
 kazam/frontend/window_region.py
 kazam/frontend/save_dialog.py

@@ -48,7 +48,7 @@
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="margin_right">5</property>
-                <property name="label" translatable="yes">Video Source</property>
+                <property name="label" translatable="yes">Video Source:</property>
                 <property name="justify">right</property>
               </object>
               <packing>
@@ -81,7 +81,7 @@
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="margin_right">5</property>
-                <property name="label" translatable="yes">Audio Source 1</property>
+                <property name="label" translatable="yes">Audio Source 1:</property>
                 <property name="justify">right</property>
               </object>
               <packing>
@@ -157,7 +157,7 @@ audio-volume-medium</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="margin_right">5</property>
-                <property name="label" translatable="yes">Audio Source 2</property>
+                <property name="label" translatable="yes">Audio Source 2:</property>
                 <property name="justify">right</property>
               </object>
               <packing>
@@ -233,7 +233,7 @@ audio-volume-medium</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="margin_right">5</property>
-                <property name="label" translatable="yes">Encoder type</property>
+                <property name="label" translatable="yes">Encoder type:</property>
                 <property name="justify">right</property>
               </object>
               <packing>
@@ -366,7 +366,7 @@ audio-volume-medium</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="margin_right">10</property>
-                <property name="label" translatable="yes">Countdown timer</property>
+                <property name="label" translatable="yes">Countdown timer:</property>
                 <property name="justify">right</property>
               </object>
               <packing>
@@ -382,7 +382,7 @@ audio-volume-medium</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="margin_right">10</property>
-                <property name="label" translatable="yes">Framerate</property>
+                <property name="label" translatable="yes">Framerate:</property>
                 <property name="justify">right</property>
               </object>
               <packing>
@@ -433,7 +433,7 @@ audio-volume-medium</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="margin_right">10</property>
-                <property name="label" translatable="yes">Show timer window</property>
+                <property name="label" translatable="yes">Show timer window:</property>
                 <property name="justify">right</property>
               </object>
               <packing>
@@ -449,7 +449,7 @@ audio-volume-medium</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="margin_right">10</property>
-                <property name="label" translatable="yes">Capture mouse</property>
+                <property name="label" translatable="yes">Capture mouse:</property>
                 <property name="justify">right</property>
               </object>
               <packing>
