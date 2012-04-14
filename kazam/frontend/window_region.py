@@ -84,9 +84,15 @@ class RegionWindow(GObject.GObject):
         self.visual = self.screen.get_rgba_visual()
         self.recording = False
 
-        self.window.set_visual(self.visual)
         if self.visual is not None and self.screen.is_composited():
-            self.window.show_all()
+            logger.debug("Compositing window manager detected.")
+            self.window.set_visual(self.visual)
+            self.compositing = True
+        else:
+            self.compositing = False
+
+        self.window.show_all()
+
 
     def cb_button_press_event(self, widget, event):
         (op, button) = event.get_button()
@@ -178,10 +184,17 @@ class RegionWindow(GObject.GObject):
         #    cr.stroke()
         #    cr.set_operator(cairo.OPERATOR_OVER)
         #else:
-        cr.set_source_rgba(0.0, 0.0, 0.0, 0.4)
+        if self.compositing:
+            cr.set_source_rgba(0.0, 0.0, 0.0, 0.4)
+        else:
+            cr.set_source_rgb(0.5, 0.5, 0.5)
+
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
-        cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
+        if self.compositing:
+            cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
+        else:
+            cr.set_source_rgba(1.0, 1.0, 1.0)
         cr.set_line_width(1.0)
         cr.move_to(0, 0)
         cr.rectangle(0, 0, 16, 16)
@@ -214,10 +227,17 @@ class RegionWindow(GObject.GObject):
         cr.set_line_width(2.0)
         cx = w/2 - te[2]/2
         cy = h/2 - te[3]/2
-        cr.set_source_rgba(0.4, 0.4, 0.4, 1.0)
+        if self.compositing:
+            cr.set_source_rgba(0.4, 0.4, 0.4, 1.0)
+        else:
+            cr.set_source_rgb(0.4, 0.4, 0.4)
+
         cr.move_to(cx, cy)
         cr.text_path(text)
         cr.stroke()
-        cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
+        if self.compositing:
+            cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
+        else:
+            cr.set_source_rgb(1.0, 1.0, 1.0)
         cr.move_to(cx, cy)
         cr.show_text(text)
