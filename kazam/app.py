@@ -472,14 +472,18 @@ class KazamApp(GObject.GObject):
         self.recorder = Screencast(self.debug)
         self.indicator.blink_set_state(BLINK_START)
 
-        if self.audio_source is not None:
-            audio_source = self.audio_sources[self.audio_source][1]
+        if self.sound:
+            if self.audio_source is not None:
+                audio_source = self.audio_sources[self.audio_source][1]
+            else:
+                audio_source = None
+
+            if self.audio2_source is not None:
+                audio2_source = self.audio_sources[self.audio2_source][1]
+            else:
+                audio2_source = None
         else:
             audio_source = None
-
-        if self.audio2_source is not None:
-            audio2_source = self.audio_sources[self.audio2_source][1]
-        else:
             audio2_source = None
 
         if self.video_source is not None:
