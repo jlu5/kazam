@@ -77,6 +77,11 @@ if __name__ == "__main__":
                         help = "generate test video signal",
                         default = False)
 
+    parser.add_argument("-s", "--nosound",
+                        action = "store_true",
+                        help = "disable PulseAudio",
+                        default = False)
+
     args = parser.parse_args()
     if args.debug:
         logger.setLevel(logging.DEBUG)
@@ -86,6 +91,6 @@ if __name__ == "__main__":
     from kazam.app import KazamApp
 
     logger.debug("Starting ...")
-    appWindow = KazamApp(datadir, dist, args.debug, args.test)
+    appWindow = KazamApp(datadir, dist, args.debug, args.test, args.nosound)
     Gtk.main()
     logger.debug("Finishing ...")
