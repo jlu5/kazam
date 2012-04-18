@@ -36,12 +36,12 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">4h </property>
+        <property name="spacing">4</property>
         <child>
           <object class="GtkGrid" id="grid2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="row_spacing">7</property>      
+            <property name="row_spacing">7</property>
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
@@ -103,22 +103,6 @@
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">1</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSwitch" id="switch_audio">
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">Toggle recording from you speakers or headphones</property>
-                <property name="valign">center</property>
-                <property name="use_action_appearance">False</property>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
                 <property name="top_attach">1</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
@@ -191,6 +175,7 @@ audio-volume-medium</property>
                 <property name="tooltip_text" translatable="yes">Toggle recording from your microphone</property>
                 <property name="valign">center</property>
                 <property name="use_action_appearance">False</property>
+                <signal name="notify::active" handler="cb_audio2_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -240,7 +225,7 @@ audio-volume-medium</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
-            </child>   
+            </child>
             <child>
               <object class="GtkComboBoxText" id="combobox_codec">
                 <property name="visible">True</property>
@@ -263,10 +248,11 @@ audio-volume-medium</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">Toggle redording from the video source</property>
+                <property name="tooltip_text" translatable="yes">Toggle recording from the video source</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="use_action_appearance">False</property>
+                <signal name="notify::active" handler="cb_video_switch" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -275,6 +261,32 @@ audio-volume-medium</property>
                 <property name="height">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkSwitch" id="switch_audio">
+                <property name="use_action_appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="tooltip_text" translatable="yes">Toggle recording from your speakers or headphones</property>
+                <property name="valign">center</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="notify::active" handler="cb_audio_switch" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -282,15 +294,18 @@ audio-volume-medium</property>
             <property name="position">0</property>
           </packing>
         </child>
-      
-      <child>
-            <object class="GtkSeparator" id="separator1">  
+        <child>
+          <object class="GtkSeparator" id="separator1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="hexpand">True</property>
-            </object>
-      </child>
-      
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkGrid" id="grid3">
             <property name="visible">True</property>
@@ -369,8 +384,7 @@ audio-volume-medium</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="margin_right">10</property>
-                <property name="label" translatable="yes">Show timer dialog:</property>
-                <property name="justify">left</property>
+                <property name="label" translatable="yes">Show countdown splash:</property>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -400,7 +414,7 @@ audio-volume-medium</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="tooltip_text" translatable="yes">Toggle display of countdown window</property>
+                <property name="tooltip_text" translatable="yes">Toggle display of countdown splash</property>
                 <property name="halign">end</property>
                 <property name="valign">end</property>
                 <property name="margin_right">10</property>
@@ -476,20 +490,22 @@ audio-volume-medium</property>
             <property name="position">3</property>
           </packing>
         </child>
-        
         <child>
-           <object class="GtkSeparator" id="separator2">  
-           <property name="visible">True</property>
-           <property name="can_focus">True</property>
-           <property name="hexpand">True</property>
-           </object>
-         </child>
-        
+          <object class="GtkSeparator" id="separator2">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkButtonBox" id="buttonbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_top">0</property>
             <property name="layout_style">start</property>
             <child>
               <object class="GtkButton" id="btn_quit">
@@ -548,7 +564,6 @@ audio-volume-medium</property>
                 <property name="non_homogeneous">True</property>
               </packing>
             </child>
-            
             <child>
               <object class="GtkButton" id="btn_record">
                 <property name="label" translatable="yes">Record</property>
@@ -569,6 +584,11 @@ audio-volume-medium</property>
               </packing>
             </child>
           </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">4</property>
+          </packing>
         </child>
       </object>
     </child>
