@@ -188,12 +188,10 @@ class KazamApp(GObject.GObject):
         logger.debug("Show requested, raising window.")
         self.window.show_all()
         self.window.present()
-        print "Moving to:", self.main_x, self.main_y
         self.window.move(self.main_x, self.main_y)
 
     def cb_close_clicked(self, indicator):
         (self.main_x, self.main_y) = self.window.get_position()
-        print "Recorded:", self.main_x, self.main_y
         self.window.hide()
         
     def cb_about_clicked(self, activated):
