@@ -248,41 +248,74 @@ class KazamApp(GObject.GObject):
 
     def cb_audio_changed(self, widget):
         logger.debug("Audio Changed.")
-        self.audio_source = self.combobox_audio.get_active()
-        self.audio2_source  = self.combobox_audio2.get_active()
 
+        self.audio_source = self.combobox_audio.get_active()
         logger.debug("  - A_1 {0}".format(self.audio_source))
+
+        if self.audio_source:
+            pa_audio_idx =  self.audio_sources[self.audio_source][0]
+            self.pa_q.set_source_mute_by_index(pa_audio_idx, 0)
+
+            logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
+            self.audio_source_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
+            volume = self.volumebutton_audio.get_value()
+            chn = self.audio_source_info[2].channels
+            cvol = self.pa_q.dB_to_cvolume(chn, volume-60)
+            self.pa_q.set_source_volume_by_index(pa_audio_idx, cvol)
+
+            if len(self.audio_source_info):
+               logger.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
+            else:
+                logger.debug("New Audio1:\n  Error retrieving data.")
+
+            if self.audio_source and self.audio_source == self.audio2_source:
+                if self.audio_source < len(self.audio_sources):
+                    self.audio2_source += 1
+                else:
+                    self.audio2_source = 0
+
+                self.combobox_audio2.set_active(0)
+            self.volumebutton_audio.set_sensitive(True)
+        else:
+            self.volumebutton_audio.set_sensitive(False)
+            logger.debug("Audio1 OFF.")
+
+    def cb_audio2_changed(self, widget):
+        logger.debug("Audio2 Changed.")
+
+        self.audio2_source = self.combobox_audio2.get_active()
         logger.debug("  - A_2 {0}".format(self.audio2_source))
 
-        pa_audio_idx =  self.audio_sources[self.audio_source][0]
-        pa_audio2_idx =  self.audio_sources[self.audio2_source][0]
-        logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
-        logger.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
-        self.audio_source_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
-        self.audio2_source_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
+        if self.audio2_source:
+            pa_audio2_idx =  self.audio_sources[self.audio2_source][0]
+            self.pa_q.set_source_mute_by_index(pa_audio2_idx, 0)
 
-        if len(self.audio_source_info):
-            logger.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
-        else:
-            logger.debug("New Audio1:\n  Error retrieving data.")
+            logger.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
+            self.audio2_source_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
+            volume = self.volumebutton_audio2.get_value()
+            chn = self.audio_source_info[2].channels
+            cvol = self.pa_q.dB_to_cvolume(chn, volume-60)
+            self.pa_q.set_source_volume_by_index(pa_audio2_idx, cvol)
 
-        if len(self.audio2_source_info):
-            logger.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
-        else:
-            logger.debug("New Audio2:\n  Error retrieving data.")
 
-        if self.audio_source == self.audio2_source:
-            if self.audio_source < len(self.audio_sources):
-                self.audio2_source += 1
+            if len(self.audio2_source_info):
+                logger.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
             else:
-                self.audio2_source = 0
+                logger.debug("New Audio2:\n  Error retrieving data.")
 
-            #
-            # This isn't probably the smartest idea, right?
-            #
-            self.combobox_audio2.set_active(self.audio2_source)
-            self.switch_audio2.set_active(False)
-            self.combobox_audio2.set_sensitive(False)
+            if self.audio_source and self.audio_source == self.audio2_source:
+                if self.audio_source < len(self.audio_sources):
+                    self.audio2_source += 1
+                else:
+                    self.audio2_source = 0
+
+                self.combobox_audio2.set_active(0)
+            self.volumebutton_audio2.set_sensitive(True)
+        else:
+            self.volumebutton_audio2.set_sensitive(False)
+            logger.debug("Audio2 OFF.")
+
+
 
     def cb_video_changed(self, widget):
         logger.debug("Video changed.")
@@ -313,7 +346,7 @@ class KazamApp(GObject.GObject):
         logger.debug("Volume 2 changed, new value: {0}".format(value))
         idx = self.combobox_audio2.get_active()
         pa_idx =  self.audio_sources[idx][0]
-        chn = self.audio2_source_info[2].channels
+        chn = self.audio_source_info[2].channels
         cvol = self.pa_q.dB_to_cvolume(chn, value-60)
         self.pa_q.set_source_volume_by_index(pa_idx, cvol)
 
@@ -519,14 +552,10 @@ class KazamApp(GObject.GObject):
 
     def restore_state(self):
         video_toggled = self.config.getboolean("main", "video_toggled")
-        audio_toggled = self.config.getboolean("main", "audio_toggled")
-        audio2_toggled = self.config.getboolean("main", "audio2_toggled")
 
         video_source = self.config.getint("main", "video_source")
         audio_source = self.config.getint("main", "audio_source")
         audio2_source = self.config.getint("main", "audio2_source")
-
-        self.switch_video.set_active(video_toggled)
 
         self.main_x = self.config.getint("main", "last_x")
         self.main_y = self.config.getint("main", "last_y")
@@ -542,62 +571,45 @@ class KazamApp(GObject.GObject):
         self.combobox_video.set_sensitive(video_toggled)
 
         if self.sound:
-            self.switch_audio.set_active(audio_toggled)
-            self.switch_audio2.set_active(audio2_toggled)
-
-
             self.combobox_audio.set_active(audio_source)
-            self.combobox_audio.set_sensitive(audio_toggled)
+            self.combobox_audio.set_sensitive(True)
 
             self.combobox_audio2.set_active(audio2_source)
-            self.combobox_audio2.set_sensitive(audio2_toggled)
+            self.combobox_audio2.set_sensitive(True)
 
             logger.debug("Getting volume info.")
-            pa_audio_idx =  self.audio_sources[self.audio_source][0]
-            pa_audio2_idx =  self.audio_sources[self.audio2_source][0]
-            audio_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
-            audio2_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
 
-            #
-            # TODO: Deal with this in a different way
-            #
-            if len(audio_info) > 0:
-                audio_vol = 60 + self.pa_q.cvolume_to_dB(audio_info[2])
-            else:
-                logger.debug("Error getting volume info for Audio 1")
-                audio_vol = 0
-            if len(audio2_info) > 0:
-                audio2_vol = 60 + self.pa_q.cvolume_to_dB(audio2_info[2])
-            else:
-                logger.debug("Error getting volume info for Audio 2")
-                audio2_vol = 0
+            audio_vol = 0
+            audio2_vol = 0
 
-            logger.debug("Restoring state - volume: A_1 ({0}), A_2 ({1})".format(audio_vol,
-                                                                                   audio2_vol))
-            self.volumebutton_audio.set_sensitive(audio_toggled)
-            self.volumebutton_audio.set_value(audio_vol)
-            self.volumebutton_audio2.set_sensitive(audio2_toggled)
-            self.volumebutton_audio2.set_value(audio2_vol)
+            if self.audio_source:
+                pa_audio_idx =  self.audio_sources[self.audio_source][0]
+                audio_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
+                if len(audio_info) > 0:
+                    audio_vol = 60 + self.pa_q.cvolume_to_dB(audio_info[2])
+                else:
+                    logger.debug("Error getting volume info for Audio 1")
 
-            if len(self.audio_sources) == 1:
-                self.combobox_audio2.set_active(self.combobox_audio.get_active())
-                self.combobox_audio2.set_sensitive(False)
-                self.switch_audio2.set_active(False)
-                self.switch_audio2.set_sensitive(False)
+                self.volumebutton_audio.set_sensitive(True)
+                self.volumebutton_audio.set_value(audio_vol)
 
-            if audio_toggled:
-                self.switch_audio2.set_sensitive(True)
-                self.audio_source = audio_source
-            else:
-                self.switch_audio2.set_sensitive(False)
-                self.switch_audio2.set_active(False)
-                self.audio_source = None
+            if self.audio2_source:
+                pa_audio2_idx =  self.audio_sources[self.audio2_source][0]
+                audio2_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
 
-            if audio2_toggled:
-                self.audio2_source = audio2_source
-            else:
-                self.audio2_source = None
+                if len(audio2_info) > 0:
+                    audio2_vol = 60 + self.pa_q.cvolume_to_dB(audio2_info[2])
+                else:
+                    logger.debug("Error getting volume info for Audio 2")
 
+                self.volumebutton_audio2.set_sensitive(True)
+                self.volumebutton_audio2.set_value(audio2_vol)
+
+            logger.debug("Restored state - volume: A_1 ({0}), A_2 ({1})".format(audio_vol,
+                                                                                audio2_vol))
+
+            self.combobox_audio.set_sensitive(True)
+            self.combobox_audio2.set_sensitive(True)
 
         codec = self.config.getint("main", "codec")
         self.combobox_codec.set_active(codec)
@@ -609,29 +621,17 @@ class KazamApp(GObject.GObject):
         self.switch_cursor.set_active(self.config.getboolean("main", "capture_cursor"))
         self.switch_timer.set_active(self.config.getboolean("main", "timer_window"))
 
-        if video_toggled:
-            self.btn_record.set_sensitive(True)
-        else:
-            self.btn_record.set_sensitive(False)
-
-
     def save_state(self):
         logger.debug("Saving state.")
-        video_toggled = self.switch_video.get_active()
         video_source = self.combobox_video.get_active()
 
         if self.sound:
-            audio_toggled = self.switch_audio.get_active()
-            audio2_toggled = self.switch_audio2.get_active()
             audio_source = self.combobox_audio.get_active()
             audio2_source = self.combobox_audio2.get_active()
             self.config.set("main", "audio_source", audio_source)
             self.config.set("main", "audio2_source", audio2_source)
-            self.config.set("main", "audio_toggled", audio_toggled)
-            self.config.set("main", "audio2_toggled", audio2_toggled)
 
         self.config.set("main", "video_source", video_source)
-        self.config.set("main", "video_toggled", video_toggled)
 
         self.config.set("main", "capture_cursor", self.capture_cursor)
         self.config.set("main", "timer_window", self.timer_window)
@@ -656,6 +656,7 @@ class KazamApp(GObject.GObject):
             logger.debug("Getting Audio sources.")
             try:
                 self.audio_sources = self.pa_q.get_audio_sources()
+                self.audio_sources.insert(0, [])
                 if self.debug:
                     for src in self.audio_sources:
                         logger.debug(" Device found: ")
@@ -701,8 +702,12 @@ class KazamApp(GObject.GObject):
 
         if audio:
             for source in self.audio_sources:
-                self.combobox_audio.append(None, source[2])
-                self.combobox_audio2.append(None, source[2])
+                if not len(source):
+                    self.combobox_audio.append(None, "Off")
+                    self.combobox_audio2.append(None, "Off")
+                else:
+                    self.combobox_audio.append(None, source[2])
+                    self.combobox_audio2.append(None, source[2])
 
         self.combobox_video.remove_all()
 

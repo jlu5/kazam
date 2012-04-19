@@ -293,6 +293,18 @@ class pulseaudio_q:
         except:
             raise PAError(PA_GET_SOURCES_ERROR, "Unable to get sources.")
 
+    def set_source_mute_by_index(self, index, mute):
+        try:
+            pa_context_set_source_mute_by_index(self.pa_ctx, index, mute,
+                                                  self._pa_context_success_cb, None)
+            t = time.clock()
+            while time.clock() - t < 5:
+                if self.pa_status == PA_FINISHED:
+                    return 1
+            raise PAError(PA_GET_SOURCES_TIMEOUT, "Unable to get sources, operation timed out.")
+        except:
+            raise PAError(PA_GET_SOURCES_ERROR, "Unable to get sources.")
+
     def cvolume_to_linear(self, cvolume):
         avg = 0
         for chn in range(cvolume.channels):

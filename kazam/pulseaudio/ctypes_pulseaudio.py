@@ -178,6 +178,10 @@ pa_context_set_source_volume_by_index = PA.pa_context_set_source_volume_by_index
 pa_context_set_source_volume_by_index.restype = POINTER(pa_operation)
 pa_context_set_source_volume_by_index.argtypes = [POINTER(pa_context), uint32_t, POINTER(pa_cvolume), pa_context_success_cb_t, c_void_p]
 
+pa_context_set_source_mute_by_index = PA.pa_context_set_source_mute_by_index
+pa_context_set_source_mute_by_index.restype = POINTER(pa_operation)
+pa_context_set_source_mute_by_index.argtypes = [POINTER(pa_context), uint32_t, c_int, pa_context_success_cb_t, c_void_p]
+
 pa_sw_volume_from_linear = PA.pa_sw_volume_from_linear
 pa_sw_volume_from_linear.restype = pa_volume_t
 pa_sw_volume_from_linear.argtypes = [c_double]
@@ -191,7 +195,3 @@ pa_sw_volume_from_dB.argtypes = [c_double]
 pa_sw_volume_to_dB = PA.pa_sw_volume_to_dB
 pa_sw_volume_to_dB.restype = c_double
 pa_sw_volume_to_dB.argtypes = [pa_volume_t]
-
-
-
-
