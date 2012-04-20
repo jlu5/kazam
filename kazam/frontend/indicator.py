@@ -62,6 +62,8 @@ class KazamSuperIndicator(GObject.GObject):
         self.blink_icon = BLINK_STOP_ICON
         self.blink_state = False
         self.blink_mode = BLINK_SLOW
+        self.recording = False
+
         self.menu = Gtk.Menu()
 
         self.menuitem_start = Gtk.MenuItem(_("Start recording"))
@@ -70,7 +72,7 @@ class KazamSuperIndicator(GObject.GObject):
 
         self.menuitem_pause = Gtk.CheckMenuItem(_("Pause recording"))
         self.menuitem_pause.set_sensitive(False)
-        self.menuitem_pause.connect("activate", self.on_menuitem_pause_activate)
+        self.menuitem_pause.connect("toggled", self.on_menuitem_pause_activate)
 
         self.menuitem_finish = Gtk.MenuItem(_("Finish recording"))
         self.menuitem_finish.set_sensitive(False)
@@ -94,6 +96,32 @@ class KazamSuperIndicator(GObject.GObject):
         self.menu.append(self.menuitem_quit)
         self.menu.show_all()
 
+        #
+        # Setup keybindings - Hardcore way
+        #
+        try:
+            from gi.repository import Keybinder
+            logger.debug("Trying to bind hotkeys.")
+            Keybinder.init()
+            Keybinder.bind("<Super><Ctrl>R", self.cb_hotkeys, "start-request")
+            Keybinder.bind("<Super><Ctrl>F", self.cb_hotkeys, "stop-request")
+            Keybinder.bind("<Super><Ctrl>P", self.cb_hotkeys, "pause-request")
+            self.recording = False
+        except ImportError:
+            logger.info("Unable to import Keybinder, hotkeys not available.")
+
+    def cb_hotkeys(self, key, action):
+        logger.debug("KEY {0}, ACTION {1}".format(key, action))
+        if action == "start-request" and not self.recording:
+            self.on_menuitem_start_activate(None)
+        elif action == "stop-request" and self.recording:
+            self.on_menuitem_finish_activate(None)
+        elif action == "pause-request" and self.recording:
+            if not self.menuitem_pause.get_active():
+                self.menuitem_pause.set_active(True)
+            else:
+                self.menuitem_pause.set_active(False)
+
     def on_menuitem_pause_activate(self, menuitem):
         if self.menuitem_pause.get_active():
             self.emit("indicator-pause-request")
@@ -101,9 +129,11 @@ class KazamSuperIndicator(GObject.GObject):
             self.emit("indicator-unpause-request")
 
     def on_menuitem_start_activate(self, menuitem):
+        self.recording = True
         self.emit("indicator-start-request")
 
     def on_menuitem_finish_activate(self, menuitem):
+        self.recording = False
         self.menuitem_start.set_sensitive(True)
         self.menuitem_pause.set_sensitive(False)
         self.menuitem_pause.set_active(False)
@@ -137,14 +167,14 @@ try:
         def on_menuitem_pause_activate(self, menuitem):
             if menuitem.get_active():
                 self.indicator.set_attention_icon("kazam-paused")
-                logger.info("Recording paused.")
+                logger.debug("Recording paused.")
             else:
                 self.indicator.set_attention_icon("kazam-recording")
-                logger.info("Recording resumed.")
+                logger.debug("Recording resumed.")
             KazamSuperIndicator.on_menuitem_pause_activate(self, menuitem)
 
         def on_menuitem_finish_activate(self, menuitem):
-            logger.info("Recording stopped.")
+            logger.debug("Recording stopped.")
             self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
             KazamSuperIndicator.on_menuitem_finish_activate(self, menuitem)
 
@@ -175,7 +205,7 @@ try:
                     GObject.timeout_add(200, self.blink)
 
         def start_recording(self):
-            logger.info("Recording started.")
+            logger.debug("Recording started.")
             self.indicator.set_status(AppIndicator3.IndicatorStatus.ATTENTION)
 
 except ImportError:
@@ -204,17 +234,17 @@ except ImportError:
             self.menu.popup(None, None, position, self.indicator, button, time)
 
         def on_menuitem_finish_activate(self, menuitem):
-            logger.info("Recording stopped.")
+            logger.debug("Recording stopped.")
             self.indicator.set_from_icon_name("kazam-stopped")
             KazamSuperIndicator.on_menuitem_finish_activate(self, menuitem)
 
         def on_menuitem_pause_activate(self, menuitem):
             if menuitem.get_active():
                 self.indicator.set_from_icon_name("kazam-paused")
-                logger.info("Recording paused.")
+                logger.debug("Recording paused.")
             else:
                 self.indicator.set_from_icon_name("kazam-recording")
-                logger.info("Recording resumed.")
+                logger.debug("Recording resumed.")
             KazamSuperIndicator.on_menuitem_pause_activate(self, menuitem)
 
         def blink_set_state(self, state):
@@ -244,6 +274,5 @@ except ImportError:
                     GObject.timeout_add(200, self.blink)
 
         def start_recording(self):
-            logger.info("Recording started.")
+            logger.debug("Recording started.")
             self.indicator.set_from_icon_name("kazam-recording")
-

@@ -44,6 +44,7 @@ class KazamApp(GObject.GObject):
     def __init__(self, datadir, dist, debug, test, sound):
         GObject.GObject.__init__(self)
         logger.debug("Setting variables.")
+
         self.datadir = datadir
         self.debug = debug
         self.test = test
@@ -83,6 +84,7 @@ class KazamApp(GObject.GObject):
         self.timer_window = True
         self.in_countdown = False
         self.recording_paused = False
+        self.recording = False
 
         if self.sound:
             self.pa_q = pulseaudio_q()
@@ -143,12 +145,10 @@ class KazamApp(GObject.GObject):
             self.volumebutton_audio.set_sensitive(False)
             self.volumebutton_audio2.set_sensitive(False)
 
-        # self.keyboard_handler = KeyboardHandler(self.cb_keyboard_press)
-        # self.keyboard_handler.start()
-
     #
     # Callbacks, go down here ...
     #
+
     def cb_screen_size_changed(self, screen):
         logger.debug("Screen size changed.")
         old_source = self.video_source
@@ -174,7 +174,9 @@ class KazamApp(GObject.GObject):
         try:
             os.remove(self.recorder.tempfile)
             os.remove("{0}.mux".format(self.recorder.tempfile))
-        except:
+        except OSError:
+            logger.info("Unable to delete one of the temporary files. Check your temporary directory.")
+        except AttributeError:
             pass
 
         self.save_state()
@@ -359,6 +361,7 @@ class KazamApp(GObject.GObject):
         self.recorder.start_recording()
 
     def cb_stop_request(self, widget):
+        self.recording = False
         if self.in_countdown:
             logger.debug("Cancel countdown request.")
             self.countdown.cancel_countdown()
@@ -385,8 +388,8 @@ class KazamApp(GObject.GObject):
         self.done_recording.connect("save-done", self.cb_save_done)
         self.done_recording.connect("save-cancel", self.cb_save_cancel)
         self.done_recording.connect("edit-request", self.cb_edit_request)
-        self.done_recording.show_all()
         logger.debug("Done recording signals connected.")
+        self.done_recording.show_all()
         self.window.set_sensitive(False)
 
     def cb_pause_request(self, widget):
@@ -411,7 +414,9 @@ class KazamApp(GObject.GObject):
         try:
             logger.debug("Save canceled, removing {0}".format(self.tempfile))
             os.remove(self.tempfile)
-        except:
+        except OSError:
+            logger.info("Failed to remove tempfile {0}".format(self.tempfile))
+        except AttributeError:
             logger.info("Failed to remove tempfile {0}".format(self.tempfile))
             pass
 
@@ -488,8 +493,12 @@ class KazamApp(GObject.GObject):
         #
         # Annoyances with the menus
         #
-        (self.main_x, self.main_y) = self.window.get_position()
+        (main_x, main_y) = self.window.get_position()
+        if main_x and main_y:
+            self.main_x = main_x
+            self.main_y = main_y
 
+        self.indicator.recording = True
         self.indicator.menuitem_start.set_sensitive(False)
         self.indicator.menuitem_pause.set_sensitive(False)
         self.indicator.menuitem_finish.set_sensitive(True)
@@ -504,12 +513,12 @@ class KazamApp(GObject.GObject):
         self.indicator.blink_set_state(BLINK_START)
 
         if self.sound:
-            if self.audio_source is not None:
+            if self.audio_source > 0:
                 audio_source = self.audio_sources[self.audio_source][1]
             else:
                 audio_source = None
 
-            if self.audio2_source is not None:
+            if self.audio2_source > 0:
                 audio2_source = self.audio_sources[self.audio2_source][1]
             else:
                 audio2_source = None
@@ -537,6 +546,7 @@ class KazamApp(GObject.GObject):
         self.countdown = CountdownWindow(self.indicator, show_window = self.timer_window)
         self.countdown.connect("counter-finished", self.cb_counter_finished)
         self.countdown.run(self.spinbutton_counter.get_value_as_int())
+        self.recording = True
         logger.debug("Hiding main window.")
         self.window.hide()
 
@@ -569,12 +579,6 @@ class KazamApp(GObject.GObject):
         self.combobox_video.set_sensitive(video_toggled)
 
         if self.sound:
-            self.combobox_audio.set_active(audio_source)
-            self.combobox_audio.set_sensitive(True)
-
-            self.combobox_audio2.set_active(audio2_source)
-            self.combobox_audio2.set_sensitive(True)
-
             logger.debug("Getting volume info.")
 
             audio_vol = 0
@@ -606,7 +610,9 @@ class KazamApp(GObject.GObject):
             logger.debug("Restored state - volume: A_1 ({0}), A_2 ({1})".format(audio_vol,
                                                                                 audio2_vol))
 
+            self.combobox_audio.set_active(audio_source)
             self.combobox_audio.set_sensitive(True)
+            self.combobox_audio2.set_active(audio2_source)
             self.combobox_audio2.set_sensitive(True)
 
         codec = self.config.getint("main", "codec")
