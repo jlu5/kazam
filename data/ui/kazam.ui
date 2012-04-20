@@ -32,11 +32,9 @@
     <property name="resizable">False</property>
     <signal name="delete-event" handler="cb_delete_event" swapped="no"/>
     <child>
-      <object class="GtkBox" id="box1">
+      <object class="GtkGrid" id="grid5">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">4</property>
         <child>
           <object class="GtkGrid" id="grid2">
             <property name="visible">True</property>
@@ -62,6 +60,8 @@
               <object class="GtkComboBoxText" id="combobox_video">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Select the video source</property>
                 <property name="tooltip_text" translatable="yes">Select the video source</property>
                 <property name="margin_right">5</property>
                 <property name="entry_text_column">0</property>
@@ -95,6 +95,8 @@
               <object class="GtkComboBoxText" id="combobox_audio">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Select your audio ouput device (speakers of headphones)</property>
                 <property name="tooltip_text" translatable="yes">Select your audio ouput device (speakers of headphones)</property>
                 <property name="margin_right">5</property>
                 <property name="entry_text_column">0</property>
@@ -115,6 +117,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Set volume</property>
                 <property name="tooltip_text" translatable="yes">Set volume</property>
                 <property name="use_action_appearance">False</property>
                 <property name="relief">none</property>
@@ -154,6 +157,8 @@ audio-volume-medium</property>
               <object class="GtkComboBoxText" id="combobox_audio2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Select your audio input device (microphone)</property>
                 <property name="tooltip_text" translatable="yes">Select your audio input device (microphone)</property>
                 <property name="margin_right">5</property>
                 <property name="entry_text_column">0</property>
@@ -174,6 +179,7 @@ audio-volume-medium</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Set volume</property>
                 <property name="tooltip_text" translatable="yes">Set volume</property>
                 <property name="use_action_appearance">False</property>
                 <property name="relief">none</property>
@@ -213,6 +219,8 @@ audio-volume-medium</property>
               <object class="GtkComboBoxText" id="combobox_codec">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Select what encoder you want to use</property>
                 <property name="tooltip_text" translatable="yes">Select what encoder you want to use</property>
                 <property name="margin_right">5</property>
                 <property name="entry_text_column">0</property>
@@ -246,21 +254,10 @@ audio-volume-medium</property>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkSeparator" id="separator1">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hexpand">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -304,6 +301,8 @@ audio-volume-medium</property>
               <object class="GtkSpinButton" id="spinbutton_counter">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Set the coundown time (in seconds)</property>
                 <property name="tooltip_text" translatable="yes">Set the coundown time (in seconds)</property>
                 <property name="valign">center</property>
                 <property name="margin_right">10</property>
@@ -322,6 +321,8 @@ audio-volume-medium</property>
               <object class="GtkSpinButton" id="spinbutton_framerate">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Set the number of frames per second</property>
                 <property name="tooltip_text" translatable="yes">Set the number of frames per second</property>
                 <property name="margin_right">10</property>
                 <property name="invisible_char">•</property>
@@ -371,6 +372,8 @@ audio-volume-medium</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Toggle display of countdown splash</property>
                 <property name="tooltip_text" translatable="yes">Toggle display of countdown splash</property>
                 <property name="halign">end</property>
                 <property name="valign">end</property>
@@ -390,6 +393,8 @@ audio-volume-medium</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Toggle capturing of mouse cursor</property>
                 <property name="tooltip_text" translatable="yes">Toggle capturing of mouse cursor</property>
                 <property name="halign">end</property>
                 <property name="valign">center</property>
@@ -420,6 +425,8 @@ audio-volume-medium</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip_markup" translatable="yes">Select a screen region to record</property>
                     <property name="tooltip_text" translatable="yes">Select a screen region to record</property>
                     <property name="halign">end</property>
                     <property name="use_action_appearance">False</property>
@@ -444,21 +451,10 @@ audio-volume-medium</property>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkSeparator" id="separator2">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hexpand">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
         <child>
@@ -474,6 +470,8 @@ audio-volume-medium</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Quit Kazam</property>
                 <property name="tooltip_text" translatable="yes">Quit Kazam</property>
                 <property name="use_action_appearance">False</property>
                 <signal name="clicked" handler="cb_quit_request" swapped="no"/>
@@ -493,6 +491,8 @@ audio-volume-medium</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Minimize the app to the appindicator</property>
                 <property name="tooltip_text" translatable="yes">Minimize the app to the appindicator</property>
                 <property name="use_action_appearance">False</property>
                 <signal name="clicked" handler="cb_close_clicked" swapped="no"/>
@@ -511,6 +511,8 @@ audio-volume-medium</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">About Kazam</property>
                 <property name="tooltip_text" translatable="yes">About Kazam</property>
                 <property name="use_action_appearance">False</property>
                 <signal name="clicked" handler="cb_about_clicked" swapped="no"/>
@@ -531,6 +533,8 @@ audio-volume-medium</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Start recording</property>
                 <property name="tooltip_text" translatable="yes">Start recording</property>
                 <property name="use_action_appearance">False</property>
                 <signal name="clicked" handler="cb_record_clicked" swapped="no"/>
@@ -544,9 +548,38 @@ audio-volume-medium</property>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="left_attach">0</property>
+            <property name="top_attach">4</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSeparator" id="separator1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">5</property>
+            <property name="margin_bottom">5</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSeparator" id="separator2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">5</property>
+            <property name="margin_bottom">5</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">3</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
           </packing>
         </child>
       </object>
