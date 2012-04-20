@@ -185,7 +185,7 @@ class RegionWindow(GObject.GObject):
         #    cr.set_operator(cairo.OPERATOR_OVER)
         #else:
         if self.compositing:
-            cr.set_source_rgba(0.0, 0.0, 0.0, 0.4)
+            cr.set_source_rgba(0.0, 0.0, 0.0, 0.65)
         else:
             cr.set_source_rgb(0.5, 0.5, 0.5)
 
@@ -195,7 +195,7 @@ class RegionWindow(GObject.GObject):
             cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
         else:
             cr.set_source_rgba(1.0, 1.0, 1.0)
-        cr.set_line_width(1.0)
+        cr.set_line_width(6.0)
         cr.move_to(0, 0)
         cr.rectangle(0, 0, 16, 16)
         cr.rectangle(w-16, 0, 16, 16)
@@ -208,13 +208,13 @@ class RegionWindow(GObject.GObject):
         cr.rectangle(w-16, h/2-8, 16, 16)
 
         cr.fill()
-        cr.set_source_rgb(0.0, 0.0, 0.0)
+        cr.set_source_rgb(0.65, 0.65, 0.65)
         cr.rectangle(0, 0, w, h)
         cr.stroke()
         cr.set_operator(cairo.OPERATOR_OVER)
-        self._outline_text(cr, w, h, 24, _("Select region by resizing the window"))
-        self._outline_text(cr, w, h + 50, 24, _("Press ENTER to confirm or ESC to cancel."))
-        self._outline_text(cr, w, h + 80, 12, "({0} x {1})".format(w, h))
+        self._outline_text(cr, w, h, 30, _("Select region by resizing the rectangle"))
+        self._outline_text(cr, w, h + 50, 26, _("Press ENTER to confirm or ESC to cancel"))
+        self._outline_text(cr, w, h + 100, 20, "({0} x {1})".format(w, h))
 
 
     def _outline_text(self, cr, w, h, size, text):
