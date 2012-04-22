@@ -170,6 +170,7 @@ class KazamApp(GObject.GObject):
 
     def cb_quit_request(self, indicator):
         logger.debug("Quit requested.")
+        (self.main_x, self.main_y) = self.window.get_position()
         try:
             os.remove(self.recorder.tempfile)
             os.remove("{0}.mux".format(self.recorder.tempfile))
@@ -177,9 +178,7 @@ class KazamApp(GObject.GObject):
             logger.info("Unable to delete one of the temporary files. Check your temporary directory.")
         except AttributeError:
             pass
-
         self.save_state()
-
         if self.sound:
             self.pa_q.end()
 
@@ -199,8 +198,7 @@ class KazamApp(GObject.GObject):
         AboutDialog(self.icons)    
 
     def cb_delete_event(self, widget, user_data):
-        (self.main_x, self.main_y) = self.window.get_position()
-        return self.window.hide_on_delete()
+        self.cb_quit_request(None)
 
     def cb_video_switch(self, widget, user_data):
         if widget.get_active():
