@@ -103,6 +103,7 @@ class KazamApp(GObject.GObject):
         self.indicator.connect("indicator-stop-request", self.cb_stop_request)
         self.indicator.connect("indicator-pause-request", self.cb_pause_request)
         self.indicator.connect("indicator-unpause-request", self.cb_unpause_request)
+        self.indicator.connect("indicator-about-request", self.cb_about_request)
 
         #
         # Setup UI
@@ -140,8 +141,6 @@ class KazamApp(GObject.GObject):
         if not self.sound:
             self.combobox_audio.set_sensitive(False)
             self.combobox_audio2.set_sensitive(False)
-            self.switch_audio.set_sensitive(False)
-            self.switch_audio2.set_sensitive(False)
             self.volumebutton_audio.set_sensitive(False)
             self.volumebutton_audio2.set_sensitive(False)
 
@@ -196,7 +195,7 @@ class KazamApp(GObject.GObject):
         (self.main_x, self.main_y) = self.window.get_position()
         self.window.hide()
         
-    def cb_about_clicked(self, activated):
+    def cb_about_request(self, activated):
         AboutDialog(self.icons)    
 
     def cb_delete_event(self, widget, user_data):
@@ -219,7 +218,6 @@ class KazamApp(GObject.GObject):
         if widget.get_active():
             logger.debug("Audio1 ON.")
             self.combobox_audio.set_sensitive(True)
-            self.switch_audio2.set_sensitive(True)
             self.volumebutton_audio.set_sensitive(True)
             self.audio_source = self.combobox_audio.get_active()
         else:
@@ -227,8 +225,6 @@ class KazamApp(GObject.GObject):
             self.combobox_audio.set_sensitive(False)
             self.volumebutton_audio.set_sensitive(False)
             self.combobox_audio2.set_sensitive(False)
-            self.switch_audio2.set_sensitive(False)
-            self.switch_audio2.set_active(False)
             self.volumebutton_audio2.set_sensitive(False)
             self.audio_source = None
             self.audio2_source = None
@@ -245,9 +241,6 @@ class KazamApp(GObject.GObject):
             self.combobox_audio2.set_sensitive(False)
             self.volumebutton_audio2.set_sensitive(False)
             self.audio2_source = None
-
-    def cb_audio_changed(self, widget):
-        logger.debug("Audio Changed.")
 
         self.audio_source = self.combobox_audio.get_active()
         logger.debug("  - A_1 {0}".format(self.audio_source))
@@ -314,8 +307,6 @@ class KazamApp(GObject.GObject):
         else:
             self.volumebutton_audio2.set_sensitive(False)
             logger.debug("Audio2 OFF.")
-
-
 
     def cb_video_changed(self, widget):
         logger.debug("Video changed.")
@@ -436,6 +427,9 @@ class KazamApp(GObject.GObject):
         Popen(arg_list)
         self.window.set_sensitive(True)
         self.window.show_all()
+
+    def cb_audio_changed(self, widget):
+        logger.debug("Audio Changed.")
 
     def cb_cursor_switch(self, widget, user_data):
         if self.switch_cursor.get_active():
