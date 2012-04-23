@@ -126,7 +126,6 @@ class Screencast(GObject.GObject):
             endx = startx + width - 1
             endy = starty + height - 1
 
-
         #
         # H264 requirement is that video dimensions are divisible by 2.
         # If they are not, we have to get rid of that extra pixel.
@@ -189,6 +188,7 @@ class Screencast(GObject.GObject):
             self.mux.set_property("streamable", 1)
         elif self.codec == CODEC_HUFF:
             self.mux = gst.element_factory_make("avimux", "muxer")
+            self.videnc.set_property("bitrate", 500000)
         elif self.codec == CODEC_JPEG:
             self.mux = gst.element_factory_make("avimux", "muxer")
 

@@ -124,6 +124,17 @@ class KazamApp(GObject.GObject):
             else:
                 logger.debug("Unable to get name for '%s'" % w)
 
+        self.volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
+        self.volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
+        self.framerate_adjustment = Gtk.Adjustment(25, 1, 60, 1, 5, 0)
+        self.counter_adjustment = Gtk.Adjustment(5, 0, 65, 1, 5, 0)
+
+        self.volumebutton_audio.set_adjustment(self.volume_adjustment)
+        self.volumebutton_audio2.set_adjustment(self.volume2_adjustment)
+        self.spinbutton_framerate.set_adjustment(self.framerate_adjustment)
+        self.spinbutton_counter.set_adjustment(self.counter_adjustment)
+
+
         #
         # Take care of screen size changes.
         #
@@ -227,10 +238,11 @@ class KazamApp(GObject.GObject):
 
             logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
             self.audio_source_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
-            volume = self.volumebutton_audio.get_value()
-            chn = self.audio_source_info[2].channels
-            cvol = self.pa_q.dB_to_cvolume(chn, volume-60)
-            self.pa_q.set_source_volume_by_index(pa_audio_idx, cvol)
+            if len(self.audio_source_info) > 0:
+                vol = 60 + self.pa_q.cvolume_to_dB(self.audio_source_info[2])
+                self.volumebutton_audio.set_value(vol)
+            else:
+                logger.debug("Error getting volume info for Audio 1")
 
             if len(self.audio_source_info):
                logger.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
@@ -261,11 +273,12 @@ class KazamApp(GObject.GObject):
 
             logger.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
             self.audio2_source_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
-            volume = self.volumebutton_audio2.get_value()
-            chn = self.audio_source_info[2].channels
-            cvol = self.pa_q.dB_to_cvolume(chn, volume-60)
-            self.pa_q.set_source_volume_by_index(pa_audio2_idx, cvol)
 
+            if len(self.audio2_source_info) > 0:
+                vol = 60 + self.pa_q.cvolume_to_dB(self.audio2_source_info[2])
+                self.volumebutton_audio2.set_value(vol)
+            else:
+                logger.debug("Error getting volume info for Audio 1")
 
             if len(self.audio2_source_info):
                 logger.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
@@ -551,38 +564,17 @@ class KazamApp(GObject.GObject):
         if self.sound:
             logger.debug("Getting volume info.")
 
-            audio_vol = 0
-            audio2_vol = 0
-
-            if self.audio_source:
-                pa_audio_idx =  self.audio_sources[self.audio_source][0]
-                audio_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
-                if len(audio_info) > 0:
-                    audio_vol = 60 + self.pa_q.cvolume_to_dB(audio_info[2])
-                else:
-                    logger.debug("Error getting volume info for Audio 1")
-
+            if audio_source:
+                self.combobox_audio.set_active(audio_source)
                 self.volumebutton_audio.set_sensitive(True)
-                self.volumebutton_audio.set_value(audio_vol)
 
-            if self.audio2_source:
-                pa_audio2_idx =  self.audio_sources[self.audio2_source][0]
-                audio2_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
-
-                if len(audio2_info) > 0:
-                    audio2_vol = 60 + self.pa_q.cvolume_to_dB(audio2_info[2])
-                else:
-                    logger.debug("Error getting volume info for Audio 2")
-
+            if audio2_source:
+                self.combobox_audio2.set_active(audio2_source)
                 self.volumebutton_audio2.set_sensitive(True)
-                self.volumebutton_audio2.set_value(audio2_vol)
+            else:
+                self.combobox_audio2.set_active(0)
 
-            logger.debug("Restored state - volume: A_1 ({0}), A_2 ({1})".format(audio_vol,
-                                                                                audio2_vol))
-
-            self.combobox_audio.set_active(audio_source)
             self.combobox_audio.set_sensitive(True)
-            self.combobox_audio2.set_active(audio2_source)
             self.combobox_audio2.set_sensitive(True)
 
         codec = self.config.getint("main", "codec")
