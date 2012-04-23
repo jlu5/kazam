@@ -546,9 +546,11 @@ class KazamApp(Gtk.Window):
 
         self.combobox_audio.set_active(audio_source)
         self.combobox_audio.set_sensitive(audio_toggled)
+        self.volumebutton_audio.set_sensitive(audio_toggled)
 
         self.combobox_audio2.set_active(audio2_source)
         self.combobox_audio2.set_sensitive(audio2_toggled)
+        self.volumebutton_audio2.set_sensitive(audio2_toggled)
 
         logger.debug("Getting volume info.")
         pa_audio_idx =  self.audio_sources[self.audio_source][0]
@@ -556,26 +558,8 @@ class KazamApp(Gtk.Window):
         audio_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
         audio2_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
 
-        #
-        # TODO: Deal with this in a different way
-        #
-        if len(audio_info) > 0:
-            audio_vol = 60 + self.pa_q.cvolume_to_dB(audio_info[2])
-        else:
-            logger.debug("Error getting volume info for Audio 1")
-            audio_vol = 0
-        if len(audio2_info) > 0:
-            audio2_vol = 60 + self.pa_q.cvolume_to_dB(audio2_info[2])
-        else:
-            logger.debug("Error getting volume info for Audio 2")
-            audio2_vol = 0
-
-        logger.debug("Restoring state - volume: A_1 ({0}), A_2 ({1})".format(audio_vol,
-                                                                               audio2_vol))
         self.volumebutton_audio.set_sensitive(audio_toggled)
-        self.volumebutton_audio.set_value(audio_vol)
         self.volumebutton_audio2.set_sensitive(audio2_toggled)
-        self.volumebutton_audio2.set_value(audio2_vol)
 
         codec = self.config.getint("main", "codec")
         self.combobox_codec.set_active(codec)
