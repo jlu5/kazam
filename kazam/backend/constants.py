@@ -22,9 +22,23 @@
 
 # Codecs
 
-CODEC_VP8 = 0
-CODEC_H264 = 1
+CODEC_RAW = 0
+CODEC_VP8 = 1
+CODEC_H264 = 2
+CODEC_HUFF = 3
+CODEC_JPEG = 4
 
+#
+# Number, gstreamer element name, string description, file extension, advanced
+#
+
+CODEC_LIST = [
+              [0, None, 'RAW / AVI', '.avi', True],
+              [1, 'vp8enc', 'VP8 / WEBM', '.webm', False],
+              [2, 'x264enc', 'H264 / MP4', 'mp4', False],
+              [3, 'ffenc_huffyuv', 'Lossless HUFFYUV / AVI', '.avi', True],
+              [4, 'ffenc_ljpeg', 'Lossless JPEG / AVI', '.avi', True],
+             ]
 
 # PulseAudio Error Codes
 PA_LOAD_ERROR = 1

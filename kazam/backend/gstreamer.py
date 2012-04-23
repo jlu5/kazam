@@ -87,7 +87,7 @@ class Screencast(GObject.GObject):
 
         logger.debug("Capture Cursor: {0}".format(capture_cursor))
         logger.debug("Framerate : {0}".format(capture_cursor))
-        logger.debug("Codec: {0}".format(get_codec_name(codec)))
+        logger.debug("Codec: {0}".format(CODEC_LIST[codec][1]))
 
         if self.video_source:
             self.setup_video_source()
@@ -162,22 +162,23 @@ class Screencast(GObject.GObject):
         self.ffmpegcolor = gst.element_factory_make("ffmpegcolorspace", "ffmpeg")
         self.videorate = gst.element_factory_make("videorate", "video_rate")
 
-        if self.codec == CODEC_VP8:
-            logger.debug("Codec: VP8/WEBM")
-            self.videnc = gst.element_factory_make("vp8enc", "video_encoder")
+        logger.debug("Codec: {0}".format(CODEC_LIST[self.codec][2]))
 
+        if self.codec is not CODEC_RAW:
+            self.videnc = gst.element_factory_make(CODEC_LIST[self.codec][1], "video_encoder")
+
+        if self.codec == CODEC_RAW:
+            self.mux = gst.element_factory_make("avimux", "muxer")
+        elif self.codec == CODEC_VP8:
             if self.dist[0] == 'Ubuntu':
                 self.videnc.set_property("speed", 6)
             elif self.dist[0] == 'LinuxMint':
                 self.videnc.set_property("speed", 2)
-
             self.videnc.set_property("max-latency", 1)
             self.videnc.set_property("quality", 8)
             self.videnc.set_property("threads", self.cores)
             self.mux = gst.element_factory_make("webmmux", "muxer")
         elif self.codec == CODEC_H264:
-            logger.debug("Codec: H264/MP4")
-            self.videnc = gst.element_factory_make("x264enc", "video_encoder")
             self.videnc.set_property("speed-preset", "veryfast")
             self.videnc.set_property("pass", 4)
             self.videnc.set_property("quantizer", 15)
@@ -186,6 +187,10 @@ class Screencast(GObject.GObject):
             self.mux.set_property("faststart", 1)
             self.mux.set_property("faststart-file", self.muxer_tempfile)
             self.mux.set_property("streamable", 1)
+        elif self.codec == CODEC_HUFF:
+            self.mux = gst.element_factory_make("avimux", "muxer")
+        elif self.codec == CODEC_JPEG:
+            self.mux = gst.element_factory_make("avimux", "muxer")
 
         self.vid_in_queue = gst.element_factory_make("queue", "queue_v1")
         self.vid_out_queue = gst.element_factory_make("queue", "queue_v2")
@@ -201,7 +206,7 @@ class Screencast(GObject.GObject):
         if self.codec == CODEC_VP8:
             self.audioenc = gst.element_factory_make("vorbisenc", "audio_encoder")
             self.audioenc.set_property("quality", 1)
-        elif self.codec == CODEC_H264:
+        else:
             self.audioenc = gst.element_factory_make("lamemp3enc", "audio_encoder")
             self.audioenc.set_property("quality", 0)
 
@@ -226,32 +231,56 @@ class Screencast(GObject.GObject):
         self.sink.set_property("location", self.tempfile)
         self.file_queue = gst.element_factory_make("queue", "queue_file")
 
+    #
+    # One day, this horrific code will be optimised... I promise!
+    #
     def setup_pipeline(self):
         if self.video_source and not self.audio_source and not self.audio2_source:
             logger.debug("Pipline - Video only".format(self.audio_source))
-            self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
-                              self.vid_caps_filter, self.ffmpegcolor,
-                              self.videnc, self.vid_out_queue, self.mux,
-                              self.sink)
-            gst.element_link_many(self.videosrc, self.vid_in_queue,
-                                  self.videorate, self.vid_caps_filter,
-                                  self.ffmpegcolor, self.videnc,
+            if self.codec == CODEC_RAW:
+                self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
+                                  self.vid_caps_filter, self.ffmpegcolor,
                                   self.vid_out_queue, self.mux,
                                   self.sink)
+                gst.element_link_many(self.videosrc, self.vid_in_queue,
+                                      self.videorate, self.vid_caps_filter,
+                                      self.ffmpegcolor, self.vid_out_queue,
+                                      self.mux, self.sink)
+            else:
+                self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
+                                  self.vid_caps_filter, self.ffmpegcolor,
+                                  self.videnc, self.vid_out_queue, self.mux,
+                                  self.sink)
+                gst.element_link_many(self.videosrc, self.vid_in_queue,
+                                      self.videorate, self.vid_caps_filter,
+                                      self.ffmpegcolor, self.videnc,
+                                      self.vid_out_queue, self.mux,
+                                      self.sink)
 
         elif self.video_source and self.audio_source and not self.audio2_source:
             logger.debug("Pipline - Video + Audio".format(self.audio_source))
-            self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
-                              self.vid_caps_filter, self.ffmpegcolor,
-                              self.videnc, self.audiosrc, self.aud_in_queue,
-                              self.aud_caps_filter, self.vid_out_queue,
-                              self.aud_out_queue, self.audioconv,
-                              self.audioenc, self.mux, self.file_queue, self.sink)
-
-            gst.element_link_many(self.videosrc, self.vid_in_queue,
-                                  self.videorate, self.vid_caps_filter,
-                                  self.ffmpegcolor, self.videnc,
-                                  self.vid_out_queue, self.mux)
+            if self.codec == CODEC_RAW:
+                self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
+                                  self.vid_caps_filter, self.ffmpegcolor,
+                                  self.audiosrc, self.aud_in_queue,
+                                  self.aud_caps_filter, self.vid_out_queue,
+                                  self.aud_out_queue, self.audioconv,
+                                  self.audioenc, self.mux, self.file_queue, self.sink)
+                gst.element_link_many(self.videosrc, self.vid_in_queue,
+                                      self.videorate, self.vid_caps_filter,
+                                      self.ffmpegcolor,
+                                      self.vid_out_queue, self.mux)
+            else:
+                self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
+                                  self.vid_caps_filter, self.ffmpegcolor,
+                                  self.videnc, self.audiosrc, self.aud_in_queue,
+                                  self.aud_caps_filter, self.vid_out_queue,
+                                  self.aud_out_queue, self.audioconv,
+                                  self.audioenc, self.mux, self.file_queue, self.sink)
+                gst.element_link_many(self.videosrc, self.vid_in_queue,
+                                      self.videorate, self.vid_caps_filter,
+                                      self.ffmpegcolor, self.videnc,
+                                      self.vid_out_queue, self.mux)
 
             gst.element_link_many(self.audiosrc, self.aud_in_queue,
                                   self.aud_caps_filter,
@@ -262,19 +291,36 @@ class Screencast(GObject.GObject):
 
         elif self.video_source and self.audio_source and self.audio2_source:
             logger.debug("Pipline - Video + Dual Audio".format(self.audio_source))
-            self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
-                              self.vid_caps_filter, self.ffmpegcolor, self.videnc,
-                              self.audiosrc, self.aud_in_queue,
-                              self.aud_caps_filter, self.vid_out_queue,
-                              self.aud_out_queue, self.audioconv,
-                              self.audioenc, self.audiomixer, self.aud2_in_queue,
-                              self.audio2src, self.aud2_caps_filter,
-                              self.mux, self.file_queue, self.sink)
 
-            gst.element_link_many(self.videosrc, self.vid_in_queue,
-                                  self.videorate, self.vid_caps_filter,
-                                  self.ffmpegcolor, self.videnc,
-                                  self.vid_out_queue, self.mux)
+            if self.codec == CODEC_RAW:
+                self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
+                                  self.vid_caps_filter, self.ffmpegcolor,
+                                  self.audiosrc, self.aud_in_queue,
+                                  self.aud_caps_filter, self.vid_out_queue,
+                                  self.aud_out_queue, self.audioconv,
+                                  self.audioenc, self.audiomixer, self.aud2_in_queue,
+                                  self.audio2src, self.aud2_caps_filter,
+                                  self.mux, self.file_queue, self.sink)
+
+                gst.element_link_many(self.videosrc, self.vid_in_queue,
+                                      self.videorate, self.vid_caps_filter,
+                                      self.ffmpegcolor, self.vid_out_queue,
+                                      self.mux)
+
+            else:
+                self.pipeline.add(self.videosrc, self.vid_in_queue, self.videorate,
+                                  self.vid_caps_filter, self.ffmpegcolor, self.videnc,
+                                  self.audiosrc, self.aud_in_queue,
+                                  self.aud_caps_filter, self.vid_out_queue,
+                                  self.aud_out_queue, self.audioconv,
+                                  self.audioenc, self.audiomixer, self.aud2_in_queue,
+                                  self.audio2src, self.aud2_caps_filter,
+                                  self.mux, self.file_queue, self.sink)
+
+                gst.element_link_many(self.videosrc, self.vid_in_queue,
+                                      self.videorate, self.vid_caps_filter,
+                                      self.ffmpegcolor, self.videnc,
+                                      self.vid_out_queue, self.mux)
 
             gst.element_link_many(self.audiosrc, self.aud_in_queue,
                                   self.aud_caps_filter, self.audiomixer)
@@ -338,3 +384,24 @@ class Screencast(GObject.GObject):
             self.emit("flush-done")
         elif t == gst.MESSAGE_ERROR:
             logger.debug("Received an error message.")
+
+
+def detect_codecs():
+    codecs_supported = []
+
+    for codec in CODEC_LIST:
+        if codec[0]:
+            try:
+                codec_test = gst.element_factory_make(codec[1], "video_encoder")
+            except gst.ElementNotFoundError:
+                logger.info("Unable to find {0} GStreamer plugin - support disabled.".format(codec))
+                codec_test = None
+
+            if codec_test:
+                codecs_supported.append(codec[0])
+                logger.info("Supported encoder: {0}.".format(codec[2]))
+        else:
+            codecs_supported.append(codec[0])
+            logger.info("Supported encoder: {0}.".format(codec[2]))
+
+    return codecs_supported
