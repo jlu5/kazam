@@ -40,10 +40,9 @@ from kazam.frontend.window_region import RegionWindow
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.window_countdown import CountdownWindow
 
-
 class KazamApp(GObject.GObject):
 
-    def __init__(self, datadir, dist, debug, test, sound):
+    def __init__(self, datadir, dist, debug, test, sound, silent):
         GObject.GObject.__init__(self)
         logger.debug("Setting variables.")
 
@@ -51,6 +50,7 @@ class KazamApp(GObject.GObject):
         self.debug = debug
         self.test = test
         self.dist = dist
+        self.silent = silent
         self.sound = not sound     # Parameter is called nosound and if true, then we don't have sound.
                                    # Tricky parameters are tricky!
         self.setup_translations()
@@ -100,7 +100,8 @@ class KazamApp(GObject.GObject):
         self.config = KazamConfig()
 
         logger.debug("Connecting indicator signals.")
-        self.indicator = KazamIndicator()
+        logger.debug("Starting in silent mode: {0}".format(self.silent))
+        self.indicator = KazamIndicator(self.silent)
         self.indicator.connect("indicator-quit-request", self.cb_quit_request)
         self.indicator.connect("indicator-show-request", self.cb_show_request)
         self.indicator.connect("indicator-start-request", self.cb_start_request)
@@ -150,7 +151,11 @@ class KazamApp(GObject.GObject):
             self.get_sources(audio = False)
             self.populate_widgets(screen_only = True)
 
-        self.window.show_all()
+        if not self.silent:
+            self.window.show_all()
+        else:
+            logger.info("Starting in silent mode:\n  SUPER-CTRL-W to toggle main window.\n  SUPER-CTRL-Q to quit.")
+
         self.restore_state()
 
         if not self.sound:
@@ -200,10 +205,13 @@ class KazamApp(GObject.GObject):
         Gtk.main_quit()
 
     def cb_show_request(self, indicator):
-        logger.debug("Show requested, raising window.")
-        self.window.show_all()
-        self.window.present()
-        self.window.move(self.main_x, self.main_y)
+        if not self.window.get_property("visible"):
+            logger.debug("Show requested, raising window.")
+            self.window.show_all()
+            self.window.present()
+            self.window.move(self.main_x, self.main_y)
+        else:
+            self.window.hide()
 
     def cb_close_clicked(self, indicator):
         (self.main_x, self.main_y) = self.window.get_position()

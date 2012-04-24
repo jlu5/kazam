@@ -77,9 +77,14 @@ if __name__ == "__main__":
                         help = "generate test video signal",
                         default = False)
 
-    parser.add_argument("-s", "--nosound",
+    parser.add_argument("-n", "--nosound",
                         action = "store_true",
                         help = "disable PulseAudio",
+                        default = False)
+
+    parser.add_argument("-s", "--silent",
+                        action = "store_true",
+                        help = "silent start",
                         default = False)
 
     args = parser.parse_args()
@@ -91,6 +96,6 @@ if __name__ == "__main__":
     from kazam.app import KazamApp
 
     logger.debug("Starting ...")
-    appWindow = KazamApp(datadir, dist, args.debug, args.test, args.nosound)
+    appWindow = KazamApp(datadir, dist, args.debug, args.test, args.nosound, args.silent)
     Gtk.main()
     logger.debug("Finishing ...")
