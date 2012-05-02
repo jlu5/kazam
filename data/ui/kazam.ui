@@ -13,12 +13,12 @@
     <property name="width_request">300</property>
     <property name="height_request">200</property>
     <property name="can_focus">False</property>
-    <property name="border_width">10</property>
+    <property name="border_width">3</property>
     <property name="title" translatable="yes">Kazam Screencaster</property>
     <property name="resizable">False</property>
     <signal name="delete-event" handler="cb_delete_event" swapped="no"/>
     <child>
-      <object class="GtkGrid" id="grid1">
+      <object class="GtkGrid" id="grid0">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
@@ -30,7 +30,7 @@
               <object class="GtkGrid" id="grid2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="row_spacing">7</property>
+                <property name="row_spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
@@ -54,7 +54,7 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Select the video source</property>
                     <property name="tooltip_text" translatable="yes">Select the video source</property>
-                    <property name="margin_right">5</property>
+                    <property name="margin_right">1</property>
                     <property name="entry_text_column">0</property>
                     <property name="id_column">1</property>
                     <signal name="changed" handler="cb_video_changed" swapped="no"/>
@@ -89,7 +89,7 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Select your audio ouput device (speakers of headphones)</property>
                     <property name="tooltip_text" translatable="yes">Select your audio ouput device (speakers of headphones)</property>
-                    <property name="margin_right">5</property>
+                    <property name="margin_right">0</property>
                     <property name="entry_text_column">0</property>
                     <property name="id_column">1</property>
                     <signal name="changed" handler="cb_audio_changed" swapped="no"/>
@@ -150,7 +150,7 @@ audio-volume-medium</property>
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Select your audio input device (microphone)</property>
                     <property name="tooltip_text" translatable="yes">Select your audio input device (microphone)</property>
-                    <property name="margin_right">5</property>
+                    <property name="margin_right">0</property>
                     <property name="entry_text_column">0</property>
                     <property name="id_column">1</property>
                     <signal name="changed" handler="cb_audio2_changed" swapped="no"/>
@@ -193,7 +193,7 @@ audio-volume-medium</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="margin_right">5</property>
+                    <property name="margin_right">1</property>
                     <property name="label" translatable="yes">Record with:</property>
                     <property name="justify">right</property>
                   </object>
@@ -249,10 +249,10 @@ audio-volume-medium</property>
               </packing>
             </child>
             <child>
-              <object class="GtkGrid" id="grid3">
+              <object class="GtkGrid" id="grid1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="row_spacing">7</property>
+                <property name="row_spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="label4">
                     <property name="visible">True</property>
@@ -328,7 +328,7 @@ audio-volume-medium</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="margin_right">10</property>
-                    <property name="label" translatable="yes">Show countdown splash:</property>
+                    <property name="label" translatable="yes">Countdown splash:</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -343,7 +343,7 @@ audio-volume-medium</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
                     <property name="margin_right">10</property>
-                    <property name="label" translatable="yes">Capture mouse:</property>
+                    <property name="label" translatable="yes">Mouse capture:</property>
                     <property name="justify">right</property>
                   </object>
                   <packing>
@@ -418,7 +418,7 @@ audio-volume-medium</property>
               <object class="GtkLabel" id="label11">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Delete me Georgi</property>
+                <property name="label" translatable="yes">Options</property>
               </object>
               <packing>
                 <property name="position">2</property>
@@ -438,6 +438,7 @@ audio-volume-medium</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">start</property>
+            <property name="border_width">2</property>
             <child>
               <placeholder/>
             </child>
@@ -446,9 +447,9 @@ audio-volume-medium</property>
             </child>
             <child>
               <object class="GtkToggleButton" id="btn_region">
-                <property name="label" translatable="yes">Record Region</property>
+                <property name="label" translatable="yes">Select Region</property>
                 <property name="use_action_appearance">False</property>
-                <property name="width_request">100</property>
+                <property name="width_request">240</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -458,19 +459,12 @@ audio-volume-medium</property>
                 <property name="use_action_appearance">False</property>
                 <signal name="toggled" handler="cb_region_toggled" swapped="no"/>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">2</property>
-                <property name="secondary">True</property>
-                <property name="non_homogeneous">True</property>
-              </packing>
             </child>
             <child>
               <object class="GtkButton" id="btn_record">
                 <property name="label" translatable="yes">Record</property>
                 <property name="use_action_appearance">False</property>
-                <property name="width_request">100</property>
+                <property name="width_request">240</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -480,12 +474,6 @@ audio-volume-medium</property>
                 <property name="use_action_appearance">False</property>
                 <signal name="clicked" handler="cb_record_clicked" swapped="no"/>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">3</property>
-                <property name="secondary">True</property>
-              </packing>
             </child>
             <child>
               <placeholder/>
