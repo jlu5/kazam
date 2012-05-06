@@ -267,11 +267,14 @@ class KazamApp(GObject.GObject):
                     self.audio2_source += 1
                 else:
                     self.audio2_source = 0
-
                 self.combobox_audio2.set_active(0)
+
             self.volumebutton_audio.set_sensitive(True)
+            self.combobox_audio2.set_sensitive(True)
         else:
             self.volumebutton_audio.set_sensitive(False)
+            self.combobox_audio2.set_sensitive(False)
+            self.combobox_audio2.set_active(0)
             logger.debug("Audio1 OFF.")
 
     def cb_audio2_changed(self, widget):
@@ -581,18 +584,20 @@ class KazamApp(GObject.GObject):
         if self.sound:
             logger.debug("Getting volume info.")
 
+            self.combobox_audio.set_active(audio_source)
+            self.combobox_audio2.set_active(audio2_source)
+
             if audio_source:
-                self.combobox_audio.set_active(audio_source)
                 self.volumebutton_audio.set_sensitive(True)
+                self.combobox_audio2.set_sensitive(True)
+            else:
+                self.volumebutton_audio.set_sensitive(False)
+                self.combobox_audio2.set_sensitive(False)
 
             if audio2_source:
-                self.combobox_audio2.set_active(audio2_source)
                 self.volumebutton_audio2.set_sensitive(True)
             else:
-                self.combobox_audio2.set_active(0)
-
-            self.combobox_audio.set_sensitive(True)
-            self.combobox_audio2.set_sensitive(True)
+                self.volumebutton_audio2.set_sensitive(False)
 
         codec = self.config.getint("main", "codec")
         codec_model = self.combobox_codec.get_model()

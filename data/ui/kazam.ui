@@ -13,7 +13,7 @@
     <property name="width_request">300</property>
     <property name="height_request">200</property>
     <property name="can_focus">False</property>
-    <property name="border_width">3</property>
+    <property name="margin_right">1</property>
     <property name="title" translatable="yes">Kazam Screencaster</property>
     <property name="resizable">False</property>
     <signal name="delete-event" handler="cb_delete_event" swapped="no"/>
@@ -25,11 +25,17 @@
           <object class="GtkNotebook" id="notebook1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
             <property name="vexpand">True</property>
+            <property name="show_border">False</property>
             <child>
               <object class="GtkGrid" id="grid2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <property name="row_spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="label1">
@@ -55,6 +61,7 @@
                     <property name="tooltip_markup" translatable="yes">Select the video source</property>
                     <property name="tooltip_text" translatable="yes">Select the video source</property>
                     <property name="margin_right">1</property>
+                    <property name="hexpand">True</property>
                     <property name="entry_text_column">0</property>
                     <property name="id_column">1</property>
                     <signal name="changed" handler="cb_video_changed" swapped="no"/>
@@ -89,39 +96,13 @@
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Select your audio ouput device (speakers of headphones)</property>
                     <property name="tooltip_text" translatable="yes">Select your audio ouput device (speakers of headphones)</property>
-                    <property name="margin_right">0</property>
+                    <property name="hexpand">True</property>
                     <property name="entry_text_column">0</property>
                     <property name="id_column">1</property>
                     <signal name="changed" handler="cb_audio_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkVolumeButton" id="volumebutton_audio">
-                    <property name="use_action_appearance">False</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip_markup" translatable="yes">Set volume</property>
-                    <property name="tooltip_text" translatable="yes">Set volume</property>
-                    <property name="use_action_appearance">False</property>
-                    <property name="relief">none</property>
-                    <property name="focus_on_click">False</property>
-                    <property name="orientation">vertical</property>
-                    <property name="icons">audio-volume-muted
-audio-volume-high
-audio-volume-low
-audio-volume-medium</property>
-                    <signal name="value-changed" handler="cb_volume_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">3</property>
                     <property name="top_attach">1</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
@@ -150,39 +131,13 @@ audio-volume-medium</property>
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Select your audio input device (microphone)</property>
                     <property name="tooltip_text" translatable="yes">Select your audio input device (microphone)</property>
-                    <property name="margin_right">0</property>
+                    <property name="hexpand">True</property>
                     <property name="entry_text_column">0</property>
                     <property name="id_column">1</property>
                     <signal name="changed" handler="cb_audio2_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkVolumeButton" id="volumebutton_audio2">
-                    <property name="use_action_appearance">False</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip_markup" translatable="yes">Set volume</property>
-                    <property name="tooltip_text" translatable="yes">Set volume</property>
-                    <property name="use_action_appearance">False</property>
-                    <property name="relief">none</property>
-                    <property name="focus_on_click">False</property>
-                    <property name="orientation">vertical</property>
-                    <property name="icons">audio-volume-muted
-audio-volume-high
-audio-volume-low
-audio-volume-medium</property>
-                    <signal name="value-changed" handler="cb_volume2_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">3</property>
                     <property name="top_attach">2</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
@@ -208,12 +163,40 @@ audio-volume-medium</property>
                   <object class="GtkComboBox" id="combobox_codec">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
                     <property name="model">codec_model</property>
                     <signal name="changed" handler="cb_codec_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">3</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkVolumeButton" id="volumebutton_audio">
+                    <property name="use_action_appearance">False</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip_markup" translatable="yes">Set volume</property>
+                    <property name="tooltip_text" translatable="yes">Set volume</property>
+                    <property name="halign">end</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="relief">none</property>
+                    <property name="focus_on_click">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="icons">audio-volume-muted
+audio-volume-high
+audio-volume-low
+audio-volume-medium</property>
+                    <signal name="value-changed" handler="cb_volume_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="top_attach">1</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -235,6 +218,33 @@ audio-volume-medium</property>
                 </child>
                 <child>
                   <placeholder/>
+                </child>
+                <child>
+                  <object class="GtkVolumeButton" id="volumebutton_audio2">
+                    <property name="use_action_appearance">False</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip_markup" translatable="yes">Set volume</property>
+                    <property name="tooltip_text" translatable="yes">Set volume</property>
+                    <property name="halign">end</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="relief">none</property>
+                    <property name="focus_on_click">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="icons">audio-volume-muted
+audio-volume-high
+audio-volume-low
+audio-volume-medium</property>
+                    <signal name="value-changed" handler="cb_volume2_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
               </object>
             </child>
@@ -365,7 +375,6 @@ audio-volume-medium</property>
                     <property name="valign">end</property>
                     <property name="margin_right">10</property>
                     <property name="use_action_appearance">False</property>
-                    <signal name="notify::active" handler="cb_timer_switch" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">3</property>
@@ -386,7 +395,6 @@ audio-volume-medium</property>
                     <property name="valign">center</property>
                     <property name="margin_right">10</property>
                     <property name="use_action_appearance">False</property>
-                    <signal name="notify::active" handler="cb_cursor_switch" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">3</property>
@@ -415,15 +423,7 @@ audio-volume-medium</property>
               <placeholder/>
             </child>
             <child type="tab">
-              <object class="GtkLabel" id="label11">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Options</property>
-              </object>
-              <packing>
-                <property name="position">2</property>
-                <property name="tab_fill">False</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -437,8 +437,8 @@ audio-volume-medium</property>
           <object class="GtkButtonBox" id="buttonbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="layout_style">start</property>
             <property name="border_width">2</property>
+            <property name="layout_style">start</property>
             <child>
               <placeholder/>
             </child>
@@ -456,9 +456,15 @@ audio-volume-medium</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_markup" translatable="yes">Select a screen region to record</property>
                 <property name="tooltip_text" translatable="yes">Select a screen region to record</property>
+                <property name="border_width">5</property>
                 <property name="use_action_appearance">False</property>
                 <signal name="toggled" handler="cb_region_toggled" swapped="no"/>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
             </child>
             <child>
               <object class="GtkButton" id="btn_record">
@@ -471,9 +477,15 @@ audio-volume-medium</property>
                 <property name="has_tooltip">True</property>
                 <property name="tooltip_markup" translatable="yes">Start recording</property>
                 <property name="tooltip_text" translatable="yes">Start recording</property>
+                <property name="border_width">5</property>
                 <property name="use_action_appearance">False</property>
                 <signal name="clicked" handler="cb_record_clicked" swapped="no"/>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
             </child>
             <child>
               <placeholder/>

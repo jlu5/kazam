@@ -182,6 +182,7 @@ class Screencast(GObject.GObject):
             self.videnc.set_property("pass", 4)
             self.videnc.set_property("quantizer", 15)
             self.videnc.set_property("threads", self.cores)
+            self.videnc.set_property("option-string", "colormatrix=bt709")
             self.mux = gst.element_factory_make("mp4mux", "muxer")
             self.mux.set_property("faststart", 1)
             self.mux.set_property("faststart-file", self.muxer_tempfile)
