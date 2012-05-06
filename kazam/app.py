@@ -24,6 +24,7 @@ import os
 import locale
 import gettext
 import logging
+import math
 logger = logging.getLogger("Main")
 
 from subprocess import Popen
@@ -216,9 +217,9 @@ class KazamApp(GObject.GObject):
     def cb_close_clicked(self, indicator):
         (self.main_x, self.main_y) = self.window.get_position()
         self.window.hide()
-        
+
     def cb_about_request(self, activated):
-        AboutDialog(self.icons)    
+        AboutDialog(self.icons)
 
     def cb_delete_event(self, widget, user_data):
         self.cb_quit_request(None)
@@ -247,7 +248,11 @@ class KazamApp(GObject.GObject):
             logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
             self.audio_source_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
             if len(self.audio_source_info) > 0:
-                vol = 60 + self.pa_q.cvolume_to_dB(self.audio_source_info[2])
+                val = self.pa_q.cvolume_to_dB(self.audio_source_info[2])
+                if math.isinf(val):
+                    vol = 0
+                else:
+                    vol = 60 + val
                 self.volumebutton_audio.set_value(vol)
             else:
                 logger.debug("Error getting volume info for Audio 1")
@@ -283,7 +288,11 @@ class KazamApp(GObject.GObject):
             self.audio2_source_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
 
             if len(self.audio2_source_info) > 0:
-                vol = 60 + self.pa_q.cvolume_to_dB(self.audio2_source_info[2])
+                val = self.pa_q.cvolume_to_dB(self.audio2_source_info[2])
+                if math.isinf(val):
+                    vol = 0
+                else:
+                    vol = 60 + val
                 self.volumebutton_audio2.set_value(vol)
             else:
                 logger.debug("Error getting volume info for Audio 1")

@@ -85,6 +85,17 @@ If you already have Kazam installed then Kazam icon will show in the
 indicator, if not, the only way to get to the menu is to click on one
 of the icons in the indicator and then move around with the cursor keys.
 
+Keyboard shortcuts
+------------------
+
+If you have keybinder3.0 from the unstable PPA installed, then you can
+use these keyboard shortcuts for controlling Kazam:
+
+SUPER-CTRL-Q - Quit
+SUPER-CTRL-W - Show/Hide main window
+SUPER-CTRL-R - Start Recording
+SUPER-CTRL-F - Finish Recording
+
 Known Issues
 ------------
 
