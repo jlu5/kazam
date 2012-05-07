@@ -37,7 +37,7 @@ def SaveDialog(title, old_path, codec):
                                    (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                                    _("Save"), Gtk.ResponseType.OK))
 
-    dialog.set_current_name("{0}{1}".format(_("Untitled_Screencast"), CODEC_LIST[codec][3]))
+    dialog.set_current_name("{0}.{1}".format(_("Untitled_Screencast"), CODEC_LIST[codec][3]))
 
     dialog.set_do_overwrite_confirmation(True)
 

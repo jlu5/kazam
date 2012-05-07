@@ -586,7 +586,7 @@ class KazamApp(GObject.GObject):
         self.codec = self.config.getint("main", "codec")
 
         self.counter = self.config.getfloat("main", "counter")
-        self.frameratei = self.config.getfloat("main", "framerate")
+        self.framerate = self.config.getfloat("main", "framerate")
 
         self.cursor = self.config.getboolean("main", "capture_cursor")
         self.countdown_splash = self.config.getboolean("main", "countdown_splash")
