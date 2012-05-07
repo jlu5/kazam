@@ -34,7 +34,7 @@ from gettext import gettext as _
 from kazam.utils import *
 from kazam.backend.constants import *
 from kazam.backend.config import KazamConfig
-from kazam.backend.gstreamer import detect_codecs
+from kazam.backend.gstreamer import detect_codecs, get_codec
 from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
 from kazam.frontend.window_region import RegionWindow
@@ -47,6 +47,7 @@ class KazamApp(GObject.GObject):
         GObject.GObject.__init__(self)
         logger.debug("Setting variables.")
 
+        self.startup = True
         self.datadir = datadir
         self.debug = debug
         self.test = test
@@ -74,6 +75,8 @@ class KazamApp(GObject.GObject):
         self.video_source = 0
         self.audio_source = 0
         self.audio2_source = 0
+        self.framerate = 0
+        self.counter = 0
         self.codec = 0
         self.main_x = 0
         self.main_y = 0
@@ -84,12 +87,13 @@ class KazamApp(GObject.GObject):
         self.region_window = None
         self.region = None
         self.old_path = None
-        self.timer_window = True
+        self.countdown_splash = True
         self.in_countdown = False
         self.recording_paused = False
         self.recording = False
         self.region_toggled = False
-        self.advanced_codecs = False
+        self.advanced = False
+        self.cursor = 0
 
         if self.sound:
             self.pa_q = pulseaudio_q()
@@ -99,6 +103,8 @@ class KazamApp(GObject.GObject):
         # Setup config
         #
         self.config = KazamConfig()
+
+        self.read_config()
 
         logger.debug("Connecting indicator signals.")
         logger.debug("Starting in silent mode: {0}".format(self.silent))
@@ -126,6 +132,7 @@ class KazamApp(GObject.GObject):
             else:
                 logger.debug("Unable to get name for '%s'" % w)
 
+        # If these are added in glade, something weeird happens - investigate! :)
         self.volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
         self.volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
         self.framerate_adjustment = Gtk.Adjustment(25, 1, 60, 1, 5, 0)
@@ -136,6 +143,9 @@ class KazamApp(GObject.GObject):
         self.spinbutton_framerate.set_adjustment(self.framerate_adjustment)
         self.spinbutton_counter.set_adjustment(self.counter_adjustment)
 
+        renderer_text = Gtk.CellRendererText()
+        self.combobox_codec.pack_start(renderer_text, True)
+        self.combobox_codec.add_attribute(renderer_text, "text", 1)
 
         #
         # Take care of screen size changes.
@@ -164,6 +174,8 @@ class KazamApp(GObject.GObject):
             self.combobox_audio2.set_sensitive(False)
             self.volumebutton_audio.set_sensitive(False)
             self.volumebutton_audio2.set_sensitive(False)
+
+        self.startup = False
 
     #
     # Callbacks, go down here ...
@@ -223,17 +235,6 @@ class KazamApp(GObject.GObject):
 
     def cb_delete_event(self, widget, user_data):
         self.cb_quit_request(None)
-
-    def cb_video_switch(self, widget, user_data):
-        if widget.get_active():
-            logger.debug("Video ON.")
-            self.combobox_video.set_sensitive(True)
-            self.btn_record.set_sensitive(True)
-        else:
-            logger.debug("Video OFF.")
-            self.combobox_video.set_sensitive(False)
-            self.btn_record.set_sensitive(False)
-            self.video_source = None
 
     def cb_audio_changed(self, widget):
         logger.debug("Audio Changed.")
@@ -327,7 +328,7 @@ class KazamApp(GObject.GObject):
         model = widget.get_model()
         iter = model.get_iter(i)
         self.codec = model.get_value(iter, 0)
-        logger.debug('Codec selected: {0}'.format(CODEC_LIST[self.codec][2]))
+        logger.debug('Codec selected: {0} - {1}'.format(get_codec(self.codec)[2], self.codec))
 
     def cb_start_request(self, widget):
         logger.debug("Start recording selected.")
@@ -440,7 +441,7 @@ class KazamApp(GObject.GObject):
         self.window.set_sensitive(True)
         self.window.show_all()
 
-    def cb_cursor_switch(self, widget, user_data):
+    def cb_switch_cursor(self, widget, user_data):
         if self.switch_cursor.get_active():
             logger.debug("Cursor capturing ON.")
             self.capture_cursor = True
@@ -448,13 +449,24 @@ class KazamApp(GObject.GObject):
             logger.debug("Cursor capturing OFF.")
             self.capture_cursor = False
 
-    def cb_timer_switch(self, widget, user_data):
-        if self.switch_timer.get_active():
-            logger.debug("Timer Window ON.")
-            self.timer_window = True
+    def cb_switch_countdown_splash(self, widget, user_data):
+        if self.switch_countdown_splash.get_active():
+            logger.debug("Countdown splash ON.")
+            self.countdown_splash = True
         else:
-            logger.debug("Timer Window OFF.")
-            self.timer_window = False
+            logger.debug("Counddown splash Window OFF.")
+            self.countdown_splash = False
+
+    def cb_switch_codecs(self, widget, user_data):
+        if self.switch_codecs.get_active():
+            logger.debug("Advances are ON.")
+            self.advanced = True
+        else:
+            logger.debug("Advanced codecs are OFF.")
+            self.advanced = False
+
+        self.populate_codecs()
+
 
     def cb_region_toggled(self, widget):
         if self.btn_region.get_active():
@@ -546,7 +558,7 @@ class KazamApp(GObject.GObject):
                                     self.dist)
 
         self.recorder.connect("flush-done", self.cb_flush_done)
-        self.countdown = CountdownWindow(self.indicator, show_window = self.timer_window)
+        self.countdown = CountdownWindow(self.indicator, show_window = self.countdown_splash)
         self.countdown.connect("counter-finished", self.cb_counter_finished)
         self.countdown.run(self.spinbutton_counter.get_value_as_int())
         self.recording = True
@@ -561,47 +573,59 @@ class KazamApp(GObject.GObject):
         except Exception, e:
             logger.exception("setlocale failed")
 
-    def restore_state(self):
+    def read_config (self):
         video_toggled = self.config.getboolean("main", "video_toggled")
 
-        video_source = self.config.getint("main", "video_source")
-        audio_source = self.config.getint("main", "audio_source")
-        audio2_source = self.config.getint("main", "audio2_source")
+        self.video_source = self.config.getint("main", "video_source")
+        self.audio_source = self.config.getint("main", "audio_source")
+        self.audio2_source = self.config.getint("main", "audio2_source")
 
         self.main_x = self.config.getint("main", "last_x")
         self.main_y = self.config.getint("main", "last_y")
 
+        self.codec = self.config.getint("main", "codec")
+
+        self.counter = self.config.getfloat("main", "counter")
+        self.frameratei = self.config.getfloat("main", "framerate")
+
+        self.cursor = self.config.getboolean("main", "capture_cursor")
+        self.countdown_splash = self.config.getboolean("main", "countdown_splash")
+        self.advanced = self.config.getboolean("main", "advanced")
+
+    def restore_state (self):
+        logger.debug("Restoring state - sources: V ({0}), A_1 ({1}), A_2 ({2})".format(self.video_source,
+                                                                                        self.audio_source,
+                                                                                        self.audio2_source))
         self.window.move(self.main_x, self.main_y)
 
-        logger.debug("Restoring state - sources: V ({0}), A_1 ({1}), A_2 ({2})".format(video_source,
-                                                                                        audio_source,
-                                                                                        audio2_source))
-        self.video_source = video_source
-
-        self.combobox_video.set_active(video_source)
-        self.combobox_video.set_sensitive(video_toggled)
+        self.combobox_video.set_active(self.video_source)
+        self.combobox_video.set_sensitive(True)
 
         if self.sound:
             logger.debug("Getting volume info.")
 
-            self.combobox_audio.set_active(audio_source)
-            self.combobox_audio2.set_active(audio2_source)
+            self.combobox_audio.set_active(self.audio_source)
+            self.combobox_audio2.set_active(self.audio2_source)
 
-            if audio_source:
+            if self.audio_source:
                 self.volumebutton_audio.set_sensitive(True)
                 self.combobox_audio2.set_sensitive(True)
             else:
                 self.volumebutton_audio.set_sensitive(False)
                 self.combobox_audio2.set_sensitive(False)
 
-            if audio2_source:
+            if self.audio2_source:
                 self.volumebutton_audio2.set_sensitive(True)
             else:
                 self.volumebutton_audio2.set_sensitive(False)
 
-        codec = self.config.getint("main", "codec")
+        self.switch_codecs.set_active(self.advanced)
+        self.switch_cursor.set_active(self.cursor)
+        self.switch_countdown_splash.set_active(self.countdown_splash)
+        self.spinbutton_counter.set_value(self.counter)
+        self.spinbutton_framerate.set_value(self.framerate)
+
         codec_model = self.combobox_codec.get_model()
-        self.combobox_codec.set_active(0)
 
         #
         # Crappy code below ...
@@ -609,7 +633,7 @@ class KazamApp(GObject.GObject):
         cnt = 0
         bingo = False
         for entry in codec_model:
-            if codec == entry[0]:
+            if self.codec == entry[0]:
                 bingo = True
                 break
             cnt += 1
@@ -624,12 +648,6 @@ class KazamApp(GObject.GObject):
         self.combobox_codec.set_active_iter(codec_iter)
         self.codec = codec_model.get_value(codec_iter, 0)
 
-        self.spinbutton_counter.set_value(self.config.getfloat("main", "counter"))
-        self.spinbutton_framerate.set_value(self.config.getfloat("main", "framerate"))
-
-        self.switch_cursor.set_active(self.config.getboolean("main", "capture_cursor"))
-        self.switch_timer.set_active(self.config.getboolean("main", "timer_window"))
-
     def save_state(self):
         logger.debug("Saving state.")
         video_source = self.combobox_video.get_active()
@@ -643,7 +661,7 @@ class KazamApp(GObject.GObject):
         self.config.set("main", "video_source", video_source)
 
         self.config.set("main", "capture_cursor", self.capture_cursor)
-        self.config.set("main", "timer_window", self.timer_window)
+        self.config.set("main", "countdown_splash", self.countdown_splash)
 
         self.config.set("main", "last_x", self.main_x)
         self.config.set("main", "last_y", self.main_y)
@@ -654,6 +672,8 @@ class KazamApp(GObject.GObject):
         codec_model_iter = codec_model.get_iter(codec)
         codec_value = codec_model.get_value(codec_model_iter, 0)
         self.config.set("main", "codec", codec_value)
+
+        self.config.set("main", "advanced", self.advanced)
 
         counter = int(self.spinbutton_counter.get_value())
         self.config.set("main", "counter", counter)
@@ -732,18 +752,27 @@ class KazamApp(GObject.GObject):
                     self.combobox_audio.append(None, source[2])
                     self.combobox_audio2.append(None, source[2])
 
+            self.populate_codecs()
 
-            codec_model = self.combobox_codec.get_model()
-            codecs = detect_codecs()
 
-            renderer_text = Gtk.CellRendererText()
-            self.combobox_codec.pack_start(renderer_text, True)
-            self.combobox_codec.add_attribute(renderer_text, "text", 1)
+    def populate_codecs(self):
+        old_model = self.combobox_codec.get_model()
+        old_model = None
 
-            for codec in codecs:
-                #
-                # Uncommment this, when new option in the UI is present
-                #if CODEC_LIST[codec][4] and self.advanced_codecs:
-                #    codec_model.append([CODEC_LIST[codec][0], CODEC_LIST[codec][2]])
-                #elif not CODEC_LIST[codec][4]:
-                    codec_model.append([CODEC_LIST[codec][0], CODEC_LIST[codec][2]])
+        codec_model = Gtk.ListStore(int, str)
+
+        codecs = detect_codecs()
+
+        for codec in codecs:
+            if CODEC_LIST[codec][4] and self.advanced:
+                codec_model.append([CODEC_LIST[codec][0], CODEC_LIST[codec][2]])
+            elif not CODEC_LIST[codec][4]:
+                codec_model.append([CODEC_LIST[codec][0], CODEC_LIST[codec][2]])
+
+        self.combobox_codec.set_model(codec_model)
+
+        if not self.startup:
+            self.combobox_codec.set_active(0)
+
+
+

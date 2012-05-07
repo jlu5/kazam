@@ -87,7 +87,7 @@ class Screencast(GObject.GObject):
 
         logger.debug("Capture Cursor: {0}".format(capture_cursor))
         logger.debug("Framerate : {0}".format(capture_cursor))
-        logger.debug("Codec: {0}".format(CODEC_LIST[codec][1]))
+        logger.debug("Codec: {0}".format(get_codec(codec)[1]))
 
         if self.video_source:
             self.setup_video_source()
@@ -161,10 +161,10 @@ class Screencast(GObject.GObject):
         self.ffmpegcolor = gst.element_factory_make("ffmpegcolorspace", "ffmpeg")
         self.videorate = gst.element_factory_make("videorate", "video_rate")
 
-        logger.debug("Codec: {0}".format(CODEC_LIST[self.codec][2]))
+        logger.debug("Codec: {0}".format(get_codec(self.codec)[2]))
 
         if self.codec is not CODEC_RAW:
-            self.videnc = gst.element_factory_make(CODEC_LIST[self.codec][1], "video_encoder")
+            self.videnc = gst.element_factory_make(get_codec(self.codec)[1], "video_encoder")
 
         if self.codec == CODEC_RAW:
             self.mux = gst.element_factory_make("avimux", "muxer")
@@ -406,3 +406,13 @@ def detect_codecs():
             logger.info("Supported encoder: {0}.".format(codec[2]))
 
     return codecs_supported
+
+
+def get_codec(codec):
+    for c in CODEC_LIST:
+        if c[0] == codec:
+            return c
+    return None
+
+
+

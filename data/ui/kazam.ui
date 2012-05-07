@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkListStore" id="codec_model">
-    <columns>
-      <!-- column-name codec -->
-      <column type="gint"/>
-      <!-- column-name codec_name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkWindow" id="window">
     <property name="width_request">300</property>
     <property name="height_request">200</property>
@@ -164,7 +156,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
-                    <property name="model">codec_model</property>
                     <signal name="changed" handler="cb_codec_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -202,24 +193,6 @@ audio-volume-medium</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
                   <object class="GtkVolumeButton" id="volumebutton_audio2">
                     <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
@@ -245,6 +218,24 @@ audio-volume-medium</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
             </child>
@@ -339,6 +330,7 @@ audio-volume-medium</property>
                     <property name="halign">start</property>
                     <property name="margin_right">10</property>
                     <property name="label" translatable="yes">Countdown splash:</property>
+                    <property name="justify">right</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -364,7 +356,7 @@ audio-volume-medium</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch" id="switch_timer">
+                  <object class="GtkSwitch" id="switch_countdown_splash">
                     <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -375,6 +367,7 @@ audio-volume-medium</property>
                     <property name="valign">end</property>
                     <property name="margin_right">10</property>
                     <property name="use_action_appearance">False</property>
+                    <signal name="notify::active" handler="cb_switch_countdown_splash" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">3</property>
@@ -395,6 +388,7 @@ audio-volume-medium</property>
                     <property name="valign">center</property>
                     <property name="margin_right">10</property>
                     <property name="use_action_appearance">False</property>
+                    <signal name="notify::active" handler="cb_switch_cursor" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">3</property>
@@ -402,6 +396,43 @@ audio-volume-medium</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label111">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">start</property>
+                    <property name="label" translatable="yes">Advanced Codecs:</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">2</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="switch_codecs">
+                    <property name="use_action_appearance">False</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="valign">start</property>
+                    <property name="margin_right">10</property>
+                    <property name="use_action_appearance">False</property>
+                    <signal name="notify::active" handler="cb_switch_codecs" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
