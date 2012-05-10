@@ -559,8 +559,8 @@ class KazamApp(GObject.GObject):
         gettext.textdomain("kazam")
         try:
             locale.setlocale(locale.LC_ALL, "")
-        except Exception, e:
-            logger.exception("setlocale failed")
+        except Exception as e:
+            logger.exception("EXCEPTION: Setlocale failed, no language support.")
 
     def read_config (self):
         video_toggled = self.config.getboolean("main", "video_toggled")
