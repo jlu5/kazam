@@ -35,7 +35,7 @@ CODEC_JPEG = 4
 CODEC_LIST = [
               [0, None, 'RAW / AVI', '.avi', True],
               [1, 'vp8enc', 'VP8 / WEBM', '.webm', False],
-              [2, 'x264enc', 'H264 / MP4', 'mp4', False],
+              [2, 'x264enc', 'H264 / MP4', '.mp4', False],
               [3, 'ffenc_huffyuv', 'HUFFYUV / AVI', '.avi', True],
               [4, 'ffenc_ljpeg', 'Lossless JPEG / AVI', '.avi', True],
              ]

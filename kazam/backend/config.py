@@ -45,6 +45,7 @@ class KazamConfig(SafeConfigParser):
                          "last_x":         "60",
                          "last_y":         "25",
                          "advanced":       "0",
+                         "silent":         "0",
                          },
                 },
                 {

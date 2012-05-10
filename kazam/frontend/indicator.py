@@ -61,7 +61,7 @@ class KazamSuperIndicator(GObject.GObject):
         self.blink_mode = BLINK_SLOW
         self.recording = False
         self.silent = silent
-        logger.debug("Indicatior is silent: {0}".format(self.silent))
+        logger.debug("Indicatior silent: {0}".format(self.silent))
 
         self.menu = Gtk.Menu()
 
@@ -90,17 +90,16 @@ class KazamSuperIndicator(GObject.GObject):
         self.menuitem_quit = Gtk.MenuItem(_("Quit"))
         self.menuitem_quit.connect("activate", self.on_menuitem_quit_activate)
 
-        if not self.silent:
-            self.menu.append(self.menuitem_start)
-            self.menu.append(self.menuitem_pause)
-            self.menu.append(self.menuitem_finish)
-            self.menu.append(self.menuitem_separator)
-            self.menu.append(self.menuitem_show)
-            self.menu.append(self.menuitem_about)
-            self.menu.append(self.menuitem_separator2)
-            self.menu.append(self.menuitem_quit)
+        self.menu.append(self.menuitem_start)
+        self.menu.append(self.menuitem_pause)
+        self.menu.append(self.menuitem_finish)
+        self.menu.append(self.menuitem_separator)
+        self.menu.append(self.menuitem_show)
+        self.menu.append(self.menuitem_about)
+        self.menu.append(self.menuitem_separator2)
+        self.menu.append(self.menuitem_quit)
 
-            self.menu.show_all()
+        self.menu.show_all()
 
         #
         # Setup keybindings - Hardcore way
@@ -175,20 +174,21 @@ try:
                              "kazam-stopped",
                              AppIndicator3.IndicatorCategory.APPLICATION_STATUS)
 
-            if not self.silent:
-                self.indicator.set_menu(self.menu)
+            self.indicator.set_menu(self.menu)
+            self.indicator.set_attention_icon("kazam-recording")
+            self.indicator.set_icon("kazam-stopped")
+
+            if self.silent:
+                self.indicator.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
+            else:
                 self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
-                self.indicator.set_attention_icon("kazam-recording")
-                self.indicator.set_icon("kazam-stopped")
 
         def on_menuitem_pause_activate(self, menuitem):
             if menuitem.get_active():
-                if not self.silent:
-                    self.indicator.set_attention_icon("kazam-paused")
+                self.indicator.set_attention_icon("kazam-paused")
                 logger.debug("Recording paused.")
             else:
-                if not self.silent:
-                    self.indicator.set_attention_icon("kazam-recording")
+                self.indicator.set_attention_icon("kazam-recording")
                 logger.debug("Recording resumed.")
             KazamSuperIndicator.on_menuitem_pause_activate(self, menuitem)
 
@@ -242,11 +242,13 @@ except ImportError:
             super(KazamIndicator, self).__init__()
             self.silent = silent
 
-            if not self.silent:
-                self.indicator = Gtk.StatusIcon()
-                self.indicator.set_from_icon_name("kazam-stopped")
-                self.indicator.connect("popup-menu", self.cb_indicator_popup_menu)
-                self.indicator.connect("activate", self.cb_indicator_activate)
+            self.indicator = Gtk.StatusIcon()
+            self.indicator.set_from_icon_name("kazam-stopped")
+            self.indicator.connect("popup-menu", self.cb_indicator_popup_menu)
+            self.indicator.connect("activate", self.cb_indicator_activate)
+
+            if self.silent:
+                self.indicator.set_visible(False)
 
         def cb_indicator_activate(self, widget):
             def position(menu, widget):

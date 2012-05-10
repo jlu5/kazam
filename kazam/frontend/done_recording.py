@@ -141,7 +141,7 @@ class DoneRecording(Gtk.Window):
 
     def cb_delete_event(self, widget, data):
         self.emit("save-cancel")
-        return True
+        self.destroy()
 
     def cb_radiobutton_save_toggled(self, widget):
         if not widget.get_active():

@@ -83,7 +83,7 @@ class KazamApp(GObject.GObject):
         self.countdown = None
         self.tempfile = ""
         self.recorder = None
-        self.capture_cursor = True
+        self.cursor = True
         self.region_window = None
         self.region = None
         self.old_path = None
@@ -93,7 +93,6 @@ class KazamApp(GObject.GObject):
         self.recording = False
         self.region_toggled = False
         self.advanced = False
-        self.cursor = 0
 
         if self.sound:
             self.pa_q = pulseaudio_q()
@@ -441,32 +440,22 @@ class KazamApp(GObject.GObject):
         self.window.set_sensitive(True)
         self.window.show_all()
 
+    def cb_switch_silent(self, widget, user_data):
+        self.silent = not self.silent
+        logger.debug("Silent mode: {0}.".format(self.silent))
+
     def cb_switch_cursor(self, widget, user_data):
-        if self.switch_cursor.get_active():
-            logger.debug("Cursor capturing ON.")
-            self.capture_cursor = True
-        else:
-            logger.debug("Cursor capturing OFF.")
-            self.capture_cursor = False
+        self.cursor = not self.cursor
+        logger.debug("Cursor capture: {0}.".format(self.cursor))
 
     def cb_switch_countdown_splash(self, widget, user_data):
-        if self.switch_countdown_splash.get_active():
-            logger.debug("Countdown splash ON.")
-            self.countdown_splash = True
-        else:
-            logger.debug("Counddown splash Window OFF.")
-            self.countdown_splash = False
+        self.countdown_splash = not self.countdown_splash
+        logger.debug("Coutndown splash: {0}.".format(self.countdown_splash))
 
     def cb_switch_codecs(self, widget, user_data):
-        if self.switch_codecs.get_active():
-            logger.debug("Advances are ON.")
-            self.advanced = True
-        else:
-            logger.debug("Advanced codecs are OFF.")
-            self.advanced = False
-
+        self.advanced = not self.advanced
         self.populate_codecs()
-
+        logger.debug("Advanced codecs: {0}".format(self.advanced))
 
     def cb_region_toggled(self, widget):
         if self.btn_region.get_active():
@@ -551,7 +540,7 @@ class KazamApp(GObject.GObject):
                                     audio_source,
                                     audio2_source,
                                     self.codec,
-                                    self.capture_cursor,
+                                    self.cursor,
                                     framerate,
                                     self.region if self.region_toggled else None,
                                     self.test,
@@ -591,8 +580,10 @@ class KazamApp(GObject.GObject):
         self.cursor = self.config.getboolean("main", "capture_cursor")
         self.countdown_splash = self.config.getboolean("main", "countdown_splash")
         self.advanced = self.config.getboolean("main", "advanced")
+        self.silent = self.config.getboolean("main", "silent")
 
     def restore_state (self):
+
         logger.debug("Restoring state - sources: V ({0}), A_1 ({1}), A_2 ({2})".format(self.video_source,
                                                                                         self.audio_source,
                                                                                         self.audio2_source))
@@ -619,9 +610,19 @@ class KazamApp(GObject.GObject):
             else:
                 self.volumebutton_audio2.set_sensitive(False)
 
-        self.switch_codecs.set_active(self.advanced)
-        self.switch_cursor.set_active(self.cursor)
-        self.switch_countdown_splash.set_active(self.countdown_splash)
+        if self.advanced:
+            self.switch_codecs.set_active(True)
+            self.advanced = True
+        if self.cursor:
+            self.switch_cursor.set_active(True)
+            self.cursor = True
+        if self.countdown_splash:
+            self.switch_countdown_splash.set_active(True)
+            self.countdown_splash = True
+        if self.silent:
+            self.switch_silent.set_active(True)
+            self.silent = True
+
         self.spinbutton_counter.set_value(self.counter)
         self.spinbutton_framerate.set_value(self.framerate)
 
@@ -660,7 +661,7 @@ class KazamApp(GObject.GObject):
 
         self.config.set("main", "video_source", video_source)
 
-        self.config.set("main", "capture_cursor", self.capture_cursor)
+        self.config.set("main", "capture_cursor", self.cursor)
         self.config.set("main", "countdown_splash", self.countdown_splash)
 
         self.config.set("main", "last_x", self.main_x)
@@ -680,6 +681,8 @@ class KazamApp(GObject.GObject):
 
         framerate = int(self.spinbutton_framerate.get_value())
         self.config.set("main", "framerate", framerate)
+
+        self.config.set("main", "silent", self.silent)
 
         self.config.write()
 
