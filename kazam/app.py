@@ -58,12 +58,12 @@ class KazamApp(GObject.GObject):
         self.setup_translations()
 
         if self.sound:
-            try:
-                from kazam.pulseaudio.pulseaudio import pulseaudio_q
-                self.sound = True
-            except:
-                logger.warning("Pulse Audio Failed to load. Sound recording disabled.")
-                self.sound = False
+            #try:
+            from kazam.pulseaudio.pulseaudio import pulseaudio_q
+            self.sound = True
+            #except:
+            #    logger.warning("Pulse Audio Failed to load. Sound recording disabled.")
+            #    self.sound = False
 
         self.icons = Gtk.IconTheme.get_default()
         self.icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))

@@ -23,11 +23,11 @@ import time
 import logging
 logger = logging.getLogger("PulseAudio")
 
-from error_handling import *
+from kazam.pulseaudio.error_handling import *
 from kazam.backend.constants import *
 
 try:
-    from ctypes_pulseaudio import *
+    from kazam.pulseaudio.ctypes_pulseaudio import *
 except:
     raise PAError(PA_LOAD_ERROR, "Unable to load pulseaudio wrapper lib. Is PulseAudio installed?")
 
