@@ -31,10 +31,37 @@ from subprocess import Popen
 from gi.repository import Gtk, Gdk, GObject
 from gettext import gettext as _
 
+#
+# Detect GStreamer version and import appropriate functions
+#
+try:
+    from gi.repository.Gst import version as gst_ver
+    gst_gi = gst_ver()
+    if gst_gi[0]:
+        try:
+            from kazam.backend.gstreamer_gi import detect_codecs, get_codec
+            logger.debug("GStreamer 1.0 or higher detected.")
+        except ImportError:
+            logger.warning("GStreamer not found in the introspection repository, trying to fallback to pygst.")
+            gst_gi = None
+    else:
+        logger.warning("GStreamer 0.10 detected, falling back to pygst.")
+        gst_gi = None
+except ImportError:
+    logger.warning("GStreamer not found in the introspection repository, trying to fallback to pygst.")
+    gst_gi = None
+
+if gst_gi is None:
+    try:
+        logger.debug("Loading pygst.")
+        from kazam.backend.gstreamer import detect_codecs, get_codec
+    except ImportError:
+        logger.critical("Unable to fallback to pygst, bailing out.")
+        Gtk.main_quit()
+
 from kazam.utils import *
 from kazam.backend.constants import *
 from kazam.backend.config import KazamConfig
-from kazam.backend.gstreamer import detect_codecs, get_codec
 from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
 from kazam.frontend.window_region import RegionWindow
@@ -45,6 +72,7 @@ class KazamApp(GObject.GObject):
 
     def __init__(self, datadir, dist, debug, test, sound, silent):
         GObject.GObject.__init__(self)
+        global gst_gi
         logger.debug("Setting variables.")
 
         self.startup = True
@@ -93,6 +121,8 @@ class KazamApp(GObject.GObject):
         self.recording = False
         self.region_toggled = False
         self.advanced = False
+        self.gst_gi = gst_gi
+
 
         if self.sound:
             self.pa_q = pulseaudio_q()
@@ -511,7 +541,10 @@ class KazamApp(GObject.GObject):
         self.indicator.menuitem_finish.set_label(_("Cancel countdown"))
         self.in_countdown = True
 
-        from kazam.backend.gstreamer import Screencast
+        if self.gst_gi:
+            from kazam.backend.gstreamer_gi import Screencast
+        else:
+            from kazam.backend.gstreamer import Screencast
 
         self.recorder = Screencast(self.debug)
         self.indicator.blink_set_state(BLINK_START)
@@ -613,6 +646,7 @@ class KazamApp(GObject.GObject):
         if self.advanced:
             self.switch_codecs.set_active(True)
             self.advanced = True
+            self.populate_codecs()
         if self.cursor:
             self.switch_cursor.set_active(True)
             self.cursor = True
