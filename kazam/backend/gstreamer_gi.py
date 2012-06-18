@@ -54,7 +54,7 @@ class Screencast(GObject.GObject):
 
         self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".movie")
         self.muxer_tempfile = "{0}.mux".format(self.tempfile)
-        self.pipeline = Gst.Pipeline("Kazam")
+        self.pipeline = Gst.Pipeline()
         self.debug = debug
 
     def setup_sources(self,
@@ -141,7 +141,7 @@ class Screencast(GObject.GObject):
 
         if self.test:
             logger.info("Using test signal instead of screen capture.")
-            self.vid_caps = Gst.Caps("video/x-raw-rgb, framerate={0}/1, width={1}, height={2}".format(
+            self.vid_caps = Gst.caps_from_string("video/x-raw,format=(x-raw-rgb),framerate={0}/1, width={1}, height={2}".format(
                   self.framerate,
                   endx - startx,
                   endy - starty))
@@ -155,11 +155,11 @@ class Screencast(GObject.GObject):
             self.videosrc.set_property("use-damage", False)
             self.videosrc.set_property("show-pointer", self.capture_cursor)
 
-            self.vid_caps = Gst.Caps("video/x-raw-rgb, framerate={0}/1".format(self.framerate))
+            self.vid_caps = Gst.caps_from_string("video/x-raw,format=(x-raw-rgb),framerate={0}/1".format(self.framerate))
             self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
             self.vid_caps_filter.set_property("caps", self.vid_caps)
 
-        self.ffmpegcolor = Gst.ElementFactory.make("ffmpegcolorspace", "ffmpeg")
+        self.videoconvert = Gst.ElementFactory.make("videoconvert", "videoconvert")
         self.videorate = Gst.ElementFactory.make("videorate", "video_rate")
 
         logger.debug("Codec: {0}".format(CODEC_LIST[self.codec][2]))
@@ -200,7 +200,7 @@ class Screencast(GObject.GObject):
         logger.debug("Audio1 Source:\n  {0}".format(self.audio_source))
         self.audiosrc = Gst.ElementFactory.make("pulsesrc", "audio_src")
         self.audiosrc.set_property("device", self.audio_source)
-        self.aud_caps = Gst.Caps("audio/x-raw-int")
+        self.aud_caps = Gst.caps_from_string("audio/x-raw-int")
         self.aud_caps_filter = Gst.ElementFactory.make("capsfilter", "aud_filter")
         self.aud_caps_filter.set_property("caps", self.aud_caps)
         self.audioconv = Gst.ElementFactory.make("audioconvert", "audio_conv")
@@ -219,7 +219,7 @@ class Screencast(GObject.GObject):
         self.audiomixer = Gst.ElementFactory.make("adder", "audiomixer")
         self.audio2src = Gst.ElementFactory.make("pulsesrc", "audio2_src")
         self.audio2src.set_property("device", self.audio2_source)
-        self.aud2_caps = Gst.Caps("audio/x-raw-int")
+        self.aud2_caps = Gst.caps_from_string("audio/x-raw-int")
         self.aud2_caps_filter = Gst.ElementFactory.make("capsfilter", "aud2_filter")
         self.aud2_caps_filter.set_property("caps", self.aud2_caps)
         self.aud2_in_queue = Gst.ElementFactory.make("queue", "queue_a2_in")
@@ -241,7 +241,7 @@ class Screencast(GObject.GObject):
         self.pipeline.add(self.vid_in_queue)
         self.pipeline.add(self.videorate)
         self.pipeline.add(self.vid_caps_filter)
-        self.pipeline.add(self.ffmpegcolor)
+        self.pipeline.add(self.videoconvert)
         self.pipeline.add(self.vid_out_queue)
         self.pipeline.add(self.file_queue)
 
@@ -271,13 +271,13 @@ class Screencast(GObject.GObject):
         self.videosrc.link(self.vid_in_queue)
         self.vid_in_queue.link(self.videorate)
         self.videorate.link(self.vid_caps_filter)
-        self.vid_caps_filter.link(self.ffmpegcolor)
+        self.vid_caps_filter.link(self.videoconvert)
         if self.codec is CODEC_RAW:
-            self.ffmpegcolor.link(self.vid_out_queue)
+            self.videoconvert.link(self.vid_out_queue)
             logger.debug("  RAW Video")
         else:
             logger.debug("  Video")
-            self.ffmpegcolor.link(self.videnc)
+            self.videoconvert.link(self.videnc)
             self.videnc.link(self.vid_out_queue)
 
         self.vid_out_queue.link(self.mux)
@@ -344,7 +344,7 @@ class Screencast(GObject.GObject):
             logger.debug("Emitting flush-done.")
             self.emit("flush-done")
         elif t == Gst.MessageType.ERROR:
-            logger.debug("Received an error message.")
+            logger.debug("Received an error message:", )
 
 
 def detect_codecs():

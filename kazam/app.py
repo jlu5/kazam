@@ -580,6 +580,7 @@ class KazamApp(GObject.GObject):
                                     self.dist)
 
         self.recorder.connect("flush-done", self.cb_flush_done)
+        print "**** SPLASH", self.countdown_splash
         self.countdown = CountdownWindow(self.indicator, show_window = self.countdown_splash)
         self.countdown.connect("counter-finished", self.cb_counter_finished)
         self.countdown.run(self.spinbutton_counter.get_value_as_int())
