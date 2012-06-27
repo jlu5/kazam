@@ -67,6 +67,7 @@ from kazam.frontend.indicator import KazamIndicator
 from kazam.frontend.window_region import RegionWindow
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.window_countdown import CountdownWindow
+from kazam.frontend.widgets import  ModeButton
 
 class KazamApp(GObject.GObject):
 
@@ -161,7 +162,7 @@ class KazamApp(GObject.GObject):
             else:
                 logger.debug("Unable to get name for '%s'" % w)
 
-        # If these are added in glade, something weeird happens - investigate! :)
+        # If these are added in glade, something weird happens - investigate! :)
         self.volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
         self.volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
         self.framerate_adjustment = Gtk.Adjustment(25, 1, 60, 1, 5, 0)
@@ -175,6 +176,28 @@ class KazamApp(GObject.GObject):
         renderer_text = Gtk.CellRendererText()
         self.combobox_codec.pack_start(renderer_text, True)
         self.combobox_codec.add_attribute(renderer_text, "text", 1)
+
+        self.context = self.toolbar_main.get_style_context()
+        self.context.add_class(Gtk.STYLE_CLASS_PRIMARY_TOOLBAR)
+
+        img1 = Gtk.Image.new_from_file("/home/bigwhale/Code/Kazam/unstable/data/icons/light/screencast.png")
+        img2 = Gtk.Image.new_from_file("/home/bigwhale/Code/Kazam/unstable/data/icons/light/screenshot.png")
+        self.btn1 = ModeButton("Screencast", img1)
+        self.btn2 = ModeButton("Screenshot", img2)
+        self.tool_item1 = Gtk.ToolItem()
+        self.tool_item2 = Gtk.ToolItem()
+        #self.tool_item1.set_margin_right(10)
+
+        #self.tool_item1.set_is_important(True)
+        #self.tool_item2.set_is_important(True)
+        #self.btn_cast = Gtk.ToolButton(stock_id=Gtk.STOCK_MEDIA_RECORD)
+        #self.btn_shot = Gtk.ToolButton(stock_id=Gtk.STOCK_ZOOM_IN)
+        #self.tool_item1.add(self.btn_cast)
+        #self.tool_item2.add(self.btn_shot)
+        self.tool_item1.add(self.btn1)
+        self.tool_item2.add(self.btn2)
+        self.toolbar_main.insert(self.tool_item1, -1)
+        self.toolbar_main.insert(self.tool_item2, -1)
 
         #
         # Take care of screen size changes.
