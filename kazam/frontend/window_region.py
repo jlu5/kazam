@@ -50,6 +50,8 @@ class RegionWindow(GObject.GObject):
         self.window.connect("draw", self.cb_draw)
         self.window.connect("key-press-event", self.cb_keypress_event)
         self.window.connect("button-press-event", self.cb_button_press_event)
+        self.window.connect("button-release-event", self.cb_button_release_event)
+        self.window.connect("motion-notify-event", self.cb_motion_notify_event)
 
         if region:
             logger.debug("Old region defined at: X: {0}, Y: {1}, W: {2}, H: {3}".format(region[0],
@@ -60,26 +62,25 @@ class RegionWindow(GObject.GObject):
             self.starty = region[1]
             self.endx = region[2]
             self.endy = region[3]
-            self.window.move(self.startx, self.starty)
         else:
             self.startx = 0
             self.starty = 0
             self.endx = 640
             self.endy = 480
-            self.window.set_position(Gtk.WindowPosition.CENTER)
 
         self.width = self.endx - self.startx
         self.height = self.endy - self.starty
         self.window.set_default_geometry(self.width, self.height)
 
-        self.window.set_border_width(30)
+        self.window.set_border_width(1)
         self.window.set_app_paintable(True)
         self.window.set_has_resize_grip(False)
         self.window.set_resizable(True)
-        self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+        self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK | Gdk.EventMask.BUTTON_RELEASE_MASK | Gdk.EventMask.POINTER_MOTION_MASK)
         self.window.set_decorated(False)
         self.window.set_property("skip-taskbar-hint", True)
         self.window.set_keep_above(True)
+        self.window.fullscreen()
         self.screen = self.window.get_screen()
         self.visual = self.screen.get_rgba_visual()
         self.recording = False
@@ -97,41 +98,28 @@ class RegionWindow(GObject.GObject):
     def cb_button_press_event(self, widget, event):
         (op, button) = event.get_button()
         if button == 1:
-            # TODO: Lure someone into making this code a little less ugly ...
-            if int(event.x) in range(0, 16) and int(event.y) in range(0,16):
-                self.window.begin_resize_drag(Gdk.WindowEdge.NORTH_WEST, button,
-                                              event.x_root, event.y_root, event.time)
+            # Remember the starting coordinates! Remember! ;)
+            self.startx = event.x
+            self.starty = event.y
+            print self.startx
+            print self.starty
 
-            elif int(event.x) in range(self.width-16, self.width) and int(event.y) in range(0,16):
-                self.window.begin_resize_drag(Gdk.WindowEdge.NORTH_EAST, button,
-                                              event.x_root, event.y_root, event.time)
+    def cb_button_release_event(self, widget, event):
+        (op, button) = event.get_button()
+        if button == 1:
+            # Remember the ending coordinates! Remember! ;)
+            self.endx = event.x
+            self.endy = event.y
+            print self.endx
+            print self.endy
 
-            elif int(event.x) in range(self.width-16, self.width) and int(event.y) in range(self.height-16,self.height):
-                self.window.begin_resize_drag(Gdk.WindowEdge.SOUTH_EAST, button,
-                                              event.x_root, event.y_root, event.time)
 
-            elif int(event.x) in range(0, 16) and int(event.y) in range(self.height-16, self.height):
-                self.window.begin_resize_drag(Gdk.WindowEdge.SOUTH_WEST, button,
-                                              event.x_root, event.y_root, event.time)
+    def cb_motion_notify_event(self, widget, event):
+        if event.state & Gdk.ModifierType.BUTTON1_MASK:
+            print event.state
+            print event.x
+            print event.y
 
-            elif int(event.x) in range(self.width/2-8, self.width/2+8) and int(event.y) in range(0,16):
-                self.window.begin_resize_drag(Gdk.WindowEdge.NORTH, button,
-                                              event.x_root, event.y_root, event.time)
-
-            elif int(event.x) in range(self.width/2-8, self.width/2+8) and int(event.y) in range(self.height-16, self.height):
-                self.window.begin_resize_drag(Gdk.WindowEdge.SOUTH, button,
-                                              event.x_root, event.y_root, event.time)
-
-            elif int(event.x) in range(0, 16) and int(event.y) in range(self.height/2-8,self.height/2+8):
-                self.window.begin_resize_drag(Gdk.WindowEdge.WEST, button,
-                                              event.x_root, event.y_root, event.time)
-
-            elif int(event.x) in range(self.width-16, self.width) and int(event.y) in range(self.height/2-8,self.height/2+8):
-                self.window.begin_resize_drag(Gdk.WindowEdge.EAST, button,
-                                              event.x_root, event.y_root, event.time)
-
-            else:
-                self.window.begin_move_drag(button, event.x_root, event.y_root, event.time)
 
     def cb_keypress_event(self, widget, event):
         (op, keycode) = event.get_keycode()
@@ -195,25 +183,25 @@ class RegionWindow(GObject.GObject):
             cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
         else:
             cr.set_source_rgba(1.0, 1.0, 1.0)
-        cr.set_line_width(6.0)
-        cr.move_to(0, 0)
-        cr.rectangle(0, 0, 16, 16)
-        cr.rectangle(w-16, 0, 16, 16)
-        cr.rectangle(0, h-16, 16, 16)
-        cr.rectangle(w-16, h-16, 16, 16)
-        cr.rectangle(w/2-8, 0, 16, 16)
-        cr.rectangle(w/2-8, h-16, 16, 16)
+        cr.set_line_width(2.0)
+        #cr.move_to(0, 0)
+        #cr.rectangle(0, 0, 16, 16)
+        #cr.rectangle(w-16, 0, 16, 16)
+        #cr.rectangle(0, h-16, 16, 16)
+        #cr.rectangle(w-16, h-16, 16, 16)
+        #cr.rectangle(w/2-8, 0, 16, 16)
+        #cr.rectangle(w/2-8, h-16, 16, 16)
 
-        cr.rectangle(0, h/2-8, 16, 16)
-        cr.rectangle(w-16, h/2-8, 16, 16)
+        #cr.rectangle(0, h/2-8, 16, 16)
+        #cr.rectangle(w-16, h/2-8, 16, 16)
 
         cr.fill()
         cr.set_source_rgb(0.65, 0.65, 0.65)
         cr.rectangle(0, 0, w, h)
         cr.stroke()
         cr.set_operator(cairo.OPERATOR_OVER)
-        self._outline_text(cr, w, h, 30, _("Select region by resizing the rectangle"))
-        self._outline_text(cr, w, h + 50, 26, _("Press ENTER to confirm or ESC to cancel"))
+        self._outline_text(cr, w, h, 30, _("Select recording region with the mouse."))
+        self._outline_text(cr, w, h + 50, 26, _("Press ENTER to confirm or ESC to cancel."))
         self._outline_text(cr, w, h + 100, 20, "({0} x {1})".format(w, h))
 
 

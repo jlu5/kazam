@@ -26,7 +26,7 @@ class _Tile(object):
         self.set_focus_on_click(False)
         self.set_relief(Gtk.ReliefStyle.NONE)
         self.box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 0)
-        self.box.set_size_request(48, -1)
+        self.box.set_size_request(62, -1)
         self.add(self.box)
 
     def create_default(self, label, icon):

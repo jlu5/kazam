@@ -41,6 +41,7 @@ from kazam.utils import *
 
 GObject.threads_init()
 Gst.init(None)
+Gst.debug_set_active(True)
 
 class Screencast(GObject.GObject):
     __gsignals__ = {
@@ -200,7 +201,7 @@ class Screencast(GObject.GObject):
         logger.debug("Audio1 Source:\n  {0}".format(self.audio_source))
         self.audiosrc = Gst.ElementFactory.make("pulsesrc", "audio_src")
         self.audiosrc.set_property("device", self.audio_source)
-        self.aud_caps = Gst.caps_from_string("audio/x-raw-int")
+        self.aud_caps = Gst.caps_from_string("audio/x-raw")
         self.aud_caps_filter = Gst.ElementFactory.make("capsfilter", "aud_filter")
         self.aud_caps_filter.set_property("caps", self.aud_caps)
         self.audioconv = Gst.ElementFactory.make("audioconvert", "audio_conv")
@@ -219,10 +220,11 @@ class Screencast(GObject.GObject):
         self.audiomixer = Gst.ElementFactory.make("adder", "audiomixer")
         self.audio2src = Gst.ElementFactory.make("pulsesrc", "audio2_src")
         self.audio2src.set_property("device", self.audio2_source)
-        self.aud2_caps = Gst.caps_from_string("audio/x-raw-int")
+        self.aud2_caps = Gst.caps_from_string("audio/x-raw")
         self.aud2_caps_filter = Gst.ElementFactory.make("capsfilter", "aud2_filter")
         self.aud2_caps_filter.set_property("caps", self.aud2_caps)
         self.aud2_in_queue = Gst.ElementFactory.make("queue", "queue_a2_in")
+        self.audio2conv = Gst.ElementFactory.make("audioconvert", "audio2_conv")
 
     def setup_filesink(self):
         logger.debug("Filesink: {0}".format(self.tempfile))
@@ -264,7 +266,6 @@ class Screencast(GObject.GObject):
 
         self.pipeline.add(self.mux)
         self.pipeline.add(self.sink)
-        logger.debug("Linking pipeline for:")
 
     def setup_links(self):
         # Connect everything together
@@ -274,46 +275,60 @@ class Screencast(GObject.GObject):
         self.vid_caps_filter.link(self.videoconvert)
         if self.codec is CODEC_RAW:
             self.videoconvert.link(self.vid_out_queue)
-            logger.debug("  RAW Video")
+            logger.debug("Linking RAW Video")
         else:
-            logger.debug("  Video")
+            logger.debug("Linking Video")
             self.videoconvert.link(self.videnc)
             self.videnc.link(self.vid_out_queue)
 
         self.vid_out_queue.link(self.mux)
 
         if self.audio_source:
-            logger.debug("  Audio")
-            self.audiosrc.link(self.aud_in_queue)
-            self.aud_in_queue.link(self.aud_caps_filter)
+            logger.debug("Linking Audio")
+            ret = self.audiosrc.link(self.aud_in_queue)
+            logger.debug(" Link audiosrc -> aud_in_queue: %s" % ret)
+            ret = self.aud_in_queue.link(self.aud_caps_filter)
+            logger.debug(" Link aud_in_queue -> aud_caps_filter: %s" % ret)
 
             if self.audio2_source:
-                logger.debug("  Audio2")
+                logger.debug("Linking Audio2")
                 # Link first audio source to mixer
-                self.aud_caps_filter.link(self.audiomixer)
+                ret = self.aud_caps_filter.link(self.audiomixer)
+                logger.debug(" Link aud_caps_filter -> audiomixer: %s" % ret)
 
                 # Link second audio source to mixer
-                self.audio2src.link(self.aud2_in_queue)
-                self.aud2_in_queue.link(self.aud2_caps_filter)
-                self.aud2_caps_filte.link(self.audiomixer)
+                ret = self.audio2src.link(self.aud2_in_queue)
+                logger.debug(" Link audio2src -> aud2_in_queue: %s" % ret)
+                ret = self.aud2_in_queue.link(self.aud2_caps_filter)
+                logger.debug(" Link aud2_in_queue -> aud2_caps_filter: %s" % ret)
+                ret = self.aud2_caps_filter.link(self.audiomixer)
+                logger.debug(" Link aud2_caps_filter -> audiomixer: %s" % ret)
 
                 # Link mixer to audio convert
-                self.audiomixer.link(self.audioconv)
+                ret = self.audiomixer.link(self.audioconv)
+                logger.debug(" Link audiomixer -> audioconv: %s" % ret)
+
             else:
                 # Link first audio source to audio convert
-                self.aud_caps_filter.link(self.audioconv)
+                ret = self.aud_caps_filter.link(self.audioconv)
+                logger.debug(" Link aud_caps_filter -> audioconv: %s" % ret)
 
             # Link audio to muxer
-            self.audioconv.link(self.audioenc)
-            self.audioenc.link(self.aud_out_queue)
-            self.aud_out_queue.link(self.mux)
+            ret = self.audioconv.link(self.audioenc)
+            logger.debug("Link audioconv -> audioenc: %s" % ret)
+            ret = self.audioenc.link(self.aud_out_queue)
+            logger.debug("Link audioenc -> aud_out_queue: %s" % ret)
+            ret = self.aud_out_queue.link(self.mux)
+            logger.debug("Link aud_out_queue -> mux: %s" % ret)
 
-        self.mux.link(self.file_queue)
-        self.file_queue.link(self.sink)
+        ret = self.mux.link(self.file_queue)
+        logger.debug("Link mux -> file queue: %s" % ret)
+        ret = self.file_queue.link(self.sink)
+        logger.debug("Link file queue -> sink: %s" % ret)
 
     def start_recording(self):
-        if self.debug:
-            logger.debug("Generating dot file.")
+        #if self.debug:
+        #    logger.debug("Generating dot file.")
 
         logger.debug("Setting STATE_PLAYING")
         self.pipeline.set_state(Gst.State.PLAYING)
@@ -344,7 +359,7 @@ class Screencast(GObject.GObject):
             logger.debug("Emitting flush-done.")
             self.emit("flush-done")
         elif t == Gst.MessageType.ERROR:
-            logger.debug("Received an error message:", )
+            logger.debug("Received an error message: %s", message.parse_error()[1])
 
 
 def detect_codecs():

@@ -37,6 +37,7 @@ from gettext import gettext as _
 try:
     from gi.repository.Gst import version as gst_ver
     gst_gi = gst_ver()
+
     if gst_gi[0]:
         try:
             from kazam.backend.gstreamer_gi import detect_codecs, get_codec
@@ -87,12 +88,12 @@ class KazamApp(GObject.GObject):
         self.setup_translations()
 
         if self.sound:
-            #try:
-            from kazam.pulseaudio.pulseaudio import pulseaudio_q
-            self.sound = True
-            #except:
-            #    logger.warning("Pulse Audio Failed to load. Sound recording disabled.")
-            #    self.sound = False
+            try:
+                from kazam.pulseaudio.pulseaudio import pulseaudio_q
+                self.sound = True
+            except:
+                logger.warning("Pulse Audio Failed to load. Sound recording disabled.")
+                self.sound = False
 
         self.icons = Gtk.IconTheme.get_default()
         self.icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
@@ -182,22 +183,18 @@ class KazamApp(GObject.GObject):
 
         img1 = Gtk.Image.new_from_file("/home/bigwhale/Code/Kazam/unstable/data/icons/light/screencast.png")
         img2 = Gtk.Image.new_from_file("/home/bigwhale/Code/Kazam/unstable/data/icons/light/screenshot.png")
-        self.btn1 = ModeButton("Screencast", img1)
-        self.btn2 = ModeButton("Screenshot", img2)
-        self.tool_item1 = Gtk.ToolItem()
-        self.tool_item2 = Gtk.ToolItem()
-        #self.tool_item1.set_margin_right(10)
 
-        #self.tool_item1.set_is_important(True)
-        #self.tool_item2.set_is_important(True)
-        #self.btn_cast = Gtk.ToolButton(stock_id=Gtk.STOCK_MEDIA_RECORD)
-        #self.btn_shot = Gtk.ToolButton(stock_id=Gtk.STOCK_ZOOM_IN)
-        #self.tool_item1.add(self.btn_cast)
-        #self.tool_item2.add(self.btn_shot)
-        self.tool_item1.add(self.btn1)
-        self.tool_item2.add(self.btn2)
-        self.toolbar_main.insert(self.tool_item1, -1)
-        self.toolbar_main.insert(self.tool_item2, -1)
+        self.btn_cast = Gtk.ToolButton()
+        self.btn_cast.set_label("Screencast")
+        self.btn_cast.set_icon_widget(img1)
+
+        self.btn_shot = Gtk.ToolButton()
+        self.btn_shot.set_label("Screenshot")
+        self.btn_shot.set_icon_widget(img2)
+
+        self.toolbar_main.insert(self.btn_cast, -1)
+        self.toolbar_main.insert(self.btn_shot, -1)
+        # self.btn_cast.set_relief(Gtk.ReliefStyle.NORMAL)
 
         #
         # Take care of screen size changes.
@@ -603,7 +600,6 @@ class KazamApp(GObject.GObject):
                                     self.dist)
 
         self.recorder.connect("flush-done", self.cb_flush_done)
-        print "**** SPLASH", self.countdown_splash
         self.countdown = CountdownWindow(self.indicator, show_window = self.countdown_splash)
         self.countdown.connect("counter-finished", self.cb_counter_finished)
         self.countdown.run(self.spinbutton_counter.get_value_as_int())
