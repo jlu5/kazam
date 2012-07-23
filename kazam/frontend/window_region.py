@@ -52,6 +52,7 @@ class RegionWindow(GObject.GObject):
         self.window.connect("button-press-event", self.cb_button_press_event)
         self.window.connect("button-release-event", self.cb_button_release_event)
         self.window.connect("motion-notify-event", self.cb_motion_notify_event)
+        self.dragging = False
 
         if region:
             logger.debug("Old region defined at: X: {0}, Y: {1}, W: {2}, H: {3}".format(region[0],
@@ -98,29 +99,48 @@ class RegionWindow(GObject.GObject):
     def cb_button_press_event(self, widget, event):
         (op, button) = event.get_button()
         if button == 1:
-            # Remember the starting coordinates! Remember! ;)
-            self.startx = event.x
-            self.starty = event.y
-            self.endx = self.startx
-            self.endy = self.starty
+            if event.x >= self.startx and event.x <= self.endx and event.y >= self.starty and event.y <= self.endy:
+                self.dragging = True
+                self.deltax = abs(self.startx - event.x)
+                self.deltay = abs(self.starty - event.y)
+            else:
+                self.dragging = False
+                # Remember the starting coordinates! Remember! ;)
+                self.startx = event.x
+                self.starty = event.y
+                self.endx = self.startx
+                self.endy = self.starty
 
     def cb_button_release_event(self, widget, event):
         (op, button) = event.get_button()
         if button == 1:
-            # Remember the ending coordinates! Remember! ;)
-            self.endx = event.x
-            self.endy = event.y
-
+            if self.dragging:
+                self.dragging = False
+            else:
+                # Remember the ending coordinates! Remember! ;)
+                self.endx = event.x
+                self.endy = event.y
 
     def cb_motion_notify_event(self, widget, event):
+        # Someone needs to fix this clusterfuck ...
         if event.state & Gdk.ModifierType.BUTTON1_MASK:
-            self.endx = event.x
-            self.endy = event.y
-            #
-            # Fix. This. :)
-            #
-            self.width = abs(self.startx - self.endx)
-            self.height = abs(self.starty - self.endy)
+            if self.dragging:
+                self.startx = self.startx + (event.x - self.startx - self.deltax)
+                if self.startx < 0:
+                    self.startx = 0
+                if self.startx + self.width > self.screen_width:
+                    self.startx = self.screen_width - self.width
+                self.starty = self.starty + (event.y - self.starty - self.deltay)
+                if self.starty < 0:
+                    self.starty = 0
+                if self.starty + self.height > self.screen_height:
+                    self.starty = self.screen_height - self.height
+            else:
+                self.endx = event.x
+                self.endy = event.y
+                self.width = abs(self.startx - self.endx)
+                self.height = abs(self.starty - self.endy)
+
             self.window.queue_draw()
 
     def cb_keypress_event(self, widget, event):
