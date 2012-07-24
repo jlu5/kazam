@@ -67,6 +67,10 @@ class RegionWindow(GObject.GObject):
 
         self.width = self.endx - self.startx
         self.height = self.endy - self.starty
+        default_screen = Gdk.Screen.get_default()
+        print Gdk.Screen.get_monitor_at_window(default_screen, self.window)
+
+
         self.window.set_default_geometry(0,0)
 
         self.window.set_border_width(1)
@@ -81,6 +85,7 @@ class RegionWindow(GObject.GObject):
         self.screen = self.window.get_screen()
         self.visual = self.screen.get_rgba_visual()
         self.recording = False
+        self.mouse_moved = False
 
         if self.visual is not None and self.screen.is_composited():
             logger.debug("Compositing window manager detected.")
@@ -102,6 +107,8 @@ class RegionWindow(GObject.GObject):
             else:
                 self.dragging = False
                 # Remember the starting coordinates! Remember! ;)
+                self.old_startx = self.startx
+                self.old_starty = self.starty
                 self.startx = event.x
                 self.starty = event.y
                 self.endx = self.startx
@@ -110,16 +117,22 @@ class RegionWindow(GObject.GObject):
     def cb_button_release_event(self, widget, event):
         (op, button) = event.get_button()
         if button == 1:
+            if not self.mouse_moved:
+                print "restoring"
+                self.startx = self.old_startx
+                self.starty = self.old_starty
             if self.dragging:
                 self.dragging = False
             else:
                 # Remember the ending coordinates! Remember! ;)
                 self.endx = event.x
                 self.endy = event.y
+        self.mouse_moved = False
 
     def cb_motion_notify_event(self, widget, event):
         # Someone needs to fix this clusterfuck ...
         if event.state & Gdk.ModifierType.BUTTON1_MASK:
+            self.mouse_moved = True
             if self.dragging:
                 self.startx = self.startx + (event.x - self.startx - self.deltax)
                 if self.startx < 0:
@@ -142,10 +155,6 @@ class RegionWindow(GObject.GObject):
     def cb_keypress_event(self, widget, event):
         (op, keycode) = event.get_keycode()
         if keycode == 36 or keycode == 104: # Enter
-            self.window.set_default_geometry(self.width, self.height)
-            (self.startx, self.starty) = self.window.get_position()
-            self.endx = self.startx + self.width - 1
-            self.endy = self.starty + self.height - 1
             self.recording = True
             self.window.input_shape_combine_region(None)
             self.window.hide()
