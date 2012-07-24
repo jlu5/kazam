@@ -35,10 +35,6 @@ class RegionWindow(GObject.GObject):
                              None,
                                (),
                                 ),
-        "region-canceled" : (GObject.SIGNAL_RUN_LAST,
-                             None,
-                               (),
-                                ),
     }
 
     def __init__(self, region = None):
@@ -154,15 +150,11 @@ class RegionWindow(GObject.GObject):
             self.window.input_shape_combine_region(None)
             self.window.hide()
             self.emit("region-selected")
-        elif keycode == 9: # ESC
-            self.window.hide()
-            self.emit("region-canceled")
 
 
     def cb_configure_event(self, widget, event):
         self.screen_width = event.width
         self.screen_height = event.height
-        print self.screen_height
 
     def cb_draw(self, widget, cr):
         w = self.screen_width

@@ -124,6 +124,7 @@ class KazamApp(GObject.GObject):
         self.region_toggled = False
         self.advanced = False
         self.gst_gi = gst_gi
+        self.capture_mode = None
 
 
         if self.sound:
@@ -181,20 +182,45 @@ class KazamApp(GObject.GObject):
         self.context = self.toolbar_main.get_style_context()
         self.context.add_class(Gtk.STYLE_CLASS_PRIMARY_TOOLBAR)
 
-        img1 = Gtk.Image.new_from_file("/home/bigwhale/Code/Kazam/unstable/data/icons/light/screencast.png")
-        img2 = Gtk.Image.new_from_file("/home/bigwhale/Code/Kazam/unstable/data/icons/light/screenshot.png")
 
-        self.btn_cast = Gtk.ToolButton()
+        self.btn_cast = Gtk.RadioToolButton(group=None)
         self.btn_cast.set_label("Screencast")
+        img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "screencast.png"))
         self.btn_cast.set_icon_widget(img1)
+        self.btn_cast.set_active(True)
+        self.btn_cast.connect("toggled", self.cb_btn_cast_toggled)
 
-        self.btn_shot = Gtk.ToolButton()
+        self.btn_shot = Gtk.RadioToolButton(group=self.btn_cast)
         self.btn_shot.set_label("Screenshot")
+        img2 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screenshot-1.png"))
         self.btn_shot.set_icon_widget(img2)
+        self.btn_shot.connect("toggled", self.cb_btn_shot_toggled)
 
         self.toolbar_main.insert(self.btn_cast, -1)
         self.toolbar_main.insert(self.btn_shot, -1)
-        # self.btn_cast.set_relief(Gtk.ReliefStyle.NORMAL)
+
+        # Auxiliary toolbar
+        self.btn_full = Gtk.RadioToolButton(group=None)
+        self.btn_full.set_label("Fullscreen")
+        img3 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "fullscreen.png"))
+        self.btn_full.set_icon_widget(img3)
+        self.btn_full.set_active(True)
+
+        self.btn_allscreens = Gtk.RadioToolButton(group=self.btn_full)
+        self.btn_allscreens.set_label("All Screens")
+        img4 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "all-screens.png"))
+        self.btn_allscreens.set_icon_widget(img4)
+
+        self.btn_area = Gtk.RadioToolButton(group=self.btn_full)
+        self.btn_area.set_label("Area")
+        img5 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "area.png"))
+        self.btn_area.set_icon_widget(img5)
+        self.btn_area.connect("toggled", self.cb_region_toggled)
+
+        self.toolbar_aux.insert(self.btn_full, -1)
+        self.toolbar_aux.insert(self.btn_allscreens, -1)
+        self.toolbar_aux.insert(self.btn_area, -1)
+
 
         #
         # Take care of screen size changes.
@@ -229,6 +255,27 @@ class KazamApp(GObject.GObject):
     #
     # Callbacks, go down here ...
     #
+
+    def cb_btn_cast_toggled(self, widget):
+        if widget.get_active():
+            img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "screencast.png"))
+            img1.show()
+            widget.set_icon_widget(img1)
+        else:
+            img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screencast.png"))
+            img1.show()
+            widget.set_icon_widget(img1)
+
+    def cb_btn_shot_toggled(self, widget):
+        if widget.get_active():
+            img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "screenshot-1.png"))
+            img1.show()
+            widget.set_icon_widget(img1)
+        else:
+            img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screenshot-1.png"))
+            img1.show()
+            widget.set_icon_widget(img1)
+
 
     def cb_screen_size_changed(self, screen):
         logger.debug("Screen size changed.")
@@ -508,7 +555,7 @@ class KazamApp(GObject.GObject):
         logger.debug("Advanced codecs: {0}".format(self.advanced))
 
     def cb_region_toggled(self, widget):
-        if self.btn_region.get_active():
+        if self.btn_area.get_active():
             logger.debug("Region ON.")
             self.region_window = RegionWindow(self.region)
             self.region_window.connect("region-selected", self.cb_region_selected)
@@ -532,12 +579,6 @@ class KazamApp(GObject.GObject):
                        self.region_window.starty,
                        self.region_window.endx,
                        self.region_window.endy)
-
-    def cb_region_canceled(self, widget):
-        logger.debug("Region Canceled.")
-        self.window.set_sensitive(True)
-        self.btn_region.set_active(False)
-        self.region_toggled = False
 
     #
     # Other somewhat useful stuff ...
