@@ -67,9 +67,6 @@ class RegionWindow(GObject.GObject):
 
         self.width = self.endx - self.startx
         self.height = self.endy - self.starty
-        default_screen = Gdk.Screen.get_default()
-        print Gdk.Screen.get_monitor_at_window(default_screen, self.window)
-
 
         self.window.set_default_geometry(0,0)
 
@@ -134,12 +131,12 @@ class RegionWindow(GObject.GObject):
         if event.state & Gdk.ModifierType.BUTTON1_MASK:
             self.mouse_moved = True
             if self.dragging:
-                self.startx = self.startx + (event.x - self.startx - self.deltax)
+                self.startx += (event.x - self.startx - self.deltax)
                 if self.startx < 0:
                     self.startx = 0
                 if self.startx + self.width > self.screen_width:
                     self.startx = self.screen_width - self.width
-                self.starty = self.starty + (event.y - self.starty - self.deltay)
+                self.starty += (event.y - self.starty - self.deltay)
                 if self.starty < 0:
                     self.starty = 0
                 if self.starty + self.height > self.screen_height:
