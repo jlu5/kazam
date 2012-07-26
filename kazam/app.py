@@ -185,7 +185,7 @@ class KazamApp(GObject.GObject):
 
         self.btn_cast = Gtk.RadioToolButton(group=None)
         self.btn_cast.set_label("Screencast")
-        img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "screencast.png"))
+        img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screencast.png"))
         self.btn_cast.set_icon_widget(img1)
         self.btn_cast.set_active(True)
         self.btn_cast.connect("toggled", self.cb_btn_cast_toggled)
@@ -257,24 +257,26 @@ class KazamApp(GObject.GObject):
     #
 
     def cb_btn_cast_toggled(self, widget):
-        if widget.get_active():
-            img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "screencast.png"))
-            img1.show()
-            widget.set_icon_widget(img1)
-        else:
-            img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screencast.png"))
-            img1.show()
-            widget.set_icon_widget(img1)
+        if self.dist[1] == "12.04":
+            if widget.get_active():
+                img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "screencast.png"))
+                img1.show()
+                widget.set_icon_widget(img1)
+            else:
+                img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screencast.png"))
+                img1.show()
+                widget.set_icon_widget(img1)
 
     def cb_btn_shot_toggled(self, widget):
-        if widget.get_active():
-            img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "screenshot-1.png"))
-            img1.show()
-            widget.set_icon_widget(img1)
-        else:
-            img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screenshot-1.png"))
-            img1.show()
-            widget.set_icon_widget(img1)
+        if self.dist[1] == "12.04":
+            if widget.get_active():
+                img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "screenshot-1.png"))
+                img1.show()
+                widget.set_icon_widget(img1)
+            else:
+                img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screenshot-1.png"))
+                img1.show()
+                widget.set_icon_widget(img1)
 
 
     def cb_screen_size_changed(self, screen):
