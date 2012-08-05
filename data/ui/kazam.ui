@@ -31,7 +31,7 @@
           <object class="GtkNotebook" id="ntb_main">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">44</property>
+            <property name="margin_left">33</property>
             <property name="margin_right">5</property>
             <property name="margin_top">5</property>
             <property name="hexpand">True</property>
@@ -57,6 +57,24 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkCheckButton" id="chk_microphone">
+                    <property name="label" translatable="yes">Sound from microphone</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">3</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkCheckButton" id="chk_speakers">
                     <property name="label" translatable="yes">Sound from speakers</property>
                     <property name="use_action_appearance">False</property>
@@ -70,14 +88,14 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
+                    <property name="top_attach">2</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="chk_microphone">
-                    <property name="label" translatable="yes">Sound from microphone</property>
+                  <object class="GtkCheckButton" id="chk_cursor_vid">
+                    <property name="label" translatable="yes">Mouse cursor</property>
                     <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -88,7 +106,7 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
+                    <property name="top_attach">1</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -110,31 +128,36 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkLabel" id="label3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Include:</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
+                  <object class="GtkCheckButton" id="chk_cursor_pic">
+                    <property name="label" translatable="yes">Mouse cursor</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -184,14 +207,14 @@
           <object class="GtkGrid" id="grid2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">44</property>
+            <property name="margin_left">33</property>
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="margin_right">5</property>
                 <property name="xalign">0.47999998927116394</property>
-                <property name="label" translatable="yes">Delay before recording</property>
+                <property name="label" translatable="yes">Delay before start</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
