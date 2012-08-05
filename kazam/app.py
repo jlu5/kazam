@@ -277,9 +277,11 @@ class KazamApp(GObject.GObject):
     def cb_main_toggled(self, widget):
         if widget.get_name() == "MAIN_SCREENCAST" and widget.get_active():
             self.main_mode = MODE_SCREENCAST
+            self.ntb_main.set_current_page(0)
 
         if widget.get_name() == "MAIN_SCREENSHOT" and widget.get_active():
             self.main_mode = MODE_SCREENSHOT
+            self.ntb_main.set_current_page(1)
 
     def cb_record_mode_toggled(self, widget):
         if widget.get_active():
