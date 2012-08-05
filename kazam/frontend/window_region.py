@@ -31,11 +31,11 @@ from gi.repository import Gtk, GObject, Gdk
 class RegionWindow(GObject.GObject):
 
     __gsignals__ = {
-        "region-selected" : (GObject.SIGNAL_RUN_LAST,
+        "area-selected" : (GObject.SIGNAL_RUN_LAST,
                              None,
                                (),
                                 ),
-        "region-canceled" : (GObject.SIGNAL_RUN_LAST,
+        "area-canceled" : (GObject.SIGNAL_RUN_LAST,
                              None,
                                (),
                                 ),
@@ -147,10 +147,10 @@ class RegionWindow(GObject.GObject):
             #
             self.window.hide()
             # self.window.queue_draw()
-            self.emit("region-selected")
+            self.emit("area-selected")
         elif keycode == 9: # ESC
             self.window.hide()
-            self.emit("region-canceled")
+            self.emit("area-canceled")
 
 
     def cb_configure_event(self, widget, event):

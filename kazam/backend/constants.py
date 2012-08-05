@@ -79,9 +79,65 @@ BLINK_FAST = 3
 BLINK_STOP_ICON = 4
 BLINK_READY_ICON = 5
 
-# Capture modes
+# Main modes
+MODE_SCREENCAST = 0
+MODE_SCREENSHOT = 1
+
+# Record modes
 MODE_FULL = 0
 MODE_ALL = 1
 MODE_AREA = 2
 MODE_WIN = 3
 
+import logging
+logger = logging.getLogger("Constants")
+
+from gi.repository import Gdk
+
+class hw:
+    def __init__(self):
+        logger.debug("Getting hardware specs")
+        self.screens = []
+        self.combined_screen = {}
+        self.get_screens()
+
+    def get_current_screen(self, window = None):
+        try:
+            if window:
+                screen = self.default_screen.get_monitor_at_window(window)
+            else:
+                root = self.default_screen.get_root_window()
+                pointer = root.get_pointer()
+                screen = self.default_screen.get_monitor_at_point(pointer[1], pointer[2])
+        except:
+            screen = 0
+
+        return screen
+
+    def get_screens(self):
+        try:
+            logger.debug("Getting Video sources.")
+            self.screens = []
+            self.default_screen = Gdk.Screen.get_default()
+            logger.debug("Found {0} monitors.".format(self.default_screen.get_n_monitors()))
+            for i in range(self.default_screen.get_n_monitors()):
+                rect = self.default_screen.get_monitor_geometry(i)
+                logger.debug("  Monitor {0} - X: {1}, Y: {2}, W: {3}, H: {4}".format(i,
+                                                                                     rect.x,
+                                                                                     rect.y,
+                                                                                     rect.width,
+                                                                                     rect.height))
+                self.screens.append({"x": rect.x,
+                                     "y": rect.y,
+                                     "width": rect.width,
+                                      "height": rect.height})
+            if self.default_screen.get_n_monitors() > 1:
+                self.combined_screens = {"x": 0, "y": 0,
+                                       "width": self.default_screen.get_width(),
+                                       "height": self.default_screen.get_height()}
+            return self.screens
+        except:
+            logger.warning("Unable to find any video sources.")
+            return False
+
+HW = hw()
