@@ -99,18 +99,19 @@ class hw:
         self.logger.debug("Getting hardware specs")
         self.screens = []
         self.combined_screen = {}
+
         self.get_screens()
 
     def get_current_screen(self, window = None):
         try:
             if window:
-                screen = self.default_screen.get_monitor_at_window(window)
+                screen = self.default_screen.get_monitor_at_window(window.get_window())
             else:
                 root = self.default_screen.get_root_window()
                 pointer = root.get_pointer()
                 screen = self.default_screen.get_monitor_at_point(pointer[1], pointer[2])
         except:
-            screen = 0
+           screen = 0
 
         return screen
 
@@ -120,6 +121,7 @@ class hw:
             self.screens = []
             self.default_screen = Gdk.Screen.get_default()
             self.logger.debug("Found {0} monitors.".format(self.default_screen.get_n_monitors()))
+
             for i in range(self.default_screen.get_n_monitors()):
                 rect = self.default_screen.get_monitor_geometry(i)
                 self.logger.debug("  Monitor {0} - X: {1}, Y: {2}, W: {3}, H: {4}".format(i,
@@ -131,10 +133,14 @@ class hw:
                                      "y": rect.y,
                                      "width": rect.width,
                                       "height": rect.height})
+
             if self.default_screen.get_n_monitors() > 1:
-                self.combined_screens = {"x": 0, "y": 0,
+                self.combined_screen = {"x": 0, "y": 0,
                                        "width": self.default_screen.get_width(),
                                        "height": self.default_screen.get_height()}
+                self.logger.debug("  Combined screen - X: 0, Y: 0, W: {0}, H: {1}".format(self.default_screen.get_width(),
+                                                                                          self.default_screen.get_height()))
+
             return self.screens
         except:
             self.logger.warning("Unable to find any video sources.")

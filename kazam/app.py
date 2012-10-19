@@ -46,7 +46,7 @@ from kazam.frontend.preferences import Preferences
 logger = logging.getLogger("Main")
 
 #
-# Detect GStreamer version and import appropriate functions
+# Detect GStreamer version and bail out if lower than 1.0 and no GI
 #
 try:
     from gi.repository import Gst
@@ -96,25 +96,19 @@ class KazamApp(GObject.GObject):
 
         self.audio_source = 0
         self.audio2_source = 0
-        self.framerate = 0
-        self.counter = 0
-        self.codec = 0
         self.main_x = 0
         self.main_y = 0
         self.countdown = None
         self.tempfile = ""
         self.recorder = None
-        self.cursor = True
         self.area_window = None
         self.area = None
         self.old_path = None
-        self.countdown_splash = True
         self.in_countdown = False
         self.recording_paused = False
         self.recording = False
-        self.advanced = False
-        self.main_mode = None
-        self.record_mode = None
+        self.main_mode = 0
+        self.record_mode = 0
         self.last_mode = None
 
         if prefs.sound:
@@ -246,6 +240,8 @@ class KazamApp(GObject.GObject):
             self.volumebutton_audio.set_sensitive(False)
             self.volumebutton_audio2.set_sensitive(False)
 
+
+        HW.get_current_screen(self.window)
         self.startup = False
 
     #
@@ -256,11 +252,14 @@ class KazamApp(GObject.GObject):
     # Mode of operation toggles
     #
     def cb_main_toggled(self, widget):
-        if widget.get_name() == "MAIN_SCREENCAST" and widget.get_active():
+        name = widget.get_name()
+        if name == "MAIN_SCREENCAST" and widget.get_active():
+            logger.debug("Main toggled: {0}".format(name))
             self.main_mode = MODE_SCREENCAST
             self.ntb_main.set_current_page(0)
 
-        if widget.get_name() == "MAIN_SCREENSHOT" and widget.get_active():
+        elif name == "MAIN_SCREENSHOT" and widget.get_active():
+            logger.debug("Main toggled: {0}".format(name))
             self.main_mode = MODE_SCREENSHOT
             self.ntb_main.set_current_page(1)
 
@@ -287,9 +286,11 @@ class KazamApp(GObject.GObject):
                 self.area_window = None
 
         if widget.get_name() == "MODE_FULL" and widget.get_active():
+            logger.debug("Capture full screen.")
             self.record_mode = MODE_FULL
 
         if widget.get_name() == "MODE_ALL" and widget.get_active():
+            logger.debug("Capture all screens.")
             self.record_mode = MODE_ALL
 
     def cb_area_selected(self, widget):
@@ -501,41 +502,40 @@ class KazamApp(GObject.GObject):
         self.indicator.blink_set_state(BLINK_START)
 
         if prefs.sound:
-            if self.audio_source > 0:
-                audio_source = self.audio_sources[self.audio_source][1]
+            if prefs.audio_source > 0:
+                audio_source = prefs.audio_sources[prefs.audio_source][1]
             else:
                 audio_source = None
 
             if self.audio2_source > 0:
-                audio2_source = self.audio_sources[self.audio2_source][1]
+                audio2_source = prefs.audio_sources[self.audio2_source][1]
             else:
                 audio2_source = None
         else:
             audio_source = None
             audio2_source = None
 
-        # if self.video_source is not None:
-        #    video_source = self.video_sources[self.video_source]
-        #else:
-        #    video_source = None
+        #
+        # Get appropriate coordinates for recording
+        #
 
-        screen = HW.get_current_screen()
+        if self.record_mode == MODE_FULL:
+            screen = HW.get_current_screen(self.window)
+            video_source = HW.screens[screen]
+        elif self.record_mode == MODE_ALL:
+            video_source = HW.combined_screen
+        elif self.record_mode == MODE_AREA:
+            video_source = None
 
-        framerate = self.spinbutton_framerate.get_value_as_int()
         self.recorder.setup_sources(video_source,
                                     audio_source,
                                     audio2_source,
-                                    self.codec,
-                                    self.cursor,
-                                    framerate,
-                                    self.area if self.record_mode == MODE_AREA else None,
-                                    self.test,
-                                    self.dist)
+                                    self.area if self.record_mode == MODE_AREA else None)
 
         self.recorder.connect("flush-done", self.cb_flush_done)
         self.countdown = CountdownWindow(self.indicator, show_window = self.countdown_splash)
         self.countdown.connect("counter-finished", self.cb_counter_finished)
-        self.countdown.run(self.spinbutton_counter.get_value_as_int())
+        self.countdown.run(prefs.countdown_timer)
         self.recording = True
         logger.debug("Hiding main window.")
         self.window.hide()

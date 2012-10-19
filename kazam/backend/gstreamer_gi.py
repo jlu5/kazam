@@ -35,6 +35,7 @@ os.putenv("GST_DEBUG_DUMP_DOT_DIR", "/tmp")
 from gi.repository import GObject, Gst
 
 from subprocess import Popen
+from kazam.backend.prefs import *
 from kazam.backend.constants import *
 from kazam.utils import *
 
@@ -61,15 +62,9 @@ class Screencast(GObject.GObject):
                       video_source,
                       audio_source,
                       audio2_source,
-                      codec,
-                      capture_cursor,
-                      framerate,
-                      region,
-                      test,
-                      dist):
+                      region):
 
 
-        self.codec = codec
         # Get the number of cores available then use all except one for encoding
         self.cores = multiprocessing.cpu_count()
 
@@ -79,17 +74,13 @@ class Screencast(GObject.GObject):
         self.audio_source = audio_source
         self.audio2_source = audio2_source
         self.video_source = video_source
-        self.capture_cursor = capture_cursor
-        self.framerate = framerate
         self.region = region
-        self.test = test
-        self.dist = dist
 
-        logger.debug("Capture Cursor: {0}".format(capture_cursor))
-        logger.debug("Framerate : {0}".format(capture_cursor))
-        logger.debug("Codec: {0}".format(CODEC_LIST[codec][1]))
+        logger.debug("Capture Cursor: {0}".format(prefs.capture_cursor))
+        logger.debug("Framerate : {0}".format(prefs.framerate))
+        logger.debug("Codec: {0}".format(CODEC_LIST[prefs.codec][1]))
 
-        if self.video_source:
+        if self.video_source or self.region:
             self.setup_video_source()
 
         if self.audio_source:
@@ -108,7 +99,7 @@ class Screencast(GObject.GObject):
 
     def setup_video_source(self):
 
-        if self.test:
+        if prefs.test:
             self.videosrc = Gst.ElementFactory.make("videotestsrc", "video_src")
             self.videosrc.set_property("pattern", "smpte")
         else:
@@ -131,18 +122,18 @@ class Screencast(GObject.GObject):
         # H264 requirement is that video dimensions are divisible by 2.
         # If they are not, we have to get rid of that extra pixel.
         #
-        if not abs(startx - endx) % 2 and self.codec == CODEC_H264:
+        if not abs(startx - endx) % 2 and prefs.codec == CODEC_H264:
             endx -= 1
 
-        if not abs(starty - endy) % 2 and self.codec == CODEC_H264:
+        if not abs(starty - endy) % 2 and prefs.codec == CODEC_H264:
             endy -= 1
 
         logger.debug("Coordinates: {0} {1} {2} {3}".format(startx, starty, endx, endy))
 
-        if self.test:
+        if prefs.test:
             logger.info("Using test signal instead of screen capture.")
             self.vid_caps = Gst.caps_from_string("video/x-raw,format=(x-raw-rgb),framerate={0}/1, width={1}, height={2}".format(
-                  self.framerate,
+                  prefs.framerate,
                   endx - startx,
                   endy - starty))
             self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
@@ -153,32 +144,32 @@ class Screencast(GObject.GObject):
             self.videosrc.set_property("endx", endx)
             self.videosrc.set_property("endy", endy)
             self.videosrc.set_property("use-damage", False)
-            self.videosrc.set_property("show-pointer", self.capture_cursor)
+            self.videosrc.set_property("show-pointer", prefs.capture_cursor)
 
-            self.vid_caps = Gst.caps_from_string("video/x-raw,format=(x-raw-rgb),framerate={0}/1".format(self.framerate))
+            self.vid_caps = Gst.caps_from_string("video/x-raw,format=(x-raw-rgb),framerate={0}/1".format(prefs.framerate))
             self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
             self.vid_caps_filter.set_property("caps", self.vid_caps)
 
         self.videoconvert = Gst.ElementFactory.make("videoconvert", "videoconvert")
         self.videorate = Gst.ElementFactory.make("videorate", "video_rate")
 
-        logger.debug("Codec: {0}".format(CODEC_LIST[self.codec][2]))
+        logger.debug("Codec: {0}".format(CODEC_LIST[prefs.codec][2]))
 
-        if self.codec is not CODEC_RAW:
-            self.videnc = Gst.ElementFactory.make(CODEC_LIST[self.codec][1], "video_encoder")
+        if prefs.codec is not CODEC_RAW:
+            self.videnc = Gst.ElementFactory.make(CODEC_LIST[prefs.codec][1], "video_encoder")
 
-        if self.codec == CODEC_RAW:
+        if prefs.codec == CODEC_RAW:
             self.mux = Gst.ElementFactory.make("avimux", "muxer")
-        elif self.codec == CODEC_VP8:
-            if self.dist[0] == 'Ubuntu':
+        elif prefs.codec == CODEC_VP8:
+            if prefs.dist[0] == 'Ubuntu':
                 self.videnc.set_property("speed", 6)
-            elif self.dist[0] == 'LinuxMint':
+            elif prefs.dist[0] == 'LinuxMint':
                 self.videnc.set_property("speed", 2)
             self.videnc.set_property("max-latency", 1)
             self.videnc.set_property("quality", 8)
             self.videnc.set_property("threads", self.cores)
             self.mux = Gst.ElementFactory.make("webmmux", "muxer")
-        elif self.codec == CODEC_H264:
+        elif prefs.codec == CODEC_H264:
             self.videnc.set_property("speed-preset", "veryfast")
             self.videnc.set_property("pass", 4)
             self.videnc.set_property("quantizer", 15)
@@ -187,10 +178,10 @@ class Screencast(GObject.GObject):
             self.mux.set_property("faststart", 1)
             self.mux.set_property("faststart-file", self.muxer_tempfile)
             self.mux.set_property("streamable", 1)
-        elif self.codec == CODEC_HUFF:
+        elif prefs.codec == CODEC_HUFF:
             self.mux = Gst.ElementFactory.make("avimux", "muxer")
             self.videnc.set_property("bitrate", 500000)
-        elif self.codec == CODEC_JPEG:
+        elif prefs.codec == CODEC_JPEG:
             self.mux = Gst.ElementFactory.make("avimux", "muxer")
 
         self.vid_in_queue = Gst.ElementFactory.make("queue", "queue_v1")
@@ -204,7 +195,7 @@ class Screencast(GObject.GObject):
         self.aud_caps_filter = Gst.ElementFactory.make("capsfilter", "aud_filter")
         self.aud_caps_filter.set_property("caps", self.aud_caps)
         self.audioconv = Gst.ElementFactory.make("audioconvert", "audio_conv")
-        if self.codec == CODEC_VP8:
+        if prefs.codec == CODEC_VP8:
             self.audioenc = Gst.ElementFactory.make("vorbisenc", "audio_encoder")
             self.audioenc.set_property("quality", 1)
         else:
@@ -246,7 +237,7 @@ class Screencast(GObject.GObject):
         self.pipeline.add(self.vid_out_queue)
         self.pipeline.add(self.file_queue)
 
-        if self.codec is not CODEC_RAW:
+        if prefs.codec is not CODEC_RAW:
             self.pipeline.add(self.videnc)
 
         if self.audio_source:
@@ -272,7 +263,7 @@ class Screencast(GObject.GObject):
         self.vid_in_queue.link(self.videorate)
         self.videorate.link(self.vid_caps_filter)
         self.vid_caps_filter.link(self.videoconvert)
-        if self.codec is CODEC_RAW:
+        if prefs.codec is CODEC_RAW:
             self.videoconvert.link(self.vid_out_queue)
             logger.debug("Linking RAW Video")
         else:
@@ -326,9 +317,6 @@ class Screencast(GObject.GObject):
         logger.debug("Link file queue -> sink: %s" % ret)
 
     def start_recording(self):
-        #if prefs.debug:
-        #    logger.debug("Generating dot file.")
-
         logger.debug("Setting STATE_PLAYING")
         self.pipeline.set_state(Gst.State.PLAYING)
 
@@ -387,4 +375,3 @@ def get_codec(codec):
         if c[0] == codec:
             return c
     return None
-
