@@ -112,7 +112,6 @@ class hw:
                 screen = self.default_screen.get_monitor_at_point(pointer[1], pointer[2])
         except:
            screen = 0
-
         return screen
 
     def get_screens(self):
@@ -141,9 +140,7 @@ class hw:
                 self.logger.debug("  Combined screen - X: 0, Y: 0, W: {0}, H: {1}".format(self.default_screen.get_width(),
                                                                                           self.default_screen.get_height()))
 
-            return self.screens
         except:
             self.logger.warning("Unable to find any video sources.")
-            return False
 
 HW = hw()

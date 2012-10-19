@@ -312,7 +312,7 @@ class KazamApp(GObject.GObject):
 
     def cb_screen_size_changed(self, screen):
         logger.debug("Screen size changed.")
-        self.get_sources(audio = False)
+        HW.get_screens()
 
     def cb_configure_event(self, widget, event):
         if event.type == Gdk.EventType.CONFIGURE:
@@ -405,7 +405,7 @@ class KazamApp(GObject.GObject):
     def cb_flush_done(self, widget):
         self.done_recording = DoneRecording(self.icons,
                                             self.tempfile,
-                                            self.codec,
+                                            prefs.codec,
                                             self.old_path)
         logger.debug("Done Recording initialized.")
         self.done_recording.connect("save-done", self.cb_save_done)
