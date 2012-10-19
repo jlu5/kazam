@@ -50,13 +50,12 @@ class Screencast(GObject.GObject):
                         (),
             ),
         }
-    def __init__(self, debug):
+    def __init__(self):
         GObject.GObject.__init__(self)
 
         self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".movie")
         self.muxer_tempfile = "{0}.mux".format(self.tempfile)
         self.pipeline = Gst.Pipeline()
-        self.debug = debug
 
     def setup_sources(self,
                       video_source,
@@ -327,7 +326,7 @@ class Screencast(GObject.GObject):
         logger.debug("Link file queue -> sink: %s" % ret)
 
     def start_recording(self):
-        #if self.debug:
+        #if prefs.debug:
         #    logger.debug("Generating dot file.")
 
         logger.debug("Setting STATE_PLAYING")

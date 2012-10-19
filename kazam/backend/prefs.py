@@ -19,7 +19,88 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import logging
+
 class Prefs():
     def __init__(self):
-        print "Prefs are here!"
+        """Initialize prefs and set all the preference variables to their
+           default values.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            None
+        """
+        self.logger = logging.getLogger("Prefs")
+
+        #
+        # GUI preferences and stuff
+        #
+        self.capture_cursor = False
+        self.capture_speakers = False
+        self.capture_microphone = False
+        self.countdown_timer = 5
+
+        self.speakers_source = None
+        self.microphone_source = None
+
+        self.speakers_volume = 0
+        self.microphone_volume = 0
+
+        self.countdown_splash = True
+        self.silent_start = False
+
+
+        #
+        # Other stuff
+        #
+        self.datadir = None
+
+        #
+        # Capture related stuff
+        #
+        self.codec = None
+        self.pa_q = None
+        self.framerate = 15
+
+        #
+        # Audio sources
+        #  - Tuple of all sources
+        #  - Selected first source
+        #  - Selected second source
+        #
+        self.audio_sources = None
+        self.audio_source = None
+        self.audio2_source = None
+
+        #
+        # Command line parameters
+        #
+        self.debug = False
+        self.test = False
+        self.dist = ('Ubuntu', '12.10', 'quantal')
+        self.silent = False
+        self.sound = True
+
+
+    def get_audio_sources(self):
+        self.logger.debug("Getting Audio sources.")
+        try:
+            self.audio_sources = prefs.pa_q.get_audio_sources()
+            self.audio_sources.insert(0, [])
+            if prefs.debug:
+                for src in self.audio_sources:
+                    self.logger.debug(" Device found: ")
+                    for item in src:
+                        self.logger.debug("  - {0}".format(item))
+        except:
+            # Something went wrong, just fallback to no-sound
+            self.logger.warning("Unable to find any audio devices.")
+            self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
+
+
+prefs = Prefs()

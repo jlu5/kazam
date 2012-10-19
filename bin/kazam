@@ -56,8 +56,8 @@ if __name__ == "__main__":
         dist = platform.linux_distribution()
         logger.info("Running on: {0} {1}".format(dist[0], dist[1]))
     except:
-        # Fallback to the almighty Ubuntu 12.04 ;)
-        dist = ('Ubuntu', '12.04', 'precise')
+        # Fallback to the almighty Ubuntu 12.10 ;)
+        dist = ('Ubuntu', '12.10', 'quantal')
         logger.warning("Failed to correctly detect operating system.")
 
     from kazam.version import *

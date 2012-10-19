@@ -90,13 +90,13 @@ MODE_AREA = 2
 MODE_WIN = 3
 
 import logging
-logger = logging.getLogger("Constants")
 
 from gi.repository import Gdk
 
 class hw:
     def __init__(self):
-        logger.debug("Getting hardware specs")
+        self.logger = logging.getLogger("Constants")
+        self.logger.debug("Getting hardware specs")
         self.screens = []
         self.combined_screen = {}
         self.get_screens()
@@ -116,13 +116,13 @@ class hw:
 
     def get_screens(self):
         try:
-            logger.debug("Getting Video sources.")
+            self.logger.debug("Getting Video sources.")
             self.screens = []
             self.default_screen = Gdk.Screen.get_default()
-            logger.debug("Found {0} monitors.".format(self.default_screen.get_n_monitors()))
+            self.logger.debug("Found {0} monitors.".format(self.default_screen.get_n_monitors()))
             for i in range(self.default_screen.get_n_monitors()):
                 rect = self.default_screen.get_monitor_geometry(i)
-                logger.debug("  Monitor {0} - X: {1}, Y: {2}, W: {3}, H: {4}".format(i,
+                self.logger.debug("  Monitor {0} - X: {1}, Y: {2}, W: {3}, H: {4}".format(i,
                                                                                      rect.x,
                                                                                      rect.y,
                                                                                      rect.width,
@@ -137,7 +137,7 @@ class hw:
                                        "height": self.default_screen.get_height()}
             return self.screens
         except:
-            logger.warning("Unable to find any video sources.")
+            self.logger.warning("Unable to find any video sources.")
             return False
 
 HW = hw()

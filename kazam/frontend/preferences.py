@@ -19,3 +19,212 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import os
+import math
+import logging
+logger = logging.getLogger("Preferences")
+
+from gi.repository import Gtk, Gdk, GObject
+from gettext import gettext as _
+
+from kazam.utils import *
+from kazam.backend.prefs import *
+from kazam.backend.constants import *
+from kazam.backend.config import KazamConfig
+from kazam.backend.gstreamer_gi import detect_codecs, get_codec
+
+class Preferences(GObject.GObject):
+    def __init__(self):
+        GObject.GObject.__init__(self)
+        logger.debug("Preferences Init.")
+        #
+        # Setup UI
+        #
+        logger.debug("Preferences UI setup.")
+
+        self.audio_source_info = None
+        self.audio2_source_info = None
+
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file(os.path.join(prefs.datadir, "ui", "preferences.ui"))
+        self.builder.connect_signals(self)
+        for w in self.builder.get_objects():
+            if issubclass(type(w), Gtk.Buildable):
+                name = Gtk.Buildable.get_name(w)
+                setattr(self, name, w)
+            else:
+                logger.debug("Unable to get name for '%s'" % w)
+
+        renderer_text = Gtk.CellRendererText()
+        self.combobox_codec.pack_start(renderer_text, True)
+        self.combobox_codec.add_attribute(renderer_text, "text", 1)
+
+        self.populate_codecs()
+        self.populate_audio_sources()
+
+    def open(self):
+        self.window.show_all()
+
+    def is_separator(self, model, iter, data):
+        if model.get_value(iter, 0) == 99:
+            return True
+        return False
+
+    def populate_codecs(self):
+        #
+        # Is this necessary?
+        #
+        old_model = self.combobox_codec.get_model()
+        old_model = None
+
+        codec_model = Gtk.ListStore(int, str)
+
+        codecs = detect_codecs()
+
+        #
+        # I'm sure this could be done without going through the list twice, right?
+        # Fist, we add basic codecs, then a dummy separator item and then advanced codecs.
+        #
+
+        for codec in codecs:
+            if not CODEC_LIST[codec][4]:
+                codec_model.append([CODEC_LIST[codec][0], CODEC_LIST[codec][2]])
+
+        codec_model.append([99, "--"]) # Insert dummy item for separator
+
+        for codec in codecs:
+            if CODEC_LIST[codec][4]:
+                codec_model.append([CODEC_LIST[codec][0], CODEC_LIST[codec][2]])
+
+        self.combobox_codec.set_model(codec_model)
+        self.combobox_codec.set_row_separator_func(self.is_separator, None)
+
+        self.combobox_codec.set_active(1)
+
+    def populate_audio_sources(self):
+        for source in prefs.audio_sources:
+            if not len(source):
+                self.combobox_audio.append(None, "Off")
+                self.combobox_audio2.append(None, "Off")
+            else:
+                self.combobox_audio.append(None, source[2])
+                self.combobox_audio2.append(None, source[2])
+
+    #
+    # Callbacks
+    #
+
+    def cb_switch_countdown_splash(self, widget, user_data):
+        prefs.countdown_splash = not prefs.countdown_splash
+        logger.debug("Coutndown splash: {0}.".format(prefs.countdown_splash))
+
+    def cb_spinbutton_framerate_change(self, widget):
+        prefs.framerate = widget.get_value_as_int()
+        logger.debug("Framerate now: {0}".format(prefs.framerate))
+
+
+    def cb_codec_changed(self, widget):
+        i = widget.get_active()
+        model = widget.get_model()
+        iter = model.get_iter(i)
+        prefs.codec = model.get_value(iter, 0)
+        logger.debug('Codec selected: {0} - {1}'.format(get_codec(prefs.codec)[2], prefs.codec))
+
+    def cb_audio_changed(self, widget):
+        logger.debug("Audio Changed.")
+
+        prefs.audio_source = self.combobox_audio.get_active()
+        logger.debug("  - A_1 {0}".format(prefs.audio_source))
+
+        if prefs.audio_source:
+            pa_audio_idx =  prefs.audio_sources[prefs.audio_source][0]
+            prefs.pa_q.set_source_mute_by_index(pa_audio_idx, 0)
+
+            logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
+            self.audio_source_info = prefs.pa_q.get_source_info_by_index(pa_audio_idx)
+            if len(self.audio_source_info) > 0:
+                val = prefs.pa_q.cvolume_to_dB(self.audio_source_info[2])
+                if math.isinf(val):
+                    vol = 0
+                else:
+                    vol = 60 + val
+                self.volumebutton_audio.set_value(vol)
+            else:
+                logger.debug("Error getting volume info for Audio 1")
+
+            if len(self.audio_source_info):
+                logger.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
+            else:
+                logger.debug("New Audio1:\n  Error retrieving data.")
+
+            if prefs.audio_source and prefs.audio_source == prefs.audio2_source:
+                if prefs.audio_source < len(prefs.audio_sources):
+                    prefs.audio2_source += 1
+                else:
+                    prefs.audio2_source = 0
+                self.combobox_audio2.set_active(0)
+
+            self.volumebutton_audio.set_sensitive(True)
+            print "aye"
+            self.combobox_audio2.set_sensitive(True)
+        else:
+            self.volumebutton_audio.set_sensitive(False)
+            self.combobox_audio2.set_sensitive(False)
+            self.combobox_audio2.set_active(0)
+            logger.debug("Audio1 OFF.")
+
+    def cb_audio2_changed(self, widget):
+        logger.debug("Audio2 Changed.")
+
+        prefs.audio2_source = self.combobox_audio2.get_active()
+        logger.debug("  - A_2 {0}".format(prefs.audio2_source))
+
+        if prefs.audio2_source:
+            pa_audio2_idx =  prefs.audio_sources[prefs.audio2_source][0]
+            prefs.pa_q.set_source_mute_by_index(pa_audio2_idx, 0)
+
+            logger.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
+            self.audio2_source_info = prefs.pa_q.get_source_info_by_index(pa_audio2_idx)
+
+            if len(self.audio2_source_info) > 0:
+                val = prefs.pa_q.cvolume_to_dB(self.audio2_source_info[2])
+                if math.isinf(val):
+                    vol = 0
+                else:
+                    vol = 60 + val
+                self.volumebutton_audio2.set_value(vol)
+            else:
+                logger.debug("Error getting volume info for Audio 1")
+
+            if len(self.audio2_source_info):
+                logger.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
+            else:
+                logger.debug("New Audio2:\n  Error retrieving data.")
+
+            if prefs.audio_source and prefs.audio_source == prefs.audio2_source:
+                if prefs.audio_source < len(prefs.audio_sources):
+                    prefs.audio2_source += 1
+                else:
+                    prefs.audio2_source = 0
+
+                self.combobox_audio2.set_active(0)
+            self.volumebutton_audio2.set_sensitive(True)
+        else:
+            self.volumebutton_audio2.set_sensitive(False)
+            logger.debug("Audio2 OFF.")
+
+    def cb_volume_changed(self, widget, value):
+        logger.debug("Volume 1 changed, new value: {0}".format(value))
+        idx = self.combobox_audio.get_active()
+        pa_idx =  prefs.audio_sources[idx][0]
+        chn = self.audio_source_info[2].channels
+        cvol = prefs.pa_q.dB_to_cvolume(chn, value-60)
+        prefs.pa_q.set_source_volume_by_index(pa_idx, cvol)
+
+    def cb_volume2_changed(self, widget, value):
+        logger.debug("Volume 2 changed, new value: {0}".format(value))
+        idx = self.combobox_audio2.get_active()
+        pa_idx =  prefs.audio_sources[idx][0]
+        chn = self.audio_source_info[2].channels
+        cvol = prefs.pa_q.dB_to_cvolume(chn, value-60)
+        prefs.pa_q.set_source_volume_by_index(pa_idx, cvol)

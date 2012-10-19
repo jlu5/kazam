@@ -27,8 +27,10 @@ MENUBAR = """
     <ui>
         <menubar name='MenuBar'>
             <menu action='FileMenu'>
+                <menuitem action='FilePreferences' />
                 <menuitem action='FileQuit' />
             </menu>
+            <separator />
             <menu action='HelpMenu'>
                 <menuitem action='HelpAbout' />
             </menu>
@@ -38,6 +40,10 @@ MENUBAR = """
 
 class MainMenu(GObject.GObject):
     __gsignals__ = {
+        "file-preferences" : (GObject.SIGNAL_RUN_LAST,
+                              None,
+                              (),
+                             ),
         "file-quit" : (GObject.SIGNAL_RUN_LAST,
                            None,
                            (),
@@ -56,6 +62,8 @@ class MainMenu(GObject.GObject):
                 ("FileMenu", None, _("File")),
                 ("FileQuit", Gtk.STOCK_QUIT, _("Quit"), None, _("Quit Kazam"),
                                self.cb_file_quit),
+                ("FilePreferences", Gtk.STOCK_PREFERENCES, _("Preferences"), None, _("Open preferences"),
+                               self.cb_file_preferences),
                 ("HelpMenu", None, _("Help")),
                 ("HelpAbout", None, _("About"), None , _("About Kazam"),
                               self.cb_help_about)
@@ -69,6 +77,9 @@ class MainMenu(GObject.GObject):
 
     def cb_file_quit(self, action):
         self.emit("file-quit")
+
+    def cb_file_preferences(self, action):
+        self.emit("file-preferences")
 
     def cb_help_about(self, action):
         self.emit("help-about")

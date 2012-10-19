@@ -20,8 +20,6 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-from kazam.backend.constants import *
-
 def remove_list_dups(seq, idfun = None):
     if idfun is None:
         def idfun(x): return x

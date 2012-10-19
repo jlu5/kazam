@@ -21,82 +21,76 @@
 #       MA 02110-1301, USA.
 
 import os
+import math
 import locale
 import gettext
 import logging
-import math
-logger = logging.getLogger("Main")
 
 from subprocess import Popen
 from gi.repository import Gtk, Gdk, GObject
 from gettext import gettext as _
 
-#
-# Detect GStreamer version and import appropriate functions
-#
-try:
-    from gi.repository.Gst import version as gst_ver
-    gst_gi = gst_ver()
-
-    if gst_gi[0]:
-        try:
-            from kazam.backend.gstreamer_gi import detect_codecs, get_codec
-            logger.debug("GStreamer 1.0 or higher detected.")
-        except ImportError:
-            logger.warning("GStreamer not found in the introspection repository, trying to fallback to pygst.")
-            gst_gi = None
-    else:
-        logger.warning("GStreamer 0.10 detected, falling back to pygst.")
-        gst_gi = None
-except ImportError:
-    logger.warning("GStreamer not found in the introspection repository, trying to fallback to pygst.")
-    gst_gi = None
-
-if gst_gi is None:
-    try:
-        logger.debug("Loading pygst.")
-        from kazam.backend.gstreamer import detect_codecs, get_codec
-    except ImportError:
-        logger.critical("Unable to fallback to pygst, bailing out.")
-        Gtk.main_quit()
-
 from kazam.utils import *
+from kazam.backend.prefs import *
 from kazam.backend.constants import *
 from kazam.backend.config import KazamConfig
+from kazam.frontend.main_menu import MainMenu
+from kazam.backend.gstreamer_gi import Screencast
 from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
 from kazam.frontend.window_region import RegionWindow
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.window_countdown import CountdownWindow
+from kazam.frontend.preferences import Preferences
+
+logger = logging.getLogger("Main")
+
+#
+# Detect GStreamer version and import appropriate functions
+#
+try:
+    from gi.repository import Gst
+    gst_gi = Gst.version()
+    if not gst_gi[0]:
+        logger.critical("Gstreamer 1.0 or higher requred, bailing out.")
+        Gtk.main_quit()
+    else:
+        logger.debug("Gstreamer version detected: {0}.{1}.{2}.{3}".format(gst_gi[0],
+                                                                      gst_gi[1],
+                                                                      gst_gi[2],
+                                                                      gst_gi[3]))
+except ImportError:
+    logger.critical("Gstreamer 1.0 or higher requred, bailing out.")
+    Gtk.main_quit()
 
 class KazamApp(GObject.GObject):
 
     def __init__(self, datadir, dist, debug, test, sound, silent):
         GObject.GObject.__init__(self)
-        global gst_gi
         logger.debug("Setting variables.")
 
+        prefs.datadir = datadir
+
         self.startup = True
-        self.datadir = datadir
-        self.debug = debug
-        self.test = test
-        self.dist = dist
-        self.silent = silent
-        self.sound = not sound     # Parameter is called nosound and if true, then we don't have sound.
+        prefs.debug = debug
+        prefs.test = test
+        prefs.dist = dist
+        prefs.silent = silent
+        prefs.sound = not sound     # Parameter is called nosound and if true, then we don't have sound.
                                    # Tricky parameters are tricky!
         self.setup_translations()
 
-        if self.sound:
+        if prefs.sound:
             try:
                 from kazam.pulseaudio.pulseaudio import pulseaudio_q
-                self.sound = True
+                prefs.sound = True
             except:
                 logger.warning("Pulse Audio Failed to load. Sound recording disabled.")
-                self.sound = False
+                prefs.sound = False
 
         self.icons = Gtk.IconTheme.get_default()
-        self.icons.append_search_path(os.path.join(datadir,"icons", "48x48", "apps"))
-        self.icons.append_search_path(os.path.join(datadir,"icons", "16x16", "apps"))
+        self.icons.append_search_path(os.path.join(prefs.datadir,"icons", "48x48", "apps"))
+        self.icons.append_search_path(os.path.join(prefs.datadir,"icons", "16x16", "apps"))
 
         # Initialize all the variables
 
@@ -119,14 +113,15 @@ class KazamApp(GObject.GObject):
         self.recording_paused = False
         self.recording = False
         self.advanced = False
-        self.gst_gi = gst_gi
         self.main_mode = None
         self.record_mode = None
         self.last_mode = None
 
-        if self.sound:
-            self.pa_q = pulseaudio_q()
-            self.pa_q.start()
+        if prefs.sound:
+            prefs.pa_q = pulseaudio_q()
+            prefs.pa_q.start()
+
+        self.mainmenu = MainMenu()
 
         #
         # Setup config
@@ -146,14 +141,19 @@ class KazamApp(GObject.GObject):
         self.indicator.connect("indicator-unpause-request", self.cb_unpause_request)
         self.indicator.connect("indicator-about-request", self.cb_about_request)
 
+        self.mainmenu.connect("file-quit", self.cb_quit_request)
+        self.mainmenu.connect("file-preferences", self.cb_preferences_request)
+        self.mainmenu.connect("help-about", self.cb_help_about)
+
         #
         # Setup UI
         #
         logger.debug("Main Window UI setup.")
 
         self.builder = Gtk.Builder()
-        self.builder.add_from_file(os.path.join(self.datadir, "ui", "kazam.ui"))
+        self.builder.add_from_file(os.path.join(prefs.datadir, "ui", "kazam.ui"))
         self.builder.connect_signals(self)
+        # self.adjustment_delay = self.builder.get_object("adjustment_delay")
         for w in self.builder.get_objects():
             if issubclass(type(w), Gtk.Buildable):
                 name = Gtk.Buildable.get_name(w)
@@ -161,31 +161,15 @@ class KazamApp(GObject.GObject):
             else:
                 logger.debug("Unable to get name for '%s'" % w)
 
-        #
-        # If these are added in glade, something weird happens - investigate! :)
-        #
-        self.volume_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
-        self.volume2_adjustment = Gtk.Adjustment(0, 0, 60, 1, 3, 0)
-        self.framerate_adjustment = Gtk.Adjustment(25, 1, 60, 1, 5, 0)
-        self.counter_adjustment = Gtk.Adjustment(5, 0, 65, 1, 5, 0)
-        #self.volumebutton_audio.set_adjustment(self.volume_adjustment)
-        #self.volumebutton_audio2.set_adjustment(self.volume2_adjustment)
-        #self.spinbutton_framerate.set_adjustment(self.framerate_adjustment)
-        #self.spinbutton_counter.set_adjustment(self.counter_adjustment)
-        #
-        #
-        #
-
-        #renderer_text = Gtk.CellRendererText()
-        #self.combobox_codec.pack_start(renderer_text, True)
-        #self.combobox_codec.add_attribute(renderer_text, "text", 1)
+        # Main Menu
+        self.MainGrid.attach(self.mainmenu.menubar, 0, 0, 1, 1)
 
         self.context = self.toolbar_main.get_style_context()
         self.context.add_class(Gtk.STYLE_CLASS_PRIMARY_TOOLBAR)
 
         self.btn_cast = Gtk.RadioToolButton(group=None)
         self.btn_cast.set_label("Screencast")
-        img1 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screencast.png"))
+        img1 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "light", "screencast.png"))
         self.btn_cast.set_icon_widget(img1)
         self.btn_cast.set_active(True)
         self.btn_cast.set_name("MAIN_SCREENCAST")
@@ -193,11 +177,10 @@ class KazamApp(GObject.GObject):
 
         self.btn_shot = Gtk.RadioToolButton(group=self.btn_cast)
         self.btn_shot.set_label("Screenshot")
-        img2 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "light", "screenshot-1.png"))
+        img2 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "light", "screenshot-1.png"))
         self.btn_shot.set_icon_widget(img2)
         self.btn_shot.set_name("MAIN_SCREENSHOT")
         self.btn_shot.connect("toggled", self.cb_main_toggled)
-
 
         self.sep_1 = Gtk.SeparatorToolItem()
         self.sep_1.set_draw(False)
@@ -207,11 +190,10 @@ class KazamApp(GObject.GObject):
         self.toolbar_main.insert(self.btn_shot, -1)
         self.toolbar_main.insert(self.sep_1, -1)
 
-
         # Auxiliary toolbar
         self.btn_full = Gtk.RadioToolButton(group=None)
         self.btn_full.set_label("Fullscreen")
-        img3 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "fullscreen.png"))
+        img3 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "fullscreen.png"))
         self.btn_full.set_icon_widget(img3)
         self.btn_full.set_active(True)
         self.btn_full.set_name("MODE_FULL")
@@ -219,14 +201,14 @@ class KazamApp(GObject.GObject):
 
         self.btn_allscreens = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_allscreens.set_label("All Screens")
-        img4 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "all-screens.png"))
+        img4 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "all-screens.png"))
         self.btn_allscreens.set_icon_widget(img4)
         self.btn_allscreens.set_name("MODE_ALL")
         self.btn_allscreens.connect("toggled", self.cb_record_mode_toggled)
 
         self.btn_area = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_area.set_label("Area")
-        img5 = Gtk.Image.new_from_file(os.path.join(self.datadir, "icons", "dark", "area.png"))
+        img5 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "area.png"))
         self.btn_area.set_icon_widget(img5)
         self.btn_area.set_name("MODE_AREA")
         self.btn_area.connect("toggled", self.cb_record_mode_toggled)
@@ -248,9 +230,8 @@ class KazamApp(GObject.GObject):
         self.window.connect("configure-event", self.cb_configure_event)
 
         # Fetch sources info, take care of all the widgets and saved settings and show main window
-        if self.sound:
-            self.get_audio_sources()
-            self.populate_widgets()
+        if prefs.sound:
+            prefs.get_audio_sources()
 
         if not self.silent:
             self.window.show_all()
@@ -259,7 +240,7 @@ class KazamApp(GObject.GObject):
 
         self.restore_state()
 
-        if not self.sound:
+        if not prefs.sound:
             self.combobox_audio.set_sensitive(False)
             self.combobox_audio2.set_sensitive(False)
             self.volumebutton_audio.set_sensitive(False)
@@ -335,7 +316,8 @@ class KazamApp(GObject.GObject):
     def cb_configure_event(self, widget, event):
         if event.type == Gdk.EventType.CONFIGURE:
             #
-            # When you close main window up to 5 configure events are triggered and some of them have X & Y set to 0 ?!?
+            # When you close main window up to 5 configure events are
+            # triggered and some of them have X & Y set to 0 ?!?
             #
             if event.x or event.y > 0:
                 self.main_x = event.x
@@ -353,10 +335,15 @@ class KazamApp(GObject.GObject):
         except AttributeError:
             pass
         self.save_state()
-        if self.sound:
-            self.pa_q.end()
+        if prefs.sound:
+            prefs.pa_q.end()
 
         Gtk.main_quit()
+
+    def cb_preferences_request(self, indicator):
+        logger.debug("Preferences requested.")
+        self.preferences_window = Preferences()
+        self.preferences_window.open()
 
     def cb_show_request(self, indicator):
         if not self.window.get_property("visible"):
@@ -377,95 +364,6 @@ class KazamApp(GObject.GObject):
     def cb_delete_event(self, widget, user_data):
         self.cb_quit_request(None)
 
-    def cb_audio_changed(self, widget):
-        logger.debug("Audio Changed.")
-
-        self.audio_source = self.combobox_audio.get_active()
-        logger.debug("  - A_1 {0}".format(self.audio_source))
-
-        if self.audio_source:
-            pa_audio_idx =  self.audio_sources[self.audio_source][0]
-            self.pa_q.set_source_mute_by_index(pa_audio_idx, 0)
-
-            logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
-            self.audio_source_info = self.pa_q.get_source_info_by_index(pa_audio_idx)
-            if len(self.audio_source_info) > 0:
-                val = self.pa_q.cvolume_to_dB(self.audio_source_info[2])
-                if math.isinf(val):
-                    vol = 0
-                else:
-                    vol = 60 + val
-                self.volumebutton_audio.set_value(vol)
-            else:
-                logger.debug("Error getting volume info for Audio 1")
-
-            if len(self.audio_source_info):
-               logger.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
-            else:
-                logger.debug("New Audio1:\n  Error retrieving data.")
-
-            if self.audio_source and self.audio_source == self.audio2_source:
-                if self.audio_source < len(self.audio_sources):
-                    self.audio2_source += 1
-                else:
-                    self.audio2_source = 0
-                self.combobox_audio2.set_active(0)
-
-            self.volumebutton_audio.set_sensitive(True)
-            self.combobox_audio2.set_sensitive(True)
-        else:
-            self.volumebutton_audio.set_sensitive(False)
-            self.combobox_audio2.set_sensitive(False)
-            self.combobox_audio2.set_active(0)
-            logger.debug("Audio1 OFF.")
-
-    def cb_audio2_changed(self, widget):
-        logger.debug("Audio2 Changed.")
-
-        self.audio2_source = self.combobox_audio2.get_active()
-        logger.debug("  - A_2 {0}".format(self.audio2_source))
-
-        if self.audio2_source:
-            pa_audio2_idx =  self.audio_sources[self.audio2_source][0]
-            self.pa_q.set_source_mute_by_index(pa_audio2_idx, 0)
-
-            logger.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
-            self.audio2_source_info = self.pa_q.get_source_info_by_index(pa_audio2_idx)
-
-            if len(self.audio2_source_info) > 0:
-                val = self.pa_q.cvolume_to_dB(self.audio2_source_info[2])
-                if math.isinf(val):
-                    vol = 0
-                else:
-                    vol = 60 + val
-                self.volumebutton_audio2.set_value(vol)
-            else:
-                logger.debug("Error getting volume info for Audio 1")
-
-            if len(self.audio2_source_info):
-                logger.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
-            else:
-                logger.debug("New Audio2:\n  Error retrieving data.")
-
-            if self.audio_source and self.audio_source == self.audio2_source:
-                if self.audio_source < len(self.audio_sources):
-                    self.audio2_source += 1
-                else:
-                    self.audio2_source = 0
-
-                self.combobox_audio2.set_active(0)
-            self.volumebutton_audio2.set_sensitive(True)
-        else:
-            self.volumebutton_audio2.set_sensitive(False)
-            logger.debug("Audio2 OFF.")
-
-    def cb_codec_changed(self, widget):
-        i = widget.get_active()
-        model = widget.get_model()
-        iter = model.get_iter(i)
-        self.codec = model.get_value(iter, 0)
-        logger.debug('Codec selected: {0} - {1}'.format(get_codec(self.codec)[2], self.codec))
-
     def cb_start_request(self, widget):
         logger.debug("Start recording selected.")
         self.run_counter()
@@ -473,22 +371,6 @@ class KazamApp(GObject.GObject):
     def cb_record_clicked(self, widget):
         logger.debug("Record clicked, invoking Screencast.")
         self.run_counter()
-
-    def cb_volume_changed(self, widget, value):
-        logger.debug("Volume 1 changed, new value: {0}".format(value))
-        idx = self.combobox_audio.get_active()
-        pa_idx =  self.audio_sources[idx][0]
-        chn = self.audio_source_info[2].channels
-        cvol = self.pa_q.dB_to_cvolume(chn, value-60)
-        self.pa_q.set_source_volume_by_index(pa_idx, cvol)
-
-    def cb_volume2_changed(self, widget, value):
-        logger.debug("Volume 2 changed, new value: {0}".format(value))
-        idx = self.combobox_audio2.get_active()
-        pa_idx =  self.audio_sources[idx][0]
-        chn = self.audio_source_info[2].channels
-        cvol = self.pa_q.dB_to_cvolume(chn, value-60)
-        self.pa_q.set_source_volume_by_index(pa_idx, cvol)
 
     def cb_counter_finished(self, widget):
         logger.debug("Counter finished.")
@@ -577,23 +459,21 @@ class KazamApp(GObject.GObject):
         self.window.set_sensitive(True)
         self.window.show_all()
 
-    def cb_switch_silent(self, widget, user_data):
-        self.silent = not self.silent
-        logger.debug("Silent mode: {0}.".format(self.silent))
+    def cb_check_cursor(self, widget):
+        prefs.capture_cursor = not prefs.capture_cursor
+        logger.debug("Capture cursor: {0}.".format(prefs.capture_cursor))
 
-    def cb_switch_cursor(self, widget, user_data):
-        self.cursor = not self.cursor
-        logger.debug("Cursor capture: {0}.".format(self.cursor))
+    def cb_check_speakers(self, widget):
+        prefs.capture_speakers = not prefs.capture_speakers
+        logger.debug("Capture speakers: {0}.".format(prefs.capture_speakers))
 
-    def cb_switch_countdown_splash(self, widget, user_data):
-        self.countdown_splash = not self.countdown_splash
-        logger.debug("Coutndown splash: {0}.".format(self.countdown_splash))
+    def cb_check_microphone(self, widget):
+        prefs.capture_microphone = not prefs.capture_microphone
+        logger.debug("Capture microphone: {0}.".format(prefs.capture_microphone))
 
-    def cb_switch_codecs(self, widget, user_data):
-        self.advanced = not self.advanced
-        self.populate_codecs()
-        logger.debug("Advanced codecs: {0}".format(self.advanced))
-
+    def cb_spinbutton_delay_change(self, widget):
+        prefs.countdown_timer = widget.get_value_as_int()
+        logger.debug("Start delay now: {0}".format(prefs.countdown_timer))
 
     #
     # Other somewhat useful stuff ...
@@ -617,15 +497,10 @@ class KazamApp(GObject.GObject):
         self.indicator.menuitem_finish.set_label(_("Cancel countdown"))
         self.in_countdown = True
 
-        if self.gst_gi:
-            from kazam.backend.gstreamer_gi import Screencast
-        else:
-            from kazam.backend.gstreamer import Screencast
-
-        self.recorder = Screencast(self.debug)
+        self.recorder = Screencast()
         self.indicator.blink_set_state(BLINK_START)
 
-        if self.sound:
+        if prefs.sound:
             if self.audio_source > 0:
                 audio_source = self.audio_sources[self.audio_source][1]
             else:
@@ -697,7 +572,7 @@ class KazamApp(GObject.GObject):
                                                                               self.audio2_source))
         self.window.move(self.main_x, self.main_y)
 
-        if self.sound:
+        if prefs.sound:
             logger.debug("Getting volume info.")
 
             #self.combobox_audio.set_active(self.audio_source)
@@ -758,7 +633,7 @@ class KazamApp(GObject.GObject):
     def save_state(self):
         logger.debug("Saving state.")
 
-        #if self.sound:
+        #if prefs.sound:
         #    audio_source = self.combobox_audio.get_active()
         #    audio2_source = self.combobox_audio2.get_active()
         #    self.config.set("main", "audio_source", audio_source)
@@ -788,56 +663,4 @@ class KazamApp(GObject.GObject):
         #self.config.set("main", "silent", self.silent)
 
         #self.config.write()
-
-    def get_audio_sources(self):
-        logger.debug("Getting Audio sources.")
-        try:
-            self.audio_sources = self.pa_q.get_audio_sources()
-            self.audio_sources.insert(0, [])
-            if self.debug:
-                for src in self.audio_sources:
-                    logger.debug(" Device found: ")
-                    for item in src:
-                        logger.debug("  - {0}".format(item))
-        except:
-            # Something went wrong, just fallback to no-sound
-            logger.warning("Unable to find any audio devices.")
-            self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
-
-    #
-    # TODO: Merge with get_sources?
-    #
-    def populate_widgets(self):
-        pass
-        #for source in self.audio_sources:
-        #    if not len(source):
-        #        self.combobox_audio.append(None, "Off")
-        #        self.combobox_audio2.append(None, "Off")
-        #    else:
-        #        self.combobox_audio.append(None, source[2])
-        #        self.combobox_audio2.append(None, source[2])
-
-        #self.populate_codecs()
-
-
-    def populate_codecs(self):
-        #old_model = self.combobox_codec.get_model()
-        #old_model = None
-
-        #codec_model = Gtk.ListStore(int, str)
-
-        #codecs = detect_codecs()
-
-        #for codec in codecs:
-        #    if CODEC_LIST[codec][4] and self.advanced:
-        #        codec_model.append([CODEC_LIST[codec][0], CODEC_LIST[codec][2]])
-        #    elif not CODEC_LIST[codec][4]:
-        #        codec_model.append([CODEC_LIST[codec][0], CODEC_LIST[codec][2]])
-
-        #self.combobox_codec.set_model(codec_model)
-
-        #if not self.startup:
-        #    self.combobox_codec.set_active(0)
-        pass
-
 
