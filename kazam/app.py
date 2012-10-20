@@ -125,8 +125,8 @@ class KazamApp(GObject.GObject):
         self.read_config()
 
         logger.debug("Connecting indicator signals.")
-        logger.debug("Starting in silent mode: {0}".format(self.silent))
-        self.indicator = KazamIndicator(self.silent)
+        logger.debug("Starting in silent mode: {0}".format(prefs.silent))
+        self.indicator = KazamIndicator(prefs.silent)
         self.indicator.connect("indicator-quit-request", self.cb_quit_request)
         self.indicator.connect("indicator-show-request", self.cb_show_request)
         self.indicator.connect("indicator-start-request", self.cb_start_request)
@@ -227,12 +227,12 @@ class KazamApp(GObject.GObject):
         if prefs.sound:
             prefs.get_audio_sources()
 
-        if not self.silent:
+        if not prefs.silent:
             self.window.show_all()
         else:
             logger.info("Starting in silent mode:\n  SUPER-CTRL-W to toggle main window.\n  SUPER-CTRL-Q to quit.")
 
-        self.restore_state()
+        self.restore_UI()
 
         if not prefs.sound:
             self.combobox_audio.set_sensitive(False)
@@ -263,6 +263,9 @@ class KazamApp(GObject.GObject):
             self.main_mode = MODE_SCREENSHOT
             self.ntb_main.set_current_page(1)
 
+    #
+    # Record mode toggles
+    #
     def cb_record_mode_toggled(self, widget):
         if widget.get_active():
             self.current_mode = widget
@@ -316,14 +319,8 @@ class KazamApp(GObject.GObject):
 
     def cb_configure_event(self, widget, event):
         if event.type == Gdk.EventType.CONFIGURE:
-            #
-            # When you close main window up to 5 configure events are
-            # triggered and some of them have X & Y set to 0 ?!?
-            #
-            if event.x or event.y > 0:
-                self.main_x = event.x
-                self.main_y = event.y
-
+            self.main_x = event.x
+            self.main_y = event.y
 
     def cb_quit_request(self, indicator):
         logger.debug("Quit requested.")
@@ -335,7 +332,9 @@ class KazamApp(GObject.GObject):
             logger.info("Unable to delete one of the temporary files. Check your temporary directory.")
         except AttributeError:
             pass
-        self.save_state()
+
+        self.save_config()
+
         if prefs.sound:
             prefs.pa_q.end()
 
@@ -461,15 +460,15 @@ class KazamApp(GObject.GObject):
         self.window.show_all()
 
     def cb_check_cursor(self, widget):
-        prefs.capture_cursor = not prefs.capture_cursor
+        prefs.capture_cursor = widget.get_active()
         logger.debug("Capture cursor: {0}.".format(prefs.capture_cursor))
 
     def cb_check_speakers(self, widget):
-        prefs.capture_speakers = not prefs.capture_speakers
+        prefs.capture_speakers = widget.get_active()
         logger.debug("Capture speakers: {0}.".format(prefs.capture_speakers))
 
     def cb_check_microphone(self, widget):
-        prefs.capture_microphone = not prefs.capture_microphone
+        prefs.capture_microphone = widget.get_active()
         logger.debug("Capture microphone: {0}.".format(prefs.capture_microphone))
 
     def cb_spinbutton_delay_change(self, widget):
@@ -550,117 +549,56 @@ class KazamApp(GObject.GObject):
 
     def read_config (self):
 
-        self.audio_source = self.config.getint("main", "audio_source")
-        self.audio2_source = self.config.getint("main", "audio2_source")
+        prefs.audio_source = self.config.getint("main", "audio_source")
+        prefs.audio2_source = self.config.getint("main", "audio2_source")
+        logger.debug("Restoring Audio source state: {0} {1}".format(
+            prefs.audio_source,
+            prefs.audio2_source))
 
         self.main_x = self.config.getint("main", "last_x")
         self.main_y = self.config.getint("main", "last_y")
 
-        self.codec = self.config.getint("main", "codec")
+        prefs.codec = self.config.getint("main", "codec")
 
-        self.counter = self.config.getfloat("main", "counter")
-        self.framerate = self.config.getfloat("main", "framerate")
+        prefs.countdown_timer = self.config.getfloat("main", "counter")
+        prefs.framerate = self.config.getfloat("main", "framerate")
 
-        self.cursor = self.config.getboolean("main", "capture_cursor")
-        self.countdown_splash = self.config.getboolean("main", "countdown_splash")
-        self.advanced = self.config.getboolean("main", "advanced")
-        self.silent = self.config.getboolean("main", "silent")
+        prefs.capture_cursor = self.config.getboolean("main", "capture_cursor")
+        prefs.capture_microphone = self.config.getboolean("main", "capture_microphone")
+        prefs.capture_speakers = self.config.getboolean("main", "capture_speakers")
+        prefs.countdown_splash = self.config.getboolean("main", "countdown_splash")
 
-    def restore_state (self):
+    def restore_UI (self):
 
-        logger.debug("Restoring state - sources: A_1 ({0}), A_2 ({1})".format(self.audio_source,
-                                                                              self.audio2_source))
         self.window.move(self.main_x, self.main_y)
+        self.chk_cursor.set_active(prefs.capture_cursor)
+        self.chk_speakers.set_active(prefs.capture_speakers)
+        self.chk_microphone.set_active(prefs.capture_microphone)
+        self.spinbutton_delay.set_value(prefs.countdown_timer)
 
-        if prefs.sound:
-            logger.debug("Getting volume info.")
-
-            #self.combobox_audio.set_active(self.audio_source)
-            #self.combobox_audio2.set_active(self.audio2_source)
-
-            #if self.audio_source:
-            #    self.volumebutton_audio.set_sensitive(True)
-            #    self.combobox_audio2.set_sensitive(True)
-            #else:
-            #    self.volumebutton_audio.set_sensitive(False)
-            #    self.combobox_audio2.set_sensitive(False)
-
-            #if self.audio2_source:
-            #    self.volumebutton_audio2.set_sensitive(True)
-            #else:
-            #    self.volumebutton_audio2.set_sensitive(False)
-
-        #if self.advanced:
-        #    self.switch_codecs.set_active(True)
-        #    self.advanced = True
-        #    self.populate_codecs()
-        #if self.cursor:
-        #    self.switch_cursor.set_active(True)
-        #    self.cursor = True
-        #if self.countdown_splash:
-        #    self.switch_countdown_splash.set_active(True)
-        #    self.countdown_splash = True
-        #if self.silent:
-        #    self.switch_silent.set_active(True)
-        #    self.silent = True
-
-        #self.spinbutton_counter.set_value(self.counter)
-        #self.spinbutton_framerate.set_value(self.framerate)
-
-        #codec_model = self.combobox_codec.get_model()
-
-        #
-        # Crappy code below ...
-        #
-        #cnt = 0
-        #bingo = False
-        #for entry in codec_model:
-        #    if self.codec == entry[0]:
-        #        bingo = True
-        #        break
-        #    cnt += 1
-        #if not bingo:
-        #    cnt = 0
-
-        #
-        # No, I wasn't kidding ...
-        #
-
-        #codec_iter = codec_model.get_iter(cnt)
-        #self.combobox_codec.set_active_iter(codec_iter)
-        #self.codec = codec_model.get_value(codec_iter, 0)
-
-    def save_state(self):
+    def save_config(self):
         logger.debug("Saving state.")
 
-        #if prefs.sound:
-        #    audio_source = self.combobox_audio.get_active()
-        #    audio2_source = self.combobox_audio2.get_active()
-        #    self.config.set("main", "audio_source", audio_source)
-        #    self.config.set("main", "audio2_source", audio2_source)
+        self.config.set("main", "capture_cursor", prefs.capture_cursor)
+        self.config.set("main", "capture_speakers", prefs.capture_speakers)
+        self.config.set("main", "capture_microphone", prefs.capture_microphone)
 
-        #self.config.set("main", "capture_cursor", self.cursor)
-        #self.config.set("main", "countdown_splash", self.countdown_splash)
+        self.config.set("main", "last_x", self.main_x)
+        self.config.set("main", "last_y", self.main_y)
 
-        #self.config.set("main", "last_x", self.main_x)
-        #self.config.set("main", "last_y", self.main_y)
+        if prefs.sound:
+            logger.debug("Saving Audio source state: {0} {1}".format(
+                                                                     prefs.audio_source,
+                                                                     prefs.audio2_source))
 
+            self.config.set("main", "audio_source", prefs.audio_source)
+            self.config.set("main", "audio2_source", prefs.audio2_source)
 
-        #codec = self.combobox_codec.get_active()
-        #codec_model = self.combobox_codec.get_model()
-        #codec_model_iter = codec_model.get_iter(codec)
-        #codec_value = codec_model.get_value(codec_model_iter, 0)
-        #self.config.set("main", "codec", codec_value)
+        self.config.set("main", "countdown_splash", prefs.countdown_splash)
+        self.config.set("main", "counter", prefs.countdown_timer)
 
-        #self.config.set("main", "advanced", self.advanced)
+        self.config.set("main", "codec", prefs.codec)
 
-        #counter = int(self.spinbutton_counter.get_value())
-        #self.config.set("main", "counter", counter)
-
-        #framerate = int(self.spinbutton_framerate.get_value())
-        #self.config.set("main", "framerate", framerate)
-
-        #self.config.set("main", "silent", self.silent)
-
-        #self.config.write()
+        self.config.set("main", "framerate", prefs.framerate)
+        self.config.write()
 

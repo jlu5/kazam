@@ -30,7 +30,6 @@ from gettext import gettext as _
 from kazam.utils import *
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
-from kazam.backend.config import KazamConfig
 from kazam.backend.gstreamer_gi import detect_codecs, get_codec
 
 class Preferences(GObject.GObject):
@@ -60,7 +59,9 @@ class Preferences(GObject.GObject):
         self.combobox_codec.add_attribute(renderer_text, "text", 1)
 
         self.populate_codecs()
+
         self.populate_audio_sources()
+        self.restore_UI()
 
     def open(self):
         self.window.show_all()
@@ -99,8 +100,6 @@ class Preferences(GObject.GObject):
         self.combobox_codec.set_model(codec_model)
         self.combobox_codec.set_row_separator_func(self.is_separator, None)
 
-        self.combobox_codec.set_active(1)
-
     def populate_audio_sources(self):
         for source in prefs.audio_sources:
             if not len(source):
@@ -110,18 +109,67 @@ class Preferences(GObject.GObject):
                 self.combobox_audio.append(None, source[2])
                 self.combobox_audio2.append(None, source[2])
 
+
+    def restore_UI(self):
+        logger.debug("Restoring UI.")
+
+        if prefs.sound:
+            self.combobox_audio.set_active(prefs.audio_source)
+            self.combobox_audio2.set_active(prefs.audio2_source)
+
+            if prefs.audio_source:
+                self.volumebutton_audio.set_sensitive(True)
+                self.combobox_audio2.set_sensitive(True)
+            else:
+                self.volumebutton_audio.set_sensitive(False)
+                self.combobox_audio2.set_sensitive(False)
+
+            if prefs.audio2_source:
+                self.volumebutton_audio2.set_sensitive(True)
+            else:
+                self.volumebutton_audio2.set_sensitive(False)
+
+        if prefs.countdown_splash:
+            self.switch_countdown_splash.set_active(True)
+        else:
+            self.switch_countdown_splash.set_active(False)
+
+        self.spinbutton_framerate.set_value(prefs.framerate)
+
+        #
+        # Crappy code below ...
+        #
+        codec_model = self.combobox_codec.get_model()
+        cnt = 0
+        bingo = False
+        for entry in codec_model:
+            if prefs.codec == entry[0]:
+                bingo = True
+                break
+            cnt += 1
+        if not bingo:
+            cnt = 0
+
+        #
+        # No, I wasn't kidding ...
+        #
+        codec_iter = codec_model.get_iter(cnt)
+        self.combobox_codec.set_active_iter(codec_iter)
+        prefs.codec = codec_model.get_value(codec_iter, 0)
+
     #
     # Callbacks
     #
+    def cb_delete_event(self, widget, user_data):
+        logger.debug("Deleteting preferences window")
 
     def cb_switch_countdown_splash(self, widget, user_data):
-        prefs.countdown_splash = not prefs.countdown_splash
+        prefs.countdown_splash = widget.get_active()
         logger.debug("Coutndown splash: {0}.".format(prefs.countdown_splash))
 
     def cb_spinbutton_framerate_change(self, widget):
         prefs.framerate = widget.get_value_as_int()
         logger.debug("Framerate now: {0}".format(prefs.framerate))
-
 
     def cb_codec_changed(self, widget):
         i = widget.get_active()
@@ -153,9 +201,9 @@ class Preferences(GObject.GObject):
                 logger.debug("Error getting volume info for Audio 1")
 
             if len(self.audio_source_info):
-                logger.debug("New Audio1:\n  {0}".format(self.audio_source_info[3]))
+                logger.debug("New Audio1: {0}".format(self.audio_source_info[3]))
             else:
-                logger.debug("New Audio1:\n  Error retrieving data.")
+                logger.debug("New Audio1: Error retrieving data.")
 
             if prefs.audio_source and prefs.audio_source == prefs.audio2_source:
                 if prefs.audio_source < len(prefs.audio_sources):
@@ -165,7 +213,6 @@ class Preferences(GObject.GObject):
                 self.combobox_audio2.set_active(0)
 
             self.volumebutton_audio.set_sensitive(True)
-            print "aye"
             self.combobox_audio2.set_sensitive(True)
         else:
             self.volumebutton_audio.set_sensitive(False)

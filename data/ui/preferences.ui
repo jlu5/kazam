@@ -20,6 +20,7 @@
   </object>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
+    <signal name="delete-event" handler="cb_delete_event" swapped="no"/>
     <child>
       <object class="GtkNotebook" id="notebook1">
         <property name="visible">True</property>
