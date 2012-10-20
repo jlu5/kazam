@@ -24,7 +24,7 @@ import math
 import logging
 logger = logging.getLogger("Preferences")
 
-from gi.repository import Gtk, Gdk, GObject
+from gi.repository import Gtk, Gdk, GObject, Pango
 from gettext import gettext as _
 
 from kazam.utils import *
@@ -54,9 +54,20 @@ class Preferences(GObject.GObject):
             else:
                 logger.debug("Unable to get name for '%s'" % w)
 
-        renderer_text = Gtk.CellRendererText()
-        self.combobox_codec.pack_start(renderer_text, True)
-        self.combobox_codec.add_attribute(renderer_text, "text", 1)
+        codec_renderer = Gtk.CellRendererText()
+
+        audio_renderer = Gtk.CellRendererText()
+        audio_renderer.props.ellipsize = Pango.EllipsizeMode.END
+        audio_renderer.props.max_width_chars = 45
+
+        self.combobox_codec.pack_start(codec_renderer, True)
+        self.combobox_codec.add_attribute(codec_renderer, "text", 1)
+
+        self.combobox_audio.pack_start(audio_renderer, True)
+        self.combobox_audio.add_attribute(audio_renderer, "text", 0)
+
+        self.combobox_audio2.pack_start(audio_renderer, True)
+        self.combobox_audio2.add_attribute(audio_renderer, "text", 0)
 
         self.filechooser_video.set_current_folder(prefs.video_dest)
 
@@ -80,7 +91,6 @@ class Preferences(GObject.GObject):
         old_model = None
 
         codec_model = Gtk.ListStore(int, str)
-
         codecs = detect_codecs()
 
         #
@@ -102,13 +112,19 @@ class Preferences(GObject.GObject):
         self.combobox_codec.set_row_separator_func(self.is_separator, None)
 
     def populate_audio_sources(self):
+        audio_source_model = Gtk.ListStore(str)
         for source in prefs.audio_sources:
-            if not len(source):
-                self.combobox_audio.append(None, "Off")
-                self.combobox_audio2.append(None, "Off")
-            else:
-                self.combobox_audio.append(None, source[2])
-                self.combobox_audio2.append(None, source[2])
+            audio_source_model.append([source[2]])
+
+        self.combobox_audio.set_model(audio_source_model)
+        self.combobox_audio2.set_model(audio_source_model)
+
+            #if not len(source):
+            #    self.combobox_audio.append(None, "Off")
+            #    self.combobox_audio2.append(None, "Off")
+            #else:
+            #    self.combobox_audio.append(None, source[2])
+            #    self.combobox_audio2.append(None, source[2])
 
 
     def restore_UI(self):
@@ -186,7 +202,6 @@ class Preferences(GObject.GObject):
 
     def cb_audio_changed(self, widget):
         logger.debug("Audio Changed.")
-
         prefs.audio_source = self.combobox_audio.get_active()
         logger.debug("  - A_1 {0}".format(prefs.audio_source))
 

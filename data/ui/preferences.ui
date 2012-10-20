@@ -55,25 +55,6 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBoxText" id="combobox_audio">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip_markup" translatable="yes">Select your audio ouput device (speakers or headphones)</property>
-                    <property name="tooltip_text" translatable="yes">Select your audio ouput device (speakers or headphones)</property>
-                    <property name="hexpand">True</property>
-                    <property name="entry_text_column">0</property>
-                    <property name="id_column">1</property>
-                    <signal name="changed" handler="cb_audio_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkVolumeButton" id="volumebutton_audio">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -116,25 +97,6 @@ audio-volume-medium</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBoxText" id="combobox_audio2">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip_markup" translatable="yes">Select your audio ouput device (speakers or headphones)</property>
-                    <property name="tooltip_text" translatable="yes">Select your audio ouput device (speakers or headphones)</property>
-                    <property name="hexpand">True</property>
-                    <property name="entry_text_column">0</property>
-                    <property name="id_column">1</property>
-                    <signal name="changed" handler="cb_audio2_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkVolumeButton" id="volumebutton_audio2">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -155,6 +117,36 @@ audio-volume-medium</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="combobox_audio">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="popup_fixed_width">False</property>
+                    <signal name="changed" handler="cb_audio_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="combobox_audio2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="popup_fixed_width">False</property>
+                    <signal name="changed" handler="cb_audio2_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
                     <property name="top_attach">1</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
