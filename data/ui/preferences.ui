@@ -25,6 +25,10 @@
       <object class="GtkNotebook" id="notebook1">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
+        <property name="margin_left">15</property>
+        <property name="margin_right">15</property>
+        <property name="margin_top">15</property>
+        <property name="margin_bottom">15</property>
         <child>
           <object class="GtkBox" id="box2">
             <property name="visible">True</property>
@@ -427,6 +431,7 @@ audio-volume-medium</property>
                   <object class="GtkEntry" id="entry_autosave_video">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="margin_bottom">5</property>
                     <property name="max_length">40</property>
                     <property name="invisible_char">•</property>
                     <property name="text" translatable="yes">Kazam_screencast</property>

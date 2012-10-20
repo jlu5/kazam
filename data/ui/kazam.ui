@@ -18,6 +18,7 @@
       <object class="GtkGrid" id="MainGrid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_bottom">15</property>
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <child>
@@ -70,7 +71,7 @@
           <object class="GtkToolbar" id="toolbar_aux">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_top">5</property>
+            <property name="margin_top">10</property>
             <property name="toolbar_style">both</property>
           </object>
           <packing>
@@ -84,7 +85,7 @@
           <object class="GtkGrid" id="grid2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">10</property>
+            <property name="margin_left">15</property>
             <child>
               <object class="GtkSpinButton" id="spinbutton_delay">
                 <property name="visible">True</property>
@@ -167,7 +168,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
-            <property name="margin_left">10</property>
+            <property name="margin_left">15</property>
             <property name="label" translatable="yes">Include when recording:</property>
           </object>
           <packing>
@@ -181,7 +182,7 @@
           <object class="GtkNotebook" id="ntb_main">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">33</property>
+            <property name="margin_left">35</property>
             <property name="margin_right">5</property>
             <property name="margin_top">5</property>
             <property name="hexpand">True</property>
