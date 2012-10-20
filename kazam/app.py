@@ -36,12 +36,12 @@ from kazam.backend.constants import *
 from kazam.backend.config import KazamConfig
 from kazam.frontend.main_menu import MainMenu
 from kazam.backend.gstreamer_gi import Screencast
+from kazam.frontend.preferences import Preferences
 from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
 from kazam.frontend.window_region import RegionWindow
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.window_countdown import CountdownWindow
-from kazam.frontend.preferences import Preferences
 
 logger = logging.getLogger("Main")
 
@@ -162,7 +162,8 @@ class KazamApp(GObject.GObject):
         self.context.add_class(Gtk.STYLE_CLASS_PRIMARY_TOOLBAR)
 
         self.btn_cast = Gtk.RadioToolButton(group=None)
-        self.btn_cast.set_label("Screencast")
+        self.btn_cast.set_label(_("Screencast"))
+        self.btn_cast.set_tooltip_text(_("Record a video of your desktop."))
         img1 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "light", "screencast.png"))
         self.btn_cast.set_icon_widget(img1)
         self.btn_cast.set_active(True)
@@ -170,7 +171,8 @@ class KazamApp(GObject.GObject):
         self.btn_cast.connect("toggled", self.cb_main_toggled)
 
         self.btn_shot = Gtk.RadioToolButton(group=self.btn_cast)
-        self.btn_shot.set_label("Screenshot")
+        self.btn_shot.set_label(_("Screenshot"))
+        self.btn_shot.set_tooltip_text(_("Record a picture of your desktop."))
         img2 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "light", "screenshot-1.png"))
         self.btn_shot.set_icon_widget(img2)
         self.btn_shot.set_name("MAIN_SCREENSHOT")
@@ -186,7 +188,8 @@ class KazamApp(GObject.GObject):
 
         # Auxiliary toolbar
         self.btn_full = Gtk.RadioToolButton(group=None)
-        self.btn_full.set_label("Fullscreen")
+        self.btn_full.set_label(_("Fullscreen"))
+        self.btn_full.set_tooltip_text(_("Capture contents of the current screen."))
         img3 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "fullscreen.png"))
         self.btn_full.set_icon_widget(img3)
         self.btn_full.set_active(True)
@@ -194,14 +197,16 @@ class KazamApp(GObject.GObject):
         self.btn_full.connect("toggled", self.cb_record_mode_toggled)
 
         self.btn_allscreens = Gtk.RadioToolButton(group=self.btn_full)
-        self.btn_allscreens.set_label("All Screens")
+        self.btn_allscreens.set_label(_("All Screens"))
+        self.btn_allscreens.set_tooltip_text(_("Capture contents of all of your screens."))
         img4 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "all-screens.png"))
         self.btn_allscreens.set_icon_widget(img4)
         self.btn_allscreens.set_name("MODE_ALL")
         self.btn_allscreens.connect("toggled", self.cb_record_mode_toggled)
 
         self.btn_area = Gtk.RadioToolButton(group=self.btn_full)
-        self.btn_area.set_label("Area")
+        self.btn_area.set_label(_("Area"))
+        self.btn_area.set_tooltip_text(_("Capture a pre-selected area of your screen."))
         img5 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "area.png"))
         self.btn_area.set_icon_widget(img5)
         self.btn_area.set_name("MODE_AREA")

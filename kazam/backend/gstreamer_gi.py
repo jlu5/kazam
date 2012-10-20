@@ -161,12 +161,12 @@ class Screencast(GObject.GObject):
         if prefs.codec == CODEC_RAW:
             self.mux = Gst.ElementFactory.make("avimux", "muxer")
         elif prefs.codec == CODEC_VP8:
-            if prefs.dist[0] == 'Ubuntu':
-                self.videnc.set_property("speed", 6)
-            elif prefs.dist[0] == 'LinuxMint':
-                self.videnc.set_property("speed", 2)
-            self.videnc.set_property("max-latency", 1)
-            self.videnc.set_property("quality", 8)
+            #if prefs.dist[0] == 'Ubuntu':
+            #    self.videnc.set_property("speed", 6)
+            #elif prefs.dist[0] == 'LinuxMint':
+            #    self.videnc.set_property("speed", 2)
+            #self.videnc.set_property("max-latency", 1)
+            #self.videnc.set_property("quality", 8)
             self.videnc.set_property("threads", self.cores)
             self.mux = Gst.ElementFactory.make("webmmux", "muxer")
         elif prefs.codec == CODEC_H264:

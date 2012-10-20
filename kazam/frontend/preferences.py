@@ -130,7 +130,7 @@ class Preferences(GObject.GObject):
         self.spinbutton_framerate.set_value(prefs.framerate)
 
         #
-        # Crappy code below ...
+        # Crappy code below ... Can this be done some other way?
         #
         codec_model = self.combobox_codec.get_model()
         cnt = 0
