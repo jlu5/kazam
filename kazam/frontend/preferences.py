@@ -58,8 +58,9 @@ class Preferences(GObject.GObject):
         self.combobox_codec.pack_start(renderer_text, True)
         self.combobox_codec.add_attribute(renderer_text, "text", 1)
 
-        self.populate_codecs()
+        self.filechooser_video.set_current_folder(prefs.video_dest)
 
+        self.populate_codecs()
         self.populate_audio_sources()
         self.restore_UI()
 
@@ -129,6 +130,14 @@ class Preferences(GObject.GObject):
 
         self.spinbutton_framerate.set_value(prefs.framerate)
 
+        if prefs.autosave_video:
+            self.switch_autosave_video.set_active(True)
+        else:
+            self.switch_autosave_video.set_active(False)
+
+        self.entry_autosave_video.set_text(prefs.autosave_video_file)
+
+
         #
         # Crappy code below ... Can this be done some other way?
         #
@@ -159,6 +168,10 @@ class Preferences(GObject.GObject):
     def cb_switch_countdown_splash(self, widget, user_data):
         prefs.countdown_splash = widget.get_active()
         logger.debug("Coutndown splash: {0}.".format(prefs.countdown_splash))
+
+    def cb_switch_autosave_video(self, widget, user_data):
+        prefs.autosave_video = widget.get_active()
+        logger.debug("Autosave for Video: {0}.".format(prefs.autosave_video))
 
     def cb_spinbutton_framerate_change(self, widget):
         prefs.framerate = widget.get_value_as_int()
@@ -252,3 +265,11 @@ class Preferences(GObject.GObject):
         chn = self.audio_source_info[2].channels
         cvol = prefs.pa_q.dB_to_cvolume(chn, value-60)
         prefs.pa_q.set_source_volume_by_index(pa_idx, cvol)
+
+    def cb_filechooser_video(self, widget):
+        prefs.video_dest = self.filechooser_video.get_current_folder()
+        logger.debug("Video folder set to: {0}".format(prefs.video_dest))
+
+    def cb_entry_autosave_video(self, widget):
+        prefs.autosave_video_file = widget.get_text()
+        logger.debug("Video autosave file set to: {0}".format(prefs.autosave_video_file))

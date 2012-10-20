@@ -21,8 +21,8 @@
 #       MA 02110-1301, USA.
 
 import os
-import math
 import locale
+import shutil
 import gettext
 import logging
 
@@ -94,8 +94,6 @@ class KazamApp(GObject.GObject):
 
         # Initialize all the variables
 
-        self.audio_source = 0
-        self.audio2_source = 0
         self.main_x = 0
         self.main_y = 0
         self.countdown = None
@@ -147,7 +145,6 @@ class KazamApp(GObject.GObject):
         self.builder = Gtk.Builder()
         self.builder.add_from_file(os.path.join(prefs.datadir, "ui", "kazam.ui"))
         self.builder.connect_signals(self)
-        # self.adjustment_delay = self.builder.get_object("adjustment_delay")
         for w in self.builder.get_objects():
             if issubclass(type(w), Gtk.Buildable):
                 name = Gtk.Buildable.get_name(w)
@@ -407,17 +404,29 @@ class KazamApp(GObject.GObject):
             logger.debug("Waiting for data to flush.")
 
     def cb_flush_done(self, widget):
-        self.done_recording = DoneRecording(self.icons,
+        if prefs.autosave_video:
+            logger.debug("Autosaving enabled.")
+            fname = get_next_filename(prefs.video_dest,
+                                      prefs.autosave_video_file,
+                                      CODEC_LIST[prefs.codec][3])
+
+            shutil.move(self.tempfile, fname)
+
+            self.window.set_sensitive(True)
+            self.window.show()
+            self.window.present()
+        else:
+            self.done_recording = DoneRecording(self.icons,
                                             self.tempfile,
                                             prefs.codec,
                                             self.old_path)
-        logger.debug("Done Recording initialized.")
-        self.done_recording.connect("save-done", self.cb_save_done)
-        self.done_recording.connect("save-cancel", self.cb_save_cancel)
-        self.done_recording.connect("edit-request", self.cb_edit_request)
-        logger.debug("Done recording signals connected.")
-        self.done_recording.show_all()
-        self.window.set_sensitive(False)
+            logger.debug("Done Recording initialized.")
+            self.done_recording.connect("save-done", self.cb_save_done)
+            self.done_recording.connect("save-cancel", self.cb_save_cancel)
+            self.done_recording.connect("edit-request", self.cb_edit_request)
+            logger.debug("Done recording signals connected.")
+            self.done_recording.show_all()
+            self.window.set_sensitive(False)
 
     def cb_pause_request(self, widget):
         logger.debug("Pause requested.")
@@ -511,8 +520,8 @@ class KazamApp(GObject.GObject):
             else:
                 audio_source = None
 
-            if prefs.capture_microphone and self.audio2_source > 0:
-                audio2_source = prefs.audio_sources[self.audio2_source][1]
+            if prefs.capture_microphone and prefs.audio2_source > 0:
+                audio2_source = prefs.audio_sources[prefs.audio2_source][1]
             else:
                 audio2_source = None
         else:
@@ -573,6 +582,9 @@ class KazamApp(GObject.GObject):
         prefs.capture_speakers = self.config.getboolean("main", "capture_speakers")
         prefs.countdown_splash = self.config.getboolean("main", "countdown_splash")
 
+        prefs.autosave_video = self.config.getboolean("main", "autosave_video")
+        prefs.autosave_video_file = self.config.get("main", "autosave_video_file")
+
     def restore_UI (self):
 
         self.window.move(self.main_x, self.main_y)
@@ -601,9 +613,8 @@ class KazamApp(GObject.GObject):
 
         self.config.set("main", "countdown_splash", prefs.countdown_splash)
         self.config.set("main", "counter", prefs.countdown_timer)
-
         self.config.set("main", "codec", prefs.codec)
-
         self.config.set("main", "framerate", prefs.framerate)
+        self.config.set("main", "autosave_video", prefs.autosave_video)
+        self.config.set("main", "autosave_video_file", prefs.autosave_video_file)
         self.config.write()
-

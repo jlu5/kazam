@@ -26,8 +26,8 @@ logger = logging.getLogger("Save Dialog")
 
 from gi.repository import Gtk
 from gettext import gettext as _
-from xdg.BaseDirectory import xdg_config_home
 
+from kazam.backend.prefs import *
 from kazam.backend.constants import *
 
 def SaveDialog(title, old_path, codec):
@@ -41,30 +41,10 @@ def SaveDialog(title, old_path, codec):
 
     dialog.set_do_overwrite_confirmation(True)
 
-    # Try to set the default folder to be previously selected path
-    # if there was one otherwise try with ~/Videos, ~/Documents
-    # and finally ~/
-    paths = {}
-    try:
-        f = open(os.path.join(xdg_config_home, "user-dirs.dirs"))
-        for la in f:
-            if la.startswith("XDG_VIDEOS") or la.startswith("XDG_DOCUMENTS"):
-                (idx, val) = la.strip()[:-1].split('="')
-                paths[idx] = os.path.expandvars(val)
-    except:
-        paths['XDG_VIDEOS_DIR'] = os.path.expanduser("~/Videos/")
-        paths['XDG_DOCUMENTS_DIR'] = os.path.expanduser("~/Documents/")
-
-    paths['HOME_DIR'] = os.path.expandvars("$HOME")
-
     if old_path and os.path.isdir(old_path):
             dialog.set_current_folder(old_path)
-    elif os.path.isdir(paths['XDG_VIDEOS_DIR']):
-        dialog.set_current_folder(paths['XDG_VIDEOS_DIR'])
-    elif os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
-        dialog.set_current_folder(paths['XDG_DOCUMENTS_DIR'])
-    elif os.path.isdir(paths['HOME_DIR']):
-        dialog.set_current_folder(paths['HOME_DIR'])
+    elif os.path.isdir(prefs.video_dest):
+        dialog.set_current_folder(prefs.video_path)
 
     dialog.show_all()
     #

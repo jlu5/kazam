@@ -20,6 +20,23 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import os
+import logging
+logger = logging.getLogger("Utils")
+
+def get_next_filename(dir, prefix, ext):
+    for cnt in range(0, 99999):
+        fname = os.path.join(dir, "{0}_{1}{2}".format(prefix,
+                                                       str(cnt).zfill(5),
+                                                       ext))
+        if os.path.isfile(fname):
+            continue
+        else:
+            logger.debug("Next free filename: {0}".format(fname))
+            return fname
+
+    return "Kazam_recording.{0}".format(ext)
+
 def remove_list_dups(seq, idfun = None):
     if idfun is None:
         def idfun(x): return x

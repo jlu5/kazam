@@ -19,7 +19,10 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import os
 import logging
+from gettext import gettext as _
+from xdg.BaseDirectory import xdg_config_home
 
 class Prefs():
     def __init__(self):
@@ -54,7 +57,6 @@ class Prefs():
         self.countdown_splash = True
         self.silent_start = False
 
-
         #
         # Other stuff
         #
@@ -66,6 +68,8 @@ class Prefs():
         self.codec = None
         self.pa_q = None
         self.framerate = 15
+        self.autosave_video = False
+        self.autosave_video_file = None
 
         #
         # Audio sources
@@ -86,6 +90,8 @@ class Prefs():
         self.silent = False
         self.sound = True
 
+        self.get_video_dirs()
+
 
     def get_audio_sources(self):
         self.logger.debug("Getting Audio sources.")
@@ -102,5 +108,32 @@ class Prefs():
             self.logger.warning("Unable to find any audio devices.")
             self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
 
+    def get_video_dirs(self):
+        # Try to set the default folder to be previously selected path
+        # if there was one otherwise try with ~/Videos, ~/Documents
+        # and finally ~/
+        video_paths = {}
+        f = None
+        try:
+            f = open(os.path.join(xdg_config_home, "user-dirs.dirs"))
+            for la in f:
+                if la.startswith("XDG_VIDEOS") or la.startswith("XDG_DOCUMENTS"):
+                    (idx, val) = la.strip()[:-1].split('="')
+                    video_paths[idx] = os.path.expandvars(val)
+        except:
+            video_paths['XDG_VIDEOS_DIR'] = os.path.expanduser("~/Videos/")
+            video_paths['XDG_DOCUMENTS_DIR'] = os.path.expanduser("~/Documents/")
+        finally:
+            if f is not None:
+                f.close()
+
+        video_paths['HOME_DIR'] = os.path.expandvars("$HOME")
+
+        if os.path.isdir(video_paths['XDG_VIDEOS_DIR']):
+            self.video_dest = video_paths['XDG_VIDEOS_DIR']
+        elif os.path.isdir(prefs.video_paths['XDG_DOCUMENTS_DIR']):
+            self.video_dest = video_paths['XDG_DOCUMENTS_DIR']
+        elif os.path.isdir(prefs.video_paths['HOME_DIR']):
+            self.video_dest = video_paths['HOME_DIR']
 
 prefs = Prefs()

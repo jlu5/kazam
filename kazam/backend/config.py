@@ -48,6 +48,9 @@ class KazamConfig(SafeConfigParser):
                          "last_y"               : "25",
                          "advanced"             : "0",
                          "silent"               : "0",
+                         "autosave_video"       : "False",
+                         "autosave_video_dir"   : "",
+                         "autosave_video_file"  : "Kazam_screencast",
                          },
                 },
                 {
