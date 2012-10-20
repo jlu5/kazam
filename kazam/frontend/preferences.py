@@ -116,18 +116,11 @@ class Preferences(GObject.GObject):
         if prefs.sound:
             self.combobox_audio.set_active(prefs.audio_source)
             self.combobox_audio2.set_active(prefs.audio2_source)
-
-            if prefs.audio_source:
-                self.volumebutton_audio.set_sensitive(True)
-                self.combobox_audio2.set_sensitive(True)
-            else:
-                self.volumebutton_audio.set_sensitive(False)
-                self.combobox_audio2.set_sensitive(False)
-
-            if prefs.audio2_source:
-                self.volumebutton_audio2.set_sensitive(True)
-            else:
-                self.volumebutton_audio2.set_sensitive(False)
+        else:
+            self.combobox_audio.set_sensitive(False)
+            self.combobox_audio2.set_sensitive(False)
+            self.volumebutton_audio.set_sensitive(False)
+            self.volumebutton_audio2.set_sensitive(False)
 
         if prefs.countdown_splash:
             self.switch_countdown_splash.set_active(True)
@@ -184,41 +177,31 @@ class Preferences(GObject.GObject):
         prefs.audio_source = self.combobox_audio.get_active()
         logger.debug("  - A_1 {0}".format(prefs.audio_source))
 
-        if prefs.audio_source:
-            pa_audio_idx =  prefs.audio_sources[prefs.audio_source][0]
-            prefs.pa_q.set_source_mute_by_index(pa_audio_idx, 0)
+        pa_audio_idx =  prefs.audio_sources[prefs.audio_source][0]
+        prefs.pa_q.set_source_mute_by_index(pa_audio_idx, 0)
 
-            logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
-            self.audio_source_info = prefs.pa_q.get_source_info_by_index(pa_audio_idx)
-            if len(self.audio_source_info) > 0:
-                val = prefs.pa_q.cvolume_to_dB(self.audio_source_info[2])
-                if math.isinf(val):
-                    vol = 0
-                else:
-                    vol = 60 + val
-                self.volumebutton_audio.set_value(vol)
+        logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
+        self.audio_source_info = prefs.pa_q.get_source_info_by_index(pa_audio_idx)
+        if len(self.audio_source_info) > 0:
+            val = prefs.pa_q.cvolume_to_dB(self.audio_source_info[2])
+            if math.isinf(val):
+                vol = 0
             else:
-                logger.debug("Error getting volume info for Audio 1")
-
-            if len(self.audio_source_info):
-                logger.debug("New Audio1: {0}".format(self.audio_source_info[3]))
-            else:
-                logger.debug("New Audio1: Error retrieving data.")
-
-            if prefs.audio_source and prefs.audio_source == prefs.audio2_source:
-                if prefs.audio_source < len(prefs.audio_sources):
-                    prefs.audio2_source += 1
-                else:
-                    prefs.audio2_source = 0
-                self.combobox_audio2.set_active(0)
-
-            self.volumebutton_audio.set_sensitive(True)
-            self.combobox_audio2.set_sensitive(True)
+                vol = 60 + val
+            self.volumebutton_audio.set_value(vol)
         else:
-            self.volumebutton_audio.set_sensitive(False)
-            self.combobox_audio2.set_sensitive(False)
-            self.combobox_audio2.set_active(0)
-            logger.debug("Audio1 OFF.")
+            logger.debug("Error getting volume info for Audio 1")
+        if len(self.audio_source_info):
+           logger.debug("New Audio1: {0}".format(self.audio_source_info[3]))
+        else:
+            logger.debug("New Audio1: Error retrieving data.")
+
+        if prefs.audio_source == prefs.audio2_source:
+            if prefs.audio_source < len(prefs.audio_sources) - 1:
+                prefs.audio2_source += 1
+            else:
+                prefs.audio2_source = 0
+            self.combobox_audio2.set_active(prefs.audio2_source)
 
     def cb_audio2_changed(self, widget):
         logger.debug("Audio2 Changed.")
@@ -226,39 +209,33 @@ class Preferences(GObject.GObject):
         prefs.audio2_source = self.combobox_audio2.get_active()
         logger.debug("  - A_2 {0}".format(prefs.audio2_source))
 
-        if prefs.audio2_source:
-            pa_audio2_idx =  prefs.audio_sources[prefs.audio2_source][0]
-            prefs.pa_q.set_source_mute_by_index(pa_audio2_idx, 0)
+        pa_audio2_idx =  prefs.audio_sources[prefs.audio2_source][0]
+        prefs.pa_q.set_source_mute_by_index(pa_audio2_idx, 0)
 
-            logger.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
-            self.audio2_source_info = prefs.pa_q.get_source_info_by_index(pa_audio2_idx)
+        logger.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
+        self.audio2_source_info = prefs.pa_q.get_source_info_by_index(pa_audio2_idx)
 
-            if len(self.audio2_source_info) > 0:
-                val = prefs.pa_q.cvolume_to_dB(self.audio2_source_info[2])
-                if math.isinf(val):
-                    vol = 0
-                else:
-                    vol = 60 + val
-                self.volumebutton_audio2.set_value(vol)
+        if len(self.audio2_source_info) > 0:
+            val = prefs.pa_q.cvolume_to_dB(self.audio2_source_info[2])
+            if math.isinf(val):
+                vol = 0
             else:
-                logger.debug("Error getting volume info for Audio 1")
-
-            if len(self.audio2_source_info):
-                logger.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
-            else:
-                logger.debug("New Audio2:\n  Error retrieving data.")
-
-            if prefs.audio_source and prefs.audio_source == prefs.audio2_source:
-                if prefs.audio_source < len(prefs.audio_sources):
-                    prefs.audio2_source += 1
-                else:
-                    prefs.audio2_source = 0
-
-                self.combobox_audio2.set_active(0)
-            self.volumebutton_audio2.set_sensitive(True)
+                vol = 60 + val
+            self.volumebutton_audio2.set_value(vol)
         else:
-            self.volumebutton_audio2.set_sensitive(False)
-            logger.debug("Audio2 OFF.")
+            logger.debug("Error getting volume info for Audio 1")
+
+        if len(self.audio2_source_info):
+            logger.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
+        else:
+            logger.debug("New Audio2:\n  Error retrieving data.")
+
+        if prefs.audio_source == prefs.audio2_source:
+            if prefs.audio_source < len(prefs.audio_sources) - 1:
+                prefs.audio2_source += 1
+            else:
+                prefs.audio2_source = 0
+            self.combobox_audio2.set_active(prefs.audio2_source)
 
     def cb_volume_changed(self, widget, value):
         logger.debug("Volume 1 changed, new value: {0}".format(value))

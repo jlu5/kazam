@@ -501,12 +501,12 @@ class KazamApp(GObject.GObject):
         self.indicator.blink_set_state(BLINK_START)
 
         if prefs.sound:
-            if prefs.audio_source > 0:
+            if prefs.capture_speakers and prefs.audio_source > 0:
                 audio_source = prefs.audio_sources[prefs.audio_source][1]
             else:
                 audio_source = None
 
-            if self.audio2_source > 0:
+            if prefs.capture_microphone and self.audio2_source > 0:
                 audio2_source = prefs.audio_sources[self.audio2_source][1]
             else:
                 audio2_source = None
@@ -532,7 +532,7 @@ class KazamApp(GObject.GObject):
                                     self.area if self.record_mode == MODE_AREA else None)
 
         self.recorder.connect("flush-done", self.cb_flush_done)
-        self.countdown = CountdownWindow(self.indicator, show_window = self.countdown_splash)
+        self.countdown = CountdownWindow(self.indicator, show_window = prefs.countdown_splash)
         self.countdown.connect("counter-finished", self.cb_counter_finished)
         self.countdown.run(prefs.countdown_timer)
         self.recording = True

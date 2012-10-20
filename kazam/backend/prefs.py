@@ -91,7 +91,7 @@ class Prefs():
         self.logger.debug("Getting Audio sources.")
         try:
             self.audio_sources = prefs.pa_q.get_audio_sources()
-            self.audio_sources.insert(0, [])
+            #self.audio_sources.insert(0, [])
             if prefs.debug:
                 for src in self.audio_sources:
                     self.logger.debug(" Device found: ")
