@@ -30,21 +30,24 @@ from gettext import gettext as _
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
 
-def SaveDialog(title, old_path, codec):
+def SaveDialog(title, old_path, codec, main_mode=MODE_SCREENCAST):
     logger.debug("Save dialog called.")
     dialog = Gtk.FileChooserDialog(title, None,
                                    Gtk.FileChooserAction.SAVE,
                                    (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                                    _("Save"), Gtk.ResponseType.OK))
 
-    dialog.set_current_name("{0}{1}".format(_("Untitled_Screencast"), CODEC_LIST[codec][3]))
+    if main_mode == MODE_SCREENCAST:
+        dialog.set_current_name("{0}{1}".format(_("Untitled_Screencast"), CODEC_LIST[codec][3]))
+    elif main_mode == MODE_SCREENSHOT:
+        dialog.set_current_name(_("Untitled_capture.png"))
 
     dialog.set_do_overwrite_confirmation(True)
 
     if old_path and os.path.isdir(old_path):
             dialog.set_current_folder(old_path)
     elif os.path.isdir(prefs.video_dest):
-        dialog.set_current_folder(prefs.video_path)
+        dialog.set_current_folder(prefs.video_dest)
 
     dialog.show_all()
     #

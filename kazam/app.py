@@ -33,6 +33,7 @@ from gettext import gettext as _
 from kazam.utils import *
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
+from kazam.backend.grabber import Grabber
 from kazam.backend.config import KazamConfig
 from kazam.frontend.main_menu import MainMenu
 from kazam.backend.gstreamer_gi import Screencast
@@ -308,7 +309,9 @@ class KazamApp(GObject.GObject):
         self.area = (self.area_window.startx,
                      self.area_window.starty,
                      self.area_window.endx,
-                     self.area_window.endy)
+                     self.area_window.endy,
+                     self.area_window.width,
+                     self.area_window.height)
 
     def cb_area_canceled(self, widget):
         logger.debug("Region selection canceled.")
@@ -381,8 +384,11 @@ class KazamApp(GObject.GObject):
         self.indicator.menuitem_finish.set_label(_("Finish recording"))
         self.indicator.menuitem_pause.set_sensitive(True)
         self.indicator.blink_set_state(BLINK_STOP)
-        self.indicator.start_recording()
-        self.recorder.start_recording()
+        if self.main_mode == MODE_SCREENCAST:
+            self.indicator.start_recording()
+            self.recorder.start_recording()
+        elif self.main_mode == MODE_SCREENSHOT:
+            self.grabber.grab()
 
     def cb_stop_request(self, widget):
         self.recording = False
@@ -404,7 +410,7 @@ class KazamApp(GObject.GObject):
             logger.debug("Waiting for data to flush.")
 
     def cb_flush_done(self, widget):
-        if prefs.autosave_video:
+        if self.main_mode == MODE_SCREENCAST and prefs.autosave_video:
             logger.debug("Autosaving enabled.")
             fname = get_next_filename(prefs.video_dest,
                                       prefs.autosave_video_file,
@@ -415,7 +421,7 @@ class KazamApp(GObject.GObject):
             self.window.set_sensitive(True)
             self.window.show()
             self.window.present()
-        else:
+        elif self.main_mode == MODE_SCREENCAST:
             self.done_recording = DoneRecording(self.icons,
                                             self.tempfile,
                                             prefs.codec,
@@ -427,6 +433,11 @@ class KazamApp(GObject.GObject):
             logger.debug("Done recording signals connected.")
             self.done_recording.show_all()
             self.window.set_sensitive(False)
+
+        elif self.main_mode == MODE_SCREENSHOT:
+            self.grabber.connect("save-done", self.cb_save_done)
+            self.grabber.save_capture(self.old_path)
+
 
     def cb_pause_request(self, widget):
         logger.debug("Pause requested.")
@@ -511,10 +522,9 @@ class KazamApp(GObject.GObject):
         self.indicator.menuitem_finish.set_label(_("Cancel countdown"))
         self.in_countdown = True
 
-        self.recorder = Screencast()
         self.indicator.blink_set_state(BLINK_START)
 
-        if prefs.sound:
+        if self.main_mode == MODE_SCREENCAST and prefs.sound:
             if prefs.capture_speakers and prefs.audio_source > 0:
                 audio_source = prefs.audio_sources[prefs.audio_source][1]
             else:
@@ -538,14 +548,24 @@ class KazamApp(GObject.GObject):
         elif self.record_mode == MODE_ALL:
             video_source = HW.combined_screen
         elif self.record_mode == MODE_AREA:
-            video_source = None
+            video_source = HW.combined_screen
 
-        self.recorder.setup_sources(video_source,
-                                    audio_source,
-                                    audio2_source,
-                                    self.area if self.record_mode == MODE_AREA else None)
+        if self.main_mode == MODE_SCREENCAST:
+            self.recorder = Screencast()
+            self.recorder.setup_sources(video_source,
+                                        audio_source,
+                                        audio2_source,
+                                        self.area if self.record_mode == MODE_AREA else None)
+            self.recorder.connect("flush-done", self.cb_flush_done)
 
-        self.recorder.connect("flush-done", self.cb_flush_done)
+        elif self.main_mode == MODE_SCREENSHOT:
+            print self.area
+            self.grabber = Grabber()
+            self.grabber.setup_sources(video_source,
+                                       self.area if self.record_mode == MODE_AREA else None)
+            self.grabber.connect("flush-done", self.cb_flush_done)
+
+
         self.countdown = CountdownWindow(self.indicator, show_window = prefs.countdown_splash)
         self.countdown.connect("counter-finished", self.cb_counter_finished)
         self.countdown.run(prefs.countdown_timer)
@@ -562,7 +582,6 @@ class KazamApp(GObject.GObject):
             logger.exception("EXCEPTION: Setlocale failed, no language support.")
 
     def read_config (self):
-
         prefs.audio_source = self.config.getint("main", "audio_source")
         prefs.audio2_source = self.config.getint("main", "audio2_source")
         logger.debug("Restoring Audio source state: {0} {1}".format(
