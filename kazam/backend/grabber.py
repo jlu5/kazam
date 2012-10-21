@@ -26,6 +26,8 @@ import logging
 logger = logging.getLogger("Grabber")
 
 from gi.repository import GObject, Gtk, Gdk, GdkPixbuf
+
+from kazam.backend.prefs import *
 from kazam.backend.constants import *
 from kazam.frontend.save_dialog import SaveDialog
 from gettext import gettext as _
@@ -61,19 +63,21 @@ class Grabber(GObject.GObject):
                                                          self.video_source['y'],
                                                          self.video_source['width'],
                                                          self.video_source['height'])
-        cursor = Gdk.Cursor.new_for_display(Gdk.Display.get_default(), Gdk.CursorType.LEFT_PTR)
-        c_picbuf = Gdk.Cursor.get_image(cursor)
-        pointer = root_w.get_pointer()
-        c_picbuf.composite(self.pixbuf, self.video_source['x'],
-                                        self.video_source['y'],
-                                        self.video_source['width'],
-                                        self.video_source['height'],
-                                        pointer[1],
-                                        pointer[2],
-                                        1.0,
-                                        1.0,
-                                        GdkPixbuf.InterpType.BILINEAR,
-                                        255)
+
+        if prefs.capture_cursor_pic:
+            cursor = Gdk.Cursor.new_for_display(Gdk.Display.get_default(), Gdk.CursorType.LEFT_PTR)
+            c_picbuf = Gdk.Cursor.get_image(cursor)
+            pointer = root_w.get_pointer()
+            c_picbuf.composite(self.pixbuf, self.video_source['x'],
+                                            self.video_source['y'],
+                                            self.video_source['width'],
+                                            self.video_source['height'],
+                                            pointer[1],
+                                            pointer[2],
+                                            1.0,
+                                            1.0,
+                                            GdkPixbuf.InterpType.BILINEAR,
+                                            255)
 
         if self.area is not None:
             self.area_buf = GdkPixbuf.Pixbuf.new(GdkPixbuf.Colorspace.RGB, True, 8, self.area[4], self.area[5])
@@ -86,7 +90,6 @@ class Grabber(GObject.GObject):
     def save(self, filename):
         if self.pixbuf is not None:
             self.pixbuf.savev(filename, "png", "", "")
-
 
     def save_capture(self, old_path):
         logger.debug("Saving screenshot.")

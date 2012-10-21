@@ -42,6 +42,7 @@ class KazamConfig(SafeConfigParser):
                          "capture_cursor"       : "True",
                          "capture_microphone"   : "False",
                          "capture_speakers"     : "False",
+                         "capture_cursor_pic"   : "True",
                          "framerate"            : "15",
                          "countdown_splash"     : "True",
                          "last_x"               : "60",

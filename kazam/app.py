@@ -219,6 +219,8 @@ class KazamApp(GObject.GObject):
         self.toolbar_aux.insert(self.btn_area, -1)
         self.toolbar_aux.insert(self.sep_2, -1)
 
+        self.ntb_main.set_current_page(0)
+
         #
         # Take care of screen size changes.
         #
@@ -488,6 +490,10 @@ class KazamApp(GObject.GObject):
         prefs.capture_cursor = widget.get_active()
         logger.debug("Capture cursor: {0}.".format(prefs.capture_cursor))
 
+    def cb_check_cursor_pic(self, widget):
+        prefs.capture_cursor_pic = widget.get_active()
+        logger.debug("Capture cursor_pic: {0}.".format(prefs.capture_cursor_pic))
+
     def cb_check_speakers(self, widget):
         prefs.capture_speakers = widget.get_active()
         logger.debug("Capture speakers: {0}.".format(prefs.capture_speakers))
@@ -599,6 +605,9 @@ class KazamApp(GObject.GObject):
         prefs.capture_cursor = self.config.getboolean("main", "capture_cursor")
         prefs.capture_microphone = self.config.getboolean("main", "capture_microphone")
         prefs.capture_speakers = self.config.getboolean("main", "capture_speakers")
+
+        prefs.capture_cursor_pic = self.config.getboolean("main", "capture_cursor_pic")
+
         prefs.countdown_splash = self.config.getboolean("main", "countdown_splash")
 
         prefs.autosave_video = self.config.getboolean("main", "autosave_video")
@@ -610,6 +619,9 @@ class KazamApp(GObject.GObject):
         self.chk_cursor.set_active(prefs.capture_cursor)
         self.chk_speakers.set_active(prefs.capture_speakers)
         self.chk_microphone.set_active(prefs.capture_microphone)
+
+        self.chk_cursor_pic.set_active(prefs.capture_cursor_pic)
+
         self.spinbutton_delay.set_value(prefs.countdown_timer)
 
     def save_config(self):
@@ -618,6 +630,8 @@ class KazamApp(GObject.GObject):
         self.config.set("main", "capture_cursor", prefs.capture_cursor)
         self.config.set("main", "capture_speakers", prefs.capture_speakers)
         self.config.set("main", "capture_microphone", prefs.capture_microphone)
+
+        self.config.set("main", "capture_cursor_pic", prefs.capture_cursor_pic)
 
         self.config.set("main", "last_x", self.main_x)
         self.config.set("main", "last_y", self.main_y)

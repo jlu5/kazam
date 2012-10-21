@@ -46,6 +46,9 @@ class Prefs():
         self.capture_cursor = False
         self.capture_speakers = False
         self.capture_microphone = False
+
+        self.capture_cursor_pic = False
+
         self.countdown_timer = 5
 
         self.speakers_source = None
