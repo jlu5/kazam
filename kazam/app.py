@@ -213,6 +213,9 @@ class KazamApp(GObject.GObject):
         self.btn_area.set_icon_widget(img5)
         self.btn_area.set_name("MODE_AREA")
         self.btn_area.connect("toggled", self.cb_record_mode_toggled)
+        self.btn_area.connect("clicked", self.cb_record_area_clicked)
+
+
 
         self.sep_2 = Gtk.SeparatorToolItem()
         self.sep_2.set_draw(False)
@@ -260,6 +263,7 @@ class KazamApp(GObject.GObject):
     #
     # Mode of operation toggles
     #
+
     def cb_main_toggled(self, widget):
         name = widget.get_name()
         if name == "MAIN_SCREENCAST" and widget.get_active():
@@ -283,10 +287,9 @@ class KazamApp(GObject.GObject):
 
         if widget.get_name() == "MODE_AREA" and widget.get_active():
             logger.debug("Region ON.")
-            self.area_window = RegionWindow(self.area)
+            self.area_window = RegionWindow()
             self.tmp_sig1 = self.area_window.connect("area-selected", self.cb_area_selected)
             self.tmp_sig2 = self.area_window.connect("area-canceled", self.cb_area_canceled)
-            self.window.set_sensitive(False)
             self.record_mode = MODE_AREA
 
         if widget.get_name() == "MODE_AREA" and not widget.get_active():
@@ -305,6 +308,12 @@ class KazamApp(GObject.GObject):
             logger.debug("Capture all screens.")
             self.record_mode = MODE_ALL
 
+    def cb_record_area_clicked(self, widget):
+        if self.area_window:
+            logger.debug("Area mode clicked.")
+            self.area_window.window.show_all()
+            self.window.set_sensitive(False)
+
     def cb_area_selected(self, widget):
         logger.debug("Region selected: {0}, {1}, {2}, {3}".format(
             self.area_window.startx,
@@ -312,7 +321,7 @@ class KazamApp(GObject.GObject):
             self.area_window.endx,
             self.area_window.endy))
         self.window.set_sensitive(True)
-        self.area = (self.area_window.startx,
+        prefs.area = (self.area_window.startx,
                      self.area_window.starty,
                      self.area_window.endx,
                      self.area_window.endy,

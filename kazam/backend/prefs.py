@@ -80,6 +80,8 @@ class Prefs():
         self.shutter_type = 0
         self.shutter_sound_file = ""
 
+        self.area = None
+
         #
         # Audio sources
         #  - Tuple of all sources

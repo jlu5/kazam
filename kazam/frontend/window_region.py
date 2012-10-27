@@ -28,6 +28,8 @@ from gettext import gettext as _
 
 from gi.repository import Gtk, GObject, Gdk
 
+from kazam.backend.prefs import *
+
 class RegionWindow(GObject.GObject):
 
     __gsignals__ = {
@@ -41,7 +43,7 @@ class RegionWindow(GObject.GObject):
                                 ),
     }
 
-    def __init__(self, region = None):
+    def __init__(self):
         super(RegionWindow, self).__init__()
         logger.debug("Initializing region window.")
         self.window = Gtk.Window()
@@ -50,23 +52,13 @@ class RegionWindow(GObject.GObject):
         self.window.connect("draw", self.cb_draw)
         self.window.connect("key-press-event", self.cb_keypress_event)
         self.window.connect("button-press-event", self.cb_button_press_event)
+        self.window.connect("show", self.cb_show)
 
-        if region:
-            logger.debug("Old region defined at: X: {0}, Y: {1}, W: {2}, H: {3}".format(region[0],
-                                                                                          region[1],
-                                                                                          region[2],
-                                                                                          region[3]))
-            self.startx = region[0]
-            self.starty = region[1]
-            self.endx = region[2]
-            self.endy = region[3]
-            self.window.move(self.startx, self.starty)
-        else:
-            self.startx = 0
-            self.starty = 0
-            self.endx = 640
-            self.endy = 480
-            self.window.set_position(Gtk.WindowPosition.CENTER)
+        self.startx = 0
+        self.starty = 0
+        self.endx = 640
+        self.endy = 480
+        self.window.set_position(Gtk.WindowPosition.CENTER)
 
         self.width = self.endx - self.startx
         self.height = self.endy - self.starty
@@ -91,8 +83,17 @@ class RegionWindow(GObject.GObject):
         else:
             self.compositing = False
 
-        self.window.show_all()
-
+    def cb_show(self, widget):
+        if prefs.area:
+            logger.debug("Old region defined at: X: {0}, Y: {1}, W: {2}, H: {3}".format(prefs.area[0],
+                                                                                        prefs.area[1],
+                                                                                        prefs.area[2],
+                                                                                        prefs.area[3]))
+            self.startx = prefs.area[0]
+            self.starty = prefs.area[1]
+            self.endx = prefs.area[2]
+            self.endy = prefs.area[3]
+            self.window.move(self.startx, self.starty)
 
     def cb_button_press_event(self, widget, event):
         (op, button) = event.get_button()
