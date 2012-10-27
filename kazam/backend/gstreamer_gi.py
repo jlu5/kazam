@@ -170,7 +170,7 @@ class Screencast(GObject.GObject):
             self.videnc.set_property("threads", self.cores)
             self.mux = Gst.ElementFactory.make("webmmux", "muxer")
         elif prefs.codec == CODEC_H264:
-            self.videnc.set_property("speed-preset", "veryfast")
+            self.videnc.set_property("speed-preset", "ultrafast")
             self.videnc.set_property("pass", 4)
             self.videnc.set_property("quantizer", 15)
             self.videnc.set_property("threads", self.cores)

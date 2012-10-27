@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 import os
+import sys
 import locale
 import shutil
 import gettext
@@ -54,7 +55,8 @@ try:
     gst_gi = Gst.version()
     if not gst_gi[0]:
         logger.critical("Gstreamer 1.0 or higher requred, bailing out.")
-        Gtk.main_quit()
+        gst_gi = None
+        sys.exit(0)
     else:
         logger.debug("Gstreamer version detected: {0}.{1}.{2}.{3}".format(gst_gi[0],
                                                                       gst_gi[1],
@@ -62,7 +64,7 @@ try:
                                                                       gst_gi[3]))
 except ImportError:
     logger.critical("Gstreamer 1.0 or higher requred, bailing out.")
-    Gtk.main_quit()
+    sys.exit(0)
 
 class KazamApp(GObject.GObject):
 
@@ -71,6 +73,7 @@ class KazamApp(GObject.GObject):
         logger.debug("Setting variables.")
 
         prefs.datadir = datadir
+        prefs.get_sound_files()
 
         self.startup = True
         prefs.debug = debug
@@ -78,7 +81,8 @@ class KazamApp(GObject.GObject):
         prefs.dist = dist
         prefs.silent = silent
         prefs.sound = not sound     # Parameter is called nosound and if true, then we don't have sound.
-                                   # Tricky parameters are tricky!
+                                    # Tricky parameters are tricky!
+
         self.setup_translations()
 
         if prefs.sound:
@@ -613,6 +617,12 @@ class KazamApp(GObject.GObject):
         prefs.autosave_video = self.config.getboolean("main", "autosave_video")
         prefs.autosave_video_file = self.config.get("main", "autosave_video_file")
 
+        prefs.autosave_picture = self.config.getboolean("main", "autosave_picture")
+        prefs.autosave_picture_file = self.config.get("main", "autosave_picture_file")
+
+        prefs.shutter_sound = self.config.getboolean("main", "shutter_sound")
+        prefs.shutter_type = self.config.getint("main", "shutter_type")
+
     def restore_UI (self):
 
         self.window.move(self.main_x, self.main_y)
@@ -650,4 +660,9 @@ class KazamApp(GObject.GObject):
         self.config.set("main", "framerate", prefs.framerate)
         self.config.set("main", "autosave_video", prefs.autosave_video)
         self.config.set("main", "autosave_video_file", prefs.autosave_video_file)
+        self.config.set("main", "autosave_picture", prefs.autosave_picture)
+        self.config.set("main", "autosave_picture_file", prefs.autosave_picture_file)
+        self.config.set("main", "shutter_sound", prefs.shutter_sound)
+        self.config.set("main", "shutter_type", prefs.shutter_type)
+
         self.config.write()

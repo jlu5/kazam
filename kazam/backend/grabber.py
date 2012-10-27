@@ -21,7 +21,7 @@
 
 
 import os
-import shutil
+import subprocess
 import logging
 logger = logging.getLogger("Grabber")
 
@@ -57,6 +57,8 @@ class Grabber(GObject.GObject):
                                                                  self.video_source['height']))
 
     def grab(self):
+        soundfile = os.path.join(prefs.datadir, 'sounds', prefs.sound_files[prefs.shutter_type])
+        subprocess.call(['/usr/bin/canberra-gtk-play', '-f', soundfile])
         root_w = Gdk.get_default_root_window()
         self.pixbuf = None
         self.pixbuf = Gdk.pixbuf_get_from_window(root_w, self.video_source['x'],

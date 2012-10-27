@@ -73,6 +73,8 @@ class Preferences(GObject.GObject):
 
         self.populate_codecs()
         self.populate_audio_sources()
+        self.populate_shutter_sounds()
+
         self.restore_UI()
 
     def open(self):
@@ -119,13 +121,9 @@ class Preferences(GObject.GObject):
         self.combobox_audio.set_model(audio_source_model)
         self.combobox_audio2.set_model(audio_source_model)
 
-            #if not len(source):
-            #    self.combobox_audio.append(None, "Off")
-            #    self.combobox_audio2.append(None, "Off")
-            #else:
-            #    self.combobox_audio.append(None, source[2])
-            #    self.combobox_audio2.append(None, source[2])
-
+    def populate_shutter_sounds(self):
+        for file in prefs.sound_files:
+            self.combobox_shutter_type.append(None, file[:-4])
 
     def restore_UI(self):
         logger.debug("Restoring UI.")
@@ -153,6 +151,25 @@ class Preferences(GObject.GObject):
 
         self.entry_autosave_video.set_text(prefs.autosave_video_file)
 
+        self.filechooser_video.set_current_folder(prefs.video_dest)
+
+
+        if prefs.shutter_sound:
+            self.switch_shutter_sound.set_active(True)
+        else:
+            self.switch_shutter_sound.set_active(False)
+
+        self.combobox_shutter_type.set_active(prefs.shutter_type)
+
+        if prefs.autosave_picture:
+            self.switch_autosave_picture.set_active(True)
+        else:
+            self.switch_autosave_picture.set_active(False)
+
+        self.entry_autosave_picture.set_text(prefs.autosave_picture_file)
+
+        self.filechooser_picture.set_current_folder(prefs.picture_dest)
+
 
         #
         # Crappy code below ... Can this be done some other way?
@@ -176,29 +193,15 @@ class Preferences(GObject.GObject):
         prefs.codec = codec_model.get_value(codec_iter, 0)
 
     #
-    # Callbacks
+    # General callbacks
     #
+
     def cb_delete_event(self, widget, user_data):
         logger.debug("Deleteting preferences window")
 
     def cb_switch_countdown_splash(self, widget, user_data):
         prefs.countdown_splash = widget.get_active()
-        logger.debug("Coutndown splash: {0}.".format(prefs.countdown_splash))
-
-    def cb_switch_autosave_video(self, widget, user_data):
-        prefs.autosave_video = widget.get_active()
-        logger.debug("Autosave for Video: {0}.".format(prefs.autosave_video))
-
-    def cb_spinbutton_framerate_change(self, widget):
-        prefs.framerate = widget.get_value_as_int()
-        logger.debug("Framerate now: {0}".format(prefs.framerate))
-
-    def cb_codec_changed(self, widget):
-        i = widget.get_active()
-        model = widget.get_model()
-        iter = model.get_iter(i)
-        prefs.codec = model.get_value(iter, 0)
-        logger.debug('Codec selected: {0} - {1}'.format(get_codec(prefs.codec)[2], prefs.codec))
+        logger.debug("Countdown splash: {0}.".format(prefs.countdown_splash))
 
     def cb_audio_changed(self, widget):
         logger.debug("Audio Changed.")
@@ -281,6 +284,25 @@ class Preferences(GObject.GObject):
         cvol = prefs.pa_q.dB_to_cvolume(chn, value-60)
         prefs.pa_q.set_source_volume_by_index(pa_idx, cvol)
 
+    #
+    # Screencasting callbacks
+    #
+
+    def cb_spinbutton_framerate_change(self, widget):
+        prefs.framerate = widget.get_value_as_int()
+        logger.debug("Framerate now: {0}".format(prefs.framerate))
+
+    def cb_codec_changed(self, widget):
+        i = widget.get_active()
+        model = widget.get_model()
+        iter = model.get_iter(i)
+        prefs.codec = model.get_value(iter, 0)
+        logger.debug('Codec selected: {0} - {1}'.format(get_codec(prefs.codec)[2], prefs.codec))
+
+    def cb_switch_autosave_video(self, widget, user_data):
+        prefs.autosave_video = widget.get_active()
+        logger.debug("Autosave for Video: {0}.".format(prefs.autosave_video))
+
     def cb_filechooser_video(self, widget):
         prefs.video_dest = self.filechooser_video.get_current_folder()
         logger.debug("Video folder set to: {0}".format(prefs.video_dest))
@@ -288,3 +310,27 @@ class Preferences(GObject.GObject):
     def cb_entry_autosave_video(self, widget):
         prefs.autosave_video_file = widget.get_text()
         logger.debug("Video autosave file set to: {0}".format(prefs.autosave_video_file))
+
+    #
+    # Screenshot callbacks
+    #
+
+    def cb_switch_shutter_sound(self, widget, user_data):
+        prefs.shutter_sound = widget.get_active()
+        logger.debug("Shutter sound: {0}.".format(prefs.shutter_sound))
+
+    def cb_switch_autosave_picture(self, widget, user_data):
+        prefs.autosave_picture = widget.get_active()
+        logger.debug("Autosave for Picture: {0}.".format(prefs.autosave_picture))
+
+    def cb_filechooser_picture(self, widget):
+        prefs.picture_dest = self.filechooser_picture.get_current_folder()
+        logger.debug("Picture folder set to: {0}".format(prefs.picture_dest))
+
+    def cb_entry_autosave_picture(self, widget):
+        prefs.autosave_picture_file = widget.get_text()
+        logger.debug("Picture autosave file set to: {0}".format(prefs.autosave_picture_file))
+
+    def cb_shutter_type(self, widget):
+        prefs.shutter_type = self.combobox_shutter_type.get_active()
+        logger.debug("Shutter type set to: {0} - {1}".format(prefs.shutter_type, prefs.shutter_sound_file))

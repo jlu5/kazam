@@ -21,8 +21,6 @@
 #       MA 02110-1301, USA.
 
 import os
-import logging
-logger = logging.getLogger("Utils")
 
 def get_next_filename(dir, prefix, ext):
     for cnt in range(0, 99999):
@@ -32,7 +30,6 @@ def get_next_filename(dir, prefix, ext):
         if os.path.isfile(fname):
             continue
         else:
-            logger.debug("Next free filename: {0}".format(fname))
             return fname
 
     return "Kazam_recording.{0}".format(ext)

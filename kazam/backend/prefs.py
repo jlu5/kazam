@@ -74,6 +74,12 @@ class Prefs():
         self.autosave_video = False
         self.autosave_video_file = None
 
+        self.autosave_picture = False
+        self.autosave_picture_file = None
+        self.shutter_sound = True
+        self.shutter_type = 0
+        self.shutter_sound_file = ""
+
         #
         # Audio sources
         #  - Tuple of all sources
@@ -93,8 +99,7 @@ class Prefs():
         self.silent = False
         self.sound = True
 
-        self.get_video_dirs()
-
+        self.get_dirs()
 
     def get_audio_sources(self):
         self.logger.debug("Getting Audio sources.")
@@ -111,32 +116,46 @@ class Prefs():
             self.logger.warning("Unable to find any audio devices.")
             self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
 
-    def get_video_dirs(self):
-        # Try to set the default folder to be previously selected path
-        # if there was one otherwise try with ~/Videos, ~/Documents
-        # and finally ~/
-        video_paths = {}
+    def get_dirs(self):
+        paths = {}
         f = None
         try:
             f = open(os.path.join(xdg_config_home, "user-dirs.dirs"))
             for la in f:
-                if la.startswith("XDG_VIDEOS") or la.startswith("XDG_DOCUMENTS"):
+                if la.startswith("XDG_VIDEOS") or la.startswith("XDG_DOCUMENTS") or la.startswith("XDG_PICTURES") :
                     (idx, val) = la.strip()[:-1].split('="')
-                    video_paths[idx] = os.path.expandvars(val)
+                    paths[idx] = os.path.expandvars(val)
         except:
-            video_paths['XDG_VIDEOS_DIR'] = os.path.expanduser("~/Videos/")
-            video_paths['XDG_DOCUMENTS_DIR'] = os.path.expanduser("~/Documents/")
+            paths['XDG_VIDEOS_DIR'] = os.path.expanduser("~/Videos/")
+            paths['XDG_PICTURES_DIR'] = os.path.expanduser("~/Pictures/")
+            paths['XDG_DOCUMENTS_DIR'] = os.path.expanduser("~/Documents/")
         finally:
             if f is not None:
                 f.close()
 
-        video_paths['HOME_DIR'] = os.path.expandvars("$HOME")
+        paths['HOME_DIR'] = os.path.expandvars("$HOME")
 
-        if os.path.isdir(video_paths['XDG_VIDEOS_DIR']):
-            self.video_dest = video_paths['XDG_VIDEOS_DIR']
-        elif os.path.isdir(prefs.video_paths['XDG_DOCUMENTS_DIR']):
-            self.video_dest = video_paths['XDG_DOCUMENTS_DIR']
-        elif os.path.isdir(prefs.video_paths['HOME_DIR']):
-            self.video_dest = video_paths['HOME_DIR']
+        if os.path.isdir(paths['XDG_VIDEOS_DIR']):
+            self.video_dest = paths['XDG_VIDEOS_DIR']
+        elif os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
+            self.video_dest = paths['XDG_DOCUMENTS_DIR']
+        elif os.path.isdir(paths['HOME_DIR']):
+            self.video_dest = paths['HOME_DIR']
+
+        if os.path.isdir(paths['XDG_PICTURES_DIR']):
+            self.picture_dest = paths['XDG_PICTURES_DIR']
+        elif os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
+            self.picture_dest = paths['XDG_DOCUMENTS_DIR']
+        elif os.path.isdir(paths['HOME_DIR']):
+            self.picture_dest = paths['HOME_DIR']
+
+
+    def get_sound_files(self):
+        self.sound_files = []
+        for root, dir, files in os.walk(os.path.join(self.datadir, "sounds")):
+            for file in files:
+                if file.endswith('.ogg'):
+                    self.sound_files.append(file)
+
 
 prefs = Prefs()
