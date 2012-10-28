@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#       window_region.py
+#       window_area.py
 #
 #       Copyright 2012 David Klasinc <bigwhale@lubica.net>
 #       Copyright 2010 Andrew <andrew@karmic-desktop>
@@ -22,7 +22,7 @@
 
 import cairo
 import logging
-logger = logging.getLogger("Window Region")
+logger = logging.getLogger("Window Area")
 
 from gettext import gettext as _
 
@@ -30,7 +30,7 @@ from gi.repository import Gtk, GObject, Gdk
 
 from kazam.backend.prefs import *
 
-class RegionWindow(GObject.GObject):
+class AreaWindow(GObject.GObject):
 
     __gsignals__ = {
         "area-selected" : (GObject.SIGNAL_RUN_LAST,
@@ -44,9 +44,10 @@ class RegionWindow(GObject.GObject):
     }
 
     def __init__(self):
-        super(RegionWindow, self).__init__()
-        logger.debug("Initializing region window.")
+        super(AreaWindow, self).__init__()
+        logger.debug("Initializing area window.")
         self.window = Gtk.Window()
+        self.window.set_title("Kazam Select")
         self.window.connect("configure-event", self.cb_configure_event)
         self.window.connect("delete-event", Gtk.main_quit)
         self.window.connect("draw", self.cb_draw)
@@ -85,7 +86,7 @@ class RegionWindow(GObject.GObject):
 
     def cb_show(self, widget):
         if prefs.area:
-            logger.debug("Old region defined at: X: {0}, Y: {1}, W: {2}, H: {3}".format(prefs.area[0],
+            logger.debug("Old area defined at: X: {0}, Y: {1}, W: {2}, H: {3}".format(prefs.area[0],
                                                                                         prefs.area[1],
                                                                                         prefs.area[2],
                                                                                         prefs.area[3]))
@@ -213,7 +214,7 @@ class RegionWindow(GObject.GObject):
         cr.rectangle(0, 0, w, h)
         cr.stroke()
         cr.set_operator(cairo.OPERATOR_OVER)
-        self._outline_text(cr, w, h, 30, _("Select region by resizing the rectangle"))
+        self._outline_text(cr, w, h, 30, _("Select area by resizing the rectangle"))
         self._outline_text(cr, w, h + 50, 26, _("Press ENTER to confirm or ESC to cancel"))
         self._outline_text(cr, w, h + 100, 20, "({0} x {1})".format(w, h))
 

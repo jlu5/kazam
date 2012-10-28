@@ -57,12 +57,15 @@ class Screencast(GObject.GObject):
         self.tempfile = tempfile.mktemp(prefix="kazam_", suffix=".movie")
         self.muxer_tempfile = "{0}.mux".format(self.tempfile)
         self.pipeline = Gst.Pipeline()
+        self.area = None
+        self.xid = None
 
     def setup_sources(self,
                       video_source,
                       audio_source,
                       audio2_source,
-                      region):
+                      area,
+                      xid):
 
 
         # Get the number of cores available then use all except one for encoding
@@ -74,13 +77,14 @@ class Screencast(GObject.GObject):
         self.audio_source = audio_source
         self.audio2_source = audio2_source
         self.video_source = video_source
-        self.region = region
+        self.area = area
+        self.xid = xid
 
         logger.debug("Capture Cursor: {0}".format(prefs.capture_cursor))
         logger.debug("Framerate : {0}".format(prefs.framerate))
         logger.debug("Codec: {0}".format(CODEC_LIST[prefs.codec][1]))
 
-        if self.video_source or self.region:
+        if self.video_source or self.area:
             self.setup_video_source()
 
         if self.audio_source:
@@ -105,11 +109,12 @@ class Screencast(GObject.GObject):
         else:
             self.videosrc = Gst.ElementFactory.make("ximagesrc", "video_src")
 
-        if self.region:
-            startx = self.region[0] if self.region[0] > 0 else 0
-            starty = self.region[1] if self.region[1] > 0 else 0
-            endx = self.region[2]
-            endy = self.region[3]
+        if self.area:
+            logger.debug("Capturing area.")
+            startx = self.area[0] if self.area[0] > 0 else 0
+            starty = self.area[1] if self.area[1] > 0 else 0
+            endx = self.area[2]
+            endy = self.area[3]
         else:
             startx = self.video_source['x']
             starty = self.video_source['y']
@@ -139,10 +144,16 @@ class Screencast(GObject.GObject):
             self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
             self.vid_caps_filter.set_property("caps", self.vid_caps)
         else:
-            self.videosrc.set_property("startx", startx)
-            self.videosrc.set_property("starty", starty)
-            self.videosrc.set_property("endx", endx)
-            self.videosrc.set_property("endy", endy)
+
+            if self.xid:
+                logger.debug("Capturing Window: {0}".format(self.xid))
+                self.videosrc.set_property("xid", self.xid)
+            else:
+                self.videosrc.set_property("startx", startx)
+                self.videosrc.set_property("starty", starty)
+                self.videosrc.set_property("endx", endx)
+                self.videosrc.set_property("endy", endy)
+
             self.videosrc.set_property("use-damage", False)
             self.videosrc.set_property("show-pointer", prefs.capture_cursor)
 

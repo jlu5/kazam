@@ -26,6 +26,7 @@ import locale
 import shutil
 import gettext
 import logging
+import time
 
 from subprocess import Popen
 from gi.repository import Gtk, Gdk, GObject
@@ -37,11 +38,12 @@ from kazam.backend.constants import *
 from kazam.backend.grabber import Grabber
 from kazam.backend.config import KazamConfig
 from kazam.frontend.main_menu import MainMenu
+from kazam.frontend.window_area import AreaWindow
 from kazam.backend.gstreamer_gi import Screencast
 from kazam.frontend.preferences import Preferences
 from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
-from kazam.frontend.window_region import RegionWindow
+from kazam.frontend.window_select import SelectWindow
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.window_countdown import CountdownWindow
 
@@ -205,25 +207,33 @@ class KazamApp(GObject.GObject):
         self.btn_allscreens.set_name("MODE_ALL")
         self.btn_allscreens.connect("toggled", self.cb_record_mode_toggled)
 
+        self.btn_window = Gtk.RadioToolButton(group=self.btn_full)
+        self.btn_window.set_label(_("Window"))
+        self.btn_window.set_tooltip_text(_("Capture contents of a single window."))
+        img5 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "window.png"))
+        self.btn_window.set_icon_widget(img5)
+        self.btn_window.set_name("MODE_WIN")
+        self.btn_window.connect("toggled", self.cb_record_mode_toggled)
+        self.btn_window.connect("clicked", self.cb_record_window_clicked)
+
         self.btn_area = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_area.set_label(_("Area"))
         self.btn_area.set_tooltip_text(_("Capture a pre-selected area of your screen."))
-        img5 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "area.png"))
-        self.btn_area.set_icon_widget(img5)
+        img6 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "area.png"))
+        self.btn_area.set_icon_widget(img6)
         self.btn_area.set_name("MODE_AREA")
         self.btn_area.connect("toggled", self.cb_record_mode_toggled)
         self.btn_area.connect("clicked", self.cb_record_area_clicked)
 
-
-
         self.sep_2 = Gtk.SeparatorToolItem()
         self.sep_2.set_draw(False)
         self.sep_2.set_expand(True)
-        self.toolbar_aux.insert(self.sep_2, -1)
+        #self.toolbar_aux.insert(self.sep_2, -1)
         self.toolbar_aux.insert(self.btn_full, -1)
         self.toolbar_aux.insert(self.btn_allscreens, -1)
+        self.toolbar_aux.insert(self.btn_window, -1)
         self.toolbar_aux.insert(self.btn_area, -1)
-        self.toolbar_aux.insert(self.sep_2, -1)
+        #self.toolbar_aux.insert(self.sep_2, -1)
 
         self.ntb_main.set_current_page(0)
 
@@ -251,7 +261,6 @@ class KazamApp(GObject.GObject):
             self.volumebutton_audio.set_sensitive(False)
             self.volumebutton_audio2.set_sensitive(False)
 
-
         HW.get_current_screen(self.window)
         self.startup = False
 
@@ -269,11 +278,16 @@ class KazamApp(GObject.GObject):
             logger.debug("Main toggled: {0}".format(name))
             self.main_mode = MODE_SCREENCAST
             self.ntb_main.set_current_page(0)
+            self.btn_window.set_sensitive(True)
 
         elif name == "MAIN_SCREENSHOT" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
             self.main_mode = MODE_SCREENSHOT
             self.ntb_main.set_current_page(1)
+            if self.record_mode == MODE_WIN:
+                self.last_mode.set_active(True)
+            self.btn_window.set_sensitive(False)
+
 
     #
     # Record mode toggles
@@ -285,14 +299,14 @@ class KazamApp(GObject.GObject):
             self.last_mode = widget
 
         if widget.get_name() == "MODE_AREA" and widget.get_active():
-            logger.debug("Region ON.")
-            self.area_window = RegionWindow()
+            logger.debug("Area ON.")
+            self.area_window = AreaWindow()
             self.tmp_sig1 = self.area_window.connect("area-selected", self.cb_area_selected)
             self.tmp_sig2 = self.area_window.connect("area-canceled", self.cb_area_canceled)
             self.record_mode = MODE_AREA
 
         if widget.get_name() == "MODE_AREA" and not widget.get_active():
-            logger.debug("Region OFF.")
+            logger.debug("Area OFF.")
             if self.area_window:
                 self.area_window.disconnect(self.tmp_sig1)
                 self.area_window.disconnect(self.tmp_sig2)
@@ -307,14 +321,35 @@ class KazamApp(GObject.GObject):
             logger.debug("Capture all screens.")
             self.record_mode = MODE_ALL
 
+        if widget.get_name() == "MODE_WIN" and widget.get_active():
+            logger.debug("Window capture ON.")
+            self.select_window = SelectWindow()
+            self.tmp_sig3 = self.select_window.connect("window-selected", self.cb_window_selected)
+            self.tmp_sig4 = self.select_window.connect("window-canceled", self.cb_window_canceled)
+            self.record_mode = MODE_WIN
+
+        if widget.get_name() == "MODE_WIN" and not widget.get_active():
+            logger.debug("Window capture OFF.")
+            if self.select_window:
+                self.select_window.disconnect(self.tmp_sig3)
+                self.select_window.disconnect(self.tmp_sig4)
+                self.select_window.window.destroy()
+                self.select_window = None
+
     def cb_record_area_clicked(self, widget):
         if self.area_window:
             logger.debug("Area mode clicked.")
             self.area_window.window.show_all()
             self.window.set_sensitive(False)
 
+    def cb_record_window_clicked(self, widget):
+        if self.select_window:
+            logger.debug("Window mode clicked.")
+            self.select_window.window.show_all()
+            self.window.set_sensitive(False)
+
     def cb_area_selected(self, widget):
-        logger.debug("Region selected: SX: {0}, SY: {1}, EX: {2}, EY: {3}".format(
+        logger.debug("Area selected: SX: {0}, SY: {1}, EX: {2}, EY: {3}".format(
             self.area_window.startx,
             self.area_window.starty,
             self.area_window.endx,
@@ -328,7 +363,17 @@ class KazamApp(GObject.GObject):
                      self.area_window.height)
 
     def cb_area_canceled(self, widget):
-        logger.debug("Region selection canceled.")
+        logger.debug("Area selection canceled.")
+        self.window.set_sensitive(True)
+        self.last_mode.set_active(True)
+
+    def cb_window_selected(self, widget):
+        prefs.xid = self.select_window.xid
+        logger.debug("Window selected: {0}".format(prefs.xid))
+        self.window.set_sensitive(True)
+
+    def cb_window_canceled(self, widget):
+        logger.debug("Window selection canceled.")
         self.window.set_sensitive(True)
         self.last_mode.set_active(True)
 
@@ -560,12 +605,12 @@ class KazamApp(GObject.GObject):
         # Get appropriate coordinates for recording
         #
 
+        video_source = None
+
         if self.record_mode == MODE_FULL:
             screen = HW.get_current_screen(self.window)
             video_source = HW.screens[screen]
-        elif self.record_mode == MODE_ALL:
-            video_source = HW.combined_screen
-        elif self.record_mode == MODE_AREA:
+        else:
             video_source = HW.combined_screen
 
         if self.main_mode == MODE_SCREENCAST:
@@ -573,7 +618,9 @@ class KazamApp(GObject.GObject):
             self.recorder.setup_sources(video_source,
                                         audio_source,
                                         audio2_source,
-                                        prefs.area if self.record_mode == MODE_AREA else None)
+                                        prefs.area if self.record_mode == MODE_AREA else None,
+                                        prefs.xid if self.record_mode == MODE_WIN else None)
+
             self.recorder.connect("flush-done", self.cb_flush_done)
 
         elif self.main_mode == MODE_SCREENSHOT:

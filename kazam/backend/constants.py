@@ -97,8 +97,8 @@ class hw:
     def __init__(self):
         self.logger = logging.getLogger("Constants")
         self.logger.debug("Getting hardware specs")
-        self.screens = []
-        self.combined_screen = {}
+        self.screens = None
+        self.combined_screen = None
 
         self.get_screens()
 

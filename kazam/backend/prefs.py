@@ -81,6 +81,7 @@ class Prefs():
         self.shutter_sound_file = ""
 
         self.area = None
+        self.xid = None
 
         #
         # Audio sources
