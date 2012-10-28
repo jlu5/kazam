@@ -105,7 +105,6 @@ class KazamApp(GObject.GObject):
         self.tempfile = ""
         self.recorder = None
         self.area_window = None
-        self.area = None
         self.old_path = None
         self.in_countdown = False
         self.recording_paused = False
@@ -315,7 +314,7 @@ class KazamApp(GObject.GObject):
             self.window.set_sensitive(False)
 
     def cb_area_selected(self, widget):
-        logger.debug("Region selected: {0}, {1}, {2}, {3}".format(
+        logger.debug("Region selected: SX: {0}, SY: {1}, EX: {2}, EY: {3}".format(
             self.area_window.startx,
             self.area_window.starty,
             self.area_window.endx,
@@ -574,14 +573,13 @@ class KazamApp(GObject.GObject):
             self.recorder.setup_sources(video_source,
                                         audio_source,
                                         audio2_source,
-                                        self.area if self.record_mode == MODE_AREA else None)
+                                        prefs.area if self.record_mode == MODE_AREA else None)
             self.recorder.connect("flush-done", self.cb_flush_done)
 
         elif self.main_mode == MODE_SCREENSHOT:
-            print self.area
             self.grabber = Grabber()
             self.grabber.setup_sources(video_source,
-                                       self.area if self.record_mode == MODE_AREA else None)
+                                       prefs.area if self.record_mode == MODE_AREA else None)
             self.grabber.connect("flush-done", self.cb_flush_done)
 
 

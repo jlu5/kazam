@@ -128,7 +128,7 @@ class Screencast(GObject.GObject):
         if not abs(starty - endy) % 2 and prefs.codec == CODEC_H264:
             endy -= 1
 
-        logger.debug("Coordinates: {0} {1} {2} {3}".format(startx, starty, endx, endy))
+        logger.debug("Coordinates SX: {0} SY: {1} EX: {2} EY: {3}".format(startx, starty, endx, endy))
 
         if prefs.test:
             logger.info("Using test signal instead of screen capture.")
@@ -161,12 +161,12 @@ class Screencast(GObject.GObject):
         if prefs.codec == CODEC_RAW:
             self.mux = Gst.ElementFactory.make("avimux", "muxer")
         elif prefs.codec == CODEC_VP8:
-            #if prefs.dist[0] == 'Ubuntu':
-            #    self.videnc.set_property("speed", 6)
-            #elif prefs.dist[0] == 'LinuxMint':
-            #    self.videnc.set_property("speed", 2)
-            #self.videnc.set_property("max-latency", 1)
-            #self.videnc.set_property("quality", 8)
+            self.videnc.set_property("cpu-used", 2)
+            self.videnc.set_property("end-usage", "vbr")
+            self.videnc.set_property("target-bitrate", 800000000)
+            self.videnc.set_property("static-threshold", 1000)
+            self.videnc.set_property("token-partitions", 2)
+            self.videnc.set_property("max-quantizer", 30)
             self.videnc.set_property("threads", self.cores)
             self.mux = Gst.ElementFactory.make("webmmux", "muxer")
         elif prefs.codec == CODEC_H264:

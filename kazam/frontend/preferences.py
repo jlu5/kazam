@@ -146,8 +146,12 @@ class Preferences(GObject.GObject):
 
         if prefs.autosave_video:
             self.switch_autosave_video.set_active(True)
+            self.filechooser_video.set_sensitive(True)
+            self.entry_autosave_video.set_sensitive(True)
         else:
             self.switch_autosave_video.set_active(False)
+            self.filechooser_video.set_sensitive(False)
+            self.entry_autosave_video.set_sensitive(False)
 
         self.entry_autosave_video.set_text(prefs.autosave_video_file)
 
@@ -156,15 +160,22 @@ class Preferences(GObject.GObject):
 
         if prefs.shutter_sound:
             self.switch_shutter_sound.set_active(True)
+            self.combobox_shutter_type.set_sensitive(True)
         else:
             self.switch_shutter_sound.set_active(False)
+            self.combobox_shutter_type.set_sensitive(False)
 
         self.combobox_shutter_type.set_active(prefs.shutter_type)
 
         if prefs.autosave_picture:
             self.switch_autosave_picture.set_active(True)
+            self.filechooser_picture.set_sensitive(True)
+            self.entry_autosave_picture.set_sensitive(True)
+
         else:
             self.switch_autosave_picture.set_active(False)
+            self.filechooser_picture.set_sensitive(False)
+            self.entry_autosave_picture.set_sensitive(False)
 
         self.entry_autosave_picture.set_text(prefs.autosave_picture_file)
 
@@ -303,6 +314,13 @@ class Preferences(GObject.GObject):
         prefs.autosave_video = widget.get_active()
         logger.debug("Autosave for Video: {0}.".format(prefs.autosave_video))
 
+        if prefs.autosave_video:
+            self.filechooser_video.set_sensitive(True)
+            self.entry_autosave_video.set_sensitive(True)
+        else:
+            self.filechooser_video.set_sensitive(False)
+            self.entry_autosave_video.set_sensitive(False)
+
     def cb_filechooser_video(self, widget):
         prefs.video_dest = self.filechooser_video.get_current_folder()
         logger.debug("Video folder set to: {0}".format(prefs.video_dest))
@@ -319,9 +337,25 @@ class Preferences(GObject.GObject):
         prefs.shutter_sound = widget.get_active()
         logger.debug("Shutter sound: {0}.".format(prefs.shutter_sound))
 
+        if prefs.shutter_sound:
+            self.combobox_shutter_type.set_sensitive(True)
+        else:
+            self.combobox_shutter_type.set_sensitive(False)
+
+    def cb_shutter_type(self, widget):
+        prefs.shutter_type = self.combobox_shutter_type.get_active()
+        logger.debug("Shutter type set to: {0} - {1}".format(prefs.shutter_type, prefs.shutter_sound_file))
+
     def cb_switch_autosave_picture(self, widget, user_data):
         prefs.autosave_picture = widget.get_active()
         logger.debug("Autosave for Picture: {0}.".format(prefs.autosave_picture))
+
+        if prefs.autosave_picture:
+            self.filechooser_picture.set_sensitive(True)
+            self.entry_autosave_picture.set_sensitive(True)
+        else:
+            self.filechooser_picture.set_sensitive(False)
+            self.entry_autosave_picture.set_sensitive(False)
 
     def cb_filechooser_picture(self, widget):
         prefs.picture_dest = self.filechooser_picture.get_current_folder()
@@ -331,6 +365,3 @@ class Preferences(GObject.GObject):
         prefs.autosave_picture_file = widget.get_text()
         logger.debug("Picture autosave file set to: {0}".format(prefs.autosave_picture_file))
 
-    def cb_shutter_type(self, widget):
-        prefs.shutter_type = self.combobox_shutter_type.get_active()
-        logger.debug("Shutter type set to: {0} - {1}".format(prefs.shutter_type, prefs.shutter_sound_file))
