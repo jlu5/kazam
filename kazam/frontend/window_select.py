@@ -86,6 +86,7 @@ class SelectWindow(GObject.GObject):
             self.compositing = False
 
     def cb_button_press_event(self, widget, event):
+        # TODO: Error handling
         (op, button) = event.get_button()
         if button == 1:
             screen = Wnck.Screen.get_default()
