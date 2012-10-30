@@ -279,6 +279,7 @@ class KazamApp(GObject.GObject):
             self.main_mode = MODE_SCREENCAST
             self.ntb_main.set_current_page(0)
             self.btn_window.set_sensitive(True)
+            self.indicator.menuitem_start.set_label(_("Start recording"))
 
         elif name == "MAIN_SCREENSHOT" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
@@ -287,6 +288,7 @@ class KazamApp(GObject.GObject):
             if self.record_mode == MODE_WIN:
                 self.last_mode.set_active(True)
             self.btn_window.set_sensitive(False)
+            self.indicator.menuitem_start.set_label(_("Take screenshot"))
 
 
     #
@@ -440,10 +442,10 @@ class KazamApp(GObject.GObject):
         logger.debug("Counter finished.")
         self.in_countdown = False
         self.countdown = None
-        self.indicator.menuitem_finish.set_label(_("Finish recording"))
-        self.indicator.menuitem_pause.set_sensitive(True)
         self.indicator.blink_set_state(BLINK_STOP)
         if self.main_mode == MODE_SCREENCAST:
+            self.indicator.menuitem_finish.set_label(_("Finish recording"))
+            self.indicator.menuitem_pause.set_sensitive(True)
             self.indicator.start_recording()
             self.recorder.start_recording()
         elif self.main_mode == MODE_SCREENSHOT:
@@ -494,12 +496,19 @@ class KazamApp(GObject.GObject):
             self.window.set_sensitive(False)
 
         elif self.main_mode == MODE_SCREENSHOT:
+            self.grabber.connect("save-done", self.cb_save_done)
+            self.indicator.recording = False
+            self.indicator.menuitem_start.set_sensitive(True)
+            self.indicator.menuitem_pause.set_sensitive(False)
+            self.indicator.menuitem_pause.set_active(False)
+            self.indicator.menuitem_finish.set_sensitive(False)
+            self.indicator.menuitem_show.set_sensitive(True)
+            self.indicator.menuitem_quit.set_sensitive(True)
+
             if prefs.autosave_picture:
                 fname = get_next_filename(prefs.picture_dest, prefs.autosave_picture_file, ".png")
                 self.grabber.autosave(fname)
-                self.cb_save_done(None, fname)
             else:
-                self.grabber.connect("save-done", self.cb_save_done)
                 self.grabber.save_capture(self.old_path)
 
 

@@ -110,3 +110,4 @@ class Grabber(GObject.GObject):
     def autosave(self, filename):
         logger.debug("Autosaving to: {0}".format(filename))
         self.save(filename)
+        self.emit("save-done", filename)
