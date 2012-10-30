@@ -32,7 +32,7 @@ def get_next_filename(dir, prefix, ext):
         else:
             return fname
 
-    return "Kazam_recording.{0}".format(ext)
+    return "Kazam_recording{0}".format(ext)
 
 def remove_list_dups(seq, idfun = None):
     if idfun is None:

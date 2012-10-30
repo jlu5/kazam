@@ -106,3 +106,7 @@ class Grabber(GObject.GObject):
 
         dialog.destroy()
         self.emit("save-done", self.old_path)
+
+    def autosave(self, filename):
+        logger.debug("Autosaving to: {0}".format(filename))
+        self.save(filename)

@@ -494,8 +494,13 @@ class KazamApp(GObject.GObject):
             self.window.set_sensitive(False)
 
         elif self.main_mode == MODE_SCREENSHOT:
-            self.grabber.connect("save-done", self.cb_save_done)
-            self.grabber.save_capture(self.old_path)
+            if prefs.autosave_picture:
+                fname = get_next_filename(prefs.picture_dest, prefs.autosave_picture_file, ".png")
+                self.grabber.autosave(fname)
+                self.cb_save_done(None, fname)
+            else:
+                self.grabber.connect("save-done", self.cb_save_done)
+                self.grabber.save_capture(self.old_path)
 
 
     def cb_pause_request(self, widget):
