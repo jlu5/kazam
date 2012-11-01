@@ -40,7 +40,7 @@ def SaveDialog(title, old_path, codec, main_mode=MODE_SCREENCAST):
     if main_mode == MODE_SCREENCAST:
         dialog.set_current_name("{0}{1}".format(_("Untitled_Screencast"), CODEC_LIST[codec][3]))
     elif main_mode == MODE_SCREENSHOT:
-        dialog.set_current_name(_("Untitled_capture.png"))
+        dialog.set_current_name(_("Untitled_Capture.png"))
 
     dialog.set_do_overwrite_confirmation(True)
 
