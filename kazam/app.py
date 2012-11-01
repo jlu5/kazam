@@ -251,7 +251,13 @@ class KazamApp(GObject.GObject):
         if not prefs.silent:
             self.window.show_all()
         else:
-            logger.info("Starting in silent mode:\n  SUPER-CTRL-W to toggle main window.\n  SUPER-CTRL-Q to quit.")
+            logger.info("""Starting in silent mode:\n"""
+                        """  SUPER-CTRL-W to toggle main window.\n"""
+                        """  SUPER-CTRL-R to start recording.\n"""
+                        """  SUPER-CTRL-F to finish recording.\n"""
+                        """  SUPER-CTRL-P to pause/resume recording.\n"""
+                        """  SUPER-CTRL-Q to quit.\n"""
+                       )
 
         self.restore_UI()
 
