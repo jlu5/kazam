@@ -20,13 +20,14 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import time
 import cairo
 import logging
 logger = logging.getLogger("Window Select")
 
 from gettext import gettext as _
 
-from gi.repository import Gtk, GObject, Gdk, Wnck
+from gi.repository import Gtk, GObject, Gdk, Wnck, GdkX11
 
 from kazam.backend.constants import *
 
@@ -54,23 +55,16 @@ class SelectWindow(GObject.GObject):
         self.window.connect("draw", self.cb_draw)
         self.window.connect("key-press-event", self.cb_keypress_event)
         self.window.connect("button-press-event", self.cb_button_press_event)
+        self.window.connect("leave-notify-event", self.cb_motion_notify_event)
 
-
-        if HW.combined_screen:
-            self.width = HW.combined_screen['width']
-            self.height = HW.combined_screen['height']
-        else:
-            self.width = HW.screens[0]['width']
-            self.height = HW.screens[0]['height']
-
-        self.window.set_default_geometry(self.width, self.height)
-        self.window.move(0,0)
+        self.window.set_default_geometry(1, 1)
+        self.window.fullscreen()
 
         self.window.set_border_width(30)
         self.window.set_app_paintable(True)
         self.window.set_has_resize_grip(False)
         self.window.set_resizable(True)
-        self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+        self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK)
         self.window.set_decorated(False)
         self.window.set_property("skip-taskbar-hint", True)
         self.window.set_keep_above(True)
@@ -84,6 +78,16 @@ class SelectWindow(GObject.GObject):
             self.compositing = True
         else:
             self.compositing = False
+
+    def cb_motion_notify_event(self, widget, event):
+        time.sleep(0.01) # Facepalm
+        disp = GdkX11.X11Display.get_default()
+        dm = Gdk.Display.get_device_manager(disp)
+        pntr_device = dm.get_client_pointer()
+        (scr, x, y) = pntr_device.get_position()
+        self.window.unfullscreen()
+        self.window.move(x, y)
+        self.window.fullscreen()
 
     def cb_button_press_event(self, widget, event):
         # TODO: Error handling
@@ -101,8 +105,6 @@ class SelectWindow(GObject.GObject):
                         if geometry[0] <= event.x_root <= (geometry[0] + geometry[2]) and geometry[1] <= event.y_root <= (geometry[1] + geometry[3]):
                             self.xid = win.get_xid()
                             break
-
-
             self.window.hide()
             if self.xid:
                 self.emit("window-selected")
@@ -116,8 +118,8 @@ class SelectWindow(GObject.GObject):
             self.emit("window-canceled")
 
     def cb_draw(self, widget, cr):
-        w = self.width
-        h = self.height
+        (w, h) = self.window.get_size()
+
 
         if self.compositing:
             cr.set_source_rgba(0.0, 0.0, 0.0, 0.45)
@@ -134,7 +136,6 @@ class SelectWindow(GObject.GObject):
         cr.set_operator(cairo.OPERATOR_OVER)
         self._outline_text(cr, w, h, 30, _("Select a window by clicking on it."))
         self._outline_text(cr, w, h + 50, 26, _("Press ENTER or ESC to cancel"))
-        self._outline_text(cr, w, h + 100, 20, "({0} x {1})".format(w, h))
 
     def _outline_text(self, cr, w, h, size, text):
         cr.set_font_size(size)
@@ -144,7 +145,7 @@ class SelectWindow(GObject.GObject):
             pass
         te = cr.text_extents(text)
         cr.set_line_width(2.0)
-        cx = 200
+        cx = w/2 - te[2]/2
         cy = h/2 - te[3]/2
         if self.compositing:
             cr.set_source_rgba(0.4, 0.4, 0.4, 1.0)
