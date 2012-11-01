@@ -557,9 +557,21 @@ class KazamApp(GObject.GObject):
     def cb_edit_request(self, widget, data):
         (command, arg_list) = data
         arg_list.insert(0, command)
-        arg_list.append(self.tempfile)
+        #
+        # Even if we're not autosaving get the next autosave file and move currently recorded file there
+        # In case user might lost it.
+        #
+        fname = get_next_filename(prefs.video_dest,
+                                  prefs.autosave_video_file,
+                                  CODEC_LIST[prefs.codec][3])
+
+        shutil.move(self.tempfile, fname)
+        arg_list.append(fname)
         logger.debug("Edit request, cmd: {0}".format(arg_list))
-        Popen(arg_list)
+        try:
+            Popen(arg_list)
+        except:
+            logger.warning("Failed to open selected editor. Have no ")
         self.window.set_sensitive(True)
         self.window.show_all()
 
