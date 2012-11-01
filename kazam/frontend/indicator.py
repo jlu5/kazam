@@ -183,6 +183,12 @@ try:
             else:
                 self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
+        def hide_it(self):
+            self.indicator.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
+
+        def show_it(self):
+            self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
+
         def on_menuitem_pause_activate(self, menuitem):
             if menuitem.get_active():
                 self.indicator.set_attention_icon("kazam-paused")

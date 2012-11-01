@@ -25,7 +25,7 @@ import subprocess
 import logging
 logger = logging.getLogger("Grabber")
 
-from gi.repository import GObject, Gtk, Gdk, GdkPixbuf
+from gi.repository import GObject, Gtk, Gdk, GdkPixbuf, GdkX11
 
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
@@ -47,33 +47,45 @@ class Grabber(GObject.GObject):
         logger.debug("Starting Grabber.")
 
 
-    def setup_sources(self, video_source, area):
+    def setup_sources(self, video_source, area, xid):
         self.video_source = video_source
-        print "ARRR", video_source
         self.area = area
+        self.xid = xid
+
         logger.debug("Grabber source: {0}, {1}, {2}, {3}".format(self.video_source['x'],
                                                                  self.video_source['y'],
                                                                  self.video_source['width'],
                                                                  self.video_source['height']))
 
     def grab(self):
+        self.pixbuf = None
+        disp = GdkX11.X11Display.get_default()
+        dm = Gdk.Display.get_device_manager(disp)
+        pntr_device = dm.get_client_pointer()
+
+        #
+        # Rewrite this, because it sucks
+        #
         soundfile = os.path.join(prefs.datadir, 'sounds', prefs.sound_files[prefs.shutter_type])
         subprocess.call(['/usr/bin/canberra-gtk-play', '-f', soundfile])
-        root_w = Gdk.get_default_root_window()
-        self.pixbuf = None
-        self.pixbuf = Gdk.pixbuf_get_from_window(root_w, self.video_source['x'],
-                                                         self.video_source['y'],
-                                                         self.video_source['width'],
-                                                         self.video_source['height'])
+
+        if self.xid:
+            win = GdkX11.X11Window.foreign_new_for_display(disp, self.xid)
+            (x, y, w, h) = win.get_geometry()
+        else:
+            win = Gdk.get_default_root_window()
+            (x, y, w, h) = (self.video_source['x'],
+                            self.video_source['y'],
+                            self.video_source['width'],
+                            self.video_source['height'])
+
+        self.pixbuf = Gdk.pixbuf_get_from_window(win, x, y, w, h)
 
         if prefs.capture_cursor_pic:
             cursor = Gdk.Cursor.new_for_display(Gdk.Display.get_default(), Gdk.CursorType.LEFT_PTR)
             c_picbuf = Gdk.Cursor.get_image(cursor)
-            pointer = root_w.get_pointer()
-            c_picbuf.composite(self.pixbuf, self.video_source['x'],
-                                            self.video_source['y'],
-                                            self.video_source['width'],
-                                            self.video_source['height'],
+            pointer = win.get_device_position(pntr_device)
+            c_picbuf.composite(self.pixbuf, x, y, w, h,
                                             pointer[1],
                                             pointer[2],
                                             1.0,

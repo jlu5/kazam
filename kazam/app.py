@@ -278,7 +278,6 @@ class KazamApp(GObject.GObject):
             logger.debug("Main toggled: {0}".format(name))
             self.main_mode = MODE_SCREENCAST
             self.ntb_main.set_current_page(0)
-            self.btn_window.set_sensitive(True)
             self.indicator.menuitem_start.set_label(_("Start recording"))
 
         elif name == "MAIN_SCREENSHOT" and widget.get_active():
@@ -287,7 +286,6 @@ class KazamApp(GObject.GObject):
             self.ntb_main.set_current_page(1)
             if self.record_mode == MODE_WIN:
                 self.last_mode.set_active(True)
-            self.btn_window.set_sensitive(False)
             self.indicator.menuitem_start.set_label(_("Take screenshot"))
 
 
@@ -449,7 +447,9 @@ class KazamApp(GObject.GObject):
             self.indicator.start_recording()
             self.recorder.start_recording()
         elif self.main_mode == MODE_SCREENSHOT:
+            self.indicator.hide_it()
             self.grabber.grab()
+            self.indicator.show_it()
 
     def cb_stop_request(self, widget):
         self.recording = False
@@ -640,7 +640,8 @@ class KazamApp(GObject.GObject):
         elif self.main_mode == MODE_SCREENSHOT:
             self.grabber = Grabber()
             self.grabber.setup_sources(video_source,
-                                       prefs.area if self.record_mode == MODE_AREA else None)
+                                       prefs.area if self.record_mode == MODE_AREA else None,
+                                       prefs.xid if self.record_mode == MODE_WIN else None)
             self.grabber.connect("flush-done", self.cb_flush_done)
 
 
