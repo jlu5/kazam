@@ -284,10 +284,8 @@ class Screencast(GObject.GObject):
         # Connect everything together
         self.videosrc.link(self.vid_in_queue)
         if self.crop_vid:
-            ret = self.vid_in_queue.link(self.videocrop)
-            print "*** CROPPING 222", ret
-            ret = self.videocrop.link(self.videorate)
-            print "*** CROPPING 222", ret
+            self.vid_in_queue.link(self.videocrop)
+            self.videocrop.link(self.videorate)
         else:
             self.vid_in_queue.link(self.videorate)
         self.videorate.link(self.vid_caps_filter)
