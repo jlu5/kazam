@@ -375,7 +375,8 @@ class KazamApp(GObject.GObject):
 
     def cb_window_selected(self, widget):
         prefs.xid = self.select_window.xid
-        logger.debug("Window selected: {0}".format(prefs.xid))
+        prefs.xid_geometry = self.select_window.geometry
+        logger.debug("Window selected: {0} - {1}".format(self.select_window.win_name, prefs.xid))
         self.window.set_sensitive(True)
 
     def cb_window_canceled(self, widget):

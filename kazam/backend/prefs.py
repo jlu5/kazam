@@ -82,6 +82,7 @@ class Prefs():
 
         self.area = None
         self.xid = None
+        self.xid_geometry = None
 
         #
         # Audio sources

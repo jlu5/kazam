@@ -90,6 +90,9 @@ class SelectWindow(GObject.GObject):
         self.window.fullscreen()
 
     def cb_button_press_event(self, widget, event):
+        self.geometry = None
+        self.win_name = None
+        self.xid = None
         # TODO: Error handling
         (op, button) = event.get_button()
         if button == 1:
@@ -100,8 +103,10 @@ class SelectWindow(GObject.GObject):
 
             for win in reversed(wins):
                 if win.is_visible_on_workspace(workspace) and win.is_in_viewport(workspace):
-                    if not (win.get_name().lower().startswith("kazam") or win.get_name().lower().startswith("desktop")):
-                        geometry = win.get_geometry()
+                    self.win_name = win.get_name()
+                    if not (self.win_name.lower().startswith("kazam") or self.win_name.lower().startswith("desktop")):
+                        geometry = win.get_client_window_geometry()
+                        self.geometry = geometry
                         if geometry[0] <= event.x_root <= (geometry[0] + geometry[2]) and geometry[1] <= event.y_root <= (geometry[1] + geometry[3]):
                             self.xid = win.get_xid()
                             break
