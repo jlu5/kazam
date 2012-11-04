@@ -34,11 +34,8 @@ os.putenv("GST_DEBUG_DUMP_DOT_DIR", "/tmp")
 
 from gi.repository import GObject, Gst
 
-from subprocess import Popen
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
-from kazam.utils import *
-
 
 GObject.threads_init()
 Gst.init(None)
@@ -81,6 +78,11 @@ class Screencast(GObject.GObject):
         self.video_source = video_source
         self.area = area
         self.xid = xid
+
+        logger.debug("audio_source : {0}".format(audio_source))
+        logger.debug("video_source: {0}".format(video_source))
+        logger.debug("xid: {0}".format(xid))
+        logger.debug("area: {0}".format(area))
 
         logger.debug("Capture Cursor: {0}".format(prefs.capture_cursor))
         logger.debug("Framerate : {0}".format(prefs.framerate))
@@ -146,6 +148,7 @@ class Screencast(GObject.GObject):
             self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
             self.vid_caps_filter.set_property("caps", self.vid_caps)
         else:
+            logger.debug("testing for xid: {0}".format(self.xid))
             if self.xid:   # xid was passed, so we have to capture a single window.
                 logger.debug("Capturing Window: {0} {1}".format(self.xid, prefs.xid_geometry))
                 self.videosrc.set_property("xid", self.xid)
@@ -194,7 +197,10 @@ class Screencast(GObject.GObject):
             self.videnc.set_property("speed-preset", "ultrafast")
             self.videnc.set_property("pass", 4)
             self.videnc.set_property("quantizer", 15)
-            self.videnc.set_property("threads", self.cores)
+            #
+            # x264enc supports maximum of four cores
+            #
+            self.videnc.set_property("threads", self.cores if self.cores <= 4 else 4)
             self.mux = Gst.ElementFactory.make("mp4mux", "muxer")
             self.mux.set_property("faststart", 1)
             self.mux.set_property("faststart-file", self.muxer_tempfile)
@@ -279,6 +285,12 @@ class Screencast(GObject.GObject):
 
         self.pipeline.add(self.mux)
         self.pipeline.add(self.sink)
+
+    # gst-launch-1.0 -e ximagesrc endx=1919 endy=1079 use-damage=false show-pointer=true ! \
+    #   queue ! videorate ! video/x-raw,framerate=15/1 ! videoconvert ! \
+    #   vp8enc end-usage=vbr target-bitrate=800000000 threads=3 static-threshold=1000 \
+    #     token-partitions=2 max-quantizer=30 ! queue name=before_mux ! webmmux name=mux ! \
+    #   queue ! filesink location="test-videorate.webm"
 
     def setup_links(self):
         # Connect everything together

@@ -58,7 +58,7 @@ class Preferences(GObject.GObject):
 
         audio_renderer = Gtk.CellRendererText()
         audio_renderer.props.ellipsize = Pango.EllipsizeMode.END
-        audio_renderer.props.max_width_chars = 45
+        audio_renderer.props.max_width_chars = 40
 
         self.combobox_codec.pack_start(codec_renderer, True)
         self.combobox_codec.add_attribute(codec_renderer, "text", 1)
