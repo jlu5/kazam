@@ -26,7 +26,7 @@ logger = logging.getLogger("Save Dialog")
 
 from gi.repository import Gtk
 from gettext import gettext as _
-
+from datetime import datetime
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
 
@@ -37,10 +37,12 @@ def SaveDialog(title, old_path, codec, main_mode=MODE_SCREENCAST):
                                    (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                                    _("Save"), Gtk.ResponseType.OK))
 
+
+    dt = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
     if main_mode == MODE_SCREENCAST:
-        dialog.set_current_name("{0}{1}".format(_("Untitled_Screencast"), CODEC_LIST[codec][3]))
+        dialog.set_current_name("{0} {1}{2}".format(_("Screencast"), dt, CODEC_LIST[codec][3]))
     elif main_mode == MODE_SCREENSHOT:
-        dialog.set_current_name(_("Untitled_Capture.png"))
+        dialog.set_current_name("{0} {1}.png".format(_("Screenshot"), dt))
 
     dialog.set_do_overwrite_confirmation(True)
 

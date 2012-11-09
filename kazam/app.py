@@ -106,7 +106,8 @@ class KazamApp(GObject.GObject):
         self.tempfile = ""
         self.recorder = None
         self.area_window = None
-        self.old_path = None
+        self.old_vid_path = None
+        self.old_pic_path = None
         self.in_countdown = False
         self.recording_paused = False
         self.recording = False
@@ -494,7 +495,7 @@ class KazamApp(GObject.GObject):
             self.done_recording = DoneRecording(self.icons,
                                             self.tempfile,
                                             prefs.codec,
-                                            self.old_path)
+                                            self.old_vid_path)
             logger.debug("Done Recording initialized.")
             self.done_recording.connect("save-done", self.cb_save_done)
             self.done_recording.connect("save-cancel", self.cb_save_cancel)
@@ -517,7 +518,7 @@ class KazamApp(GObject.GObject):
                 fname = get_next_filename(prefs.picture_dest, prefs.autosave_picture_file, ".png")
                 self.grabber.autosave(fname)
             else:
-                self.grabber.save_capture(self.old_path)
+                self.grabber.save_capture(self.old_pic_path)
 
 
     def cb_pause_request(self, widget):
@@ -532,7 +533,11 @@ class KazamApp(GObject.GObject):
 
     def cb_save_done(self, widget, result):
         logger.debug("Save Done, result: {0}".format(result))
-        self.old_path = result
+        if self.main_mode == MODE_SCREENCAST:
+            self.old_vid_path = result
+        else:
+            self.old_pic_path = result
+
         self.window.set_sensitive(True)
         self.window.show_all()
         self.window.present()
