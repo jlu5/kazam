@@ -585,6 +585,10 @@ class KazamApp(GObject.GObject):
         prefs.capture_cursor_pic = widget.get_active()
         logger.debug("Capture cursor_pic: {0}.".format(prefs.capture_cursor_pic))
 
+    def cb_check_borders_pic(self, widget):
+        prefs.capture_borders_pic = widget.get_active()
+        logger.debug("Capture borders_pic: {0}.".format(prefs.capture_borders_pic))
+
     def cb_check_speakers(self, widget):
         prefs.capture_speakers = widget.get_active()
         logger.debug("Capture speakers: {0}.".format(prefs.capture_speakers))
@@ -687,6 +691,7 @@ class KazamApp(GObject.GObject):
         self.chk_speakers.set_active(prefs.capture_speakers)
         self.chk_microphone.set_active(prefs.capture_microphone)
         self.chk_cursor_pic.set_active(prefs.capture_cursor_pic)
+        self.chk_borders_pic.set_active(prefs.capture_borders_pic)
         self.spinbutton_delay.set_value(prefs.countdown_timer)
 
         #

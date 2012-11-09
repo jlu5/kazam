@@ -66,12 +66,19 @@ class Grabber(GObject.GObject):
         #
         # Rewrite this, because it sucks
         #
-        soundfile = os.path.join(prefs.datadir, 'sounds', prefs.sound_files[prefs.shutter_type])
-        subprocess.call(['/usr/bin/canberra-gtk-play', '-f', soundfile])
+        if prefs.shutter_sound:
+            soundfile = os.path.join(prefs.datadir, 'sounds', prefs.sound_files[prefs.shutter_type])
+            subprocess.call(['/usr/bin/canberra-gtk-play', '-f', soundfile])
 
         if self.xid:
-            win = GdkX11.X11Window.foreign_new_for_display(disp, self.xid)
-            (x, y, w, h) = win.get_geometry()
+            if prefs.capture_borders_pic:
+                app_win = GdkX11.X11Window.foreign_new_for_display(disp, self.xid)
+                area = app_win.get_frame_extents()
+                (x, y, w, h) = (area.x, area.y, area.width, area.height)
+                win = Gdk.get_default_root_window()
+            else:
+                win = GdkX11.X11Window.foreign_new_for_display(disp, self.xid)
+                (x, y, w, h) = win.get_geometry()
         else:
             win = Gdk.get_default_root_window()
             (x, y, w, h) = (self.video_source['x'],

@@ -51,6 +51,7 @@ class Prefs():
         self.capture_microphone = False
 
         self.capture_cursor_pic = False
+        self.capture_borders_pic = False
 
         self.countdown_timer = 5
 
@@ -186,6 +187,7 @@ class Prefs():
         self.capture_speakers = self.config.getboolean("main", "capture_speakers")
 
         self.capture_cursor_pic = self.config.getboolean("main", "capture_cursor_pic")
+        self.capture_borders_pic = self.config.getboolean("main", "capture_borders_pic")
 
         self.countdown_splash = self.config.getboolean("main", "countdown_splash")
 
@@ -205,6 +207,7 @@ class Prefs():
         self.config.set("main", "capture_microphone", self.capture_microphone)
 
         self.config.set("main", "capture_cursor_pic", self.capture_cursor_pic)
+        self.config.set("main", "capture_borders_pic", self.capture_borders_pic)
 
         self.config.set("main", "last_x", self.main_x)
         self.config.set("main", "last_y", self.main_y)
