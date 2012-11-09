@@ -103,6 +103,11 @@ if __name__ == "__main__":
                         help = "instant screenshot of active window",
                         default = False)
 
+    parser.add_argument("-p", "--preferences",
+                        action = "store_true",
+                        help = "show preferences window",
+                        default = False)
+
     args = parser.parse_args()
     if args.debug:
         logger.setLevel(logging.DEBUG)
@@ -120,6 +125,9 @@ if __name__ == "__main__":
     elif args.window:
         from kazam.instant import InstantApp
         app = InstantApp(datadir, dist, args.debug, 4) # MODE_ACTIVE
+    elif args.preferences:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 0, preferences=True)
     else:
         from kazam.app import KazamApp
         appWindow = KazamApp(datadir, dist, args.debug, args.test, args.nosound, args.silent)

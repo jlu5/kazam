@@ -33,6 +33,13 @@ from kazam.backend.constants import *
 from kazam.backend.gstreamer import detect_codecs, get_codec
 
 class Preferences(GObject.GObject):
+    __gsignals__ = {
+        "prefs-quit" : (GObject.SIGNAL_RUN_LAST,
+                        None,
+                        (),
+            ),
+        }
+
     def __init__(self):
         GObject.GObject.__init__(self)
         logger.debug("Preferences Init.")
@@ -209,6 +216,7 @@ class Preferences(GObject.GObject):
 
     def cb_delete_event(self, widget, user_data):
         logger.debug("Deleteting preferences window")
+        self.emit("prefs-quit")
 
     def cb_switch_countdown_splash(self, widget, user_data):
         prefs.countdown_splash = widget.get_active()

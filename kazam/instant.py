@@ -34,7 +34,7 @@ logger = logging.getLogger("Instant")
 
 class InstantApp(GObject.GObject):
 
-    def __init__(self, datadir, dist, debug, mode):
+    def __init__(self, datadir, dist, debug, mode, preferences=False):
         GObject.GObject.__init__(self)
         logger.debug("Setting variables.{0}".format(datadir))
 
@@ -43,35 +43,48 @@ class InstantApp(GObject.GObject):
         prefs.dist = dist
         prefs.get_sound_files()
 
-        self.old_path = None
+        if preferences:
+            logger.debug("Preferences requested.")
+            from kazam.frontend.preferences import Preferences
+            from kazam.pulseaudio.pulseaudio import pulseaudio_q
+            prefs.pa_q = pulseaudio_q()
+            prefs.pa_q.start()
+            prefs.get_audio_sources()
 
-        if HW.combined_screen:
-            self.video_source = HW.combined_screen
+            self.preferences_window = Preferences()
+            self.preferences_window.connect("prefs-quit", self.cb_prefs_quit)
+            self.preferences_window.open()
+
         else:
-            screen = HW.get_current_screen(self.window)
-            self.video_source = HW.screens[screen]
+            self.old_path = None
 
-        self.grabber = Grabber()
-        self.grabber.connect("flush-done", self.cb_flush_done)
-        self.grabber.connect("save-done", self.cb_save_done)
+            if HW.combined_screen:
+                self.video_source = HW.combined_screen
+            else:
+                screen = HW.get_current_screen(self.window)
+                self.video_source = HW.screens[screen]
 
-        if mode == MODE_AREA:
-            logger.debug("Area ON.")
-            from kazam.frontend.window_area import AreaWindow
-            self.area_window = AreaWindow()
-            self.area_window.connect("area-selected", self.cb_area_selected)
-            self.area_window.connect("area-canceled", self.cb_area_canceled)
-            self.area_window.window.show_all()
-        elif mode == MODE_ALL:
-            self.grabber.setup_sources(self.video_source, None, None)
-            logger.debug("Grabbing screen")
-            self.grabber.grab()
-        elif mode == MODE_ACTIVE:
-            self.grabber.setup_sources(self.video_source, None, None, active=True)
-            logger.debug("Grabbing screen")
-            self.grabber.grab()
-        else:
-            sys.exit(0)
+            self.grabber = Grabber()
+            self.grabber.connect("flush-done", self.cb_flush_done)
+            self.grabber.connect("save-done", self.cb_save_done)
+
+            if mode == MODE_AREA:
+                logger.debug("Area ON.")
+                from kazam.frontend.window_area import AreaWindow
+                self.area_window = AreaWindow()
+                self.area_window.connect("area-selected", self.cb_area_selected)
+                self.area_window.connect("area-canceled", self.cb_area_canceled)
+                self.area_window.window.show_all()
+            elif mode == MODE_ALL:
+                self.grabber.setup_sources(self.video_source, None, None)
+                logger.debug("Grabbing screen")
+                self.grabber.grab()
+            elif mode == MODE_ACTIVE:
+                self.grabber.setup_sources(self.video_source, None, None, active=True)
+                logger.debug("Grabbing screen")
+                self.grabber.grab()
+            else:
+                sys.exit(0)
 
     def cb_area_selected(self, widget):
         logger.debug("Area selected: SX: {0}, SY: {1}, EX: {2}, EY: {3}".format(
@@ -106,3 +119,11 @@ class InstantApp(GObject.GObject):
 
         Gtk.main_quit()
         sys.exit(0)
+
+    def cb_prefs_quit(self, widget):
+        logger.debug("Saving settings.")
+        prefs.pa_q.end()
+        prefs.save_config()
+        Gtk.main_quit()
+        sys.exit(0)
+
