@@ -91,12 +91,14 @@ class Grabber(GObject.GObject):
                             self.video_source['width'],
                             self.video_source['height'])
 
+        logger.debug("Grab coords: {0} {1} {2} {3}".format(x, y, w, h))
         self.pixbuf = Gdk.pixbuf_get_from_window(win, x, y, w, h)
 
         if prefs.capture_cursor_pic:
             cursor = Gdk.Cursor.new_for_display(Gdk.Display.get_default(), Gdk.CursorType.LEFT_PTR)
             c_picbuf = Gdk.Cursor.get_image(cursor)
             pointer = win.get_device_position(pntr_device)
+            logger.debug("Cursor coords: {0} {1}".format(pointer[1], pointer[2]))
             c_picbuf.composite(self.pixbuf, x, y, w, h,
                                             pointer[1],
                                             pointer[2],

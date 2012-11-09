@@ -64,7 +64,7 @@ class InstantApp(GObject.GObject):
             if HW.combined_screen:
                 self.video_source = HW.combined_screen
             else:
-                screen = HW.get_current_screen(self.window)
+                screen = HW.get_current_screen()
                 self.video_source = HW.screens[screen]
 
             self.grabber = Grabber()
