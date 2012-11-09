@@ -38,6 +38,9 @@ class InstantApp(GObject.GObject):
         GObject.GObject.__init__(self)
         logger.debug("Setting variables.{0}".format(datadir))
 
+        self.mode = mode
+        self.take = 0
+
         prefs.datadir = datadir
         prefs.debug = debug
         prefs.dist = dist
@@ -68,20 +71,26 @@ class InstantApp(GObject.GObject):
             self.grabber.connect("flush-done", self.cb_flush_done)
             self.grabber.connect("save-done", self.cb_save_done)
 
-            if mode == MODE_AREA:
+            if self.mode == MODE_AREA:
                 logger.debug("Area ON.")
                 from kazam.frontend.window_area import AreaWindow
                 self.area_window = AreaWindow()
                 self.area_window.connect("area-selected", self.cb_area_selected)
                 self.area_window.connect("area-canceled", self.cb_area_canceled)
                 self.area_window.window.show_all()
-            elif mode == MODE_ALL:
+            elif self.mode == MODE_ALL:
                 self.grabber.setup_sources(self.video_source, None, None)
                 logger.debug("Grabbing screen")
                 self.grabber.grab()
-            elif mode == MODE_ACTIVE:
+            elif self.mode == MODE_ACTIVE:
                 self.grabber.setup_sources(self.video_source, None, None, active=True)
                 logger.debug("Grabbing screen")
+                self.grabber.grab()
+            elif self.mode == MODE_GOD:
+                logger.debug("Grabbing in god mode.")
+                self.grabber.setup_sources(self.video_source, None, None, god=True)
+                self.grabber.grab()
+                self.grabber.setup_sources(self.video_source, None, None, active=True, god=True)
                 self.grabber.grab()
             else:
                 sys.exit(0)
@@ -107,7 +116,7 @@ class InstantApp(GObject.GObject):
         sys.exit(0)
 
     def cb_flush_done(self, widget):
-        if prefs.autosave_picture:
+        if prefs.autosave_picture or self.mode == MODE_GOD:
             fname = get_next_filename(prefs.picture_dest, prefs.autosave_picture_file, ".png")
             self.grabber.autosave(fname)
         else:
@@ -117,8 +126,12 @@ class InstantApp(GObject.GObject):
         logger.debug("Save Done, result: {0}".format(result))
         self.old_path = result
 
-        Gtk.main_quit()
-        sys.exit(0)
+        if self.take == 1 or self.mode != MODE_GOD:
+            Gtk.main_quit()
+            sys.exit(0)
+
+        self.take =+ 1
+
 
     def cb_prefs_quit(self, widget):
         logger.debug("Saving settings.")

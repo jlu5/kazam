@@ -108,6 +108,11 @@ if __name__ == "__main__":
                         help = "show preferences window",
                         default = False)
 
+    parser.add_argument("-g", "--godmode",
+                        action = "store_true",
+                        help = "god mode of capture",
+                        default = False)
+
     args = parser.parse_args()
     if args.debug:
         logger.setLevel(logging.DEBUG)
@@ -125,6 +130,9 @@ if __name__ == "__main__":
     elif args.window:
         from kazam.instant import InstantApp
         app = InstantApp(datadir, dist, args.debug, 4) # MODE_ACTIVE
+    elif args.godmode:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 666) # MODE_ACTIVE
     elif args.preferences:
         from kazam.instant import InstantApp
         app = InstantApp(datadir, dist, args.debug, 0, preferences=True)

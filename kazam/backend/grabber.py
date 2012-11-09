@@ -47,11 +47,11 @@ class Grabber(GObject.GObject):
         logger.debug("Starting Grabber.")
 
 
-    def setup_sources(self, video_source, area, xid, active = False):
+    def setup_sources(self, video_source, area, xid, active = False, god = False):
         self.video_source = video_source
         self.area = area
         self.xid = xid
-
+        self.god = god
         if active:
             from gi.repository import GdkX11
             active_win = HW.default_screen.get_active_window()
@@ -71,7 +71,7 @@ class Grabber(GObject.GObject):
         #
         # Rewrite this, because it sucks
         #
-        if prefs.shutter_sound:
+        if prefs.shutter_sound and (not self.god):
             soundfile = os.path.join(prefs.datadir, 'sounds', prefs.sound_files[prefs.shutter_type])
             subprocess.call(['/usr/bin/canberra-gtk-play', '-f', soundfile])
 

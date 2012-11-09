@@ -89,6 +89,7 @@ MODE_ALL = 1
 MODE_AREA = 2
 MODE_WIN = 3
 MODE_ACTIVE = 4
+MODE_GOD = 666
 
 import logging
 
