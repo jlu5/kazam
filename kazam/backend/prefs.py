@@ -24,6 +24,9 @@ import logging
 from gettext import gettext as _
 from xdg.BaseDirectory import xdg_config_home
 
+from kazam.backend.config import KazamConfig
+
+
 class Prefs():
     def __init__(self):
         """Initialize prefs and set all the preference variables to their
@@ -103,6 +106,10 @@ class Prefs():
         self.silent = False
         self.sound = True
 
+        self.config = KazamConfig()
+
+        self.read_config()
+
         self.get_dirs()
 
     def get_audio_sources(self):
@@ -161,5 +168,62 @@ class Prefs():
                 if file.endswith('.ogg'):
                     self.sound_files.append(file)
 
+
+    def read_config (self):
+        self.audio_source = self.config.getint("main", "audio_source")
+        self.audio2_source = self.config.getint("main", "audio2_source")
+
+        self.main_x = self.config.getint("main", "last_x")
+        self.main_y = self.config.getint("main", "last_y")
+
+        self.codec = self.config.getint("main", "codec")
+
+        self.countdown_timer = self.config.getfloat("main", "counter")
+        self.framerate = self.config.getfloat("main", "framerate")
+
+        self.capture_cursor = self.config.getboolean("main", "capture_cursor")
+        self.capture_microphone = self.config.getboolean("main", "capture_microphone")
+        self.capture_speakers = self.config.getboolean("main", "capture_speakers")
+
+        self.capture_cursor_pic = self.config.getboolean("main", "capture_cursor_pic")
+
+        self.countdown_splash = self.config.getboolean("main", "countdown_splash")
+
+        self.autosave_video = self.config.getboolean("main", "autosave_video")
+        self.autosave_video_file = self.config.get("main", "autosave_video_file")
+
+        self.autosave_picture = self.config.getboolean("main", "autosave_picture")
+        self.autosave_picture_file = self.config.get("main", "autosave_picture_file")
+
+        self.shutter_sound = self.config.getboolean("main", "shutter_sound")
+        self.shutter_type = self.config.getint("main", "shutter_type")
+
+
+    def save_config(self):
+        self.config.set("main", "capture_cursor", self.capture_cursor)
+        self.config.set("main", "capture_speakers", self.capture_speakers)
+        self.config.set("main", "capture_microphone", self.capture_microphone)
+
+        self.config.set("main", "capture_cursor_pic", self.capture_cursor_pic)
+
+        self.config.set("main", "last_x", self.main_x)
+        self.config.set("main", "last_y", self.main_y)
+
+        if self.sound:
+            self.config.set("main", "audio_source", self.audio_source)
+            self.config.set("main", "audio2_source", self.audio2_source)
+
+        self.config.set("main", "countdown_splash", self.countdown_splash)
+        self.config.set("main", "counter", self.countdown_timer)
+        self.config.set("main", "codec", self.codec)
+        self.config.set("main", "framerate", self.framerate)
+        self.config.set("main", "autosave_video", self.autosave_video)
+        self.config.set("main", "autosave_video_file", self.autosave_video_file)
+        self.config.set("main", "autosave_picture", self.autosave_picture)
+        self.config.set("main", "autosave_picture_file", self.autosave_picture_file)
+        self.config.set("main", "shutter_sound", self.shutter_sound)
+        self.config.set("main", "shutter_type", self.shutter_type)
+
+        self.config.write()
 
 prefs = Prefs()

@@ -139,6 +139,8 @@ class hw:
                                        "height": self.default_screen.get_height()}
                 self.logger.debug("  Combined screen - X: 0, Y: 0, W: {0}, H: {1}".format(self.default_screen.get_width(),
                                                                                           self.default_screen.get_height()))
+            else:
+                self.combined_screen = None
 
         except:
             self.logger.warning("Unable to find any video sources.")

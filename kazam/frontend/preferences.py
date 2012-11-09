@@ -30,7 +30,7 @@ from gettext import gettext as _
 from kazam.utils import *
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
-from kazam.backend.gstreamer_gi import detect_codecs, get_codec
+from kazam.backend.gstreamer import detect_codecs, get_codec
 
 class Preferences(GObject.GObject):
     def __init__(self):

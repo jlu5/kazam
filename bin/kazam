@@ -88,15 +88,33 @@ if __name__ == "__main__":
                         help = "silent start",
                         default = False)
 
+    parser.add_argument("-f", "--fullscreen",
+                        action = "store_true",
+                        help = "instant screenshot of full screen",
+                        default = False)
+
+    parser.add_argument("-a", "--area",
+                        action = "store_true",
+                        help = "instant screenshot of preselected screen area",
+                        default = False)
+
     args = parser.parse_args()
     if args.debug:
         logger.setLevel(logging.DEBUG)
     else:
         logger.setLevel(logging.INFO)
 
-    from kazam.app import KazamApp
-
     logger.debug("Starting ...")
-    appWindow = KazamApp(datadir, dist, args.debug, args.test, args.nosound, args.silent)
+
+    if args.fullscreen:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 1) # MODE_ALL
+    elif args.area:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 2) # MODE_AREA
+    else:
+        from kazam.app import KazamApp
+        appWindow = KazamApp(datadir, dist, args.debug, args.test, args.nosound, args.silent)
+
     Gtk.main()
     logger.debug("Finishing ...")

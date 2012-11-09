@@ -46,15 +46,14 @@ def SaveDialog(title, old_path, codec, main_mode=MODE_SCREENCAST):
 
     if old_path and os.path.isdir(old_path):
             dialog.set_current_folder(old_path)
-    elif os.path.isdir(prefs.video_dest):
-        dialog.set_current_folder(prefs.video_dest)
+    else:
+        if main_mode == MODE_SCREENCAST:
+            dialog.set_current_folder(prefs.video_dest)
+        elif main_mode == MODE_SCREENSHOT:
+            dialog.set_current_folder(prefs.picture_dest)
+
 
     dialog.show_all()
-    #
-    # In Oneiric Ocelot FileChooser dialog.run() will always report:
-    # (kazam:4692): Gtk-WARNING **: Unable to retrieve the file info for...
-    # This appears to be a bug in Gtk3 and it is fixed in Precise Pangolin.
-    #
     result = dialog.run()
     old_path = dialog.get_current_folder()
     return dialog, result, old_path
