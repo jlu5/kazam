@@ -66,6 +66,10 @@ class InstantApp(GObject.GObject):
             self.grabber.setup_sources(self.video_source, None, None)
             logger.debug("Grabbing screen")
             self.grabber.grab()
+        elif mode == MODE_ACTIVE:
+            self.grabber.setup_sources(self.video_source, None, None, active=True)
+            logger.debug("Grabbing screen")
+            self.grabber.grab()
         else:
             sys.exit(0)
 

@@ -47,10 +47,15 @@ class Grabber(GObject.GObject):
         logger.debug("Starting Grabber.")
 
 
-    def setup_sources(self, video_source, area, xid):
+    def setup_sources(self, video_source, area, xid, active = False):
         self.video_source = video_source
         self.area = area
         self.xid = xid
+
+        if active:
+            from gi.repository import GdkX11
+            active_win = HW.default_screen.get_active_window()
+            self.xid = GdkX11.X11Window.get_xid(active_win)
 
         logger.debug("Grabber source: {0}, {1}, {2}, {3}".format(self.video_source['x'],
                                                                  self.video_source['y'],
