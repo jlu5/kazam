@@ -26,7 +26,6 @@ import locale
 import shutil
 import gettext
 import logging
-import time
 
 from subprocess import Popen
 from gi.repository import Gtk, Gdk, GObject
@@ -37,7 +36,7 @@ from kazam.backend.prefs import *
 from kazam.backend.constants import *
 from kazam.backend.grabber import Grabber
 from kazam.frontend.main_menu import MainMenu
-from kazam.frontend.window_area_ng import AreaWindow
+from kazam.frontend.window_area import AreaWindow
 from kazam.backend.gstreamer import Screencast
 from kazam.frontend.preferences import Preferences
 from kazam.frontend.about_dialog import AboutDialog

@@ -86,6 +86,10 @@ class SelectWindow(GObject.GObject):
         self.window.move(HW.screens[cur]['x'],
                          HW.screens[cur]['y'])
         self.window.fullscreen()
+        crosshair_cursor = Gdk.Cursor(Gdk.CursorType.CROSSHAIR)
+        self.last_cursor = Gdk.Cursor(Gdk.CursorType.LEFT_PTR)
+        self.gdk_win = self.window.get_root_window()
+        self.gdk_win.set_cursor(crosshair_cursor)
 
     def cb_leave_notify_event(self, widget, event):
         (scr, x, y) = self.pntr_device.get_position()
@@ -117,6 +121,7 @@ class SelectWindow(GObject.GObject):
                         if geometry[0] <= event.x_root <= (geometry[0] + geometry[2]) and geometry[1] <= event.y_root <= (geometry[1] + geometry[3]):
                             self.xid = win.get_xid()
                             break
+            self.gdk_win.set_cursor(self.last_cursor)
             self.window.hide()
             if self.xid:
                 self.emit("window-selected")
@@ -126,6 +131,7 @@ class SelectWindow(GObject.GObject):
     def cb_keypress_event(self, widget, event):
         (op, keycode) = event.get_keycode()
         if keycode == 36 or keycode == 104 or keycode == 9: # Enter or Escape
+            self.gdk_win.set_cursor(self.last_cursor)
             self.window.hide()
             self.emit("window-canceled")
 
