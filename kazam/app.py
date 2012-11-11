@@ -97,6 +97,29 @@ class KazamApp(GObject.GObject):
         self.icons.append_search_path(os.path.join(prefs.datadir,"icons", "48x48", "apps"))
         self.icons.append_search_path(os.path.join(prefs.datadir,"icons", "16x16", "apps"))
 
+        try:
+            from gi.repository import Unity, Dbusmenu
+            launcher = Unity.LauncherEntry.get_for_desktop_id("kazam.desktop")
+            ql = Dbusmenu.Menuitem.new()
+            ql_item1 = Dbusmenu.Menuitem.new()
+            ql_item1.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Record screencast"))
+            ql_item1.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, True)
+            ql_item1.connect("item-activated", self.cb_ql_screencast)
+            ql.child_append(ql_item1)
+            ql_item2 = Dbusmenu.Menuitem.new()
+            ql_item2.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Take screenshot"))
+            ql_item2.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, True)
+            ql_item2.connect("item-activated", self.cb_ql_screenshot)
+            ql.child_append(ql_item2)
+            ql_item3 = Dbusmenu.Menuitem.new()
+            ql_item3.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Preferences"))
+            ql_item3.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, True)
+            ql_item3.connect("item-activated", self.cb_ql_preferences)
+            ql.child_append(ql_item3)
+            launcher.set_property("quicklist", ql)
+        except ImportError:
+            logger.warning("Unity and Dbusmenu not found. Skipping launcher integration.")
+
         # Initialize all the variables
 
         self.main_x = 0
@@ -286,7 +309,6 @@ class KazamApp(GObject.GObject):
                 self.last_mode.set_active(True)
             self.indicator.menuitem_start.set_label(_("Take screenshot"))
 
-
     #
     # Record mode toggles
     #
@@ -333,6 +355,25 @@ class KazamApp(GObject.GObject):
                 self.select_window.disconnect(self.tmp_sig4)
                 self.select_window.window.destroy()
                 self.select_window = None
+
+
+    #
+    # Unity quick list callbacks
+    #
+
+    def cb_ql_screencast(self, menu, data):
+        logger.debug("Screencast quicklist activated.")
+        self.btn_cast.set_active(True)
+        self.run_counter()
+
+    def cb_ql_screenshot(self, menu, data):
+        logger.debug("Screenshot quicklist activated.")
+        self.btn_shot.set_active(True)
+        self.run_counter()
+
+    def cb_ql_preferences(self, menu, data):
+        logger.debug("Preferences quicklist activated.")
+        self.cb_preferences_request(None)
 
     def cb_record_area_clicked(self, widget):
         if self.area_window:
