@@ -139,29 +139,36 @@ class AreaWindow(GObject.GObject):
         (w, h) = self.window.get_size()
 
         if self.compositing:
-            cr.set_source_rgba(0.0, 0.0, 0.0, 0.25)
+            cr.set_source_rgba(0.0, 0.0, 0.0, 0.45)
         else:
             cr.set_source_rgb(0.5, 0.5, 0.5)
 
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
+
+        cr.set_operator(cairo.OPERATOR_SOURCE)
+
+        # Draw the selection area
+        cr.move_to(self.startx, self.starty)
+        cr.set_source_rgb(1.0, 0.0, 0.0)
+        cr.rectangle(self.startx, self.starty, self.width, self.height)
+        cr.stroke()
+
         if self.compositing:
-            cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
+            cr.set_source_rgba(0.0, 0.0, 0.0, 0.0)
         else:
-            cr.set_source_rgba(1.0, 1.0, 1.0)
+            cr.set_source_rgb(0.0, 0.0, 0.0)
+
+        cr.rectangle(self.startx, self.starty, self.width, self.height)
+        cr.fill()
 
         cr.set_operator(cairo.OPERATOR_OVER)
+
         self._outline_text(cr, w, h, 30, _("Select an area by clicking and dragging."))
         self._outline_text(cr, w, h + 50, 26, _("Press ENTER to confirm or ESC to cancel"))
 
         self._outline_text(cr, w, h + 100, 20, "({0} x {1})".format(abs(self.height), abs(self.height)))
         cr.set_operator(cairo.OPERATOR_SOURCE)
-
-        # Draw the selection area
-
-        cr.move_to(self.startx, self.starty)
-        cr.rectangle(self.startx, self.starty, self.width, self.height)
-        cr.stroke()
 
     def _outline_text(self, cr, w, h, size, text):
         cr.set_font_size(size)
