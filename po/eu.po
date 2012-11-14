@@ -1,16 +1,16 @@
-# Arabic translation for kazam
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Basque translation for kazam
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the kazam package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-04-19 01:33+0300\n"
-"PO-Revision-Date: 2012-09-05 00:13+0000\n"
-"Last-Translator: nofallyaqoo <Unknown>\n"
-"Language-Team: Arabic <ar@li.org>\n"
+"PO-Revision-Date: 2012-07-07 22:29+0000\n"
+"Last-Translator: Ibai Oihanguren <Unknown>\n"
+"Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,199 +20,199 @@ msgstr ""
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:53
 msgid "Kazam Screencaster"
-msgstr "مسجل الشاشة \"كازام\""
+msgstr "Kazam pantaila-grabatzailea"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Monitor:"
-msgstr "الشاشة:"
+msgstr "Monitorea:"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Select the video source"
-msgstr "اختر مصدر الفيديو"
+msgstr "Hautatu bideo-jatorria"
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Speakers:"
-msgstr "السماعات:"
+msgstr "Bozgorailuak:"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Select your audio ouput device (speakers of headphones)"
-msgstr "اختر جهاز إخراج الصوت (السماعات)"
+msgstr "Hautatu audioaren irteera-gailua (bozgorailuak edo aurikularrak)"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Set volume"
-msgstr "ضبط الصوت"
+msgstr "Ezarri bolumena"
 
 #: ../data/ui/kazam.ui.h:7
 msgid "Microphone:"
-msgstr "لاقط الصوت:"
+msgstr "Mikrofonoa:"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Select your audio input device (microphone)"
-msgstr "اختر جهاز إدخال الصوت (لاقط الصوت)"
+msgstr "Hautatu audioaren sarrera-gailua (mikrofonoa)"
 
 #: ../data/ui/kazam.ui.h:9
 msgid "Toggle recording from your microphone"
-msgstr "بدل التسجيل من لاقط الصوت"
+msgstr "Gaitu/ezgaitu mikrofonotik grabatzea"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "Record with:"
-msgstr "سجلّ مع:"
+msgstr "Grabatu honekin:"
 
 #: ../data/ui/kazam.ui.h:11
 msgid "Select what encoder you want to use"
-msgstr "اختر أي المرمّزات تود استخدامها"
+msgstr "Hautatu erabili nahi duzun kodetzailea"
 
 #: ../data/ui/kazam.ui.h:12
 msgid "Toggle recording from the video source"
-msgstr "بدل التسجيل من مصدر الفيديو"
+msgstr "Gaitu/ezgaitu bideo-jatorritik grabatzea"
 
 #: ../data/ui/kazam.ui.h:13
 msgid "Toggle recording from your speakers or headphones"
-msgstr "بدل التسجيل من سماعاتكَ أو سماعات الرأس"
+msgstr "Gaitu/ezgaitu bozgorailu edo aurikularretatik grabatzea"
 
 #: ../data/ui/kazam.ui.h:14
 msgid "Countdown timer:"
-msgstr "مؤقت العد التنازلي:"
+msgstr "Atzera-kontua"
 
 #: ../data/ui/kazam.ui.h:15
 msgid "Framerate:"
-msgstr "معدّل الإطارات:"
+msgstr "Fotograma-emaria:"
 
 #: ../data/ui/kazam.ui.h:16
 msgid "Set the coundown time (in seconds)"
-msgstr "اضبط فترة العد التنازلي (بالثوان)"
+msgstr "Zehaztu atzera-kontua (segundotan)"
 
 #: ../data/ui/kazam.ui.h:17
 msgid "Set the number of frames per second"
-msgstr "اضبط عدد الإطارات في الثانية"
+msgstr "Zehaztu segundoko fotograma kopurua"
 
 #: ../data/ui/kazam.ui.h:18
 msgid "Show countdown splash:"
-msgstr "عرض العد التنازلي على الشاشة:"
+msgstr "Erakutsi atzera-kontuaren leihoa:"
 
 #: ../data/ui/kazam.ui.h:19
 msgid "Capture mouse:"
-msgstr "التقاط مؤشر الفارة:"
+msgstr "Kapturatu sagua:"
 
 #: ../data/ui/kazam.ui.h:20
 msgid "Toggle display of countdown splash"
-msgstr "بدل شاشة العرض للعد التنازلي"
+msgstr "Gaitu/ezgaitu atzera-kontuaren leihoa"
 
 #: ../data/ui/kazam.ui.h:21
 msgid "Toggle capturing of mouse cursor"
-msgstr "بدل إلتقاط مؤشر الفأرة"
+msgstr "Gaitu/ezgaitu saguaren kurtsorea kapturatzea"
 
 #: ../data/ui/kazam.ui.h:22
 msgid "Record Region"
-msgstr "منطقة التسجيل"
+msgstr "Grabatu eremua"
 
 #: ../data/ui/kazam.ui.h:23
 msgid "Select a screen region to record"
-msgstr "حدّد منطقة على الشاشة لتسجيلها"
+msgstr "Hautatu grabatu beharreko pantailaren eremua"
 
 #: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
 msgid "Quit"
-msgstr "أنهِ"
+msgstr "Irten"
 
 #: ../data/ui/kazam.ui.h:25
 msgid "Quit Kazam"
-msgstr "أنهِ كازام"
+msgstr "Irten Kazametik"
 
 #: ../data/ui/kazam.ui.h:26
 msgid "Close"
-msgstr "أغلق"
+msgstr "Itxi"
 
 #: ../data/ui/kazam.ui.h:27
 msgid "Minimize the app to the appindicator"
-msgstr "صَغرّ البرنامج الى شريط المؤشرات"
+msgstr "Ikonotu aplikazioa adierazlera"
 
 #: ../data/ui/kazam.ui.h:28
 msgid "About"
-msgstr "عَنْ"
+msgstr "Honi buruz"
 
 #: ../data/ui/kazam.ui.h:29
 msgid "About Kazam"
-msgstr "عَنْ كازام"
+msgstr "Kazami buruz"
 
 #: ../data/ui/kazam.ui.h:30
 msgid "Record"
-msgstr "سجّل"
+msgstr "Grabatu"
 
 #: ../data/ui/kazam.ui.h:31 ../kazam/frontend/indicator.py:67
 msgid "Start recording"
-msgstr "بدء التصوير"
+msgstr "Hasi grabatzen"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencaster"
-msgstr "مسجل الشاشة"
+msgstr "Pantaila-grabatzailea"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video of activity on your screen"
-msgstr "سجل فيديو لنشاط على شاشتك"
+msgstr "Grabatu zure pantailako jardueraren bideoa"
 
 #: ../kazam/app.py:324 ../kazam/app.py:335 ../kazam/frontend/indicator.py:75
 msgid "Finish recording"
-msgstr "أنهِ التسجيل"
+msgstr "Amaitu grabaketa"
 
 #: ../kazam/app.py:467
 msgid "Cancel countdown"
-msgstr "ألغِ عد التنازلي"
+msgstr "Utzi atzera-kontua"
 
 #: ../kazam/app.py:667 ../kazam/app.py:695
 msgid "Unknown"
-msgstr "مجهول"
+msgstr "Ezezaguna"
 
 #: ../kazam/app.py:712
 msgid "Combined ({w}x{h})"
-msgstr "مُجَمَّع ({w}x{h})"
+msgstr "Konbinatua ({w}x{h})"
 
 #: ../kazam/app.py:714
 msgid "Display {n} ({w}x{h})"
-msgstr "شاشة عرض {n} ({w}x{h})"
+msgstr "{n}. pantaila ({w}x{h})"
 
 #: ../kazam/frontend/done_recording.py:50
 msgid "Kazam Screencaster - Recording finished"
-msgstr "مسجّل الشاشة كازام - انتهى التسجيل"
+msgstr "Kazam pantaila-grabatzailea - Grabaketa amaitu da"
 
 #: ../kazam/frontend/done_recording.py:62
 msgid ""
 "Kazam finished recording.\n"
 "What do you want to do now?"
 msgstr ""
-"انتهى كازام من التسجيل.\n"
-"ما الذي تريد فعله الآن؟"
+"Kazamek amaitu du grabaketa.\n"
+"Zer egin nahi duzu orain?"
 
 #: ../kazam/frontend/done_recording.py:65
 msgid "Edit with:"
-msgstr "حرّر باستخدام:"
+msgstr "Editatu honekin:"
 
 #: ../kazam/frontend/done_recording.py:73
 msgid "Save for later"
-msgstr "احفظ لوقت لاحق"
+msgstr "Gorde geroko"
 
 #: ../kazam/frontend/done_recording.py:83
 msgid "Cancel"
-msgstr "ألغِ"
+msgstr "Utzi"
 
 #: ../kazam/frontend/done_recording.py:85
 msgid "Continue"
-msgstr "تابع"
+msgstr "Jarraitu"
 
 #: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
-msgstr "حفظ التسجيل"
+msgstr "Gorde pantailaren grabaketa"
 
 #: ../kazam/frontend/indicator.py:71
 msgid "Pause recording"
-msgstr "ألبِث التسجيل"
+msgstr "Pausatu grabaketa"
 
 #: ../kazam/frontend/indicator.py:82
 msgid "Record setup"
-msgstr "إعداد التسجيل"
+msgstr "Konfiguratu grabaketa"
 
 #: ../kazam/frontend/window_countdown.py:110
 msgid "Recording will start in ..."
-msgstr "التسجيل سيبدأ خلال ..."
+msgstr "Grabaketa hastear da ..."
 
 #: ../kazam/frontend/window_countdown.py:111
 msgid "{0}"
@@ -220,98 +220,47 @@ msgstr "{0}"
 
 #: ../kazam/frontend/window_region.py:215
 msgid "Select region by resizing the window"
-msgstr "حدد منطقة عن طريق تحجيم هذه النافذة"
+msgstr "Hautatu eremua leihoaren tamaina aldatuz"
 
 #: ../kazam/frontend/window_region.py:216
 msgid "Press ENTER to confirm or ESC to cancel."
-msgstr "اضغط ENTER للتأكيد أو ESC للإلغاء."
+msgstr "Sakatu SARTU tekla baieztatzeko edo IHES tekla ezeztatzeko."
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
-msgstr "احفظ"
+msgstr "Gorde"
 
 #: ../kazam/frontend/save_dialog.py:41 ../kazam/frontend/save_dialog.py:43
 msgid "Untitled_Screencast"
-msgstr "ت_سجيل بلا عنوان"
+msgstr "Izenik gabeko grabaketa"
 
 #: ../kazam/frontend/about_dialog.py:54
 msgid "Record a video of activity on your screen."
-msgstr "لتسجيل فيديو لنشاط على شاشتك."
-
-#~ msgid "Description"
-#~ msgstr "الوصف"
-
-#~ msgid "Private"
-#~ msgstr "خاص"
-
-#~ msgid "Title"
-#~ msgstr "العنوان"
-
-#~ msgid "Category"
-#~ msgstr "القسم"
-
-#~ msgid "Keywords"
-#~ msgstr "كلمات مفتاحية"
-
-#~ msgid "Screencast converted."
-#~ msgstr "تم التحويل."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "رُفِع التسجيل."
-
-#~ msgid "Encoder type"
-#~ msgstr "نوع المرمّز"
+msgstr "Grabatu zure pantailako jardueraren bideoa."
 
 #~ msgid "Audio Source 2"
-#~ msgstr "مصدر الصوت 2"
+#~ msgstr "Audioaren jatorria 2"
 
 #~ msgid "Audio Source 1"
-#~ msgstr "مصدر الصوت 1"
+#~ msgstr "Audioaren jatorria 1"
 
 #~ msgid "Video Source"
-#~ msgstr "مصدر الفيديو"
+#~ msgstr "Bideoaren jatorria"
+
+#~ msgid "Encoder type"
+#~ msgstr "Kodetze-mota"
 
 #~ msgid "Countdown timer"
-#~ msgstr "مؤقت العد التنازلي"
-
-#~ msgid "Capture mouse"
-#~ msgstr "التقط الفأرة"
+#~ msgstr "Atzera kontua"
 
 #~ msgid "Framerate"
-#~ msgstr "معدّل الإطارات"
+#~ msgstr "Fotograma-emaria"
+
+#~ msgid "Capture mouse"
+#~ msgstr "Grabatu sagua"
 
 #~ msgid "File"
-#~ msgstr "ملف"
+#~ msgstr "Fitxategia"
 
 #~ msgid "Help"
-#~ msgstr "مساعدة"
-
-#~ msgid "Email"
-#~ msgstr "البريد الإلكتروني"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "تم رفع تسجيلك بنجاح."
-
-#~ msgid "There was an error converting."
-#~ msgstr "حدث خطأ أثناء التحويل."
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "يرفع التسجيل..."
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "متوفر في المكان التالي:"
-
-#~ msgid "There was an error logging in."
-#~ msgstr "حدث خطأ أثناء الولوج."
-
-#~ msgid "Converting screencast..."
-#~ msgstr "يحوّل التسجيل..."
-
-#~ msgid "Logging in..."
-#~ msgstr "يلج..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "اكتمل الولوج."
-
-#~ msgid "There was an error uploading."
-#~ msgstr "حدث خطأ أثناء الرفع."
+#~ msgstr "Laguntza"

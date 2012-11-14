@@ -1,4 +1,4 @@
-# Arabic translation for kazam
+# Danish translation for kazam
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the kazam package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-04-19 01:33+0300\n"
-"PO-Revision-Date: 2012-09-05 00:13+0000\n"
-"Last-Translator: nofallyaqoo <Unknown>\n"
-"Language-Team: Arabic <ar@li.org>\n"
+"PO-Revision-Date: 2012-06-20 14:10+0000\n"
+"Last-Translator: Jens Hyllegaard <jens@linushvj.dk>\n"
+"Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,199 +20,199 @@ msgstr ""
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:53
 msgid "Kazam Screencaster"
-msgstr "مسجل الشاشة \"كازام\""
+msgstr "Kazam skærmoptagelse"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Monitor:"
-msgstr "الشاشة:"
+msgstr "Skærm"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Select the video source"
-msgstr "اختر مصدر الفيديو"
+msgstr "Vælg videokilden"
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Speakers:"
-msgstr "السماعات:"
+msgstr "Højtalere"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Select your audio ouput device (speakers of headphones)"
-msgstr "اختر جهاز إخراج الصوت (السماعات)"
+msgstr "Vælg din lydudgangsenhed (højtalere eller høretelefoner)"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Set volume"
-msgstr "ضبط الصوت"
+msgstr "Indstil lydstyrke"
 
 #: ../data/ui/kazam.ui.h:7
 msgid "Microphone:"
-msgstr "لاقط الصوت:"
+msgstr "Mikrofon:"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Select your audio input device (microphone)"
-msgstr "اختر جهاز إدخال الصوت (لاقط الصوت)"
+msgstr "Vælg din lydindgangsenhed (mikrofon)"
 
 #: ../data/ui/kazam.ui.h:9
 msgid "Toggle recording from your microphone"
-msgstr "بدل التسجيل من لاقط الصوت"
+msgstr "Slå optagelse fra din mikrofon til/fra"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "Record with:"
-msgstr "سجلّ مع:"
+msgstr "Optag med:"
 
 #: ../data/ui/kazam.ui.h:11
 msgid "Select what encoder you want to use"
-msgstr "اختر أي المرمّزات تود استخدامها"
+msgstr "Vælg hvilken indkoder du ønsker at bruge"
 
 #: ../data/ui/kazam.ui.h:12
 msgid "Toggle recording from the video source"
-msgstr "بدل التسجيل من مصدر الفيديو"
+msgstr "Slå optagelse fra videokilden til/fra"
 
 #: ../data/ui/kazam.ui.h:13
 msgid "Toggle recording from your speakers or headphones"
-msgstr "بدل التسجيل من سماعاتكَ أو سماعات الرأس"
+msgstr "Slå optagelse fra dine højtalere eller høretelefoner til/fra"
 
 #: ../data/ui/kazam.ui.h:14
 msgid "Countdown timer:"
-msgstr "مؤقت العد التنازلي:"
+msgstr "Nedtælling:"
 
 #: ../data/ui/kazam.ui.h:15
 msgid "Framerate:"
-msgstr "معدّل الإطارات:"
+msgstr "Billedfrekvens:"
 
 #: ../data/ui/kazam.ui.h:16
 msgid "Set the coundown time (in seconds)"
-msgstr "اضبط فترة العد التنازلي (بالثوان)"
+msgstr "Indstil nedtællingstiden (i sekunder)"
 
 #: ../data/ui/kazam.ui.h:17
 msgid "Set the number of frames per second"
-msgstr "اضبط عدد الإطارات في الثانية"
+msgstr "Indstil antallet af billeder per sekund"
 
 #: ../data/ui/kazam.ui.h:18
 msgid "Show countdown splash:"
-msgstr "عرض العد التنازلي على الشاشة:"
+msgstr "Vis nedtællingsvindue:"
 
 #: ../data/ui/kazam.ui.h:19
 msgid "Capture mouse:"
-msgstr "التقاط مؤشر الفارة:"
+msgstr "Optag musen:"
 
 #: ../data/ui/kazam.ui.h:20
 msgid "Toggle display of countdown splash"
-msgstr "بدل شاشة العرض للعد التنازلي"
+msgstr "Slå visning af nedtællingsvindue til/fra"
 
 #: ../data/ui/kazam.ui.h:21
 msgid "Toggle capturing of mouse cursor"
-msgstr "بدل إلتقاط مؤشر الفأرة"
+msgstr "Slå optagelse af musemarkøren til/fra"
 
 #: ../data/ui/kazam.ui.h:22
 msgid "Record Region"
-msgstr "منطقة التسجيل"
+msgstr "Optag område"
 
 #: ../data/ui/kazam.ui.h:23
 msgid "Select a screen region to record"
-msgstr "حدّد منطقة على الشاشة لتسجيلها"
+msgstr "Vælg et område der skal optages"
 
 #: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
 msgid "Quit"
-msgstr "أنهِ"
+msgstr "Afslut"
 
 #: ../data/ui/kazam.ui.h:25
 msgid "Quit Kazam"
-msgstr "أنهِ كازام"
+msgstr "Afslut Kazam"
 
 #: ../data/ui/kazam.ui.h:26
 msgid "Close"
-msgstr "أغلق"
+msgstr "Luk"
 
 #: ../data/ui/kazam.ui.h:27
 msgid "Minimize the app to the appindicator"
-msgstr "صَغرّ البرنامج الى شريط المؤشرات"
+msgstr ""
 
 #: ../data/ui/kazam.ui.h:28
 msgid "About"
-msgstr "عَنْ"
+msgstr "Om"
 
 #: ../data/ui/kazam.ui.h:29
 msgid "About Kazam"
-msgstr "عَنْ كازام"
+msgstr "Om Kazam"
 
 #: ../data/ui/kazam.ui.h:30
 msgid "Record"
-msgstr "سجّل"
+msgstr "Optag"
 
 #: ../data/ui/kazam.ui.h:31 ../kazam/frontend/indicator.py:67
 msgid "Start recording"
-msgstr "بدء التصوير"
+msgstr "Start optagelse"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencaster"
-msgstr "مسجل الشاشة"
+msgstr "Skærmoptager"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video of activity on your screen"
-msgstr "سجل فيديو لنشاط على شاشتك"
+msgstr "Optag en video af aktivitet på din skærm"
 
 #: ../kazam/app.py:324 ../kazam/app.py:335 ../kazam/frontend/indicator.py:75
 msgid "Finish recording"
-msgstr "أنهِ التسجيل"
+msgstr "Afslut optagelse"
 
 #: ../kazam/app.py:467
 msgid "Cancel countdown"
-msgstr "ألغِ عد التنازلي"
+msgstr "Annuller nedtælling"
 
 #: ../kazam/app.py:667 ../kazam/app.py:695
 msgid "Unknown"
-msgstr "مجهول"
+msgstr "Ukendt"
 
 #: ../kazam/app.py:712
 msgid "Combined ({w}x{h})"
-msgstr "مُجَمَّع ({w}x{h})"
+msgstr "Kombineret ({w}x{h})"
 
 #: ../kazam/app.py:714
 msgid "Display {n} ({w}x{h})"
-msgstr "شاشة عرض {n} ({w}x{h})"
+msgstr "Visning {n} ({w}x{h})"
 
 #: ../kazam/frontend/done_recording.py:50
 msgid "Kazam Screencaster - Recording finished"
-msgstr "مسجّل الشاشة كازام - انتهى التسجيل"
+msgstr "Kazam skærmoptagelse - Optagelse færdig"
 
 #: ../kazam/frontend/done_recording.py:62
 msgid ""
 "Kazam finished recording.\n"
 "What do you want to do now?"
 msgstr ""
-"انتهى كازام من التسجيل.\n"
-"ما الذي تريد فعله الآن؟"
+"Kazam er færdig med at optage.\n"
+"Hvad vil du nu?"
 
 #: ../kazam/frontend/done_recording.py:65
 msgid "Edit with:"
-msgstr "حرّر باستخدام:"
+msgstr "Redigér med:"
 
 #: ../kazam/frontend/done_recording.py:73
 msgid "Save for later"
-msgstr "احفظ لوقت لاحق"
+msgstr "Gem til senere"
 
 #: ../kazam/frontend/done_recording.py:83
 msgid "Cancel"
-msgstr "ألغِ"
+msgstr "Annullér"
 
 #: ../kazam/frontend/done_recording.py:85
 msgid "Continue"
-msgstr "تابع"
+msgstr "Fortsæt"
 
 #: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
-msgstr "حفظ التسجيل"
+msgstr "Gem skærmoptagelse"
 
 #: ../kazam/frontend/indicator.py:71
 msgid "Pause recording"
-msgstr "ألبِث التسجيل"
+msgstr "Sæt optagelsen på pause"
 
 #: ../kazam/frontend/indicator.py:82
 msgid "Record setup"
-msgstr "إعداد التسجيل"
+msgstr "Gem opsætning"
 
 #: ../kazam/frontend/window_countdown.py:110
 msgid "Recording will start in ..."
-msgstr "التسجيل سيبدأ خلال ..."
+msgstr "Optagelse vil starte om ..."
 
 #: ../kazam/frontend/window_countdown.py:111
 msgid "{0}"
@@ -220,98 +220,68 @@ msgstr "{0}"
 
 #: ../kazam/frontend/window_region.py:215
 msgid "Select region by resizing the window"
-msgstr "حدد منطقة عن طريق تحجيم هذه النافذة"
+msgstr "Vælg område ved at ændre størrelsen på vinduet"
 
 #: ../kazam/frontend/window_region.py:216
 msgid "Press ENTER to confirm or ESC to cancel."
-msgstr "اضغط ENTER للتأكيد أو ESC للإلغاء."
+msgstr "Tryk på ENTER for at bekræfte eller ESC for at annullere."
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
-msgstr "احفظ"
+msgstr "Gem"
 
 #: ../kazam/frontend/save_dialog.py:41 ../kazam/frontend/save_dialog.py:43
 msgid "Untitled_Screencast"
-msgstr "ت_سجيل بلا عنوان"
+msgstr "unavngivet_skærmoptagelse"
 
 #: ../kazam/frontend/about_dialog.py:54
 msgid "Record a video of activity on your screen."
-msgstr "لتسجيل فيديو لنشاط على شاشتك."
+msgstr "Optag en video af aktivitet på din skærm."
 
 #~ msgid "Description"
-#~ msgstr "الوصف"
-
-#~ msgid "Private"
-#~ msgstr "خاص"
-
-#~ msgid "Title"
-#~ msgstr "العنوان"
+#~ msgstr "Beskrivelse"
 
 #~ msgid "Category"
-#~ msgstr "القسم"
+#~ msgstr "Kategori"
 
-#~ msgid "Keywords"
-#~ msgstr "كلمات مفتاحية"
+#~ msgid "Title"
+#~ msgstr "Titel"
 
-#~ msgid "Screencast converted."
-#~ msgstr "تم التحويل."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "رُفِع التسجيل."
-
-#~ msgid "Encoder type"
-#~ msgstr "نوع المرمّز"
-
-#~ msgid "Audio Source 2"
-#~ msgstr "مصدر الصوت 2"
-
-#~ msgid "Audio Source 1"
-#~ msgstr "مصدر الصوت 1"
-
-#~ msgid "Video Source"
-#~ msgstr "مصدر الفيديو"
-
-#~ msgid "Countdown timer"
-#~ msgstr "مؤقت العد التنازلي"
-
-#~ msgid "Capture mouse"
-#~ msgstr "التقط الفأرة"
-
-#~ msgid "Framerate"
-#~ msgstr "معدّل الإطارات"
-
-#~ msgid "File"
-#~ msgstr "ملف"
-
-#~ msgid "Help"
-#~ msgstr "مساعدة"
-
-#~ msgid "Email"
-#~ msgstr "البريد الإلكتروني"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "تم رفع تسجيلك بنجاح."
-
-#~ msgid "There was an error converting."
-#~ msgstr "حدث خطأ أثناء التحويل."
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "يرفع التسجيل..."
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "متوفر في المكان التالي:"
-
-#~ msgid "There was an error logging in."
-#~ msgstr "حدث خطأ أثناء الولوج."
-
-#~ msgid "Converting screencast..."
-#~ msgstr "يحوّل التسجيل..."
+#~ msgid "Private"
+#~ msgstr "Privat"
 
 #~ msgid "Logging in..."
-#~ msgstr "يلج..."
+#~ msgstr "Logger ind..."
 
 #~ msgid "Log-in completed."
-#~ msgstr "اكتمل الولوج."
+#~ msgstr "Log ind fuldført"
+
+#~ msgid "Keywords"
+#~ msgstr "Søgeord"
+
+#~ msgid "Uploading screencast..."
+#~ msgstr "Sender skærmoptagelse..."
+
+#~ msgid "Screencast converted."
+#~ msgstr "Skærmoptagelse konverteret."
+
+#~ msgid "Converting screencast..."
+#~ msgstr "Konverterer skærmoptagelse..."
+
+#~ msgid "Your screencast has uploaded successfully."
+#~ msgstr "Din skærmoptagelse blev sendt."
 
 #~ msgid "There was an error uploading."
-#~ msgstr "حدث خطأ أثناء الرفع."
+#~ msgstr "Der opstod en fejl under afsendelsen."
+
+#~ msgid "Screencast uploaded."
+#~ msgstr "Skærmoptagelse sendt."
+
+#~ msgid "It is available at the location below:"
+#~ msgstr "Den er tilgængelig på adressen nedenfor:"
+
+#~ msgid "There was an error converting."
+#~ msgstr "Der opstod en fejl under konverteringen."
+
+#~ msgid "There was an error logging in."
+#~ msgstr "Der opstod en fejl under logind."

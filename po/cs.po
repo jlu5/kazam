@@ -7,245 +7,311 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-08 14:12+0100\n"
-"PO-Revision-Date: 2010-09-06 12:39+0000\n"
-"Last-Translator: Milhouse <milhouse@mujweb.cz>\n"
+"POT-Creation-Date: 2012-04-19 01:33+0300\n"
+"PO-Revision-Date: 2012-11-02 13:56+0000\n"
+"Last-Translator: milzou <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-24 16:04+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2012-11-14 04:49+0000\n"
+"X-Generator: Launchpad (build 16251)\n"
 
-#: ../data/ui/authenticate.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
-msgid "Cancel"
-msgstr "Zrušit"
-
-#: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
-msgid "Continue"
-msgstr "Pokračovat"
-
-#: ../data/ui/authenticate.ui.h:4
-msgid "Email address:"
-msgstr "Emailová adresa:"
-
-#: ../data/ui/authenticate.ui.h:5
-msgid "I want to register an account now"
-msgstr "Chci nyní zaregistrovat nový účet"
-
-#: ../data/ui/authenticate.ui.h:6
-msgid "Password:"
-msgstr "Heslo:"
-
-#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
-msgid "About"
-msgstr "O programu"
-
-#: ../data/ui/done-recording.ui.h:4
-msgid "Edit with:"
-msgstr "Upravit pomocí:"
-
-#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
-#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/widgets/comboboxes.py:106
-#: ../kazam/frontend/widgets/dialogs.py:46
+#: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/about_dialog.py:53
 msgid "Kazam Screencaster"
-msgstr "Kazam Screencaster"
+msgstr "Tvůrce screencastů Kazam"
 
-#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
-#: ../kazam/frontend/indicator.py:65
+#: ../data/ui/kazam.ui.h:2
+msgid "Monitor:"
+msgstr "Monitor:"
+
+#: ../data/ui/kazam.ui.h:3
+msgid "Select the video source"
+msgstr "Vyberte zdroj videa"
+
+#: ../data/ui/kazam.ui.h:4
+msgid "Speakers:"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:5
+msgid "Select your audio ouput device (speakers of headphones)"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:6
+msgid "Set volume"
+msgstr "Nastavit hlasitost"
+
+#: ../data/ui/kazam.ui.h:7
+msgid "Microphone:"
+msgstr "Mikrofon:"
+
+#: ../data/ui/kazam.ui.h:8
+msgid "Select your audio input device (microphone)"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:9
+msgid "Toggle recording from your microphone"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:10
+msgid "Record with:"
+msgstr "Nahrát pomocí:"
+
+#: ../data/ui/kazam.ui.h:11
+msgid "Select what encoder you want to use"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:12
+msgid "Toggle recording from the video source"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:13
+msgid "Toggle recording from your speakers or headphones"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:14
+msgid "Countdown timer:"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:15
+msgid "Framerate:"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:16
+msgid "Set the coundown time (in seconds)"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:17
+msgid "Set the number of frames per second"
+msgstr "Snímků za sekundu"
+
+#: ../data/ui/kazam.ui.h:18
+msgid "Show countdown splash:"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:19
+msgid "Capture mouse:"
+msgstr "Zaznamenávat kurzor"
+
+#: ../data/ui/kazam.ui.h:20
+msgid "Toggle display of countdown splash"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:21
+msgid "Toggle capturing of mouse cursor"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:22
+msgid "Record Region"
+msgstr "Oblast Záznamu"
+
+#: ../data/ui/kazam.ui.h:23
+msgid "Select a screen region to record"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
 msgid "Quit"
 msgstr "Ukončit"
 
-#: ../data/ui/done-recording.ui.h:7
-msgid "Save for later use..."
-msgstr ""
+#: ../data/ui/kazam.ui.h:25
+msgid "Quit Kazam"
+msgstr "Ukončit Kazam"
 
-#: ../data/ui/done-recording.ui.h:8
-msgid ""
-"Your screencast has finished recording.\n"
-"What do you want to do now?"
-msgstr ""
-
-#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
-#: ../data/ui/start.ui.h:8
-msgid "_File"
-msgstr "_Soubor"
-
-#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
-#: ../data/ui/start.ui.h:9
-msgid "_Help"
-msgstr "_Nápověda"
-
-#: ../data/ui/export.ui.h:1
-msgid "<b>Export to:</b>"
-msgstr "<b>Exportovat do:</b>"
-
-#: ../data/ui/export.ui.h:2
-msgid "Audio"
-msgstr "Zvuk"
-
-#: ../data/ui/export.ui.h:3
-msgid "Back"
-msgstr "Zpět"
-
-#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+#: ../data/ui/kazam.ui.h:26
 msgid "Close"
 msgstr "Zavřít"
 
-#: ../data/ui/export.ui.h:5
-msgid "Crop"
-msgstr "Oříznout"
+#: ../data/ui/kazam.ui.h:27
+msgid "Minimize the app to the appindicator"
+msgstr "Minimalizovat"
 
-#: ../data/ui/export.ui.h:6
-msgid "Export"
-msgstr "Exportovat"
+#: ../data/ui/kazam.ui.h:28
+msgid "About"
+msgstr "O programu"
 
-#: ../data/ui/export.ui.h:8
-msgid "Quality:"
-msgstr "Kvalita:"
+#: ../data/ui/kazam.ui.h:29
+msgid "About Kazam"
+msgstr "O aplikaci Kazam"
 
-#: ../data/ui/export.ui.h:9
-msgid "Video"
-msgstr "Obraz"
-
-#: ../data/ui/start.ui.h:5
+#: ../data/ui/kazam.ui.h:30
 msgid "Record"
-msgstr ""
+msgstr "Nahrávat"
 
-#: ../data/ui/start.ui.h:6
-msgid "Record Audio from:"
-msgstr "Nahrát zvuk z:"
-
-#: ../data/ui/start.ui.h:7
-msgid "Record Video from:"
-msgstr "Nahrát obraz z:"
-
-#: ../data/ui/export_sources/youtube.ui.h:1
-msgid "Category"
-msgstr "Kategorie"
-
-#: ../data/ui/export_sources/youtube.ui.h:2
-msgid "Description"
-msgstr "Popis"
-
-#: ../data/ui/export_sources/youtube.ui.h:3
-msgid "Keywords"
-msgstr "Klíčová slova"
-
-#: ../data/ui/export_sources/youtube.ui.h:4
-msgid "Private"
-msgstr "Soukromé"
-
-#: ../data/ui/export_sources/youtube.ui.h:5
-msgid "Title"
-msgstr "Název"
+#: ../data/ui/kazam.ui.h:31 ../kazam/frontend/indicator.py:67
+msgid "Start recording"
+msgstr "Nahrávat"
 
 #: ../data/kazam.desktop.in.h:2
+msgid "Screencaster"
+msgstr "Screencaster"
+
+#: ../data/kazam.desktop.in.h:3
 msgid "Record a video of activity on your screen"
 msgstr "Nahrát aktivitu z plochy monitoru."
 
-#: ../data/kazam.desktop.in.h:3
-msgid "Screencaster"
-msgstr ""
+#: ../kazam/app.py:324 ../kazam/app.py:335 ../kazam/frontend/indicator.py:75
+msgid "Finish recording"
+msgstr "Ukončit zaznamenávání"
 
-#. Open the save dialog
-#: ../kazam/app.py:149
+#: ../kazam/app.py:467
+msgid "Cancel countdown"
+msgstr "Zrušit odpočítávání"
+
+#: ../kazam/app.py:667 ../kazam/app.py:695
+msgid "Unknown"
+msgstr "Neznámý"
+
+#: ../kazam/app.py:712
+msgid "Combined ({w}x{h})"
+msgstr "Kombinováno ({w}x{h})"
+
+#: ../kazam/app.py:714
+msgid "Display {n} ({w}x{h})"
+msgstr "Displej {n} ({w}x{h})"
+
+#: ../kazam/frontend/done_recording.py:50
+msgid "Kazam Screencaster - Recording finished"
+msgstr "Kazam Screencaster - Zaznamenávávní dokončeno"
+
+#: ../kazam/frontend/done_recording.py:62
+msgid ""
+"Kazam finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+"Kazam dokončil zaznamenávání.\n"
+"Co si přejete nyní?"
+
+#: ../kazam/frontend/done_recording.py:65
+msgid "Edit with:"
+msgstr "Upravit pomocí:"
+
+#: ../kazam/frontend/done_recording.py:73
+msgid "Save for later"
+msgstr "Uložit pro pozdější použití"
+
+#: ../kazam/frontend/done_recording.py:83
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: ../kazam/frontend/done_recording.py:85
+msgid "Continue"
+msgstr "Pokračovat"
+
+#: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
 msgstr "Uložit Screencast"
 
-#: ../kazam/frontend/export.py:201
-msgid "Logging in..."
-msgstr "Probíhá přihlašování…"
-
-#: ../kazam/frontend/export.py:207
-msgid "Log-in completed."
-msgstr "Přihlášeno."
-
-#: ../kazam/frontend/export.py:209
-msgid "There was an error logging in."
-msgstr "Chyba při přihlašování."
-
-#: ../kazam/frontend/export.py:214
-msgid "Converting screencast..."
-msgstr "Převést screencast..."
-
-#: ../kazam/frontend/export.py:218
-msgid "Screencast converted."
-msgstr "Screencast převeden."
-
-#: ../kazam/frontend/export.py:220
-msgid "There was an error converting."
-msgstr "Chyba při převádění."
-
-#: ../kazam/frontend/export.py:225
-msgid "Uploading screencast..."
-msgstr "Odeslání screencastu..."
-
-#: ../kazam/frontend/export.py:229
-msgid "Screencast uploaded."
-msgstr "Screencast odeslán."
-
-#. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:233
-msgid "Your screencast has uploaded successfully."
-msgstr "Screencast úspěšně odeslán."
-
-#: ../kazam/frontend/export.py:234
-msgid "It is available at the location below:"
-msgstr ""
-
-#: ../kazam/frontend/export.py:236
-msgid "There was an error uploading."
-msgstr "Chyba při odesílání."
-
-#: ../kazam/frontend/indicator.py:58
+#: ../kazam/frontend/indicator.py:71
 msgid "Pause recording"
-msgstr ""
+msgstr "Pozastavit nahrávání"
 
-#: ../kazam/frontend/indicator.py:61
-msgid "Finish recording..."
-msgstr "Konec nahrávání..."
+#: ../kazam/frontend/indicator.py:82
+msgid "Record setup"
+msgstr "Nastavení záznamu"
 
-#: ../kazam/frontend/window_countdown.py:98
-msgid "Recording will start in..."
-msgstr "Nahrávání začne za..."
+#: ../kazam/frontend/window_countdown.py:110
+msgid "Recording will start in ..."
+msgstr "Zaznamenávání začne v ..."
 
-#: ../kazam/frontend/widgets/comboboxes.py:199
-msgid "Screen"
-msgstr "Obrazovka"
+#: ../kazam/frontend/window_countdown.py:111
+msgid "{0}"
+msgstr "{0}"
 
-#: ../kazam/frontend/widgets/comboboxes.py:205
-msgid "All Screens"
-msgstr ""
+#: ../kazam/frontend/window_region.py:215
+msgid "Select region by resizing the window"
+msgstr "Změnou velikosti okna vyberte oblast"
 
-#: ../kazam/frontend/widgets/comboboxes.py:207
-#, python-format
-msgid "Screen %s"
-msgstr ""
+#: ../kazam/frontend/window_region.py:216
+msgid "Press ENTER to confirm or ESC to cancel."
+msgstr "Stiskněte ENTER pro potvrzení nebo ESC pro zrušení."
 
-#: ../kazam/frontend/widgets/comboboxes.py:218
-msgid "Computer"
-msgstr "Počítač"
+#: ../kazam/frontend/save_dialog.py:38
+msgid "Save"
+msgstr "Uložit"
 
-#: ../kazam/frontend/widgets/dialogs.py:47
+#: ../kazam/frontend/save_dialog.py:41 ../kazam/frontend/save_dialog.py:43
+msgid "Untitled_Screencast"
+msgstr "Screencast_bez_názvu"
+
+#: ../kazam/frontend/about_dialog.py:54
 msgid "Record a video of activity on your screen."
-msgstr ""
+msgstr "Nahrajte dění na vaší obrazovce."
 
-#: ../kazam/frontend/widgets/dialogs.py:65
-msgid "Untitled Screencast"
-msgstr ""
+#~ msgid "Description"
+#~ msgstr "Popis"
 
-#: ../kazam/frontend/widgets/dialogs.py:150
-#, python-format
-msgid "To upload a screencast to %s, you need a %s account."
-msgstr "K odeslání screencastu %s je potřeba mít %s účet."
+#~ msgid "Category"
+#~ msgstr "Kategorie"
 
-#: ../kazam/frontend/widgets/dialogs.py:154
-#, python-format
-msgid "I have a %s account:"
-msgstr ""
+#~ msgid "Keywords"
+#~ msgstr "Klíčová slova"
+
+#~ msgid "Private"
+#~ msgstr "Soukromé"
+
+#~ msgid "There was an error logging in."
+#~ msgstr "Chyba při přihlašování."
+
+#~ msgid "There was an error converting."
+#~ msgstr "Chyba při převádění."
+
+#~ msgid "Screencast converted."
+#~ msgstr "Screencast převeden."
+
+#~ msgid "Converting screencast..."
+#~ msgstr "Převést screencast..."
+
+#~ msgid "Logging in..."
+#~ msgstr "Probíhá přihlašování…"
+
+#~ msgid "Log-in completed."
+#~ msgstr "Přihlášeno."
+
+#~ msgid "Title"
+#~ msgstr "Název"
+
+#~ msgid "Your screencast has uploaded successfully."
+#~ msgstr "Screencast úspěšně odeslán."
+
+#~ msgid "There was an error uploading."
+#~ msgstr "Chyba při odesílání."
+
+#~ msgid "Screencast uploaded."
+#~ msgstr "Screencast odeslán."
+
+#~ msgid "Uploading screencast..."
+#~ msgstr "Odeslání screencastu..."
+
+#~ msgid "It is available at the location below:"
+#~ msgstr "Je dostupné v umístění níže:"
+
+#~ msgid "Audio Source 2"
+#~ msgstr "Zdroj audia 2"
+
+#~ msgid "Audio Source 1"
+#~ msgstr "Zdroj audia 1"
+
+#~ msgid "Video Source"
+#~ msgstr "Zdroj videa"
+
+#~ msgid "Encoder type"
+#~ msgstr "Typ kodéru"
+
+#~ msgid "Countdown timer"
+#~ msgstr "Časový odpočet"
+
+#~ msgid "Capture mouse"
+#~ msgstr "Zachytit kurzor myši"
+
+#~ msgid "Framerate"
+#~ msgstr "Snímková rychlost"
+
+#~ msgid "File"
+#~ msgstr "Soubor"
+
+#~ msgid "Help"
+#~ msgstr "Nápověda"
+
+#~ msgid "Email"
+#~ msgstr "Email"

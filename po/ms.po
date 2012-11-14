@@ -7,247 +7,281 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-08 14:12+0100\n"
-"PO-Revision-Date: 2010-09-06 13:22+0000\n"
-"Last-Translator: melayubuntu <zul.malc@gmail.com>\n"
+"POT-Creation-Date: 2012-04-19 01:33+0300\n"
+"PO-Revision-Date: 2012-06-11 21:01+0000\n"
+"Last-Translator: inashdeen <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-24 16:04+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2012-11-14 04:49+0000\n"
+"X-Generator: Launchpad (build 16251)\n"
 
-#: ../data/ui/authenticate.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
-msgid "Cancel"
-msgstr "Batal"
-
-#: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
-msgid "Continue"
-msgstr "Teruskan"
-
-#: ../data/ui/authenticate.ui.h:4
-msgid "Email address:"
-msgstr "Alamat Email:"
-
-#: ../data/ui/authenticate.ui.h:5
-msgid "I want to register an account now"
-msgstr "Saya ingin daftarkan satu akaun sekarang"
-
-#: ../data/ui/authenticate.ui.h:6
-msgid "Password:"
-msgstr "Kata Laluan:"
-
-#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
-msgid "About"
-msgstr "Tentang"
-
-#: ../data/ui/done-recording.ui.h:4
-msgid "Edit with:"
-msgstr "Edit dengan:"
-
-#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
-#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/widgets/comboboxes.py:106
-#: ../kazam/frontend/widgets/dialogs.py:46
+#: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/about_dialog.py:53
 msgid "Kazam Screencaster"
 msgstr "Perakam Desktop Kazam"
 
-#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
-#: ../kazam/frontend/indicator.py:65
+#: ../data/ui/kazam.ui.h:2
+msgid "Monitor:"
+msgstr "Monitor:"
+
+#: ../data/ui/kazam.ui.h:3
+msgid "Select the video source"
+msgstr "Pilih punca video"
+
+#: ../data/ui/kazam.ui.h:4
+msgid "Speakers:"
+msgstr "Speaker:"
+
+#: ../data/ui/kazam.ui.h:5
+msgid "Select your audio ouput device (speakers of headphones)"
+msgstr "Pilih peranti untuk output audio ( speaker atau fon telinga )"
+
+#: ../data/ui/kazam.ui.h:6
+msgid "Set volume"
+msgstr "Tetapkan volum"
+
+#: ../data/ui/kazam.ui.h:7
+msgid "Microphone:"
+msgstr "Mikrofon:"
+
+#: ../data/ui/kazam.ui.h:8
+msgid "Select your audio input device (microphone)"
+msgstr "Pilih peranti untuk input audio (mikrofon)"
+
+#: ../data/ui/kazam.ui.h:9
+msgid "Toggle recording from your microphone"
+msgstr "Godek rakaman dari mikorofon anda"
+
+#: ../data/ui/kazam.ui.h:10
+msgid "Record with:"
+msgstr "Rekod dengan:"
+
+#: ../data/ui/kazam.ui.h:11
+msgid "Select what encoder you want to use"
+msgstr "Pilih enkoder yang anda ingin gunakan"
+
+#: ../data/ui/kazam.ui.h:12
+msgid "Toggle recording from the video source"
+msgstr "Godek rakaman dari punca video"
+
+#: ../data/ui/kazam.ui.h:13
+msgid "Toggle recording from your speakers or headphones"
+msgstr "Godek rakaman dari speaker atau fon telinga"
+
+#: ../data/ui/kazam.ui.h:14
+msgid "Countdown timer:"
+msgstr "Kira detik perakam waktu:"
+
+#: ../data/ui/kazam.ui.h:15
+msgid "Framerate:"
+msgstr "Kadar bingkai:"
+
+#: ../data/ui/kazam.ui.h:16
+msgid "Set the coundown time (in seconds)"
+msgstr "Set masa untuk kira detik (dalam saat)"
+
+#: ../data/ui/kazam.ui.h:17
+msgid "Set the number of frames per second"
+msgstr "Set bilangan bingkai per saat"
+
+#: ../data/ui/kazam.ui.h:18
+msgid "Show countdown splash:"
+msgstr "Tunjuk percikan kira detik:"
+
+#: ../data/ui/kazam.ui.h:19
+msgid "Capture mouse:"
+msgstr "Tangkap tetikus:"
+
+#: ../data/ui/kazam.ui.h:20
+msgid "Toggle display of countdown splash"
+msgstr "Godek paparan percikan kira detik"
+
+#: ../data/ui/kazam.ui.h:21
+msgid "Toggle capturing of mouse cursor"
+msgstr "Godek tangkapan kursor tetikus"
+
+#: ../data/ui/kazam.ui.h:22
+msgid "Record Region"
+msgstr "Rekod kawasan"
+
+#: ../data/ui/kazam.ui.h:23
+msgid "Select a screen region to record"
+msgstr "Pilih kawasan skrin untuk direkod"
+
+#: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
 msgid "Quit"
 msgstr "Keluar"
 
-#: ../data/ui/done-recording.ui.h:7
-msgid "Save for later use..."
-msgstr ""
+#: ../data/ui/kazam.ui.h:25
+msgid "Quit Kazam"
+msgstr "Henti Kazam"
 
-#: ../data/ui/done-recording.ui.h:8
-msgid ""
-"Your screencast has finished recording.\n"
-"What do you want to do now?"
-msgstr ""
-"Video rakaman anda telah siap dirakam.\n"
-"Apa yang anda ingin buat sekarang?"
-
-#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
-#: ../data/ui/start.ui.h:8
-msgid "_File"
-msgstr "_Fail"
-
-#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
-#: ../data/ui/start.ui.h:9
-msgid "_Help"
-msgstr "Bant_uan"
-
-#: ../data/ui/export.ui.h:1
-msgid "<b>Export to:</b>"
-msgstr "<b>Eksport ke:</b>"
-
-#: ../data/ui/export.ui.h:2
-msgid "Audio"
-msgstr "Audio"
-
-#: ../data/ui/export.ui.h:3
-msgid "Back"
-msgstr "Undur"
-
-#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+#: ../data/ui/kazam.ui.h:26
 msgid "Close"
 msgstr "Tutup"
 
-#: ../data/ui/export.ui.h:5
-msgid "Crop"
-msgstr "Pangkas"
+#: ../data/ui/kazam.ui.h:27
+msgid "Minimize the app to the appindicator"
+msgstr "Minimakan app ke appindicator"
 
-#: ../data/ui/export.ui.h:6
-msgid "Export"
-msgstr "Eksport"
+#: ../data/ui/kazam.ui.h:28
+msgid "About"
+msgstr "Tentang"
 
-#: ../data/ui/export.ui.h:8
-msgid "Quality:"
-msgstr "Kualiti:"
+#: ../data/ui/kazam.ui.h:29
+msgid "About Kazam"
+msgstr "Tentang Kazam"
 
-#: ../data/ui/export.ui.h:9
-msgid "Video"
-msgstr "Video"
-
-#: ../data/ui/start.ui.h:5
+#: ../data/ui/kazam.ui.h:30
 msgid "Record"
-msgstr ""
+msgstr "Rakam"
 
-#: ../data/ui/start.ui.h:6
-msgid "Record Audio from:"
-msgstr "Rakam Audio daripada:"
-
-#: ../data/ui/start.ui.h:7
-msgid "Record Video from:"
-msgstr "Rakam video daripada:"
-
-#: ../data/ui/export_sources/youtube.ui.h:1
-msgid "Category"
-msgstr "Kategori"
-
-#: ../data/ui/export_sources/youtube.ui.h:2
-msgid "Description"
-msgstr "Keterangan"
-
-#: ../data/ui/export_sources/youtube.ui.h:3
-msgid "Keywords"
-msgstr "Kata Kunci"
-
-#: ../data/ui/export_sources/youtube.ui.h:4
-msgid "Private"
-msgstr "Persendirian"
-
-#: ../data/ui/export_sources/youtube.ui.h:5
-msgid "Title"
-msgstr "Judul"
+#: ../data/ui/kazam.ui.h:31 ../kazam/frontend/indicator.py:67
+msgid "Start recording"
+msgstr "Mula merekod"
 
 #: ../data/kazam.desktop.in.h:2
-msgid "Record a video of activity on your screen"
-msgstr "Rakam video cekupan skrin anda"
-
-#: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
 msgstr "Video Cekupan"
 
-#. Open the save dialog
-#: ../kazam/app.py:149
+#: ../data/kazam.desktop.in.h:3
+msgid "Record a video of activity on your screen"
+msgstr "Rakam aktiviti di atas skrin anda"
+
+#: ../kazam/app.py:324 ../kazam/app.py:335 ../kazam/frontend/indicator.py:75
+msgid "Finish recording"
+msgstr "Selesai merakam"
+
+#: ../kazam/app.py:467
+msgid "Cancel countdown"
+msgstr "Batal kira detik"
+
+#: ../kazam/app.py:667 ../kazam/app.py:695
+msgid "Unknown"
+msgstr "Tidak Diketahui"
+
+#: ../kazam/app.py:712
+msgid "Combined ({w}x{h})"
+msgstr "Gabung ({w}x{h})"
+
+#: ../kazam/app.py:714
+msgid "Display {n} ({w}x{h})"
+msgstr "Paparan {n} ({w}x{h})"
+
+#: ../kazam/frontend/done_recording.py:50
+msgid "Kazam Screencaster - Recording finished"
+msgstr "Perekod skrin Kazam - selesai merekod"
+
+#: ../kazam/frontend/done_recording.py:62
+msgid ""
+"Kazam finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+"Kazam telah selesai merekod.\n"
+"Apa yang anda ingin lakukan sekarang?"
+
+#: ../kazam/frontend/done_recording.py:65
+msgid "Edit with:"
+msgstr "ubah suai dengan"
+
+#: ../kazam/frontend/done_recording.py:73
+msgid "Save for later"
+msgstr "Simpan untuk nanti"
+
+#: ../kazam/frontend/done_recording.py:83
+msgid "Cancel"
+msgstr "Batal"
+
+#: ../kazam/frontend/done_recording.py:85
+msgid "Continue"
+msgstr "Teruskan"
+
+#: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
 msgstr "Simpan Video Cekupan"
 
-#: ../kazam/frontend/export.py:201
-msgid "Logging in..."
-msgstr "Muatmasuk..."
-
-#: ../kazam/frontend/export.py:207
-msgid "Log-in completed."
-msgstr "Selesai Muatmasuk."
-
-#: ../kazam/frontend/export.py:209
-msgid "There was an error logging in."
-msgstr "Terdapat kesilapan ketika muatmasuk."
-
-#: ../kazam/frontend/export.py:214
-msgid "Converting screencast..."
-msgstr ""
-
-#: ../kazam/frontend/export.py:218
-msgid "Screencast converted."
-msgstr ""
-
-#: ../kazam/frontend/export.py:220
-msgid "There was an error converting."
-msgstr ""
-
-#: ../kazam/frontend/export.py:225
-msgid "Uploading screencast..."
-msgstr ""
-
-#: ../kazam/frontend/export.py:229
-msgid "Screencast uploaded."
-msgstr ""
-
-#. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:233
-msgid "Your screencast has uploaded successfully."
-msgstr ""
-
-#: ../kazam/frontend/export.py:234
-msgid "It is available at the location below:"
-msgstr ""
-
-#: ../kazam/frontend/export.py:236
-msgid "There was an error uploading."
-msgstr ""
-
-#: ../kazam/frontend/indicator.py:58
+#: ../kazam/frontend/indicator.py:71
 msgid "Pause recording"
-msgstr ""
+msgstr "Jeda rakaman"
 
-#: ../kazam/frontend/indicator.py:61
-msgid "Finish recording..."
-msgstr ""
+#: ../kazam/frontend/indicator.py:82
+msgid "Record setup"
+msgstr "Persediaan rekod"
 
-#: ../kazam/frontend/window_countdown.py:98
-msgid "Recording will start in..."
-msgstr ""
+#: ../kazam/frontend/window_countdown.py:110
+msgid "Recording will start in ..."
+msgstr "Rekod akan bermula dalam ..."
 
-#: ../kazam/frontend/widgets/comboboxes.py:199
-msgid "Screen"
-msgstr ""
+#: ../kazam/frontend/window_countdown.py:111
+msgid "{0}"
+msgstr "{0}"
 
-#: ../kazam/frontend/widgets/comboboxes.py:205
-msgid "All Screens"
-msgstr ""
+#: ../kazam/frontend/window_region.py:215
+msgid "Select region by resizing the window"
+msgstr "Oikih kawasan dengan menukar saiz tetingkap"
 
-#: ../kazam/frontend/widgets/comboboxes.py:207
-#, python-format
-msgid "Screen %s"
-msgstr ""
+#: ../kazam/frontend/window_region.py:216
+msgid "Press ENTER to confirm or ESC to cancel."
+msgstr "Tekan ENTER untuk pastikan atau ESC untuk batal"
 
-#: ../kazam/frontend/widgets/comboboxes.py:218
-msgid "Computer"
-msgstr ""
+#: ../kazam/frontend/save_dialog.py:38
+msgid "Save"
+msgstr "Simpan"
 
-#: ../kazam/frontend/widgets/dialogs.py:47
+#: ../kazam/frontend/save_dialog.py:41 ../kazam/frontend/save_dialog.py:43
+msgid "Untitled_Screencast"
+msgstr "Tiadatajuk_Perekodskrin"
+
+#: ../kazam/frontend/about_dialog.py:54
 msgid "Record a video of activity on your screen."
-msgstr ""
+msgstr "Rakam aktiviti pada screen anda"
 
-#: ../kazam/frontend/widgets/dialogs.py:65
-msgid "Untitled Screencast"
-msgstr ""
+#~ msgid "Description"
+#~ msgstr "Keterangan"
 
-#: ../kazam/frontend/widgets/dialogs.py:150
-#, python-format
-msgid "To upload a screencast to %s, you need a %s account."
-msgstr ""
+#~ msgid "Category"
+#~ msgstr "Kategori"
 
-#: ../kazam/frontend/widgets/dialogs.py:154
-#, python-format
-msgid "I have a %s account:"
-msgstr ""
+#~ msgid "Keywords"
+#~ msgstr "Kata Kunci"
+
+#~ msgid "Private"
+#~ msgstr "Persendirian"
+
+#~ msgid "There was an error uploading."
+#~ msgstr "Terdapat ralat semasa memuat naik."
+
+#~ msgid "Title"
+#~ msgstr "Tajuk"
+
+#~ msgid "There was an error converting."
+#~ msgstr "terdapat ralat semasa menukar video cekupan"
+
+#~ msgid "Screencast converted."
+#~ msgstr "Video cekupan telah ditukar"
+
+#~ msgid "Uploading screencast..."
+#~ msgstr "Memuat naik video cekupan"
+
+#~ msgid "There was an error logging in."
+#~ msgstr "Terdapat kesilapan ketika mendaftar masuk"
+
+#~ msgid "Converting screencast..."
+#~ msgstr "Menukar video cekupan"
+
+#~ msgid "Logging in..."
+#~ msgstr "Mendaftar masuk..."
+
+#~ msgid "Log-in completed."
+#~ msgstr "Daftar Masuk selesai"
+
+#~ msgid "Your screencast has uploaded successfully."
+#~ msgstr "Video cekupan anda telah berjaya dimuatnaik"
+
+#~ msgid "Screencast uploaded."
+#~ msgstr "Video cekupan telah dimuatnaik"
+
+#~ msgid "It is available at the location below:"
+#~ msgstr "Fail anda sudah tersedia di lokasi di bawah"

@@ -1,16 +1,16 @@
-# Latvian translation for kazam
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Korean translation for kazam
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the kazam package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-04-19 01:33+0300\n"
-"PO-Revision-Date: 2012-11-06 15:50+0000\n"
-"Last-Translator: tuxmaniack <Unknown>\n"
-"Language-Team: Latvian <lv@li.org>\n"
+"PO-Revision-Date: 2012-07-07 12:25+0000\n"
+"Last-Translator: alisol <qrobo.ubuntu@gmail.com>\n"
+"Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,199 +20,199 @@ msgstr ""
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:53
 msgid "Kazam Screencaster"
-msgstr "Kazam darbvirsmas ierakstītājs"
+msgstr "카잠 스크린캐스터"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Monitor:"
-msgstr "Monitors:"
+msgstr "모니터:"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Select the video source"
-msgstr "Izvēlieties video avotu"
+msgstr "비디오 소스를 선택하세요."
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Speakers:"
-msgstr "Skaļruņi:"
+msgstr "발언자"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Select your audio ouput device (speakers of headphones)"
-msgstr "Izvēlieties audio izvades ierīci (skaļruņus vai austiņas)"
+msgstr "오디오 외부 장치 선택 (헤드폰의 말하는 사람들)"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Set volume"
-msgstr "Iestatīt skaļumu"
+msgstr "볼륨 설정"
 
 #: ../data/ui/kazam.ui.h:7
 msgid "Microphone:"
-msgstr "Mikrofons:"
+msgstr "마이크로폰"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Select your audio input device (microphone)"
-msgstr "Izvēlieties audio ievades ierīci (mikrofonu)"
+msgstr "오디오 내부 장치 선택 (마이크로폰)"
 
 #: ../data/ui/kazam.ui.h:9
 msgid "Toggle recording from your microphone"
-msgstr "Parslēgt ierakstu no mikrofona"
+msgstr "마이크로폰을 통해 녹음하기 전환"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "Record with:"
-msgstr "Ierakstīt ar:"
+msgstr "녹음 하기"
 
 #: ../data/ui/kazam.ui.h:11
 msgid "Select what encoder you want to use"
-msgstr "Izvēlieties kodētāju, kuru vēlaties izmantot"
+msgstr "사용하길 원하는 압축 방법을 선택"
 
 #: ../data/ui/kazam.ui.h:12
 msgid "Toggle recording from the video source"
-msgstr "Parslēgt ierakstu no video avota"
+msgstr "동영상 소스에서 녹화 선택"
 
 #: ../data/ui/kazam.ui.h:13
 msgid "Toggle recording from your speakers or headphones"
-msgstr "Pārslēgt ierakstu no skaļruņiem vai austiņām"
+msgstr "Toggle recording from your speakers or headphones"
 
 #: ../data/ui/kazam.ui.h:14
 msgid "Countdown timer:"
-msgstr "Aizture pirms ieraksta:"
+msgstr "초읽기 시간"
 
 #: ../data/ui/kazam.ui.h:15
 msgid "Framerate:"
-msgstr "Kadrātrums:"
+msgstr "프레임 속도:"
 
 #: ../data/ui/kazam.ui.h:16
 msgid "Set the coundown time (in seconds)"
-msgstr "Iestatīt atpakaļatskaites laiku (sekundēs)"
+msgstr "초읽기 시간 설청 (초단위)"
 
 #: ../data/ui/kazam.ui.h:17
 msgid "Set the number of frames per second"
-msgstr "Iestatīt kadru skaitu sekundē"
+msgstr "초당 프레임 수 설정"
 
 #: ../data/ui/kazam.ui.h:18
 msgid "Show countdown splash:"
-msgstr "Rādīt atpakaļatskaiti:"
+msgstr "초읽기 깜빡임을 천천히"
 
 #: ../data/ui/kazam.ui.h:19
 msgid "Capture mouse:"
-msgstr "Ierakstīt peles kursoru:"
+msgstr "마우스 움직임 함께 녹화"
 
 #: ../data/ui/kazam.ui.h:20
 msgid "Toggle display of countdown splash"
-msgstr "Pārslēgt atpakaļatskaites rādīšanu"
+msgstr "Toggle display of countdown splash"
 
 #: ../data/ui/kazam.ui.h:21
 msgid "Toggle capturing of mouse cursor"
-msgstr "Parslēgt peles kursora tveršanu"
+msgstr "Toggle capturing of mouse cursor"
 
 #: ../data/ui/kazam.ui.h:22
 msgid "Record Region"
-msgstr "Ierakstīt reģionu"
+msgstr "녹화 영역"
 
 #: ../data/ui/kazam.ui.h:23
 msgid "Select a screen region to record"
-msgstr "Izvēlieties ekrāna reģionu, lai ierakstītu"
+msgstr "녹화할 영역을 선택"
 
 #: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
 msgid "Quit"
-msgstr "Iziet"
+msgstr "종료"
 
 #: ../data/ui/kazam.ui.h:25
 msgid "Quit Kazam"
-msgstr "Iziet Kazam"
+msgstr "카잠 종료"
 
 #: ../data/ui/kazam.ui.h:26
 msgid "Close"
-msgstr "Aizvērt"
+msgstr "닫기"
 
 #: ../data/ui/kazam.ui.h:27
 msgid "Minimize the app to the appindicator"
-msgstr "Minimizēt lietotni indikatorā"
+msgstr "Minimize the app to the appindicator"
 
 #: ../data/ui/kazam.ui.h:28
 msgid "About"
-msgstr "Par"
+msgstr "일반적인 정보"
 
 #: ../data/ui/kazam.ui.h:29
 msgid "About Kazam"
-msgstr "Par Kazam"
+msgstr "카잠에 대한 일반 정보"
 
 #: ../data/ui/kazam.ui.h:30
 msgid "Record"
-msgstr "Ierakstīt"
+msgstr "기록시작"
 
 #: ../data/ui/kazam.ui.h:31 ../kazam/frontend/indicator.py:67
 msgid "Start recording"
-msgstr "Sākt ierakstīšanu"
+msgstr "기록 시작하기"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencaster"
-msgstr "Ierakstītājs"
+msgstr "Screencaster"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video of activity on your screen"
-msgstr "Ierakstīt video par darbvirsmā notiekošo"
+msgstr "화면 변화를 녹화 하기"
 
 #: ../kazam/app.py:324 ../kazam/app.py:335 ../kazam/frontend/indicator.py:75
 msgid "Finish recording"
-msgstr "Pārtraukt ierakstu"
+msgstr "모든 기록 마침"
 
 #: ../kazam/app.py:467
 msgid "Cancel countdown"
-msgstr "Atcelt atskaiti"
+msgstr "초읽기 취소"
 
 #: ../kazam/app.py:667 ../kazam/app.py:695
 msgid "Unknown"
-msgstr "Nezināms"
+msgstr "모름"
 
 #: ../kazam/app.py:712
 msgid "Combined ({w}x{h})"
-msgstr "Apvienotais ({w}x{h})"
+msgstr "Combined ({w}x{h})"
 
 #: ../kazam/app.py:714
 msgid "Display {n} ({w}x{h})"
-msgstr "Ekrāns {n} ({w}x{h})"
+msgstr "Display {n} ({w}x{h})"
 
 #: ../kazam/frontend/done_recording.py:50
 msgid "Kazam Screencaster - Recording finished"
-msgstr "Kazam ierakstītājs - ierakstīšana pabeigta"
+msgstr "Kazam Screencaster - Recording finished"
 
 #: ../kazam/frontend/done_recording.py:62
 msgid ""
 "Kazam finished recording.\n"
 "What do you want to do now?"
 msgstr ""
-"Kazam pabeidza ierakstīšanu.\n"
-"Ko jūs vēlaties darīt tagad?"
+"Kazam finished recording.\n"
+"What do you want to do now?"
 
 #: ../kazam/frontend/done_recording.py:65
 msgid "Edit with:"
-msgstr "Rediģēt ar:"
+msgstr "편집할 도구 선택:"
 
 #: ../kazam/frontend/done_recording.py:73
 msgid "Save for later"
-msgstr "Saglabāt izmantošanai vēlāk"
+msgstr "다음을 위해 저장"
 
 #: ../kazam/frontend/done_recording.py:83
 msgid "Cancel"
-msgstr "Atcelt"
+msgstr "취소"
 
 #: ../kazam/frontend/done_recording.py:85
 msgid "Continue"
-msgstr "Turpināt"
+msgstr "계속하기"
 
 #: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
-msgstr "Saglabāt ierakstīto"
+msgstr "스크린 캐스트 저장 하기"
 
 #: ../kazam/frontend/indicator.py:71
 msgid "Pause recording"
-msgstr "Pauzēt ierakstu"
+msgstr "기록 잠시 중지"
 
 #: ../kazam/frontend/indicator.py:82
 msgid "Record setup"
-msgstr "Ieraksta iestatījumi"
+msgstr "설정 하기"
 
 #: ../kazam/frontend/window_countdown.py:110
 msgid "Recording will start in ..."
-msgstr "Ieraksts sāksies pēc ..."
+msgstr "Recording will start in ..."
 
 #: ../kazam/frontend/window_countdown.py:111
 msgid "{0}"
@@ -220,98 +220,20 @@ msgstr "{0}"
 
 #: ../kazam/frontend/window_region.py:215
 msgid "Select region by resizing the window"
-msgstr "Izvēlieties reģionu mainot loga izmēru"
+msgstr "Select region by resizing the window"
 
 #: ../kazam/frontend/window_region.py:216
 msgid "Press ENTER to confirm or ESC to cancel."
-msgstr "Nospiediet ENTER, lai apstiprinātu. ESC, lai atceltu."
+msgstr "ENTER를 누르면 이대로 진행하지만 ESC를 누르면 취소"
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
-msgstr "Saglabāt"
+msgstr "저장하기"
 
 #: ../kazam/frontend/save_dialog.py:41 ../kazam/frontend/save_dialog.py:43
 msgid "Untitled_Screencast"
-msgstr "Nenosaukts_ekrānieraksts"
+msgstr "Untitled_Screencast"
 
 #: ../kazam/frontend/about_dialog.py:54
 msgid "Record a video of activity on your screen."
-msgstr "Ieraksta video par darbvirsmā notiekošo."
-
-#~ msgid "Description"
-#~ msgstr "Apraksts"
-
-#~ msgid "Category"
-#~ msgstr "Kategorija"
-
-#~ msgid "Title"
-#~ msgstr "Virsraksts"
-
-#~ msgid "Keywords"
-#~ msgstr "Atslēgvārdi"
-
-#~ msgid "Private"
-#~ msgstr "Privāts"
-
-#~ msgid "There was an error converting."
-#~ msgstr "Radās kļūda konvertējot"
-
-#~ msgid "Screencast converted."
-#~ msgstr "Ieraksts konvertēts"
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "Ieraksts tiek augšupielādēts..."
-
-#~ msgid "There was an error logging in."
-#~ msgstr "Radās kļūda ielogojoties."
-
-#~ msgid "Converting screencast..."
-#~ msgstr "Konvertē ierakstu"
-
-#~ msgid "Logging in..."
-#~ msgstr "Ielogojas..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "Ielogošanās pabeigta."
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "Jūsu ieraksts ir veiksmīgi augšupielādēts"
-
-#~ msgid "There was an error uploading."
-#~ msgstr "Radās kļūda augšupielādējot."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "Ieraksts augšupielādēts."
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "Tas ir pieejams pēc norādītās adreses zemāk:"
-
-#~ msgid "Countdown timer"
-#~ msgstr "Aizture pirms ieraksta"
-
-#~ msgid "Encoder type"
-#~ msgstr "Kodētāja tips"
-
-#~ msgid "Audio Source 2"
-#~ msgstr "Audio avots 2"
-
-#~ msgid "Audio Source 1"
-#~ msgstr "Audio avots 1"
-
-#~ msgid "Video Source"
-#~ msgstr "Video avots"
-
-#~ msgid "Framerate"
-#~ msgstr "Kadrātrums"
-
-#~ msgid "Capture mouse"
-#~ msgstr "Ierakstīt peles kursoru"
-
-#~ msgid "Email"
-#~ msgstr "E-pasts"
-
-#~ msgid "File"
-#~ msgstr "Fails"
-
-#~ msgid "Help"
-#~ msgstr "Palīdzība"
+msgstr "Record a video of activity on your screen."

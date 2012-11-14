@@ -7,247 +7,311 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-08 14:12+0100\n"
-"PO-Revision-Date: 2010-10-18 22:39+0000\n"
+"POT-Creation-Date: 2012-04-19 01:33+0300\n"
+"PO-Revision-Date: 2012-04-27 14:42+0000\n"
 "Last-Translator: Dražen Matešić <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-24 16:04+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2012-11-14 04:49+0000\n"
+"X-Generator: Launchpad (build 16251)\n"
 
-#: ../data/ui/authenticate.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
-msgid "Cancel"
-msgstr "Prekliči"
-
-#: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
-msgid "Continue"
-msgstr "Nadaljuj"
-
-#: ../data/ui/authenticate.ui.h:4
-msgid "Email address:"
-msgstr "E-poštni naslov:"
-
-#: ../data/ui/authenticate.ui.h:5
-msgid "I want to register an account now"
-msgstr "Sedaj želim ustvariti račun"
-
-#: ../data/ui/authenticate.ui.h:6
-msgid "Password:"
-msgstr "Geslo:"
-
-#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
-msgid "About"
-msgstr "O programu"
-
-#: ../data/ui/done-recording.ui.h:4
-msgid "Edit with:"
-msgstr "Uredi z:"
-
-#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
-#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/widgets/comboboxes.py:106
-#: ../kazam/frontend/widgets/dialogs.py:46
+#: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/about_dialog.py:53
 msgid "Kazam Screencaster"
 msgstr "Kazam zajemalec zaslonskih posnetkov"
 
-#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
-#: ../kazam/frontend/indicator.py:65
+#: ../data/ui/kazam.ui.h:2
+msgid "Monitor:"
+msgstr "Zaslon:"
+
+#: ../data/ui/kazam.ui.h:3
+msgid "Select the video source"
+msgstr "Izberite vir videa"
+
+#: ../data/ui/kazam.ui.h:4
+msgid "Speakers:"
+msgstr "Zvočniki:"
+
+#: ../data/ui/kazam.ui.h:5
+msgid "Select your audio ouput device (speakers of headphones)"
+msgstr "Izberite svojo izhodno zvočno napravo (zvočniki ali slušalke)"
+
+#: ../data/ui/kazam.ui.h:6
+msgid "Set volume"
+msgstr "Nastavi glasnost"
+
+#: ../data/ui/kazam.ui.h:7
+msgid "Microphone:"
+msgstr "Mikrofon:"
+
+#: ../data/ui/kazam.ui.h:8
+msgid "Select your audio input device (microphone)"
+msgstr "Izberite svojo vhodno zvočno napravo (mikrofon)"
+
+#: ../data/ui/kazam.ui.h:9
+msgid "Toggle recording from your microphone"
+msgstr "Preklopite snemanje iz svojega mikrofona"
+
+#: ../data/ui/kazam.ui.h:10
+msgid "Record with:"
+msgstr "Snemaj z:"
+
+#: ../data/ui/kazam.ui.h:11
+msgid "Select what encoder you want to use"
+msgstr "Izberite, kateri kodirnik želite uporabiti"
+
+#: ../data/ui/kazam.ui.h:12
+msgid "Toggle recording from the video source"
+msgstr "Preklopite snemanje iz video vira"
+
+#: ../data/ui/kazam.ui.h:13
+msgid "Toggle recording from your speakers or headphones"
+msgstr "Preklopite snemanje iz vaših zvočnikov ali slušalk"
+
+#: ../data/ui/kazam.ui.h:14
+msgid "Countdown timer:"
+msgstr "Odštevalnik časa:"
+
+#: ../data/ui/kazam.ui.h:15
+msgid "Framerate:"
+msgstr "Hitrost sličic:"
+
+#: ../data/ui/kazam.ui.h:16
+msgid "Set the coundown time (in seconds)"
+msgstr "Nastavite odštevalnik časa (v sekundah)"
+
+#: ../data/ui/kazam.ui.h:17
+msgid "Set the number of frames per second"
+msgstr "Nastavite število sličic na sekundo"
+
+#: ../data/ui/kazam.ui.h:18
+msgid "Show countdown splash:"
+msgstr "Pokaži odštevalnik:"
+
+#: ../data/ui/kazam.ui.h:19
+msgid "Capture mouse:"
+msgstr "Zajemi miško:"
+
+#: ../data/ui/kazam.ui.h:20
+msgid "Toggle display of countdown splash"
+msgstr "Preklopi prikaz odštevalnika"
+
+#: ../data/ui/kazam.ui.h:21
+msgid "Toggle capturing of mouse cursor"
+msgstr "Preklopi zajem miškine kazalke"
+
+#: ../data/ui/kazam.ui.h:22
+msgid "Record Region"
+msgstr "Posnemi območje"
+
+#: ../data/ui/kazam.ui.h:23
+msgid "Select a screen region to record"
+msgstr "Izberite območje za snemanje"
+
+#: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
 msgid "Quit"
 msgstr "Izhod"
 
-#: ../data/ui/done-recording.ui.h:7
-msgid "Save for later use..."
-msgstr "Shrani za kasnejšo uporabo ..."
+#: ../data/ui/kazam.ui.h:25
+msgid "Quit Kazam"
+msgstr "Končaj Kazam"
 
-#: ../data/ui/done-recording.ui.h:8
-msgid ""
-"Your screencast has finished recording.\n"
-"What do you want to do now?"
-msgstr ""
-"Vaše snemanje zaslonskega posnetka se je končalo.\n"
-"Kaj želite storiti sedaj?"
-
-#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
-#: ../data/ui/start.ui.h:8
-msgid "_File"
-msgstr "_Datoteka"
-
-#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
-#: ../data/ui/start.ui.h:9
-msgid "_Help"
-msgstr "_Pomoč"
-
-#: ../data/ui/export.ui.h:1
-msgid "<b>Export to:</b>"
-msgstr "<b>Izvozi v:</b>"
-
-#: ../data/ui/export.ui.h:2
-msgid "Audio"
-msgstr "Zvok"
-
-#: ../data/ui/export.ui.h:3
-msgid "Back"
-msgstr "Nazaj"
-
-#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+#: ../data/ui/kazam.ui.h:26
 msgid "Close"
 msgstr "Zapri"
 
-#: ../data/ui/export.ui.h:5
-msgid "Crop"
-msgstr "Obreži"
+#: ../data/ui/kazam.ui.h:27
+msgid "Minimize the app to the appindicator"
+msgstr "Skrči program v sistemsko vrstico"
 
-#: ../data/ui/export.ui.h:6
-msgid "Export"
-msgstr "Izvozi"
+#: ../data/ui/kazam.ui.h:28
+msgid "About"
+msgstr "O programu"
 
-#: ../data/ui/export.ui.h:8
-msgid "Quality:"
-msgstr "Kakovost:"
+#: ../data/ui/kazam.ui.h:29
+msgid "About Kazam"
+msgstr "O programu"
 
-#: ../data/ui/export.ui.h:9
-msgid "Video"
-msgstr "Video"
-
-#: ../data/ui/start.ui.h:5
+#: ../data/ui/kazam.ui.h:30
 msgid "Record"
 msgstr "Snemaj"
 
-#: ../data/ui/start.ui.h:6
-msgid "Record Audio from:"
-msgstr "Snemaj zvok iz:"
-
-#: ../data/ui/start.ui.h:7
-msgid "Record Video from:"
-msgstr "Snemaj video iz:"
-
-#: ../data/ui/export_sources/youtube.ui.h:1
-msgid "Category"
-msgstr "Kategorija"
-
-#: ../data/ui/export_sources/youtube.ui.h:2
-msgid "Description"
-msgstr "Opis"
-
-#: ../data/ui/export_sources/youtube.ui.h:3
-msgid "Keywords"
-msgstr "Ključne besede"
-
-#: ../data/ui/export_sources/youtube.ui.h:4
-msgid "Private"
-msgstr "Zasebno"
-
-#: ../data/ui/export_sources/youtube.ui.h:5
-msgid "Title"
-msgstr "Naslov"
+#: ../data/ui/kazam.ui.h:31 ../kazam/frontend/indicator.py:67
+msgid "Start recording"
+msgstr "Začni snemati"
 
 #: ../data/kazam.desktop.in.h:2
-msgid "Record a video of activity on your screen"
-msgstr "Posnemite video o dejavnosti na vašem zaslonu"
-
-#: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
 msgstr "Zajemalec zaslonskih posnetkov"
 
-#. Open the save dialog
-#: ../kazam/app.py:149
+#: ../data/kazam.desktop.in.h:3
+msgid "Record a video of activity on your screen"
+msgstr "Posnemite video o dejavnosti na vašem zaslonu"
+
+#: ../kazam/app.py:324 ../kazam/app.py:335 ../kazam/frontend/indicator.py:75
+msgid "Finish recording"
+msgstr "Končaj snemanje"
+
+#: ../kazam/app.py:467
+msgid "Cancel countdown"
+msgstr "Prekliči odštevanje"
+
+#: ../kazam/app.py:667 ../kazam/app.py:695
+msgid "Unknown"
+msgstr "Neznano"
+
+#: ../kazam/app.py:712
+msgid "Combined ({w}x{h})"
+msgstr "Skupaj ({w}x{h})"
+
+#: ../kazam/app.py:714
+msgid "Display {n} ({w}x{h})"
+msgstr "Zaslon {n} ({w}x{h})"
+
+#: ../kazam/frontend/done_recording.py:50
+msgid "Kazam Screencaster - Recording finished"
+msgstr "Zaslonski posnetki Kazam - snemanje je končano"
+
+#: ../kazam/frontend/done_recording.py:62
+msgid ""
+"Kazam finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+"Snemanje je končano.\n"
+"Kako želite nadaljevati?"
+
+#: ../kazam/frontend/done_recording.py:65
+msgid "Edit with:"
+msgstr "Uredi z:"
+
+#: ../kazam/frontend/done_recording.py:73
+msgid "Save for later"
+msgstr "Shrani za pozneje"
+
+#: ../kazam/frontend/done_recording.py:83
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: ../kazam/frontend/done_recording.py:85
+msgid "Continue"
+msgstr "Nadaljuj"
+
+#: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
 msgstr "Shrani zaslonski posnetek"
 
-#: ../kazam/frontend/export.py:201
-msgid "Logging in..."
-msgstr "Prijavljanje ..."
-
-#: ../kazam/frontend/export.py:207
-msgid "Log-in completed."
-msgstr "Prijava uspešna."
-
-#: ../kazam/frontend/export.py:209
-msgid "There was an error logging in."
-msgstr "Napaka pri prijavi."
-
-#: ../kazam/frontend/export.py:214
-msgid "Converting screencast..."
-msgstr "Pretvarjanje zaslonskega posnetka ..."
-
-#: ../kazam/frontend/export.py:218
-msgid "Screencast converted."
-msgstr "Zaslonski posnetek pretvorjen."
-
-#: ../kazam/frontend/export.py:220
-msgid "There was an error converting."
-msgstr "Napaka pri pretvarjanju."
-
-#: ../kazam/frontend/export.py:225
-msgid "Uploading screencast..."
-msgstr "Pošiljanje zaslonskega posnetka ..."
-
-#: ../kazam/frontend/export.py:229
-msgid "Screencast uploaded."
-msgstr "Zaslonski posnetek poslan."
-
-#. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:233
-msgid "Your screencast has uploaded successfully."
-msgstr "Vaš zaslonski posnetek je bil uspešno poslan."
-
-#: ../kazam/frontend/export.py:234
-msgid "It is available at the location below:"
-msgstr "Na voljo je na naslovu spodaj:"
-
-#: ../kazam/frontend/export.py:236
-msgid "There was an error uploading."
-msgstr "Napaka pri pošiljanju."
-
-#: ../kazam/frontend/indicator.py:58
+#: ../kazam/frontend/indicator.py:71
 msgid "Pause recording"
 msgstr "Premor snemanja"
 
-#: ../kazam/frontend/indicator.py:61
-msgid "Finish recording..."
-msgstr "Končaj snemanje ..."
+#: ../kazam/frontend/indicator.py:82
+msgid "Record setup"
+msgstr "Nastavitve snemanja"
 
-#: ../kazam/frontend/window_countdown.py:98
-msgid "Recording will start in..."
+#: ../kazam/frontend/window_countdown.py:110
+msgid "Recording will start in ..."
 msgstr "Snemanje se bo začelo čez ..."
 
-#: ../kazam/frontend/widgets/comboboxes.py:199
-msgid "Screen"
-msgstr "Zaslon"
+#: ../kazam/frontend/window_countdown.py:111
+msgid "{0}"
+msgstr "{0}"
 
-#: ../kazam/frontend/widgets/comboboxes.py:205
-msgid "All Screens"
-msgstr "Vsi zasloni"
+#: ../kazam/frontend/window_region.py:215
+msgid "Select region by resizing the window"
+msgstr "Izberite območje s spreminjanjem velikosti okna"
 
-#: ../kazam/frontend/widgets/comboboxes.py:207
-#, python-format
-msgid "Screen %s"
-msgstr "Zaslon %s"
+#: ../kazam/frontend/window_region.py:216
+msgid "Press ENTER to confirm or ESC to cancel."
+msgstr "Pritisnite ENTER za potrditev ali ESC za preklic"
 
-#: ../kazam/frontend/widgets/comboboxes.py:218
-msgid "Computer"
-msgstr "Računalnik"
+#: ../kazam/frontend/save_dialog.py:38
+msgid "Save"
+msgstr "Shrani"
 
-#: ../kazam/frontend/widgets/dialogs.py:47
+#: ../kazam/frontend/save_dialog.py:41 ../kazam/frontend/save_dialog.py:43
+msgid "Untitled_Screencast"
+msgstr "Neimenovan_zaslonski_posnetek"
+
+#: ../kazam/frontend/about_dialog.py:54
 msgid "Record a video of activity on your screen."
 msgstr "Posnemite video o dejavnosti na vašem zaslonu."
 
-#: ../kazam/frontend/widgets/dialogs.py:65
-msgid "Untitled Screencast"
-msgstr "Neimenovan zaslonski posnetek"
+#~ msgid "Description"
+#~ msgstr "Opis"
 
-#: ../kazam/frontend/widgets/dialogs.py:150
-#, python-format
-msgid "To upload a screencast to %s, you need a %s account."
-msgstr "Za pošiljanje zaslonskega posnetka na %s, potrebujete %s račun."
+#~ msgid "Category"
+#~ msgstr "Kategorija"
 
-#: ../kazam/frontend/widgets/dialogs.py:154
-#, python-format
-msgid "I have a %s account:"
-msgstr "Imam %s račun:"
+#~ msgid "Title"
+#~ msgstr "Naslov"
+
+#~ msgid "Keywords"
+#~ msgstr "Ključne besede"
+
+#~ msgid "Private"
+#~ msgstr "Zasebno"
+
+#~ msgid "There was an error converting."
+#~ msgstr "Napaka pri pretvarjanju."
+
+#~ msgid "Uploading screencast..."
+#~ msgstr "Pošiljanje zaslonskega posnetka ..."
+
+#~ msgid "There was an error logging in."
+#~ msgstr "Napaka pri prijavi."
+
+#~ msgid "Logging in..."
+#~ msgstr "Prijavljanje ..."
+
+#~ msgid "Log-in completed."
+#~ msgstr "Prijava uspešna."
+
+#~ msgid "Converting screencast..."
+#~ msgstr "Pretvarjanje zaslonskega posnetka ..."
+
+#~ msgid "Screencast converted."
+#~ msgstr "Zaslonski posnetek pretvorjen."
+
+#~ msgid "Your screencast has uploaded successfully."
+#~ msgstr "Vaš zaslonski posnetek je bil uspešno poslan."
+
+#~ msgid "There was an error uploading."
+#~ msgstr "Napaka pri pošiljanju."
+
+#~ msgid "Screencast uploaded."
+#~ msgstr "Zaslonski posnetek poslan."
+
+#~ msgid "It is available at the location below:"
+#~ msgstr "Na voljo je na naslovu spodaj:"
+
+#~ msgid "Countdown timer"
+#~ msgstr "Odštevalnik časa"
+
+#~ msgid "Video Source"
+#~ msgstr "Video vhod"
+
+#~ msgid "Email"
+#~ msgstr "Elektronska pošta"
+
+#~ msgid "File"
+#~ msgstr "Datoteka"
+
+#~ msgid "Help"
+#~ msgstr "Pomoč"
+
+#~ msgid "Encoder type"
+#~ msgstr "Vrsta kodeka"
+
+#~ msgid "Audio Source 2"
+#~ msgstr "Zvočni vhod 2"
+
+#~ msgid "Audio Source 1"
+#~ msgstr "Zvočni vhod 1"
+
+#~ msgid "Framerate"
+#~ msgstr "Hitrost sličic"
+
+#~ msgid "Capture mouse"
+#~ msgstr "Vključi miškin kazalec"

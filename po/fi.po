@@ -7,247 +7,305 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-08 14:12+0100\n"
-"PO-Revision-Date: 2010-10-09 19:15+0000\n"
+"POT-Creation-Date: 2012-04-19 01:33+0300\n"
+"PO-Revision-Date: 2012-07-18 19:34+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-24 16:04+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2012-11-14 04:49+0000\n"
+"X-Generator: Launchpad (build 16251)\n"
 
-#: ../data/ui/authenticate.ui.h:1
-msgid " "
-msgstr " "
-
-#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
-msgid "Cancel"
-msgstr "Peru"
-
-#: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
-msgid "Continue"
-msgstr "Jatka"
-
-#: ../data/ui/authenticate.ui.h:4
-msgid "Email address:"
-msgstr "Sähköpostiosoite:"
-
-#: ../data/ui/authenticate.ui.h:5
-msgid "I want to register an account now"
-msgstr "Haluan rekisteröidä tunnuksen nyt"
-
-#: ../data/ui/authenticate.ui.h:6
-msgid "Password:"
-msgstr "Salasana:"
-
-#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
-msgid "About"
-msgstr "Tietoja"
-
-#: ../data/ui/done-recording.ui.h:4
-msgid "Edit with:"
-msgstr "Muokkaa ohjelmalla:"
-
-#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
-#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/widgets/comboboxes.py:106
-#: ../kazam/frontend/widgets/dialogs.py:46
+#: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/about_dialog.py:53
 msgid "Kazam Screencaster"
 msgstr "Kazam-nauhoitin"
 
-#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
-#: ../kazam/frontend/indicator.py:65
+#: ../data/ui/kazam.ui.h:2
+msgid "Monitor:"
+msgstr "Näyttö:"
+
+#: ../data/ui/kazam.ui.h:3
+msgid "Select the video source"
+msgstr "Valitse videon lähde"
+
+#: ../data/ui/kazam.ui.h:4
+msgid "Speakers:"
+msgstr "Kaiuttimet:"
+
+#: ../data/ui/kazam.ui.h:5
+msgid "Select your audio ouput device (speakers of headphones)"
+msgstr "Valitse äänen ulostulolaite (kaiuttimet tai kuulokkeet)"
+
+#: ../data/ui/kazam.ui.h:6
+msgid "Set volume"
+msgstr "Aseta äänenvoimakkuus"
+
+#: ../data/ui/kazam.ui.h:7
+msgid "Microphone:"
+msgstr "Mikrofoni:"
+
+#: ../data/ui/kazam.ui.h:8
+msgid "Select your audio input device (microphone)"
+msgstr "Valitse äänen nauhoituslaite (mikrofoni)"
+
+#: ../data/ui/kazam.ui.h:9
+msgid "Toggle recording from your microphone"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:10
+msgid "Record with:"
+msgstr "Nauhoita käyttäen:"
+
+#: ../data/ui/kazam.ui.h:11
+msgid "Select what encoder you want to use"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:12
+msgid "Toggle recording from the video source"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:13
+msgid "Toggle recording from your speakers or headphones"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:14
+msgid "Countdown timer:"
+msgstr "Ajastin:"
+
+#: ../data/ui/kazam.ui.h:15
+msgid "Framerate:"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:16
+msgid "Set the coundown time (in seconds)"
+msgstr "Aseta ajastimen aika (sekunneissa)"
+
+#: ../data/ui/kazam.ui.h:17
+msgid "Set the number of frames per second"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:18
+msgid "Show countdown splash:"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:19
+msgid "Capture mouse:"
+msgstr "Kaappaa hiiren osoitin:"
+
+#: ../data/ui/kazam.ui.h:20
+msgid "Toggle display of countdown splash"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:21
+msgid "Toggle capturing of mouse cursor"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:22
+msgid "Record Region"
+msgstr "Nauhoita alue"
+
+#: ../data/ui/kazam.ui.h:23
+msgid "Select a screen region to record"
+msgstr "Valitse nauhoitettava näytön alue"
+
+#: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
 msgid "Quit"
 msgstr "Lopeta"
 
-#: ../data/ui/done-recording.ui.h:7
-msgid "Save for later use..."
-msgstr "Tallenna myöhempää käyttöä varten..."
+#: ../data/ui/kazam.ui.h:25
+msgid "Quit Kazam"
+msgstr "Lopeta Kazam"
 
-#: ../data/ui/done-recording.ui.h:8
-msgid ""
-"Your screencast has finished recording.\n"
-"What do you want to do now?"
-msgstr ""
-"Nauhoitus on valmis.\n"
-"Mitä haluat tehdä nyt?"
-
-#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
-#: ../data/ui/start.ui.h:8
-msgid "_File"
-msgstr "_Tiedosto"
-
-#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
-#: ../data/ui/start.ui.h:9
-msgid "_Help"
-msgstr "_Ohje"
-
-#: ../data/ui/export.ui.h:1
-msgid "<b>Export to:</b>"
-msgstr "<b>Vie:</b>"
-
-#: ../data/ui/export.ui.h:2
-msgid "Audio"
-msgstr "Ääni"
-
-#: ../data/ui/export.ui.h:3
-msgid "Back"
-msgstr "Takaisin"
-
-#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
+#: ../data/ui/kazam.ui.h:26
 msgid "Close"
 msgstr "Sulje"
 
-#: ../data/ui/export.ui.h:5
-msgid "Crop"
-msgstr "Rajaa"
+#: ../data/ui/kazam.ui.h:27
+msgid "Minimize the app to the appindicator"
+msgstr ""
 
-#: ../data/ui/export.ui.h:6
-msgid "Export"
-msgstr "Vie"
+#: ../data/ui/kazam.ui.h:28
+msgid "About"
+msgstr "Tietoja"
 
-#: ../data/ui/export.ui.h:8
-msgid "Quality:"
-msgstr "Laatu:"
+#: ../data/ui/kazam.ui.h:29
+msgid "About Kazam"
+msgstr "Tietoja Kazamista"
 
-#: ../data/ui/export.ui.h:9
-msgid "Video"
-msgstr "Video"
-
-#: ../data/ui/start.ui.h:5
+#: ../data/ui/kazam.ui.h:30
 msgid "Record"
 msgstr "Nauhoita"
 
-#: ../data/ui/start.ui.h:6
-msgid "Record Audio from:"
-msgstr "Nauhoita ääni laitteelta:"
-
-#: ../data/ui/start.ui.h:7
-msgid "Record Video from:"
-msgstr "Nauhoita video laitteelta:"
-
-#: ../data/ui/export_sources/youtube.ui.h:1
-msgid "Category"
-msgstr "Luokka"
-
-#: ../data/ui/export_sources/youtube.ui.h:2
-msgid "Description"
-msgstr "Kuvaus"
-
-#: ../data/ui/export_sources/youtube.ui.h:3
-msgid "Keywords"
-msgstr "Avainsanat"
-
-#: ../data/ui/export_sources/youtube.ui.h:4
-msgid "Private"
-msgstr "Yksityinen"
-
-#: ../data/ui/export_sources/youtube.ui.h:5
-msgid "Title"
-msgstr "Nimi"
+#: ../data/ui/kazam.ui.h:31 ../kazam/frontend/indicator.py:67
+msgid "Start recording"
+msgstr "Aloita nauhoitus"
 
 #: ../data/kazam.desktop.in.h:2
-msgid "Record a video of activity on your screen"
-msgstr "Nauhoita video näyttösi tapahtumista"
-
-#: ../data/kazam.desktop.in.h:3
 msgid "Screencaster"
 msgstr "Nauhoitin"
 
-#. Open the save dialog
-#: ../kazam/app.py:149
+#: ../data/kazam.desktop.in.h:3
+msgid "Record a video of activity on your screen"
+msgstr "Nauhoita video näyttösi tapahtumista"
+
+#: ../kazam/app.py:324 ../kazam/app.py:335 ../kazam/frontend/indicator.py:75
+msgid "Finish recording"
+msgstr "Lopeta nauhoitus"
+
+#: ../kazam/app.py:467
+msgid "Cancel countdown"
+msgstr "Peru ajastin"
+
+#: ../kazam/app.py:667 ../kazam/app.py:695
+msgid "Unknown"
+msgstr "Tuntematon"
+
+#: ../kazam/app.py:712
+msgid "Combined ({w}x{h})"
+msgstr "Yhdistetty ({w}x{h})"
+
+#: ../kazam/app.py:714
+msgid "Display {n} ({w}x{h})"
+msgstr "Näyttö {n} ({w}x{h})"
+
+#: ../kazam/frontend/done_recording.py:50
+msgid "Kazam Screencaster - Recording finished"
+msgstr "Kazam-nauhoitin - Nauhoitus valmistui"
+
+#: ../kazam/frontend/done_recording.py:62
+msgid ""
+"Kazam finished recording.\n"
+"What do you want to do now?"
+msgstr ""
+"Kazam lopetti nauhoituksen.\n"
+"Mitä haluat tehdä nyt?"
+
+#: ../kazam/frontend/done_recording.py:65
+msgid "Edit with:"
+msgstr "Muokkaa ohjelmalla:"
+
+#: ../kazam/frontend/done_recording.py:73
+msgid "Save for later"
+msgstr ""
+
+#: ../kazam/frontend/done_recording.py:83
+msgid "Cancel"
+msgstr "Peru"
+
+#: ../kazam/frontend/done_recording.py:85
+msgid "Continue"
+msgstr "Jatka"
+
+#: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
 msgstr "Tallenna nauhoitus"
 
-#: ../kazam/frontend/export.py:201
-msgid "Logging in..."
-msgstr "Kirjaudutaan sisään..."
-
-#: ../kazam/frontend/export.py:207
-msgid "Log-in completed."
-msgstr "Sisäänkirjautuminen suoritettu."
-
-#: ../kazam/frontend/export.py:209
-msgid "There was an error logging in."
-msgstr "Sisäänkirjautuessa tapahtui virhe."
-
-#: ../kazam/frontend/export.py:214
-msgid "Converting screencast..."
-msgstr "Muunnetaan nauhoitusta..."
-
-#: ../kazam/frontend/export.py:218
-msgid "Screencast converted."
-msgstr "Nauhoituksen muunnos on valmis."
-
-#: ../kazam/frontend/export.py:220
-msgid "There was an error converting."
-msgstr "Nauhoitusta muunnettaessa tapahtui virhe."
-
-#: ../kazam/frontend/export.py:225
-msgid "Uploading screencast..."
-msgstr "Lähetetään nauhoitusta..."
-
-#: ../kazam/frontend/export.py:229
-msgid "Screencast uploaded."
-msgstr "Nauhoitus lähetetty."
-
-#. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:233
-msgid "Your screencast has uploaded successfully."
-msgstr "Nauhoituksesi on lähetetty onnistuneesti."
-
-#: ../kazam/frontend/export.py:234
-msgid "It is available at the location below:"
-msgstr "Se on saatavilla alla olevasta sijainnista:"
-
-#: ../kazam/frontend/export.py:236
-msgid "There was an error uploading."
-msgstr "Nauhoitusta lähettäessä tapahtui virhe."
-
-#: ../kazam/frontend/indicator.py:58
+#: ../kazam/frontend/indicator.py:71
 msgid "Pause recording"
 msgstr "Keskeytä nauhoitus"
 
-#: ../kazam/frontend/indicator.py:61
-msgid "Finish recording..."
-msgstr "Lopeta nauhoitus..."
+#: ../kazam/frontend/indicator.py:82
+msgid "Record setup"
+msgstr "Nauhoitusasetukset"
 
-#: ../kazam/frontend/window_countdown.py:98
-msgid "Recording will start in..."
-msgstr "Nauhoituksen alkuun..."
+#: ../kazam/frontend/window_countdown.py:110
+msgid "Recording will start in ..."
+msgstr "Nauhoitus alkaa..."
 
-#: ../kazam/frontend/widgets/comboboxes.py:199
-msgid "Screen"
-msgstr "Näyttö"
+#: ../kazam/frontend/window_countdown.py:111
+msgid "{0}"
+msgstr "{0}"
 
-#: ../kazam/frontend/widgets/comboboxes.py:205
-msgid "All Screens"
-msgstr "Kaikki näytöt"
+#: ../kazam/frontend/window_region.py:215
+msgid "Select region by resizing the window"
+msgstr "Valitse alue muuttamalla ikkunan kokoa."
 
-#: ../kazam/frontend/widgets/comboboxes.py:207
-#, python-format
-msgid "Screen %s"
-msgstr "Näyttö %s"
+#: ../kazam/frontend/window_region.py:216
+msgid "Press ENTER to confirm or ESC to cancel."
+msgstr "Paina ENTER vahvistaaksesi tai ESC peruaksesi."
 
-#: ../kazam/frontend/widgets/comboboxes.py:218
-msgid "Computer"
-msgstr "Tietokone"
+#: ../kazam/frontend/save_dialog.py:38
+msgid "Save"
+msgstr "Tallenna"
 
-#: ../kazam/frontend/widgets/dialogs.py:47
+#: ../kazam/frontend/save_dialog.py:41 ../kazam/frontend/save_dialog.py:43
+msgid "Untitled_Screencast"
+msgstr "Nimetön_nauhoitus"
+
+#: ../kazam/frontend/about_dialog.py:54
 msgid "Record a video of activity on your screen."
 msgstr "Nauhoita video työpöytäsi tapahtumista"
 
-#: ../kazam/frontend/widgets/dialogs.py:65
-msgid "Untitled Screencast"
-msgstr "Nimetön nauhoitus"
+#~ msgid "Description"
+#~ msgstr "Kuvaus"
 
-#: ../kazam/frontend/widgets/dialogs.py:150
-#, python-format
-msgid "To upload a screencast to %s, you need a %s account."
-msgstr "Lähettääksesi videon palveluun %s, tarvitset %s-tunnuksen."
+#~ msgid "Keywords"
+#~ msgstr "Avainsanat"
 
-#: ../kazam/frontend/widgets/dialogs.py:154
-#, python-format
-msgid "I have a %s account:"
-msgstr "Minulla on %s-tunnus:"
+#~ msgid "Category"
+#~ msgstr "Luokka"
+
+#~ msgid "Private"
+#~ msgstr "Yksityinen"
+
+#~ msgid "There was an error logging in."
+#~ msgstr "Sisäänkirjautuessa tapahtui virhe."
+
+#~ msgid "Log-in completed."
+#~ msgstr "Sisäänkirjautuminen suoritettu."
+
+#~ msgid "Logging in..."
+#~ msgstr "Kirjaudutaan sisään..."
+
+#~ msgid "Title"
+#~ msgstr "Nimi"
+
+#~ msgid "Screencast converted."
+#~ msgstr "Nauhoituksen muunnos on valmis."
+
+#~ msgid "Converting screencast..."
+#~ msgstr "Muunnetaan nauhoitusta..."
+
+#~ msgid "Your screencast has uploaded successfully."
+#~ msgstr "Nauhoituksesi on lähetetty onnistuneesti."
+
+#~ msgid "There was an error converting."
+#~ msgstr "Nauhoitusta muunnettaessa tapahtui virhe."
+
+#~ msgid "Screencast uploaded."
+#~ msgstr "Nauhoitus lähetetty."
+
+#~ msgid "Uploading screencast..."
+#~ msgstr "Lähetetään nauhoitusta..."
+
+#~ msgid "There was an error uploading."
+#~ msgstr "Nauhoitusta lähettäessä tapahtui virhe."
+
+#~ msgid "It is available at the location below:"
+#~ msgstr "Se on saatavilla alla olevasta sijainnista:"
+
+#~ msgid "Framerate"
+#~ msgstr "Kuvanopeus"
+
+#~ msgid "Email"
+#~ msgstr "Sähköposti"
+
+#~ msgid "File"
+#~ msgstr "Tiedosto"
+
+#~ msgid "Help"
+#~ msgstr "Ohje"
+
+#~ msgid "Audio Source 2"
+#~ msgstr "Äänilähde 2"
+
+#~ msgid "Audio Source 1"
+#~ msgstr "Äänilähde 1"
+
+#~ msgid "Video Source"
+#~ msgstr "Videolähde"
+
+#~ msgid "Capture mouse"
+#~ msgstr "Sisällytä hiiren osoitin"
