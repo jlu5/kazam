@@ -98,7 +98,7 @@ class pulseaudio_q:
     def pa_sourcelist_cb(self, context, source_info, eol, userdata):
         """Source list callback function
 
-        Called by mainloop thread each time list of audio sources is requestd.
+        Called by mainloop thread each time list of audio sources is requested.
         All the parameters to this functions are passed to it automatically by
         the caller.
 
@@ -123,8 +123,8 @@ class pulseaudio_q:
             logger.debug("  Desc: {0}".format(source_info.contents.description))
             self.pa_status = PA_WORKING
             self._sources.append([source_info.contents.index,
-                                 source_info.contents.name,
-                                 " ".join(source_info.contents.description.split())])
+                                 source_info.contents.name.decode('utf-8'),
+                                 " ".join(source_info.contents.description.decode('utf-8').split())])
         else:
             logger.debug("pa_sourcelist_cb() -- finished")
             self.pa_status = PA_FINISHED
@@ -168,9 +168,9 @@ class pulseaudio_q:
 
 
             self._return_result  = [source_info.contents.index,
-                                    source_info.contents.name,
+                                    source_info.contents.name.decode('utf-8'),
                                     cvolume,
-                                    " ".join(source_info.contents.description.split())]
+                                    " ".join(source_info.contents.description.decode('utf-8').split())]
         else:
             try:
                 logger.debug("pa_sourceinfo_cb() -- Hit EOL")
@@ -207,7 +207,7 @@ class pulseaudio_q:
             logger.debug("Getting API.")
             self.pa_mlapi = pa_threaded_mainloop_get_api(self.pa_ml)
             logger.debug("Setting context.")
-            self.pa_ctx = pa_context_new(self.pa_mlapi, "kazam-pulse")
+            self.pa_ctx = pa_context_new(self.pa_mlapi, None)
             logger.debug("Set state callback.")
             pa_context_set_state_callback(self.pa_ctx, self._pa_state_cb, None)
         except:
@@ -310,7 +310,7 @@ class pulseaudio_q:
         for chn in range(cvolume.channels):
             avg = avg + cvolume.values[chn]
         avg = avg / cvolume.channels
-        volume = pa_sw_volume_to_linear(avg)
+        volume = pa_sw_volume_to_linear(uint32_t(int(avg)))
         return volume
 
     def cvolume_to_dB(self, cvolume):
@@ -318,7 +318,7 @@ class pulseaudio_q:
         for chn in range(cvolume.channels):
             avg = avg + cvolume.values[chn]
         avg = avg / cvolume.channels
-        volume = pa_sw_volume_to_dB(avg)
+        volume = pa_sw_volume_to_dB(uint32_t(int(avg)))
         return volume
 
     def linear_to_cvolume(self, index, volume):

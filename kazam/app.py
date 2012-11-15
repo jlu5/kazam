@@ -276,12 +276,6 @@ class KazamApp(GObject.GObject):
 
         self.restore_UI()
 
-        if not prefs.sound:
-            self.combobox_audio.set_sensitive(False)
-            self.combobox_audio2.set_sensitive(False)
-            self.volumebutton_audio.set_sensitive(False)
-            self.volumebutton_audio2.set_sensitive(False)
-
         HW.get_current_screen(self.window)
         self.startup = False
 
