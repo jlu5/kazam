@@ -21,7 +21,17 @@
 #       MA 02110-1301, USA.
 
 import os
-from configparser import SafeConfigParser, NoSectionError, NoOptionError
+import sys
+import platform
+
+version = platform.python_version_tuple()
+if version[0] == '3':
+    from configparser import SafeConfigParser, NoSectionError, NoOptionError
+elif version[0] == '2':
+    from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
+else:
+    sys.exit(1)
+
 from xdg.BaseDirectory import xdg_config_home
 
 class KazamConfig(SafeConfigParser):
