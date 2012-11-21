@@ -21,7 +21,13 @@
 #       MA 02110-1301, USA.
 
 import os
-from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
+import sys
+
+try:
+    from configparser import SafeConfigParser, NoSectionError, NoOptionError
+except ImportError:
+    from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
+
 from xdg.BaseDirectory import xdg_config_home
 
 class KazamConfig(SafeConfigParser):
@@ -112,6 +118,13 @@ class KazamConfig(SafeConfigParser):
             self.set(section, key, default)
             self.write()
             return default
+
+    def getboolean(self, section, key):
+        val = self.get(section, key)
+        if val.lower() == 'true' or val.lower == "on" or val.lower() == "yes":
+            return True
+        else:
+            return False
 
     def set(self, section, option, value):
         # If the section referred to doesn't exist (rare case),

@@ -21,7 +21,7 @@
 
 import os
 import logging
-logger = logging.getLogger("GStreamer-GI")
+logger = logging.getLogger("GStreamer")
 
 import tempfile
 import multiprocessing

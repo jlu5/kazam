@@ -258,12 +258,12 @@ except ImportError:
 
         def cb_indicator_activate(self, widget):
             def position(menu, widget):
-		        return (Gtk.StatusIcon.position_menu(self.menu, widget))
+                return (Gtk.StatusIcon.position_menu(self.menu, widget))
             self.menu.popup(None, None, position, self.indicator, 0, Gtk.get_current_event_time())
 
         def cb_indicator_popup_menu(self, icon, button, time):
             def position(menu, icon):
-		        return (Gtk.StatusIcon.position_menu(self.menu, icon))
+                return (Gtk.StatusIcon.position_menu(self.menu, icon))
             self.menu.popup(None, None, position, self.indicator, button, time)
 
         def on_menuitem_finish_activate(self, menuitem):

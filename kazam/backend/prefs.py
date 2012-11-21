@@ -117,7 +117,6 @@ class Prefs():
         self.logger.debug("Getting Audio sources.")
         try:
             self.audio_sources = prefs.pa_q.get_audio_sources()
-            #self.audio_sources.insert(0, [])
             if prefs.debug:
                 for src in self.audio_sources:
                     self.logger.debug(" Device found: ")
@@ -171,16 +170,16 @@ class Prefs():
 
 
     def read_config (self):
-        self.audio_source = self.config.getint("main", "audio_source")
-        self.audio2_source = self.config.getint("main", "audio2_source")
+        self.audio_source = int(self.config.get("main", "audio_source"))
+        self.audio2_source = int(self.config.get("main", "audio2_source"))
 
-        self.main_x = self.config.getint("main", "last_x")
-        self.main_y = self.config.getint("main", "last_y")
+        self.main_x = int(self.config.get("main", "last_x"))
+        self.main_y = int(self.config.get("main", "last_y"))
 
-        self.codec = self.config.getint("main", "codec")
+        self.codec = int(self.config.get("main", "codec"))
 
-        self.countdown_timer = self.config.getfloat("main", "counter")
-        self.framerate = self.config.getfloat("main", "framerate")
+        self.countdown_timer = float(self.config.get("main", "counter"))
+        self.framerate = float(self.config.get("main", "framerate"))
 
         self.capture_cursor = self.config.getboolean("main", "capture_cursor")
         self.capture_microphone = self.config.getboolean("main", "capture_microphone")
@@ -198,7 +197,7 @@ class Prefs():
         self.autosave_picture_file = self.config.get("main", "autosave_picture_file")
 
         self.shutter_sound = self.config.getboolean("main", "shutter_sound")
-        self.shutter_type = self.config.getint("main", "shutter_type")
+        self.shutter_type = int(self.config.get("main", "shutter_type"))
 
 
     def save_config(self):
