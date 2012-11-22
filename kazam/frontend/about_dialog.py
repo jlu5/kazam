@@ -30,9 +30,13 @@ David Klasinc <bigwhale@lubica.net>
 """
 
 ARTISTS = """
+Matthew Paul Thomas <mpt@canonical.com>
+Georgi Karavasilev <motorslav@gmail.com>
+Frank Souza <franksouza183@gmail.com>
 Robert McKenna <ttk1opc@yahoo.com>
 Andrew Higginson <rugby471@gmail.com>
 """
+
 LICENSE = """
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
