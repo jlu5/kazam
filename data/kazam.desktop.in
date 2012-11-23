@@ -9,27 +9,27 @@ Icon=kazam
 Terminal=false
 Type=Application
 
-X-Ayatana-Desktop-Shortcuts=SSF;SSA;SSW;Prefs;
+Actions=SSF;SSA;SSW;Prefs;
 
-[SSF Shortcut Group]
+[Desktop Action SSF]
 Name=Take a screenshot of entire workspace
 Name[bg]=Снимане на целия екран
 Exec=kazam -f
 OnlyShowIn=Unity
 
-[SSA Shortcut Group]
+[Desktop Action SSA]
 Name=Select an area to screenshot
 Name[bg]=Снимане на област
 Exec=kazam -a
 OnlyShowIn=Unity
 
-[SSW Shortcut Group]
+[Desktop Action SSW]
 Name=Select a window to screenshot
 Name[bg]=Снимане на прозорец
 Exec=kazam -w
 OnlyShowIn=Unity
 
-[Prefs Shortcut Group]
+[Desktop Action Prefs]
 Name=Preferences
 Name[bg]=Настройки
 Exec=kazam -p
