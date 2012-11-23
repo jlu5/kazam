@@ -1,4 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
+
+import sys
+if sys.version_info < (3, 2):
+    sys.exit('Kazam requires Python 3.2 or newer')
 
 from distutils.core import setup
 from DistUtilsExtra.command import *
