@@ -47,7 +47,7 @@ class DoneRecording(Gtk.Window):
     }
 
     def __init__(self, icons, tempfile, codec, old_path):
-        Gtk.Window.__init__(self, title=_("Kazam Screencaster - Recording finished"))
+        Gtk.Window.__init__(self, title="Kazam - " + _("Recording finished"))
         self.icons = icons
         self.tempfile = tempfile
         self.codec = codec
