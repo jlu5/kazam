@@ -1,7 +1,7 @@
 [Desktop Entry]
 _Name=Kazam
 _GenericName=Screencast and Screenshot tool
-_Comment=Record a video and take a screenshot of your screen
+_Comment=Record a video or take a screenshot of your screen
 _Keywords=screenshot;screencast;videorecord;desktop recording;
 Categories=GNOME;AudioVideo;
 Exec=kazam
