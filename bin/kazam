@@ -34,12 +34,11 @@ from gi.repository import Gtk
 class KazamService(dbus.service.Object):
     def __init__(self, app):
         self.app = app
-        bus_name = dbus.service.BusName('org.kazam.instance', bus=dbus.SessionBus())
-        dbus.service.Object.__init__(self, bus_name, "/org/kazam/instance")
+        bus_name = dbus.service.BusName('org.kazam', bus=dbus.SessionBus())
+        dbus.service.Object.__init__(self, bus_name, "/org/kazam")
 
-    @dbus.service.method('org.kazam.instance')
+    @dbus.service.method('org.kazam')
     def instance(self):
-        print("Raising app...")
         self.app.window.show()
         self.app.window.present()
 
@@ -142,36 +141,38 @@ if __name__ == "__main__":
 
     logger.debug("Starting ...")
 
-    DBusGMainLoop(set_as_default=True)
-    bus = dbus.SessionBus()
-    instance = bus.request_name("org.kazam.instance")
-
-    if not args.instance and instance != dbus.bus.REQUEST_NAME_REPLY_PRIMARY_OWNER:
-        logger.debug("Geeting existing instance ...")
-        app = dbus.SessionBus().get_object("org.kazam.instance", "/org/kazam/instance").get_dbus_method("instance")
-        app()
+    logger.debug("Starting new instance ...")
+    if args.fullscreen:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 1) # MODE_ALL
+    elif args.area:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 2) # MODE_AREA
+    elif args.window:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 4) # MODE_ACTIVE
+    elif args.godmode:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 666) # MODE_ACTIVE
+    elif args.preferences:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 0, preferences=True)
     else:
-        logger.debug("Starting new instance ...")
-        if args.fullscreen:
-            from kazam.instant import InstantApp
-            app = InstantApp(datadir, dist, args.debug, 1) # MODE_ALL
-        elif args.area:
-            from kazam.instant import InstantApp
-            app = InstantApp(datadir, dist, args.debug, 2) # MODE_AREA
-        elif args.window:
-            from kazam.instant import InstantApp
-            app = InstantApp(datadir, dist, args.debug, 4) # MODE_ACTIVE
-        elif args.godmode:
-            from kazam.instant import InstantApp
-            app = InstantApp(datadir, dist, args.debug, 666) # MODE_ACTIVE
-        elif args.preferences:
-            from kazam.instant import InstantApp
-            app = InstantApp(datadir, dist, args.debug, 0, preferences=True)
+
+        DBusGMainLoop(set_as_default=True)
+        bus = dbus.SessionBus()
+        instance = bus.request_name("org.kazam")
+
+        if not args.instance and instance != dbus.bus.REQUEST_NAME_REPLY_PRIMARY_OWNER:
+            logger.debug("Geeting existing instance ...")
+            app = dbus.SessionBus().get_object("org.kazam", "/org/kazam").get_dbus_method("instance")
+            app()
+            sys.exit(0)
         else:
             from kazam.app import KazamApp
             app = KazamApp(datadir, dist, args.debug, args.test, args.nosound, args.silent)
 
         kazam_service = KazamService(app)
 
-        Gtk.main()
-        logger.debug("Finishing ...")
+    Gtk.main()
+    logger.debug("Finishing ...")
