@@ -52,10 +52,10 @@ if __name__ == "__main__":
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
 
-    logger.info("Logger intialized.")
+    logger.debug("Logger intialized.")
 
     if os.path.exists("../data"):
-        logger.info("Running locally, AppIndicator icons might be missing.")
+        logger.warning("Running from local directory, AppIndicator icons could be missing.")
         datadir = "../data"
         sys.path.insert(0, "..")
     else:
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     try:
         import platform
         dist = platform.linux_distribution()
-        logger.info("Running on: {0} {1}".format(dist[0], dist[1]))
+        logger.debug("Running on: {0} {1}".format(dist[0], dist[1]))
     except:
         # Fallback to the almighty Ubuntu 12.10 ;)
         dist = ('Ubuntu', '12.10', 'quantal')
@@ -76,61 +76,20 @@ if __name__ == "__main__":
 
     from kazam.version import *
     version = "%(prog)s {0} '{1}'".format(VERSION, CODENAME)
-    parser = ArgumentParser(description = "Screen recording program.")
+    parser = ArgumentParser(description = "Kazam - Screen recording and capturing program.")
 
-    parser.add_argument("-d", "--debug",
-                        action = "store_true",
-                        help = "enable debug mode",
-                        default = False)
-
-    parser.add_argument("-v", "--version",
-                        action = "version",
-                        version = version)
-
-    parser.add_argument("-t", "--test",
-                        action = "store_true",
-                        help = "generate test video signal",
-                        default = False)
-
-    parser.add_argument("-n", "--nosound",
-                        action = "store_true",
-                        help = "disable PulseAudio",
-                        default = False)
-
-    parser.add_argument("-s", "--silent",
-                        action = "store_true",
-                        help = "silent start",
-                        default = False)
-
-    parser.add_argument("-f", "--fullscreen",
-                        action = "store_true",
-                        help = "instant screenshot of full screen",
-                        default = False)
-
-    parser.add_argument("-a", "--area",
-                        action = "store_true",
-                        help = "instant screenshot of preselected screen area",
-                        default = False)
-
-    parser.add_argument("-w", "--window",
-                        action = "store_true",
-                        help = "instant screenshot of active window",
-                        default = False)
-
-    parser.add_argument("-p", "--preferences",
-                        action = "store_true",
-                        help = "show preferences window",
-                        default = False)
-
-    parser.add_argument("-g", "--godmode",
-                        action = "store_true",
-                        help = "god mode of capture",
-                        default = False)
-
-    parser.add_argument("-x", "--instance",
-                        action = "store_true",
-                        help = "spawn new instance",
-                        default = False)
+    parser.add_argument("--debug",              action = "store_true",  help = "enable debug mode")
+    parser.add_argument("--silent",             action = "store_true",  help = "silent start, no UI shown")
+    parser.add_argument("--nosound",            action = "store_false", help = "disable PulseAudio")
+    parser.add_argument("--test",               action = "store_true",  help = "generate test video signal")
+    parser.add_argument("-v", "--version",      action = "version",     version = version)
+    parser.add_argument("-f", "--fullscreen",   action = "store_true",  help = "instant screenshot of a full screen")
+    parser.add_argument("-a", "--area",         action = "store_true",  help = "instant screenshot of a preselected screen area")
+    parser.add_argument("-s", "--select",       action = "store_true",  help = "instant screenshot of a preselected window")
+    parser.add_argument("-w", "--window",       action = "store_true",  help = "instant screenshot of an active window")
+    parser.add_argument("-p", "--preferences",  action = "store_true",  help = "show preferences window")
+    parser.add_argument("-g", "--godmode",      action = "store_true",  help = "god mode of capture")
+    parser.add_argument("-x", "--instance",     action = "store_true",  help = "spawn new instance")
 
 
     args = parser.parse_args()
@@ -148,6 +107,9 @@ if __name__ == "__main__":
     elif args.area:
         from kazam.instant import InstantApp
         app = InstantApp(datadir, dist, args.debug, 2) # MODE_AREA
+    elif args.select:
+        from kazam.instant import InstantApp
+        app = InstantApp(datadir, dist, args.debug, 3) # MODE_WIN
     elif args.window:
         from kazam.instant import InstantApp
         app = InstantApp(datadir, dist, args.debug, 4) # MODE_ACTIVE

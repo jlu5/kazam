@@ -80,8 +80,7 @@ class KazamApp(GObject.GObject):
         prefs.test = test
         prefs.dist = dist
         prefs.silent = silent
-        prefs.sound = not sound     # Parameter is called nosound and if true, then we don't have sound.
-                                    # Tricky parameters are tricky!
+        prefs.sound = sound
 
         self.setup_translations()
 
@@ -96,32 +95,6 @@ class KazamApp(GObject.GObject):
         self.icons = Gtk.IconTheme.get_default()
         self.icons.append_search_path(os.path.join(prefs.datadir,"icons", "48x48", "apps"))
         self.icons.append_search_path(os.path.join(prefs.datadir,"icons", "16x16", "apps"))
-
-        #
-        # For now, I'll get rid of this ...
-        #
-        #try:
-        #    from gi.repository import Unity, Dbusmenu
-        #    launcher = Unity.LauncherEntry.get_for_desktop_id("kazam.desktop")
-        #    ql = Dbusmenu.Menuitem.new()
-        #    ql_item1 = Dbusmenu.Menuitem.new()
-        #    ql_item1.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Record screencast"))
-        #    ql_item1.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, True)
-        #    ql_item1.connect("item-activated", self.cb_ql_screencast)
-        #    ql.child_append(ql_item1)
-        #    ql_item2 = Dbusmenu.Menuitem.new()
-        #    ql_item2.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Take screenshot"))
-        #    ql_item2.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, True)
-        #    ql_item2.connect("item-activated", self.cb_ql_screenshot)
-        #    ql.child_append(ql_item2)
-        #    ql_item3 = Dbusmenu.Menuitem.new()
-        #    ql_item3.property_set(Dbusmenu.MENUITEM_PROP_LABEL, _("Preferences"))
-        #    ql_item3.property_set_bool(Dbusmenu.MENUITEM_PROP_VISIBLE, True)
-        #    ql_item3.connect("item-activated", self.cb_ql_preferences)
-        #    ql.child_append(ql_item3)
-        #    launcher.set_property("quicklist", ql)
-        #except ImportError:
-        #    logger.warning("Unity and Dbusmenu not found. Skipping launcher integration.")
 
         # Initialize all the variables
 

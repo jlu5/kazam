@@ -23,7 +23,7 @@ OnlyShowIn=Unity
 
 [Desktop Action SSW]
 _Name=Select a window to screenshot
-Exec=kazam -w
+Exec=kazam -s
 OnlyShowIn=Unity
 
 [Desktop Action Prefs]

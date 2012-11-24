@@ -82,8 +82,11 @@ class Grabber(GObject.GObject):
                 area = app_win.get_frame_extents()
                 (fx, fy, fw, fh) = (area.x, area.y, area.width, area.height)
                 win = Gdk.get_default_root_window()
+                content_win = GdkX11.X11Window.foreign_new_for_display(disp, self.xid)
+                (cx, cy, cw, ch) = content_win.get_geometry()
                 logger.debug("Coordinates RX {0} RY {1} RW {2} RH {3}".format(rx, ry, rw, rh))
                 logger.debug("Coordinates FX {0} FY {1} FW {2} FH {3}".format(fx, fy, fw, fh))
+                logger.debug("Coordinates CX {0} CY {1} CW {2} CH {3}".format(fx, fy, fw, fh))
                 dx = fw - rw
                 dy = fh - rh
                 (x, y, w, h) = (fx, fy, fw, fh)
@@ -101,6 +104,17 @@ class Grabber(GObject.GObject):
         logger.debug("Coordinates X {0} Y {1} W {2} H {3}".format(x, y, w, h))
         self.pixbuf = Gdk.pixbuf_get_from_window(win, x, y, w, h)
 
+        if self.xid and prefs.capture_borders_pic:
+            cw_pixbuf = Gdk.pixbuf_get_from_window(content_win, cx, cy, cw, ch)
+            cw_pixbuf.composite(self.pixbuf,
+                                dx-2, dy, cw, ch,
+                                0,
+                                0,
+                                1.0,
+                                1.0,
+                                GdkPixbuf.InterpType.BILINEAR,
+                                255)
+
         if prefs.capture_cursor_pic:
             logger.debug("Adding cursor.")
 
@@ -111,12 +125,13 @@ class Grabber(GObject.GObject):
                 pointer = app_win.get_device_position(pntr_device)
                 (px, py) = (pointer[1], pointer[2])
                 c_picbuf.composite(self.pixbuf, rx, ry, rw, rh,
-                                   px + dx - 6,
-                                   py + dy - 2,
+                                   0,
+                                   0,
                                    1.0,
                                    1.0,
                                    GdkPixbuf.InterpType.BILINEAR,
                                    255)
+
             else:
                 pointer = win.get_device_position(pntr_device)
                 (px, py) = (pointer[1], pointer[2])

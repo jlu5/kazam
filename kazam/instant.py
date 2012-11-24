@@ -86,6 +86,13 @@ class InstantApp(GObject.GObject):
                 self.grabber.setup_sources(self.video_source, None, None, active=True)
                 logger.debug("Grabbing screen")
                 self.grabber.grab()
+            elif self.mode == MODE_WIN:
+                logger.debug("Window Selection ON.")
+                from kazam.frontend.window_select import SelectWindow
+                self.select_window = SelectWindow()
+                self.select_window.connect("window-selected", self.cb_window_selected)
+                self.select_window.connect("window-canceled", self.cb_window_canceled)
+                self.select_window.window.show_all()
             elif self.mode == MODE_GOD:
                 logger.debug("Grabbing in god mode.")
                 self.grabber.setup_sources(self.video_source, None, None, god=True)
@@ -112,6 +119,19 @@ class InstantApp(GObject.GObject):
         self.grabber.grab()
 
     def cb_area_canceled(self, widget):
+        Gtk.main_quit()
+        sys.exit(0)
+
+    def cb_window_selected(self, widget):
+        xid = self.select_window.xid
+        xid_geometry = self.select_window.geometry
+        logger.debug("Window selected: {0} - {1}".format(self.select_window.win_name, prefs.xid))
+        logger.debug("Window geometry: {0}".format(self.select_window.geometry))
+        self.grabber.setup_sources(self.video_source, None, xid)
+        logger.debug("Grabbing screen")
+        self.grabber.grab()
+
+    def cb_window_canceled(self, widget):
         Gtk.main_quit()
         sys.exit(0)
 

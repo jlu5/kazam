@@ -79,7 +79,8 @@ class Preferences(GObject.GObject):
         self.filechooser_video.set_current_folder(prefs.video_dest)
 
         self.populate_codecs()
-        self.populate_audio_sources()
+        if prefs.sound:
+            self.populate_audio_sources()
         self.populate_shutter_sounds()
 
         self.restore_UI()
