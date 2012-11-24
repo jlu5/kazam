@@ -1,5 +1,5 @@
 
-           Kazam Screencaster v1.3.1 "NCC-2893"
+           Kazam v1.3.4 "NCC-2893"
 
 
 Introduction
@@ -91,16 +91,15 @@ of the icons in the indicator and then move around with the cursor keys.
 Keyboard shortcuts
 ------------------
 
-If you have keybinder3.0 from the unstable PPA installed, then you can
-use these keyboard shortcuts for controlling Kazam:
-
 SUPER-CTRL-Q - Quit
 SUPER-CTRL-W - Show/Hide main window
 SUPER-CTRL-R - Start Recording
 SUPER-CTRL-F - Finish Recording
 
-Keyboard shortcuts will work if you installed Kazam 1.3.1 from a PPA,
+Keyboard shortcuts will work if you installed Kazam 1.3.x from a PPA,
 keybinder 3.0 is now a dependency and will be installed automatically.
+
+From Ubuntu 12.10 keyboard binder is available in the universe repositories.
 
 
 Known Issues
@@ -109,9 +108,6 @@ Known Issues
 - Support for multiple monitors is there, but your mileage may vary. It
 was tested only on two screen setup where both screens are side by side. With
 Region recording the Video source is ignored.
-
-- Placing Region selector outside of screen borders will produce unknown
-results and you will probably end up with no video.
 
 - Trouble with recording from certain Monitor sources. I noticed this with
 Logitech G110 USB Keyboard that can play audio. Pulse Audio will see two
