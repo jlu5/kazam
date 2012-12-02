@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-04-19 01:33+0300\n"
-"PO-Revision-Date: 2012-11-25 19:03+0000\n"
-"Last-Translator: Wormhole <Unknown>\n"
+"PO-Revision-Date: 2012-12-01 15:49+0000\n"
+"Last-Translator: Alessandro Muraro <akmuraro@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-11-26 04:56+0000\n"
-"X-Generator: Launchpad (build 16293)\n"
+"X-Launchpad-Export-Date: 2012-12-02 04:46+0000\n"
+"X-Generator: Launchpad (build 16319)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:53
@@ -36,7 +36,7 @@ msgstr "Casse:"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Select your audio ouput device (speakers of headphones)"
-msgstr ""
+msgstr "Seleziona la tua periferica audio di uscita (casse degli auricolari)"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Set volume"
@@ -48,11 +48,11 @@ msgstr "Microfono:"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Select your audio input device (microphone)"
-msgstr ""
+msgstr "Seleziona la tua periferica audio d'ingresso (microfono)"
 
 #: ../data/ui/kazam.ui.h:9
 msgid "Toggle recording from your microphone"
-msgstr ""
+msgstr "Attiva registrazione dal tuo microfono"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "Record with:"
@@ -60,15 +60,15 @@ msgstr "Registra con:"
 
 #: ../data/ui/kazam.ui.h:11
 msgid "Select what encoder you want to use"
-msgstr ""
+msgstr "Seleziona quale encoder vuoi utilizzare"
 
 #: ../data/ui/kazam.ui.h:12
 msgid "Toggle recording from the video source"
-msgstr ""
+msgstr "Attiva l'audio della sorgente video"
 
 #: ../data/ui/kazam.ui.h:13
 msgid "Toggle recording from your speakers or headphones"
-msgstr ""
+msgstr "Attiva l'audio dalle tue casse o auricolari"
 
 #: ../data/ui/kazam.ui.h:14
 msgid "Countdown timer:"
@@ -76,11 +76,11 @@ msgstr "Timer conto alla rovescia"
 
 #: ../data/ui/kazam.ui.h:15
 msgid "Framerate:"
-msgstr ""
+msgstr "Framerate:"
 
 #: ../data/ui/kazam.ui.h:16
 msgid "Set the coundown time (in seconds)"
-msgstr ""
+msgstr "Imposta conto alla roverscia (in secondi)"
 
 #: ../data/ui/kazam.ui.h:17
 msgid "Set the number of frames per second"
@@ -88,7 +88,7 @@ msgstr "Imposta numero fotogrammi per secondo"
 
 #: ../data/ui/kazam.ui.h:18
 msgid "Show countdown splash:"
-msgstr ""
+msgstr "Mostra schermata di countdown:"
 
 #: ../data/ui/kazam.ui.h:19
 msgid "Capture mouse:"
@@ -96,19 +96,19 @@ msgstr "Cattura mouse:"
 
 #: ../data/ui/kazam.ui.h:20
 msgid "Toggle display of countdown splash"
-msgstr ""
+msgstr "Attiva schermata di countdown"
 
 #: ../data/ui/kazam.ui.h:21
 msgid "Toggle capturing of mouse cursor"
-msgstr ""
+msgstr "Attiva cattura del mouse"
 
 #: ../data/ui/kazam.ui.h:22
 msgid "Record Region"
-msgstr "Registra Regione"
+msgstr "Registra area"
 
 #: ../data/ui/kazam.ui.h:23
 msgid "Select a screen region to record"
-msgstr ""
+msgstr "Scegli un'area dello schermo da registrare"
 
 #: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
 msgid "Quit"
@@ -124,11 +124,11 @@ msgstr "Chiudi"
 
 #: ../data/ui/kazam.ui.h:27
 msgid "Minimize the app to the appindicator"
-msgstr "Minimizza applicazione nella barra"
+msgstr "Minimizza l'applicazione"
 
 #: ../data/ui/kazam.ui.h:28
 msgid "About"
-msgstr "Informazioni"
+msgstr "Informazioni su..."
 
 #: ../data/ui/kazam.ui.h:29
 msgid "About Kazam"
@@ -156,7 +156,7 @@ msgstr "Termina registrazione"
 
 #: ../kazam/app.py:467
 msgid "Cancel countdown"
-msgstr ""
+msgstr "Annulla countdown"
 
 #: ../kazam/app.py:667 ../kazam/app.py:695
 msgid "Unknown"
