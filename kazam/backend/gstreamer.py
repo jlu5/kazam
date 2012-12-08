@@ -91,11 +91,7 @@ class Screencast(GObject.GObject):
         if self.video_source or self.area:
             self.setup_video_source()
 
-        if self.audio_source:
-            self.setup_audio_source()
-
-        if self.audio2_source:
-            self.setup_audio2_source()
+        self.setup_audio_sources()
 
         self.setup_filesink()
         self.setup_pipeline()
@@ -214,34 +210,41 @@ class Screencast(GObject.GObject):
         self.vid_in_queue = Gst.ElementFactory.make("queue", "queue_v1")
         self.vid_out_queue = Gst.ElementFactory.make("queue", "queue_v2")
 
-    def setup_audio_source(self):
-        logger.debug("Audio1 Source:\n  {0}".format(self.audio_source))
-        self.audiosrc = Gst.ElementFactory.make("pulsesrc", "audio_src")
-        self.audiosrc.set_property("device", self.audio_source)
-        self.aud_caps = Gst.caps_from_string("audio/x-raw")
-        self.aud_caps_filter = Gst.ElementFactory.make("capsfilter", "aud_filter")
-        self.aud_caps_filter.set_property("caps", self.aud_caps)
-        self.audioconv = Gst.ElementFactory.make("audioconvert", "audio_conv")
-        if prefs.codec == CODEC_VP8:
-            self.audioenc = Gst.ElementFactory.make("vorbisenc", "audio_encoder")
-            self.audioenc.set_property("quality", 1)
-        else:
-            self.audioenc = Gst.ElementFactory.make("lamemp3enc", "audio_encoder")
-            self.audioenc.set_property("quality", 0)
+    def setup_audio_sources(self):
+        if self.audio_source or self.audio2_source:
+            logger.debug("Setup audio elements.")
+            self.aud_out_queue = Gst.ElementFactory.make("queue", "queue_a_out")
+            self.audioconv = Gst.ElementFactory.make("audioconvert", "audio_conv")
+            if prefs.codec == CODEC_VP8:
+                self.audioenc = Gst.ElementFactory.make("vorbisenc", "audio_encoder")
+                self.audioenc.set_property("quality", 1)
+            else:
+                self.audioenc = Gst.ElementFactory.make("lamemp3enc", "audio_encoder")
+                self.audioenc.set_property("quality", 0)
 
-        self.aud_in_queue = Gst.ElementFactory.make("queue", "queue_a_in")
-        self.aud_out_queue = Gst.ElementFactory.make("queue", "queue_a_out")
+        if self.audio_source:
+            logger.debug("Audio1 Source:\n  {0}".format(self.audio_source))
+            self.audiosrc = Gst.ElementFactory.make("pulsesrc", "audio_src")
+            self.audiosrc.set_property("device", self.audio_source)
+            self.aud_caps = Gst.caps_from_string("audio/x-raw")
+            self.aud_caps_filter = Gst.ElementFactory.make("capsfilter", "aud_filter")
+            self.aud_caps_filter.set_property("caps", self.aud_caps)
 
-    def setup_audio2_source(self):
-        logger.debug("Audio2 Source:\n  {0}".format(self.audio2_source))
-        self.audiomixer = Gst.ElementFactory.make("adder", "audiomixer")
-        self.audio2src = Gst.ElementFactory.make("pulsesrc", "audio2_src")
-        self.audio2src.set_property("device", self.audio2_source)
-        self.aud2_caps = Gst.caps_from_string("audio/x-raw")
-        self.aud2_caps_filter = Gst.ElementFactory.make("capsfilter", "aud2_filter")
-        self.aud2_caps_filter.set_property("caps", self.aud2_caps)
-        self.aud2_in_queue = Gst.ElementFactory.make("queue", "queue_a2_in")
-        self.audio2conv = Gst.ElementFactory.make("audioconvert", "audio2_conv")
+            self.aud_in_queue = Gst.ElementFactory.make("queue", "queue_a_in")
+
+        if self.audio2_source:
+            logger.debug("Audio2 Source:\n  {0}".format(self.audio2_source))
+            self.audio2src = Gst.ElementFactory.make("pulsesrc", "audio2_src")
+            self.audio2src.set_property("device", self.audio2_source)
+            self.aud2_caps = Gst.caps_from_string("audio/x-raw")
+            self.aud2_caps_filter = Gst.ElementFactory.make("capsfilter", "aud2_filter")
+            self.aud2_caps_filter.set_property("caps", self.aud2_caps)
+            self.aud2_in_queue = Gst.ElementFactory.make("queue", "queue_a2_in")
+            self.audio2conv = Gst.ElementFactory.make("audioconvert", "audio2_conv")
+
+        if self.audio_source and self.audio2_source:
+            self.audiomixer = Gst.ElementFactory.make("adder", "audiomixer")
+
 
     def setup_filesink(self):
         logger.debug("Filesink: {0}".format(self.tempfile))
@@ -269,19 +272,23 @@ class Screencast(GObject.GObject):
         if prefs.codec is not CODEC_RAW:
             self.pipeline.add(self.videnc)
 
+        if self.audio_source or self.audio2_source:
+            self.pipeline.add(self.audioconv)
+            self.pipeline.add(self.audioenc)
+            self.pipeline.add(self.aud_out_queue)
+
         if self.audio_source:
             self.pipeline.add(self.audiosrc)
             self.pipeline.add(self.aud_in_queue)
             self.pipeline.add(self.aud_caps_filter)
-            self.pipeline.add(self.aud_out_queue)
-            self.pipeline.add(self.audioconv)
-            self.pipeline.add(self.audioenc)
 
         if self.audio2_source:
-            self.pipeline.add(self.audiomixer)
-            self.pipeline.add(self.aud2_in_queue)
             self.pipeline.add(self.audio2src)
+            self.pipeline.add(self.aud2_in_queue)
             self.pipeline.add(self.aud2_caps_filter)
+
+        if self.audio_source and self.audio2_source:
+            self.pipeline.add(self.audiomixer)
 
         self.pipeline.add(self.mux)
         self.pipeline.add(self.sink)
@@ -312,36 +319,54 @@ class Screencast(GObject.GObject):
 
         self.vid_out_queue.link(self.mux)
 
-        if self.audio_source:
+        if self.audio_source and self.audio2_source:
             logger.debug("Linking Audio")
             ret = self.audiosrc.link(self.aud_in_queue)
             logger.debug(" Link audiosrc -> aud_in_queue: %s" % ret)
             ret = self.aud_in_queue.link(self.aud_caps_filter)
             logger.debug(" Link aud_in_queue -> aud_caps_filter: %s" % ret)
 
-            if self.audio2_source:
-                logger.debug("Linking Audio2")
-                # Link first audio source to mixer
-                ret = self.aud_caps_filter.link(self.audiomixer)
-                logger.debug(" Link aud_caps_filter -> audiomixer: %s" % ret)
+            logger.debug("Linking Audio2")
+            # Link first audio source to mixer
+            ret = self.aud_caps_filter.link(self.audiomixer)
+            logger.debug(" Link aud_caps_filter -> audiomixer: %s" % ret)
 
-                # Link second audio source to mixer
-                ret = self.audio2src.link(self.aud2_in_queue)
-                logger.debug(" Link audio2src -> aud2_in_queue: %s" % ret)
-                ret = self.aud2_in_queue.link(self.aud2_caps_filter)
-                logger.debug(" Link aud2_in_queue -> aud2_caps_filter: %s" % ret)
-                ret = self.aud2_caps_filter.link(self.audiomixer)
-                logger.debug(" Link aud2_caps_filter -> audiomixer: %s" % ret)
+            # Link second audio source to mixer
+            ret = self.audio2src.link(self.aud2_in_queue)
+            logger.debug(" Link audio2src -> aud2_in_queue: %s" % ret)
+            ret = self.aud2_in_queue.link(self.aud2_caps_filter)
+            logger.debug(" Link aud2_in_queue -> aud2_caps_filter: %s" % ret)
+            ret = self.aud2_caps_filter.link(self.audiomixer)
+            logger.debug(" Link aud2_caps_filter -> audiomixer: %s" % ret)
 
-                # Link mixer to audio convert
-                ret = self.audiomixer.link(self.audioconv)
-                logger.debug(" Link audiomixer -> audioconv: %s" % ret)
+            # Link mixer to audio convert
+            ret = self.audiomixer.link(self.audioconv)
+            logger.debug(" Link audiomixer -> audioconv: %s" % ret)
 
-            else:
-                # Link first audio source to audio convert
-                ret = self.aud_caps_filter.link(self.audioconv)
-                logger.debug(" Link aud_caps_filter -> audioconv: %s" % ret)
+        elif self.audio_source:
 
+            logger.debug("Linking Audio")
+            ret = self.audiosrc.link(self.aud_in_queue)
+            logger.debug(" Link audiosrc -> aud_in_queue: %s" % ret)
+            ret = self.aud_in_queue.link(self.aud_caps_filter)
+            logger.debug(" Link aud_in_queue -> aud_caps_filter: %s" % ret)
+
+            # Link first audio source to audio convert
+            ret = self.aud_caps_filter.link(self.audioconv)
+            logger.debug(" Link aud_caps_filter -> audioconv: %s" % ret)
+
+        elif self.audio2_source:
+            # Link second audio source to mixer
+            ret = self.audio2src.link(self.aud2_in_queue)
+            logger.debug(" Link audio2src -> aud2_in_queue: %s" % ret)
+            ret = self.aud2_in_queue.link(self.aud2_caps_filter)
+            logger.debug(" Link aud2_in_queue -> aud2_caps_filter: %s" % ret)
+
+            # Link second audio source to audio convert
+            ret = self.aud2_caps_filter.link(self.audioconv)
+            logger.debug(" Link aud2_caps_filter -> audioconv: %s" % ret)
+
+        if self.audio_source or self.audio2_source:
             # Link audio to muxer
             ret = self.audioconv.link(self.audioenc)
             logger.debug("Link audioconv -> audioenc: %s" % ret)
