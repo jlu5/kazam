@@ -20,10 +20,13 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+import os
 import cairo
 
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
+
+from kazam.backend.prefs import *
 from kazam.backend.constants import *
 
 class CountdownWindow(GObject.GObject):
@@ -45,8 +48,8 @@ class CountdownWindow(GObject.GObject):
         self.window = Gtk.Window()
         self.window.connect("delete-event", Gtk.main_quit)
         self.window.connect("draw", self.cb_draw)
-        self.width = 600
-        self.height = 240
+        self.width = 380
+        self.height = 380
         self.window.set_default_geometry(self.height, self.width)
         self.window.set_default_size(self.width, self.height)
         self.window.set_position(Gtk.WindowPosition.CENTER)
@@ -98,43 +101,9 @@ class CountdownWindow(GObject.GObject):
     def cb_draw(self, widget, cr):
         w = self.width
         h = self.height
-        cr.set_source_rgba(1, 1, 1, 0)
+        background = cairo.ImageSurface.create_from_png(os.path.join(prefs.datadir, "icons", "counter", "cb-{0}.png".format(self.number)))
+        cr.set_source_rgba(0.0, 0.0, 0.0, 0.45)
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
-        self._draw_rounded(cr, 1, 1, w - 10, h - 10, 20)
-        cr.set_line_width(1.0)
-        cr.set_source_rgba(0.0, 0.0, 0.0, 0.4)
-        cr.stroke_preserve()
-        cr.fill()
-        cr.set_operator(cairo.OPERATOR_OVER)
-        self._outline_text(cr, w, h, 36, _("Recording will start in ..."))
-        self._outline_text(cr, w, h + 70, 36, _("{0}".format(self.number)))
-
-    def _draw_rounded(self, cr, x, y, w, h, r = 20):
-        cr.move_to(x + r, y)
-        cr.line_to(x + w - r, y)
-        cr.curve_to(x + w,y,x+w,y,x+w,y+r)
-        cr.line_to(x + w,y+h-r)
-        cr.curve_to(x + w, y + h, x + w, y + h, x + w - r, y + h)
-        cr.line_to(x + r, y + h)
-        cr.curve_to(x, y + h, x, y + h, x, y + h - r)
-        cr.line_to(x, y + r)
-        cr.curve_to(x, y, x, y, x + r, y)
-
-    def _outline_text(self, cr, w, h, size, text):
-        cr.set_font_size(size)
-        try:
-            cr.select_font_face("Ubuntu", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
-        except:
-            pass
-        te = cr.text_extents(text)
-        cr.set_source_rgba(0.4, 0.4, 0.4, 1.0)
-        cr.set_line_width(2.0)
-        cx = w/2 - te[2]/2
-        cy = h/2 - te[3]/2
-        cr.move_to(cx, cy)
-        cr.text_path(text)
-        cr.stroke()
-        cr.set_source_rgba(1.0, 1.0, 1.0, 1.0)
-        cr.move_to(cx, cy)
-        cr.show_text(text)
+        cr.set_source_surface(background, 0, 0)
+        cr.paint()
