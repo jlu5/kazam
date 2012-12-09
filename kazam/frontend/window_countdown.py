@@ -101,7 +101,7 @@ class CountdownWindow(GObject.GObject):
     def cb_draw(self, widget, cr):
         w = self.width
         h = self.height
-        background = cairo.ImageSurface.create_from_png(os.path.join(prefs.datadir, "icons", "counter", "cb-{0}.png".format(self.number)))
+        background = cairo.ImageSurface.create_from_png(os.path.join(prefs.datadir, "icons", "counter", "cb-{0}.png".format(int(self.number))))
         cr.set_source_rgba(0.0, 0.0, 0.0, 0.45)
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
