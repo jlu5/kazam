@@ -50,6 +50,10 @@ class AreaWindow(GObject.GObject):
         self.starty = 0
         self.endx = 0
         self.endy = 0
+        self.g_startx = 0
+        self.g_starty = 0
+        self.g_endx = 0
+        self.g_endy = 0
         self.height = 0
         self.width = 0
 
@@ -104,18 +108,30 @@ class AreaWindow(GObject.GObject):
     def cb_draw_motion_notify_event(self, widget, event):
         (state, x, y, mask) = event.window.get_device_position(self.pntr_device)
         if mask & Gdk.ModifierType.BUTTON1_MASK:
+            (scr, x, y) = self.pntr_device.get_position()
+            cur = scr.get_monitor_at_point(x, y)
             self.endx = int(event.x)
             self.endy = int(event.y)
+            self.g_endx = HW.screens[cur]['x'] + self.endx
+            self.g_endy = HW.screens[cur]['y'] + self.endy
             self.width  = self.endx - self.startx
             self.height = self.endy - self.starty
         widget.queue_draw()
         return True
 
     def cb_draw_button_press_event(self, widget, event):
+        (scr, x, y) = self.pntr_device.get_position()
+        cur = scr.get_monitor_at_point(x, y)
         self.startx = int(event.x)
         self.starty = int(event.y)
+        self.g_startx = HW.screens[cur]['x'] + self.startx
+        self.g_starty = HW.screens[cur]['y'] + self.starty
+
         self.endx = 0
         self.endy = 0
+        self.g_endx = 0
+        self.g_endy = 0
+
         self.width  = 0
         self.height = 0
 

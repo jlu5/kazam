@@ -363,11 +363,16 @@ class KazamApp(GObject.GObject):
             self.area_window.starty,
             self.area_window.endx,
             self.area_window.endy))
+        logger.debug("Area selected: GX: {0}, GY: {1}, GX: {2}, GY: {3}".format(
+            self.area_window.g_startx,
+            self.area_window.g_starty,
+            self.area_window.g_endx,
+            self.area_window.g_endy))
         self.window.set_sensitive(True)
-        prefs.area = (self.area_window.startx,
-                     self.area_window.starty,
-                     self.area_window.endx,
-                     self.area_window.endy,
+        prefs.area = (self.area_window.g_startx,
+                     self.area_window.g_starty,
+                     self.area_window.g_endx,
+                     self.area_window.g_endy,
                      self.area_window.width,
                      self.area_window.height)
 

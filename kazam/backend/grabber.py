@@ -133,12 +133,16 @@ class Grabber(GObject.GObject):
                                    255)
 
             else:
-                pointer = win.get_device_position(pntr_device)
-                (px, py) = (pointer[1], pointer[2])
+                (scr, px, py) = pntr_device.get_position()
+                cur = scr.get_monitor_at_point(x, y)
+
+                px = px - HW.screens[cur]['x']
+                py = py - HW.screens[cur]['y']
+
                 #
-                # Cursor is offseted by 6 pixels to the right and 2 down
+                # Cursor is offset by 6 pixels to the right and 2 down
                 #
-                c_picbuf.composite(self.pixbuf, x, y, w, h,
+                c_picbuf.composite(self.pixbuf, 0, 0, w - 1, h - 1,
                                    px - 6,
                                    py - 2,
                                    1.0,
@@ -146,7 +150,7 @@ class Grabber(GObject.GObject):
                                    GdkPixbuf.InterpType.BILINEAR,
                                    255)
 
-            logger.debug("Cursor coords: {0} {1}".format(px, py))
+                logger.debug("Cursor coords: {0} {1}".format(px, py))
 
         if self.area is not None:
             logger.debug("Cropping image.")
