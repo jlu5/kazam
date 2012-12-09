@@ -278,6 +278,11 @@ class KazamApp(GObject.GObject):
             if self.record_mode == MODE_WIN:
                 self.last_mode.set_active(True)
             self.indicator.menuitem_start.set_label(_("Take screenshot"))
+            if self.record_mode == "MODE_WIN":
+                self.chk_borders_pic.set_sensitive(True)
+            else:
+                self.chk_borders_pic.set_sensitive(False)
+
 
     #
     # Record mode toggles
@@ -317,9 +322,11 @@ class KazamApp(GObject.GObject):
             self.tmp_sig3 = self.select_window.connect("window-selected", self.cb_window_selected)
             self.tmp_sig4 = self.select_window.connect("window-canceled", self.cb_window_canceled)
             self.record_mode = MODE_WIN
+            self.chk_borders_pic.set_sensitive(True)
 
         if widget.get_name() == "MODE_WIN" and not widget.get_active():
             logger.debug("Window capture OFF.")
+            self.chk_borders_pic.set_sensitive(False)
             if self.select_window:
                 self.select_window.disconnect(self.tmp_sig3)
                 self.select_window.disconnect(self.tmp_sig4)
