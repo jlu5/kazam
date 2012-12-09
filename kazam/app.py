@@ -54,7 +54,7 @@ try:
     from gi.repository import Gst
     gst_gi = Gst.version()
     if not gst_gi[0]:
-        logger.critical("Gstreamer 1.0 or higher requred, bailing out.")
+        logger.critical(_("Gstreamer 1.0 or higher required, bailing out."))
         gst_gi = None
         sys.exit(0)
     else:
@@ -63,7 +63,7 @@ try:
                                                                       gst_gi[2],
                                                                       gst_gi[3]))
 except ImportError:
-    logger.critical("Gstreamer 1.0 or higher requred, bailing out.")
+    logger.critical(_("Gstreamer 1.0 or higher required, bailing out."))
     sys.exit(0)
 
 class KazamApp(GObject.GObject):
@@ -641,15 +641,16 @@ class KazamApp(GObject.GObject):
         self.indicator.blink_set_state(BLINK_START)
 
         if self.main_mode == MODE_SCREENCAST and prefs.sound:
-            if prefs.capture_speakers and prefs.audio_source > 0:
-                audio_source = prefs.audio_sources[prefs.audio_source][1]
+            if prefs.capture_speakers:
+                audio_source = prefs.speaker_sources[prefs.audio_source][1]
             else:
                 audio_source = None
 
-            if prefs.capture_microphone and prefs.audio2_source > 0:
-                audio2_source = prefs.audio_sources[prefs.audio2_source][1]
+            if prefs.capture_microphone:
+                audio2_source = prefs.mic_sources[prefs.audio2_source][1]
             else:
                 audio2_source = None
+
         else:
             audio_source = None
             audio2_source = None

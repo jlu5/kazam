@@ -122,12 +122,16 @@ class Preferences(GObject.GObject):
         self.combobox_codec.set_row_separator_func(self.is_separator, None)
 
     def populate_audio_sources(self):
-        audio_source_model = Gtk.ListStore(str)
+        speaker_source_model = Gtk.ListStore(str)
+        mic_source_model = Gtk.ListStore(str)
         for source in prefs.audio_sources:
-            audio_source_model.append([source[2]])
+            if "Monitor" in source[2]:
+                speaker_source_model.append([source[2]])
+            else:
+                mic_source_model.append([source[2]])
 
-        self.combobox_audio.set_model(audio_source_model)
-        self.combobox_audio2.set_model(audio_source_model)
+        self.combobox_audio.set_model(speaker_source_model)
+        self.combobox_audio2.set_model(mic_source_model)
 
     def populate_shutter_sounds(self):
         for file in prefs.sound_files:
@@ -228,7 +232,7 @@ class Preferences(GObject.GObject):
         prefs.audio_source = self.combobox_audio.get_active()
         logger.debug("  - A_1 {0}".format(prefs.audio_source))
 
-        pa_audio_idx =  prefs.audio_sources[prefs.audio_source][0]
+        pa_audio_idx =  prefs.speaker_sources[prefs.audio_source][0]
         prefs.pa_q.set_source_mute_by_index(pa_audio_idx, 0)
 
         logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
@@ -247,20 +251,13 @@ class Preferences(GObject.GObject):
         else:
             logger.debug("New Audio1: Error retrieving data.")
 
-        if prefs.audio_source == prefs.audio2_source:
-            if prefs.audio_source < len(prefs.audio_sources) - 1:
-                prefs.audio2_source += 1
-            else:
-                prefs.audio2_source = 0
-            self.combobox_audio2.set_active(prefs.audio2_source)
-
     def cb_audio2_changed(self, widget):
         logger.debug("Audio2 Changed.")
 
         prefs.audio2_source = self.combobox_audio2.get_active()
         logger.debug("  - A_2 {0}".format(prefs.audio2_source))
 
-        pa_audio2_idx =  prefs.audio_sources[prefs.audio2_source][0]
+        pa_audio2_idx =  prefs.mic_sources[prefs.audio2_source][0]
         prefs.pa_q.set_source_mute_by_index(pa_audio2_idx, 0)
 
         logger.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
@@ -280,13 +277,6 @@ class Preferences(GObject.GObject):
             logger.debug("New Audio2:\n  {0}".format(self.audio2_source_info[3]))
         else:
             logger.debug("New Audio2:\n  Error retrieving data.")
-
-        if prefs.audio_source == prefs.audio2_source:
-            if prefs.audio_source < len(prefs.audio_sources) - 1:
-                prefs.audio2_source += 1
-            else:
-                prefs.audio2_source = 0
-            self.combobox_audio2.set_active(prefs.audio2_source)
 
     def cb_volume_changed(self, widget, value):
         logger.debug("Volume 1 changed, new value: {0}".format(value))

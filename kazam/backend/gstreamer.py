@@ -80,6 +80,7 @@ class Screencast(GObject.GObject):
         self.xid = xid
 
         logger.debug("audio_source : {0}".format(audio_source))
+        logger.debug("audio2_source : {0}".format(audio2_source))
         logger.debug("video_source: {0}".format(video_source))
         logger.debug("xid: {0}".format(xid))
         logger.debug("area: {0}".format(area))

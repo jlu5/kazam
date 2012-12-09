@@ -98,6 +98,9 @@ class Prefs():
         self.audio_source = None
         self.audio2_source = None
 
+        self.speaker_sources = []
+        self.mic_sources = []
+
         #
         # Command line parameters
         #
@@ -117,6 +120,12 @@ class Prefs():
         self.logger.debug("Getting Audio sources.")
         try:
             self.audio_sources = prefs.pa_q.get_audio_sources()
+            for src in self.audio_sources:
+                if "Monitor" in src[2]:
+                    self.speaker_sources.append(src)
+                else:
+                    self.mic_sources.append(src)
+
             if prefs.debug:
                 for src in self.audio_sources:
                     self.logger.debug(" Device found: ")
@@ -172,7 +181,6 @@ class Prefs():
     def read_config (self):
         self.audio_source = int(self.config.get("main", "audio_source"))
         self.audio2_source = int(self.config.get("main", "audio2_source"))
-
         self.main_x = int(self.config.get("main", "last_x"))
         self.main_y = int(self.config.get("main", "last_y"))
 
