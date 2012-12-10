@@ -158,8 +158,7 @@ class KazamApp(GObject.GObject):
         self.btn_cast = Gtk.RadioToolButton(group=None)
         self.btn_cast.set_label(_("Screencast"))
         self.btn_cast.set_tooltip_text(_("Record a video of your desktop."))
-        img1 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "light", "screencast.png"))
-        self.btn_cast.set_icon_widget(img1)
+        self.btn_cast.set_icon_name("kazam-screencast")
         self.btn_cast.set_active(True)
         self.btn_cast.set_name("MAIN_SCREENCAST")
         self.btn_cast.connect("toggled", self.cb_main_toggled)
@@ -167,8 +166,7 @@ class KazamApp(GObject.GObject):
         self.btn_shot = Gtk.RadioToolButton(group=self.btn_cast)
         self.btn_shot.set_label(_("Screenshot"))
         self.btn_shot.set_tooltip_text(_("Record a picture of your desktop."))
-        img2 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "light", "screenshot-1.png"))
-        self.btn_shot.set_icon_widget(img2)
+        self.btn_shot.set_icon_name("kazam-screenshot")
         self.btn_shot.set_name("MAIN_SCREENSHOT")
         self.btn_shot.connect("toggled", self.cb_main_toggled)
 
@@ -184,8 +182,7 @@ class KazamApp(GObject.GObject):
         self.btn_full = Gtk.RadioToolButton(group=None)
         self.btn_full.set_label(_("Fullscreen"))
         self.btn_full.set_tooltip_text(_("Capture contents of the current screen."))
-        img3 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "fullscreen.png"))
-        self.btn_full.set_icon_widget(img3)
+        self.btn_full.set_icon_name("kazam-fullscreen")
         self.btn_full.set_active(True)
         self.btn_full.set_name("MODE_FULL")
         self.btn_full.connect("toggled", self.cb_record_mode_toggled)
@@ -193,16 +190,14 @@ class KazamApp(GObject.GObject):
         self.btn_allscreens = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_allscreens.set_label(_("All Screens"))
         self.btn_allscreens.set_tooltip_text(_("Capture contents of all of your screens."))
-        img4 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "all-screens.png"))
-        self.btn_allscreens.set_icon_widget(img4)
+        self.btn_allscreens.set_icon_name("kazam-all-screens")
         self.btn_allscreens.set_name("MODE_ALL")
         self.btn_allscreens.connect("toggled", self.cb_record_mode_toggled)
 
         self.btn_window = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_window.set_label(_("Window"))
         self.btn_window.set_tooltip_text(_("Capture contents of a single window."))
-        img5 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "window.png"))
-        self.btn_window.set_icon_widget(img5)
+        self.btn_window.set_icon_name("kazam-window")
         self.btn_window.set_name("MODE_WIN")
         self.btn_window.connect("toggled", self.cb_record_mode_toggled)
         self.btn_window.connect("clicked", self.cb_record_window_clicked)
@@ -210,8 +205,7 @@ class KazamApp(GObject.GObject):
         self.btn_area = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_area.set_label(_("Area"))
         self.btn_area.set_tooltip_text(_("Capture a pre-selected area of your screen."))
-        img6 = Gtk.Image.new_from_file(os.path.join(prefs.datadir, "icons", "dark", "area.png"))
-        self.btn_area.set_icon_widget(img6)
+        self.btn_area.set_icon_name("kazam-area")
         self.btn_area.set_name("MODE_AREA")
         self.btn_area.connect("toggled", self.cb_record_mode_toggled)
         self.btn_area.connect("clicked", self.cb_record_area_clicked)
@@ -227,6 +221,9 @@ class KazamApp(GObject.GObject):
         self.toolbar_aux.insert(self.sep_2, -1)
 
         self.ntb_main.set_current_page(0)
+
+        self.icon_theme = Gtk.IconTheme.get_default()
+        self.icon_theme.connect("changed", self.cb_icon_theme)
 
         #
         # Take care of screen size changes.
@@ -333,6 +330,10 @@ class KazamApp(GObject.GObject):
                 self.select_window.window.destroy()
                 self.select_window = None
 
+
+    def cb_icon_theme(self, data):
+        icon = data.lookup_icon("kazam-screenshot", 32, Gtk.IconLookupFlags.USE_BUILTIN)
+        print(icon.get_filename())
 
     #
     # Unity quick list callbacks
