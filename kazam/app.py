@@ -222,9 +222,6 @@ class KazamApp(GObject.GObject):
 
         self.ntb_main.set_current_page(0)
 
-        self.icon_theme = Gtk.IconTheme.get_default()
-        self.icon_theme.connect("changed", self.cb_icon_theme)
-
         #
         # Take care of screen size changes.
         #
@@ -329,11 +326,6 @@ class KazamApp(GObject.GObject):
                 self.select_window.disconnect(self.tmp_sig4)
                 self.select_window.window.destroy()
                 self.select_window = None
-
-
-    def cb_icon_theme(self, data):
-        icon = data.lookup_icon("kazam-screenshot", 32, Gtk.IconLookupFlags.USE_BUILTIN)
-        print(icon.get_filename())
 
     #
     # Unity quick list callbacks
