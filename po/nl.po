@@ -7,172 +7,226 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-04-19 01:33+0300\n"
+"POT-Creation-Date: 2012-12-10 15:09+0100\n"
 "PO-Revision-Date: 2012-08-28 22:53+0000\n"
 "Last-Translator: xatr0z <xatr0z@users.sourceforge.net>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-11-14 04:49+0000\n"
-"X-Generator: Launchpad (build 16251)\n"
+"X-Launchpad-Export-Date: 2012-12-11 05:04+0000\n"
+"X-Generator: Launchpad (build 16356)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/about_dialog.py:53
-msgid "Kazam Screencaster"
-msgstr "Kazam Shermopname"
+#: ../kazam/frontend/about_dialog.py:57
+msgid "Kazam"
+msgstr ""
 
 #: ../data/ui/kazam.ui.h:2
-msgid "Monitor:"
-msgstr "Monitor:"
+msgid "Capture"
+msgstr ""
 
 #: ../data/ui/kazam.ui.h:3
-msgid "Select the video source"
-msgstr "Videobron selecteren:"
+msgid "Seconds to wait before capturing:"
+msgstr ""
 
 #: ../data/ui/kazam.ui.h:4
+msgid "Sound from microphone"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:5
+msgid "Sound from speakers"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:6
+msgid "Mouse cursor"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:159
+#: ../kazam/frontend/save_dialog.py:43
+msgid "Screencast"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:8
+msgid "Window borders"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:167
+#: ../kazam/frontend/save_dialog.py:45
+msgid "Screenshot"
+msgstr ""
+
+#: ../data/ui/kazam.ui.h:10
+msgid "When capturing include:"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:1
+msgid "Kazam Preferences"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:2
 msgid "Speakers:"
 msgstr "Luidsprekers:"
 
-#: ../data/ui/kazam.ui.h:5
-msgid "Select your audio ouput device (speakers of headphones)"
-msgstr "Geluidsuitvoerapparaat selecteren (luidsprekers of koptelefoon)"
-
-#: ../data/ui/kazam.ui.h:6
+#: ../data/ui/preferences.ui.h:3
 msgid "Set volume"
 msgstr "Volume instellen"
 
-#: ../data/ui/kazam.ui.h:7
+#: ../data/ui/preferences.ui.h:4
 msgid "Microphone:"
 msgstr "Microfoon:"
 
-#: ../data/ui/kazam.ui.h:8
-msgid "Select your audio input device (microphone)"
-msgstr "Geluidsinvoerapparaat selecteren (microfoon)"
+#: ../data/ui/preferences.ui.h:5
+msgid "Countdown splash:"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:9
-msgid "Toggle recording from your microphone"
-msgstr "Opname van de microfoon in-/uitschakelen"
-
-#: ../data/ui/kazam.ui.h:10
-msgid "Record with:"
-msgstr "Opnemen met:"
-
-#: ../data/ui/kazam.ui.h:11
-msgid "Select what encoder you want to use"
-msgstr "Te gebruiken encoder"
-
-#: ../data/ui/kazam.ui.h:12
-msgid "Toggle recording from the video source"
-msgstr "Opname van de videobron in-/uitschakelen"
-
-#: ../data/ui/kazam.ui.h:13
-msgid "Toggle recording from your speakers or headphones"
-msgstr "Opname van de luidsprekers of koptelefoon in-/uitschakelen"
-
-#: ../data/ui/kazam.ui.h:14
-msgid "Countdown timer:"
-msgstr "Tellen tot:"
-
-#: ../data/ui/kazam.ui.h:15
-msgid "Framerate:"
-msgstr "Framerate:"
-
-#: ../data/ui/kazam.ui.h:16
-msgid "Set the coundown time (in seconds)"
-msgstr "Afteltijd instellen (in seconden)"
-
-#: ../data/ui/kazam.ui.h:17
-msgid "Set the number of frames per second"
-msgstr "Aantal framers per seconde instellen"
-
-#: ../data/ui/kazam.ui.h:18
-msgid "Show countdown splash:"
-msgstr "Aftelanimatie laten zien:"
-
-#: ../data/ui/kazam.ui.h:19
-msgid "Capture mouse:"
-msgstr "Muis vastleggen:"
-
-#: ../data/ui/kazam.ui.h:20
+#: ../data/ui/preferences.ui.h:6
 msgid "Toggle display of countdown splash"
 msgstr "Weergave van aftelanimatie in-/uitschakelen"
 
-#: ../data/ui/kazam.ui.h:21
-msgid "Toggle capturing of mouse cursor"
-msgstr "Vastleggen van de muis in-/uitschakelen"
+#: ../data/ui/preferences.ui.h:7
+msgid "General"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:22
-msgid "Record Region"
-msgstr "Gebied opnemen"
+#: ../data/ui/preferences.ui.h:8
+msgid "Framerate:"
+msgstr "Framerate:"
 
-#: ../data/ui/kazam.ui.h:23
-msgid "Select a screen region to record"
-msgstr "Gebied om op te nemen selecteren"
+#: ../data/ui/preferences.ui.h:9
+msgid "Set the number of frames per second"
+msgstr "Aantal framers per seconde instellen"
 
-#: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
-msgid "Quit"
-msgstr "Afsluiten"
+#: ../data/ui/preferences.ui.h:10
+msgid "Record with:"
+msgstr "Opnemen met:"
 
-#: ../data/ui/kazam.ui.h:25
-msgid "Quit Kazam"
-msgstr "Kazam afsluiten"
+#: ../data/ui/preferences.ui.h:11
+msgid "Automatic file saving:"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:26
-msgid "Close"
-msgstr "Sluiten"
+#: ../data/ui/preferences.ui.h:12
+msgid "Directory:"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:27
-msgid "Minimize the app to the appindicator"
-msgstr "Minimaliseer de app naar de appindicator"
+#: ../data/ui/preferences.ui.h:13
+msgid "Filename prefix:"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:28
-msgid "About"
-msgstr "Meer info"
+#: ../data/ui/preferences.ui.h:14
+msgid "Select a directory"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:29
-msgid "About Kazam"
-msgstr "Over Kazam"
+#: ../data/ui/preferences.ui.h:15
+msgid "Kazam_screencast"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:30
-msgid "Record"
-msgstr "Opnemen"
+#: ../data/ui/preferences.ui.h:17
+msgid "Shutter sound:"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:31 ../kazam/frontend/indicator.py:67
+#: ../data/ui/preferences.ui.h:18
+msgid "Shutter type:"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:2
+msgid "Screencast and Screenshot tool"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:3
+msgid "Record a video or take a screenshot of your screen"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:4
+msgid "screenshot;screencast;videorecord;desktop recording;"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:5
+msgid "Take a screenshot of entire workspace"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:6
+msgid "Select an area to screenshot"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:7
+msgid "Select a window to screenshot"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:8 ../kazam/frontend/main_menu.py:65
+msgid "Preferences"
+msgstr ""
+
+#: ../kazam/app.py:57 ../kazam/app.py:66
+msgid "Gstreamer 1.0 or higher required, bailing out."
+msgstr ""
+
+#: ../kazam/app.py:160
+msgid "Record a video of your desktop."
+msgstr ""
+
+#: ../kazam/app.py:168
+msgid "Record a picture of your desktop."
+msgstr ""
+
+#: ../kazam/app.py:183
+msgid "Fullscreen"
+msgstr ""
+
+#: ../kazam/app.py:184
+msgid "Capture contents of the current screen."
+msgstr ""
+
+#: ../kazam/app.py:191
+msgid "All Screens"
+msgstr ""
+
+#: ../kazam/app.py:192
+msgid "Capture contents of all of your screens."
+msgstr ""
+
+#: ../kazam/app.py:198
+msgid "Window"
+msgstr ""
+
+#: ../kazam/app.py:199
+msgid "Capture contents of a single window."
+msgstr ""
+
+#: ../kazam/app.py:206
+msgid "Area"
+msgstr ""
+
+#: ../kazam/app.py:207
+msgid "Capture a pre-selected area of your screen."
+msgstr ""
+
+#: ../kazam/app.py:269 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
 msgstr "Opname starten"
 
-#: ../data/kazam.desktop.in.h:2
-msgid "Screencaster"
-msgstr "Schermopname"
+#: ../kazam/app.py:277
+msgid "Take screenshot"
+msgstr ""
 
-#: ../data/kazam.desktop.in.h:3
-msgid "Record a video of activity on your screen"
-msgstr "Een video met de activiteit op uw scherm opnemen"
-
-#: ../kazam/app.py:324 ../kazam/app.py:335 ../kazam/frontend/indicator.py:75
+#: ../kazam/app.py:477 ../kazam/app.py:492 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
 msgstr "Opname beëindigen"
 
-#: ../kazam/app.py:467
+#: ../kazam/app.py:651
 msgid "Cancel countdown"
 msgstr "Aftellen stoppen"
 
-#: ../kazam/app.py:667 ../kazam/app.py:695
-msgid "Unknown"
-msgstr "Onbekend"
+#: ../kazam/frontend/window_select.py:155
+msgid "Select a window by clicking on it."
+msgstr ""
 
-#: ../kazam/app.py:712
-msgid "Combined ({w}x{h})"
-msgstr "Gecombineerd ({w}x{h})"
-
-#: ../kazam/app.py:714
-msgid "Display {n} ({w}x{h})"
-msgstr "Beeldscherm {n} ({w}x{h})"
+#: ../kazam/frontend/window_select.py:156
+msgid "Press ENTER or ESC to cancel"
+msgstr ""
 
 #: ../kazam/frontend/done_recording.py:50
-msgid "Kazam Screencaster - Recording finished"
-msgstr "Kazam Schermopname - Opname beëindigd"
+msgid "Recording finished"
+msgstr ""
 
 #: ../kazam/frontend/done_recording.py:62
 msgid ""
@@ -202,41 +256,68 @@ msgstr "Doorgaan"
 msgid "Save screencast"
 msgstr "Schermopname opslaan"
 
-#: ../kazam/frontend/indicator.py:71
-msgid "Pause recording"
-msgstr "Opnemen pauzeren"
-
-#: ../kazam/frontend/indicator.py:82
-msgid "Record setup"
-msgstr "Opname-instellingen"
-
-#: ../kazam/frontend/window_countdown.py:110
-msgid "Recording will start in ..."
-msgstr "Opname start in ..."
-
-#: ../kazam/frontend/window_countdown.py:111
-msgid "{0}"
-msgstr "{0}"
-
-#: ../kazam/frontend/window_region.py:215
-msgid "Select region by resizing the window"
-msgstr "Het gebied selecteren door de schermgrootte te wijzigen"
-
-#: ../kazam/frontend/window_region.py:216
-msgid "Press ENTER to confirm or ESC to cancel."
-msgstr "Druk op ENTER om te bevestigen of op ESC om te annuleren."
+#: ../kazam/frontend/about_dialog.py:58
+msgid "Record a video of activity on your screen or capture a screenshot."
+msgstr ""
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
 msgstr "Opslaan"
 
-#: ../kazam/frontend/save_dialog.py:41 ../kazam/frontend/save_dialog.py:43
-msgid "Untitled_Screencast"
-msgstr "Naamloze_Schermopname"
+#: ../kazam/frontend/main_menu.py:62
+msgid "File"
+msgstr "Bestand"
 
-#: ../kazam/frontend/about_dialog.py:54
-msgid "Record a video of activity on your screen."
-msgstr "Een activiteit op uw scherm opnemen."
+#: ../kazam/frontend/main_menu.py:63 ../kazam/frontend/indicator.py:90
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: ../kazam/frontend/main_menu.py:63
+msgid "Quit Kazam"
+msgstr "Kazam afsluiten"
+
+#: ../kazam/frontend/main_menu.py:65
+msgid "Open preferences"
+msgstr ""
+
+#: ../kazam/frontend/main_menu.py:67
+msgid "Help"
+msgstr "Help"
+
+#: ../kazam/frontend/main_menu.py:68 ../kazam/frontend/indicator.py:86
+msgid "About"
+msgstr "Meer info"
+
+#: ../kazam/frontend/main_menu.py:68
+msgid "About Kazam"
+msgstr "Over Kazam"
+
+#: ../kazam/frontend/window_area.py:189
+msgid "Select an area by clicking and dragging."
+msgstr ""
+
+#: ../kazam/frontend/window_area.py:190
+msgid "Press ENTER to confirm or ESC to cancel"
+msgstr ""
+
+#: ../kazam/frontend/indicator.py:72
+msgid "Pause recording"
+msgstr "Opnemen pauzeren"
+
+#: ../kazam/frontend/indicator.py:83
+msgid "Record setup"
+msgstr "Opname-instellingen"
+
+#: ../kazam/backend/grabber.py:171
+msgid "Save capture"
+msgstr ""
+
+#: ../kazam/backend/prefs.py:137
+msgid "Unknown"
+msgstr "Onbekend"
+
+#~ msgid "Close"
+#~ msgstr "Sluiten"
 
 #~ msgid "Description"
 #~ msgstr "Omschrijving"
@@ -286,6 +367,9 @@ msgstr "Een activiteit op uw scherm opnemen."
 #~ msgid "It is available at the location below:"
 #~ msgstr "Beschikbaar op de onderstaande locatie:"
 
+#~ msgid "Record"
+#~ msgstr "Opnemen"
+
 #~ msgid "Audio Source 2"
 #~ msgstr "Audiobron 2"
 
@@ -298,11 +382,11 @@ msgstr "Een activiteit op uw scherm opnemen."
 #~ msgid "Framerate"
 #~ msgstr "Framerate"
 
-#~ msgid "File"
-#~ msgstr "Bestand"
+#~ msgid "Combined ({w}x{h})"
+#~ msgstr "Gecombineerd ({w}x{h})"
 
-#~ msgid "Help"
-#~ msgstr "Help"
+#~ msgid "Display {n} ({w}x{h})"
+#~ msgstr "Beeldscherm {n} ({w}x{h})"
 
 #~ msgid "Countdown timer"
 #~ msgstr "Afteller"
@@ -313,5 +397,38 @@ msgstr "Een activiteit op uw scherm opnemen."
 #~ msgid "Email"
 #~ msgstr "E-mail"
 
+#~ msgid "Press ENTER to confirm or ESC to cancel."
+#~ msgstr "Druk op ENTER om te bevestigen of op ESC om te annuleren."
+
+#~ msgid "Recording will start in ..."
+#~ msgstr "Opname start in ..."
+
+#~ msgid "{0}"
+#~ msgstr "{0}"
+
+#~ msgid "Record Region"
+#~ msgstr "Gebied opnemen"
+
 #~ msgid "Capture mouse"
 #~ msgstr "Muis opnemen"
+
+#~ msgid "Kazam Screencaster - Recording finished"
+#~ msgstr "Kazam Schermopname - Opname beëindigd"
+
+#~ msgid "Screencaster"
+#~ msgstr "Schermopname"
+
+#~ msgid "Record a video of activity on your screen"
+#~ msgstr "Een video met de activiteit op uw scherm opnemen"
+
+#~ msgid "Untitled_Screencast"
+#~ msgstr "Naamloze_Schermopname"
+
+#~ msgid "Record a video of activity on your screen."
+#~ msgstr "Een activiteit op uw scherm opnemen."
+
+#~ msgid "Kazam Screencaster"
+#~ msgstr "Kazam Shermopname"
+
+#~ msgid "Select region by resizing the window"
+#~ msgstr "Het gebied selecteren door de schermgrootte te wijzigen"

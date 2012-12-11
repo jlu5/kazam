@@ -7,172 +7,226 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-04-19 01:33+0300\n"
+"POT-Creation-Date: 2012-12-10 15:09+0100\n"
 "PO-Revision-Date: 2012-03-09 17:32+0000\n"
 "Last-Translator: Praveen Illa <mail2ipn@gmail.com>\n"
 "Language-Team: Telugu <te@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-11-14 04:49+0000\n"
-"X-Generator: Launchpad (build 16251)\n"
+"X-Launchpad-Export-Date: 2012-12-11 05:04+0000\n"
+"X-Generator: Launchpad (build 16356)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/about_dialog.py:53
-msgid "Kazam Screencaster"
-msgstr "కాజామ్ తెరప్రసారకం"
+#: ../kazam/frontend/about_dialog.py:57
+msgid "Kazam"
+msgstr ""
 
 #: ../data/ui/kazam.ui.h:2
-msgid "Monitor:"
+msgid "Capture"
 msgstr ""
 
 #: ../data/ui/kazam.ui.h:3
-msgid "Select the video source"
+msgid "Seconds to wait before capturing:"
 msgstr ""
 
 #: ../data/ui/kazam.ui.h:4
-msgid "Speakers:"
+msgid "Sound from microphone"
 msgstr ""
 
 #: ../data/ui/kazam.ui.h:5
-msgid "Select your audio ouput device (speakers of headphones)"
+msgid "Sound from speakers"
 msgstr ""
 
 #: ../data/ui/kazam.ui.h:6
-msgid "Set volume"
+msgid "Mouse cursor"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:7
-msgid "Microphone:"
+#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:159
+#: ../kazam/frontend/save_dialog.py:43
+msgid "Screencast"
 msgstr ""
 
 #: ../data/ui/kazam.ui.h:8
-msgid "Select your audio input device (microphone)"
+msgid "Window borders"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:9
-msgid "Toggle recording from your microphone"
+#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:167
+#: ../kazam/frontend/save_dialog.py:45
+msgid "Screenshot"
 msgstr ""
 
 #: ../data/ui/kazam.ui.h:10
-msgid "Record with:"
+msgid "When capturing include:"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:11
-msgid "Select what encoder you want to use"
+#: ../data/ui/preferences.ui.h:1
+msgid "Kazam Preferences"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:12
-msgid "Toggle recording from the video source"
+#: ../data/ui/preferences.ui.h:2
+msgid "Speakers:"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:13
-msgid "Toggle recording from your speakers or headphones"
+#: ../data/ui/preferences.ui.h:3
+msgid "Set volume"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:14
-msgid "Countdown timer:"
+#: ../data/ui/preferences.ui.h:4
+msgid "Microphone:"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:15
-msgid "Framerate:"
+#: ../data/ui/preferences.ui.h:5
+msgid "Countdown splash:"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:16
-msgid "Set the coundown time (in seconds)"
-msgstr ""
-
-#: ../data/ui/kazam.ui.h:17
-msgid "Set the number of frames per second"
-msgstr ""
-
-#: ../data/ui/kazam.ui.h:18
-msgid "Show countdown splash:"
-msgstr ""
-
-#: ../data/ui/kazam.ui.h:19
-msgid "Capture mouse:"
-msgstr ""
-
-#: ../data/ui/kazam.ui.h:20
+#: ../data/ui/preferences.ui.h:6
 msgid "Toggle display of countdown splash"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:21
-msgid "Toggle capturing of mouse cursor"
+#: ../data/ui/preferences.ui.h:7
+msgid "General"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:22
-msgid "Record Region"
-msgstr "ప్రాంతాన్ని రికార్డుచేయండి"
-
-#: ../data/ui/kazam.ui.h:23
-msgid "Select a screen region to record"
+#: ../data/ui/preferences.ui.h:8
+msgid "Framerate:"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:24 ../kazam/frontend/indicator.py:85
-msgid "Quit"
-msgstr "నిష్క్రమించు"
-
-#: ../data/ui/kazam.ui.h:25
-msgid "Quit Kazam"
-msgstr "కజమ్ త్యజించండి"
-
-#: ../data/ui/kazam.ui.h:26
-msgid "Close"
-msgstr "మూసివేయి"
-
-#: ../data/ui/kazam.ui.h:27
-msgid "Minimize the app to the appindicator"
+#: ../data/ui/preferences.ui.h:9
+msgid "Set the number of frames per second"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:28
-msgid "About"
-msgstr "గురించి"
+#: ../data/ui/preferences.ui.h:10
+msgid "Record with:"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:29
-msgid "About Kazam"
-msgstr "కజమ్ గురించి"
+#: ../data/ui/preferences.ui.h:11
+msgid "Automatic file saving:"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:30
-msgid "Record"
-msgstr "రికార్డుచేయి"
+#: ../data/ui/preferences.ui.h:12
+msgid "Directory:"
+msgstr ""
 
-#: ../data/ui/kazam.ui.h:31 ../kazam/frontend/indicator.py:67
-msgid "Start recording"
+#: ../data/ui/preferences.ui.h:13
+msgid "Filename prefix:"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:14
+msgid "Select a directory"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:15
+msgid "Kazam_screencast"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:17
+msgid "Shutter sound:"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:18
+msgid "Shutter type:"
 msgstr ""
 
 #: ../data/kazam.desktop.in.h:2
-msgid "Screencaster"
-msgstr "తెరప్రసారకం"
+msgid "Screencast and Screenshot tool"
+msgstr ""
 
 #: ../data/kazam.desktop.in.h:3
-msgid "Record a video of activity on your screen"
-msgstr "మీ తెర పై కార్యకలాపం యొక్క వీడియోను రికార్డుచేయి"
+msgid "Record a video or take a screenshot of your screen"
+msgstr ""
 
-#: ../kazam/app.py:324 ../kazam/app.py:335 ../kazam/frontend/indicator.py:75
+#: ../data/kazam.desktop.in.h:4
+msgid "screenshot;screencast;videorecord;desktop recording;"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:5
+msgid "Take a screenshot of entire workspace"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:6
+msgid "Select an area to screenshot"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:7
+msgid "Select a window to screenshot"
+msgstr ""
+
+#: ../data/kazam.desktop.in.h:8 ../kazam/frontend/main_menu.py:65
+msgid "Preferences"
+msgstr ""
+
+#: ../kazam/app.py:57 ../kazam/app.py:66
+msgid "Gstreamer 1.0 or higher required, bailing out."
+msgstr ""
+
+#: ../kazam/app.py:160
+msgid "Record a video of your desktop."
+msgstr ""
+
+#: ../kazam/app.py:168
+msgid "Record a picture of your desktop."
+msgstr ""
+
+#: ../kazam/app.py:183
+msgid "Fullscreen"
+msgstr ""
+
+#: ../kazam/app.py:184
+msgid "Capture contents of the current screen."
+msgstr ""
+
+#: ../kazam/app.py:191
+msgid "All Screens"
+msgstr ""
+
+#: ../kazam/app.py:192
+msgid "Capture contents of all of your screens."
+msgstr ""
+
+#: ../kazam/app.py:198
+msgid "Window"
+msgstr ""
+
+#: ../kazam/app.py:199
+msgid "Capture contents of a single window."
+msgstr ""
+
+#: ../kazam/app.py:206
+msgid "Area"
+msgstr ""
+
+#: ../kazam/app.py:207
+msgid "Capture a pre-selected area of your screen."
+msgstr ""
+
+#: ../kazam/app.py:269 ../kazam/frontend/indicator.py:68
+msgid "Start recording"
+msgstr ""
+
+#: ../kazam/app.py:277
+msgid "Take screenshot"
+msgstr ""
+
+#: ../kazam/app.py:477 ../kazam/app.py:492 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
 msgstr "రికార్డింగును పూర్తిచేయి"
 
-#: ../kazam/app.py:467
+#: ../kazam/app.py:651
 msgid "Cancel countdown"
 msgstr ""
 
-#: ../kazam/app.py:667 ../kazam/app.py:695
-msgid "Unknown"
-msgstr "తెలియదు"
+#: ../kazam/frontend/window_select.py:155
+msgid "Select a window by clicking on it."
+msgstr ""
 
-#: ../kazam/app.py:712
-msgid "Combined ({w}x{h})"
-msgstr "కలిపి ({w}x{h})"
-
-#: ../kazam/app.py:714
-msgid "Display {n} ({w}x{h})"
-msgstr "ప్రదర్శన {n} ({w}x{h})"
+#: ../kazam/frontend/window_select.py:156
+msgid "Press ENTER or ESC to cancel"
+msgstr ""
 
 #: ../kazam/frontend/done_recording.py:50
-msgid "Kazam Screencaster - Recording finished"
-msgstr "కజమ్ తెరప్రసారకం - రికార్డింగు పూర్తయినది"
+msgid "Recording finished"
+msgstr ""
 
 #: ../kazam/frontend/done_recording.py:62
 msgid ""
@@ -202,47 +256,80 @@ msgstr "కొనసాగించు"
 msgid "Save screencast"
 msgstr "తెరప్రసారాన్ని భద్రపరుచు"
 
-#: ../kazam/frontend/indicator.py:71
-msgid "Pause recording"
-msgstr "రికార్డింగును నిలిపివేయి"
-
-#: ../kazam/frontend/indicator.py:82
-msgid "Record setup"
-msgstr "రికార్డింగు అమరిక"
-
-#: ../kazam/frontend/window_countdown.py:110
-msgid "Recording will start in ..."
-msgstr "రికార్డింగు ఇంతసేపట్లో ప్రారంభమవుతుంది ..."
-
-#: ../kazam/frontend/window_countdown.py:111
-msgid "{0}"
-msgstr "{0}"
-
-#: ../kazam/frontend/window_region.py:215
-msgid "Select region by resizing the window"
-msgstr "కిటికీ పరిమాణం మార్చుట ద్వారా ప్రాంతాన్ని ఎంచుకోండి"
-
-#: ../kazam/frontend/window_region.py:216
-msgid "Press ENTER to confirm or ESC to cancel."
-msgstr "నిర్ధారించుటకు ఎంటర్ నొక్కండి లేదా రద్దుచేయడానికి ఎస్కేప్ నొక్కండి."
+#: ../kazam/frontend/about_dialog.py:58
+msgid "Record a video of activity on your screen or capture a screenshot."
+msgstr ""
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
 msgstr "భద్రపరుచు"
 
-#: ../kazam/frontend/save_dialog.py:41 ../kazam/frontend/save_dialog.py:43
-msgid "Untitled_Screencast"
-msgstr "శీర్షికలేని_తెరప్రసారం"
+#: ../kazam/frontend/main_menu.py:62
+msgid "File"
+msgstr "ఫైల్"
 
-#: ../kazam/frontend/about_dialog.py:54
-msgid "Record a video of activity on your screen."
-msgstr "మీ తెరపై కార్యకలాపం యొక్క వీడియోని రికార్డుచేయండి."
+#: ../kazam/frontend/main_menu.py:63 ../kazam/frontend/indicator.py:90
+msgid "Quit"
+msgstr "నిష్క్రమించు"
+
+#: ../kazam/frontend/main_menu.py:63
+msgid "Quit Kazam"
+msgstr "కజమ్ త్యజించండి"
+
+#: ../kazam/frontend/main_menu.py:65
+msgid "Open preferences"
+msgstr ""
+
+#: ../kazam/frontend/main_menu.py:67
+msgid "Help"
+msgstr "సహాయం"
+
+#: ../kazam/frontend/main_menu.py:68 ../kazam/frontend/indicator.py:86
+msgid "About"
+msgstr "గురించి"
+
+#: ../kazam/frontend/main_menu.py:68
+msgid "About Kazam"
+msgstr "కజమ్ గురించి"
+
+#: ../kazam/frontend/window_area.py:189
+msgid "Select an area by clicking and dragging."
+msgstr ""
+
+#: ../kazam/frontend/window_area.py:190
+msgid "Press ENTER to confirm or ESC to cancel"
+msgstr ""
+
+#: ../kazam/frontend/indicator.py:72
+msgid "Pause recording"
+msgstr "రికార్డింగును నిలిపివేయి"
+
+#: ../kazam/frontend/indicator.py:83
+msgid "Record setup"
+msgstr "రికార్డింగు అమరిక"
+
+#: ../kazam/backend/grabber.py:171
+msgid "Save capture"
+msgstr ""
+
+#: ../kazam/backend/prefs.py:137
+msgid "Unknown"
+msgstr "తెలియదు"
+
+#~ msgid "Kazam Screencaster"
+#~ msgstr "కాజామ్ తెరప్రసారకం"
+
+#~ msgid "Close"
+#~ msgstr "మూసివేయి"
 
 #~ msgid "Description"
 #~ msgstr "వివరణ"
 
 #~ msgid "Category"
 #~ msgstr "వర్గం"
+
+#~ msgid "Record"
+#~ msgstr "రికార్డుచేయి"
 
 #~ msgid "Keywords"
 #~ msgstr "కీలకపదాలు"
@@ -274,6 +361,12 @@ msgstr "మీ తెరపై కార్యకలాపం యొక్క �
 #~ msgid "Log-in completed."
 #~ msgstr "ప్రవేశం పూర్తయింది."
 
+#~ msgid "Screencaster"
+#~ msgstr "తెరప్రసారకం"
+
+#~ msgid "Record a video of activity on your screen"
+#~ msgstr "మీ తెర పై కార్యకలాపం యొక్క వీడియోను రికార్డుచేయి"
+
 #~ msgid "Your screencast has uploaded successfully."
 #~ msgstr "మీ తెరప్రసారం విజయవంతంగా ఎక్కించబడింది."
 
@@ -285,6 +378,9 @@ msgstr "మీ తెరపై కార్యకలాపం యొక్క �
 
 #~ msgid "It is available at the location below:"
 #~ msgstr "అది క్రింద తెలిపిన ప్రదేశంలో లభిస్తుంది:"
+
+#~ msgid "Record a video of activity on your screen."
+#~ msgstr "మీ తెరపై కార్యకలాపం యొక్క వీడియోని రికార్డుచేయండి."
 
 #~ msgid "Video Source"
 #~ msgstr "వీడియో మూలం"
@@ -298,11 +394,14 @@ msgstr "మీ తెరపై కార్యకలాపం యొక్క �
 #~ msgid "Email"
 #~ msgstr "ఈమెయిల్"
 
-#~ msgid "File"
-#~ msgstr "ఫైల్"
+#~ msgid "Untitled_Screencast"
+#~ msgstr "శీర్షికలేని_తెరప్రసారం"
 
-#~ msgid "Help"
-#~ msgstr "సహాయం"
+#~ msgid "Recording will start in ..."
+#~ msgstr "రికార్డింగు ఇంతసేపట్లో ప్రారంభమవుతుంది ..."
+
+#~ msgid "{0}"
+#~ msgstr "{0}"
 
 #~ msgid "Countdown timer"
 #~ msgstr "కౌంట్‌డౌన్ టైమర్"
@@ -315,3 +414,21 @@ msgstr "మీ తెరపై కార్యకలాపం యొక్క �
 
 #~ msgid "Audio Source 1"
 #~ msgstr "ఆడియో మూలం 1"
+
+#~ msgid "Record Region"
+#~ msgstr "ప్రాంతాన్ని రికార్డుచేయండి"
+
+#~ msgid "Kazam Screencaster - Recording finished"
+#~ msgstr "కజమ్ తెరప్రసారకం - రికార్డింగు పూర్తయినది"
+
+#~ msgid "Select region by resizing the window"
+#~ msgstr "కిటికీ పరిమాణం మార్చుట ద్వారా ప్రాంతాన్ని ఎంచుకోండి"
+
+#~ msgid "Press ENTER to confirm or ESC to cancel."
+#~ msgstr "నిర్ధారించుటకు ఎంటర్ నొక్కండి లేదా రద్దుచేయడానికి ఎస్కేప్ నొక్కండి."
+
+#~ msgid "Display {n} ({w}x{h})"
+#~ msgstr "ప్రదర్శన {n} ({w}x{h})"
+
+#~ msgid "Combined ({w}x{h})"
+#~ msgstr "కలిపి ({w}x{h})"
