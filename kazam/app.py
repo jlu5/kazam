@@ -193,6 +193,8 @@ class KazamApp(GObject.GObject):
         self.btn_allscreens.set_icon_name("kazam-all-screens")
         self.btn_allscreens.set_name("MODE_ALL")
         self.btn_allscreens.connect("toggled", self.cb_record_mode_toggled)
+        if HW.combined_screen is None:
+            self.btn_allscreens.set_sensitive(False)
 
         self.btn_window = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_window.set_label(_("Window"))
@@ -398,7 +400,7 @@ class KazamApp(GObject.GObject):
         logger.debug("Screen size changed.")
         HW.get_screens()
         #
-        # I combined screen was set to none, turn off the button for all screens
+        # If combined screen was set to none, turn off the button for all screens
         #
         if HW.combined_screen:
             self.btn_allscreens.set_sensitive(True)
@@ -667,11 +669,11 @@ class KazamApp(GObject.GObject):
 
         video_source = None
 
-        if self.record_mode == MODE_FULL:
+        if self.record_mode == MODE_ALL:
+            video_source = HW.combined_screen
+        else:
             screen = HW.get_current_screen(self.window)
             video_source = HW.screens[screen]
-        else:
-            video_source = HW.combined_screen
 
         if self.main_mode == MODE_SCREENCAST:
             self.recorder = Screencast()

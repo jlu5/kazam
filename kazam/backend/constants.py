@@ -123,7 +123,7 @@ class hw:
             self.logger.debug("Getting Video sources.")
             self.screens = []
             self.default_screen = Gdk.Screen.get_default()
-            self.logger.debug("Found {0} monitors.".format(self.default_screen.get_n_monitors()))
+            self.logger.debug("Found {0} monitor(s).".format(self.default_screen.get_n_monitors()))
 
             for i in range(self.default_screen.get_n_monitors()):
                 rect = self.default_screen.get_monitor_geometry(i)
