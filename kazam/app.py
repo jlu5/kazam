@@ -368,13 +368,14 @@ class KazamApp(GObject.GObject):
             self.area_window.g_starty,
             self.area_window.g_endx,
             self.area_window.g_endy))
-        self.window.set_sensitive(True)
         prefs.area = (self.area_window.g_startx,
-                     self.area_window.g_starty,
-                     self.area_window.g_endx,
-                     self.area_window.g_endy,
-                     self.area_window.width,
-                     self.area_window.height)
+                      self.area_window.g_starty,
+                      self.area_window.g_endx,
+                      self.area_window.g_endy,
+                      self.area_window.width,
+                      self.area_window.height)
+        self.window.set_sensitive(True)
+
 
     def cb_area_canceled(self, widget):
         logger.debug("Area selection canceled.")
