@@ -68,7 +68,6 @@ if __name__ == "__main__":
     try:
         import platform
         dist = platform.linux_distribution()
-        logger.debug("Running on: {0} {1}".format(dist[0], dist[1]))
     except:
         # Fallback to the almighty Ubuntu 12.10 ;)
         dist = ('Ubuntu', '12.10', 'quantal')
@@ -99,8 +98,9 @@ if __name__ == "__main__":
         logger.setLevel(logging.INFO)
 
     logger.debug("Starting ...")
+    logger.debug("Running on: {0} {1}".format(dist[0], dist[1]))
+    logger.debug("Kazam version: {0} {1}".format(VERSION, CODENAME))
 
-    logger.debug("Starting new instance ...")
     if args.fullscreen:
         from kazam.instant import InstantApp
         app = InstantApp(datadir, dist, args.debug, 1) # MODE_ALL
@@ -131,6 +131,7 @@ if __name__ == "__main__":
             app()
             sys.exit(0)
         else:
+            logger.debug("Starting new instance ...")
             from kazam.app import KazamApp
             app = KazamApp(datadir, dist, args.debug, args.test, args.nosound, args.silent)
 
