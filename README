@@ -129,6 +129,10 @@ the recording. I wasn't able to reproduce this bug and any more info is
 appreciated. See https://bugs.launchpad.net/kazam/+bug/933835 for more
 details.
 
+- Two memory leaks were noticed, one with VP8 encoder and one with Intel
+graphics cards. Still investigating if this is a driver, Xorg or
+GStreamer problem.
+
 Recording Tips
 --------------
 
