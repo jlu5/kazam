@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-10 15:09+0100\n"
+"POT-Creation-Date: 2012-12-20 16:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -184,35 +184,35 @@ msgstr ""
 msgid "Capture contents of all of your screens."
 msgstr ""
 
-#: ../kazam/app.py:198
+#: ../kazam/app.py:200
 msgid "Window"
 msgstr ""
 
-#: ../kazam/app.py:199
+#: ../kazam/app.py:201
 msgid "Capture contents of a single window."
 msgstr ""
 
-#: ../kazam/app.py:206
+#: ../kazam/app.py:208
 msgid "Area"
 msgstr ""
 
-#: ../kazam/app.py:207
+#: ../kazam/app.py:209
 msgid "Capture a pre-selected area of your screen."
 msgstr ""
 
-#: ../kazam/app.py:269 ../kazam/frontend/indicator.py:68
+#: ../kazam/app.py:268 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
 msgstr ""
 
-#: ../kazam/app.py:277
+#: ../kazam/app.py:276
 msgid "Take screenshot"
 msgstr ""
 
-#: ../kazam/app.py:477 ../kazam/app.py:492 ../kazam/frontend/indicator.py:76
+#: ../kazam/app.py:472 ../kazam/app.py:487 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
 msgstr ""
 
-#: ../kazam/app.py:651
+#: ../kazam/app.py:646
 msgid "Cancel countdown"
 msgstr ""
 

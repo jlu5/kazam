@@ -74,7 +74,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -84,13 +84,13 @@
      id="layer1"
      transform="translate(3162.1675,-1397.2535)">
     <path
-       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#dfdbd2;fill-opacity:1;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#3a3935;fill-opacity:1;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        d="m -3158.1675,1401.2535 c -1.0908,0 -2,0.9093 -2,2 l 0,16 c 0,1.0907 0.9092,2 2,2 l 8.8125,0 -0.8125,4 -2,0 -1,2 14,0 -1,-2 -2,0 -0.8125,-4 8.8125,0 c 1.0907,0 1.9999,-0.9093 2,-2 l 0,-16 c 0,-1.0907 -0.9093,-2 -2,-2 z m 0,2 24,0 0,16 -24,0 z"
        id="rect2985"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ssssccccccccscsssccccc" />
     <rect
-       style="fill:#dfdbd2;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="fill:#3a3935;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="rect2984"
        width="8"
        height="4"
@@ -106,7 +106,7 @@
        height="2.0001202"
        width="4.0000587"
        id="rect2988"
-       style="fill:#dfdbd2;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+       style="fill:#3a3935;fill-opacity:1;fill-rule:nonzero;stroke:none" />
     <rect
        ry="0"
        rx="0"
@@ -115,9 +115,9 @@
        height="1.9999599"
        width="4.9999752"
        id="rect2995"
-       style="fill:#dfdbd2;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+       style="fill:#3a3935;fill-opacity:1;fill-rule:nonzero;stroke:none" />
     <rect
-       style="fill:#dfdbd2;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="fill:#3a3935;fill-opacity:1;fill-rule:nonzero;stroke:none"
        id="rect2986"
        width="4.9999366"
        height="1.9999599"
@@ -127,7 +127,7 @@
        ry="0" />
     <path
        inkscape:connector-curvature="0"
-       style="fill:#dfdbd2;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       style="fill:#3a3935;fill-opacity:1;fill-rule:nonzero;stroke:none"
        d="m -3146.1675,1405.2535 c -3.3137,0 -6,2.6863 -6,6 0,3.3137 2.6863,6 6,6 3.3137,0 6,-2.6863 6,-6 0,-3.3137 -2.6863,-6 -6,-6 z m 0,2 c 2.2091,0 4,1.7909 4,4 0,2.2091 -1.7909,4 -4,4 -2.2091,0 -4,-1.7909 -4,-4 0,-2.2091 1.7909,-4 4,-4 z"
        id="path2992" />
   </g>
