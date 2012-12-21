@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-12-10 15:09+0100\n"
+"POT-Creation-Date: 2012-12-20 16:20+0100\n"
 "PO-Revision-Date: 2012-10-31 17:56+0000\n"
 "Last-Translator: LinuxVideoRO <linuxer_ro@yahoo.ro>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-19 05:24+0000\n"
+"X-Launchpad-Export-Date: 2012-12-21 05:08+0000\n"
 "X-Generator: Launchpad (build 16378)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
@@ -184,35 +184,35 @@ msgstr ""
 msgid "Capture contents of all of your screens."
 msgstr ""
 
-#: ../kazam/app.py:198
+#: ../kazam/app.py:200
 msgid "Window"
 msgstr ""
 
-#: ../kazam/app.py:199
+#: ../kazam/app.py:201
 msgid "Capture contents of a single window."
 msgstr ""
 
-#: ../kazam/app.py:206
+#: ../kazam/app.py:208
 msgid "Area"
 msgstr ""
 
-#: ../kazam/app.py:207
+#: ../kazam/app.py:209
 msgid "Capture a pre-selected area of your screen."
 msgstr ""
 
-#: ../kazam/app.py:269 ../kazam/frontend/indicator.py:68
+#: ../kazam/app.py:268 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
 msgstr "Incepeti inregistrarea"
 
-#: ../kazam/app.py:277
+#: ../kazam/app.py:276
 msgid "Take screenshot"
 msgstr ""
 
-#: ../kazam/app.py:477 ../kazam/app.py:492 ../kazam/frontend/indicator.py:76
+#: ../kazam/app.py:472 ../kazam/app.py:487 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
 msgstr "Finalizeaza inregistrarea"
 
-#: ../kazam/app.py:651
+#: ../kazam/app.py:646
 msgid "Cancel countdown"
 msgstr "Anuleaza cronometrul"
 
