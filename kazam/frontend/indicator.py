@@ -138,7 +138,6 @@ class KazamSuperIndicator(GObject.GObject):
         self.menuitem_pause.set_sensitive(False)
         self.menuitem_pause.set_active(False)
         self.menuitem_finish.set_sensitive(False)
-        self.menuitem_show.set_sensitive(True)
         self.menuitem_quit.set_sensitive(True)
         self.emit("indicator-stop-request")
 

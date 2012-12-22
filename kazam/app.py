@@ -343,10 +343,6 @@ class KazamApp(GObject.GObject):
         self.btn_shot.set_active(True)
         self.run_counter()
 
-    def cb_ql_preferences(self, menu, data):
-        logger.debug("Preferences quicklist activated.")
-        self.cb_preferences_request(None)
-
     def cb_record_area_clicked(self, widget):
         if self.area_window:
             logger.debug("Area mode clicked.")
@@ -529,7 +525,6 @@ class KazamApp(GObject.GObject):
             self.indicator.menuitem_pause.set_sensitive(False)
             self.indicator.menuitem_pause.set_active(False)
             self.indicator.menuitem_finish.set_sensitive(False)
-            self.indicator.menuitem_show.set_sensitive(True)
             self.indicator.menuitem_quit.set_sensitive(True)
 
             if prefs.autosave_picture:
@@ -641,7 +636,6 @@ class KazamApp(GObject.GObject):
         self.indicator.menuitem_start.set_sensitive(False)
         self.indicator.menuitem_pause.set_sensitive(False)
         self.indicator.menuitem_finish.set_sensitive(True)
-        self.indicator.menuitem_show.set_sensitive(False)
         self.indicator.menuitem_quit.set_sensitive(False)
         self.indicator.menuitem_finish.set_label(_("Cancel countdown"))
         self.in_countdown = True

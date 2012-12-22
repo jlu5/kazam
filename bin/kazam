@@ -42,6 +42,11 @@ class KazamService(dbus.service.Object):
         self.app.window.show()
         self.app.window.present()
 
+
+    @dbus.service.method('org.kazam')
+    def prefs(self):
+        self.app.cb_preferences_request(None)
+
 if __name__ == "__main__":
 
     logger =  logging.getLogger()
@@ -116,9 +121,6 @@ if __name__ == "__main__":
     elif args.godmode:
         from kazam.instant import InstantApp
         app = InstantApp(datadir, dist, args.debug, 666) # MODE_ACTIVE
-    elif args.preferences:
-        from kazam.instant import InstantApp
-        app = InstantApp(datadir, dist, args.debug, 0, preferences=True)
     else:
 
         DBusGMainLoop(set_as_default=True)
@@ -126,16 +128,25 @@ if __name__ == "__main__":
         instance = bus.request_name("org.kazam")
 
         if not args.instance and instance != dbus.bus.REQUEST_NAME_REPLY_PRIMARY_OWNER:
-            logger.debug("Geeting existing instance ...")
-            app = dbus.SessionBus().get_object("org.kazam", "/org/kazam").get_dbus_method("instance")
+            logger.debug("Getting existing instance ...")
+            if args.preferences:
+                logger.debug("Opening preferences ...")
+                app = dbus.SessionBus().get_object("org.kazam", "/org/kazam").get_dbus_method("prefs")
+            else:
+                logger.debug("Showing main window ...")
+                app = dbus.SessionBus().get_object("org.kazam", "/org/kazam").get_dbus_method("instance")
             app()
             sys.exit(0)
         else:
-            logger.debug("Starting new instance ...")
-            from kazam.app import KazamApp
-            app = KazamApp(datadir, dist, args.debug, args.test, args.nosound, args.silent)
+            if args.preferences:
+                from kazam.instant import InstantApp
+                app = InstantApp(datadir, dist, args.debug, 0, preferences=True)
+            else:
+                logger.debug("Starting new instance ...")
+                from kazam.app import KazamApp
+                app = KazamApp(datadir, dist, args.debug, args.test, args.nosound, args.silent)
 
-        kazam_service = KazamService(app)
+                kazam_service = KazamService(app)
 
     Gtk.main()
     logger.debug("Finishing ...")
