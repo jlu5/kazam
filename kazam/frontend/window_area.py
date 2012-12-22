@@ -137,12 +137,13 @@ class AreaWindow(GObject.GObject):
 
     def cb_leave_notify_event(self, widget, event):
         (scr, x, y) = self.pntr_device.get_position()
-        cur = scr.get_monitor_at_point(x, y)
-        self.window.unfullscreen()
-        self.window.move(HW.screens[cur]['x'],
-                         HW.screens[cur]['y'])
-        self.window.fullscreen()
-        logger.debug("Move to X: {0} Y: {1}".format(HW.screens[cur]['x'], HW.screens[cur]['y']))
+        if x > 0 or y > 0:
+            cur = scr.get_monitor_at_point(x, y)
+            self.window.unfullscreen()
+            self.window.move(HW.screens[cur]['x'],
+                             HW.screens[cur]['y'])
+            self.window.fullscreen()
+            logger.debug("Move to X: {0} Y: {1}".format(HW.screens[cur]['x'], HW.screens[cur]['y']))
         return True
 
     def cb_keypress_event(self, widget, event):
