@@ -78,14 +78,6 @@ class KazamSuperIndicator(GObject.GObject):
         self.menuitem_finish.connect("activate", self.on_menuitem_finish_activate)
 
         self.menuitem_separator = Gtk.SeparatorMenuItem()
-        self.menuitem_separator2 = Gtk.SeparatorMenuItem()
-
-        self.menuitem_show = Gtk.MenuItem(_("Record setup"))
-        self.menuitem_show.connect("activate", self.on_menuitem_show_activate)
-
-        self.menuitem_about = Gtk.MenuItem(_("About"))
-        self.menuitem_about.connect("activate", self.on_menuitem_about_activate)
-
 
         self.menuitem_quit = Gtk.MenuItem(_("Quit"))
         self.menuitem_quit.connect("activate", self.on_menuitem_quit_activate)
@@ -94,9 +86,6 @@ class KazamSuperIndicator(GObject.GObject):
         self.menu.append(self.menuitem_pause)
         self.menu.append(self.menuitem_finish)
         self.menu.append(self.menuitem_separator)
-        self.menu.append(self.menuitem_show)
-        self.menu.append(self.menuitem_about)
-        self.menu.append(self.menuitem_separator2)
         self.menu.append(self.menuitem_quit)
 
         self.menu.show_all()
@@ -155,12 +144,6 @@ class KazamSuperIndicator(GObject.GObject):
 
     def on_menuitem_quit_activate(self, menuitem):
         self.emit("indicator-quit-request")
-
-    def on_menuitem_show_activate(self, menuitem):
-        self.emit("indicator-show-request")
-
-    def on_menuitem_about_activate(self, menuitem):
-        self.emit("indicator-about-request")
 
 try:
     from gi.repository import AppIndicator3
