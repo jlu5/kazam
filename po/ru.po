@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-12-20 16:20+0100\n"
-"PO-Revision-Date: 2012-12-23 08:10+0000\n"
-"Last-Translator: Alexandr Bogovik <Unknown>\n"
+"PO-Revision-Date: 2012-12-25 06:10+0000\n"
+"Last-Translator: Eugene Marshal <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-24 04:51+0000\n"
+"X-Launchpad-Export-Date: 2012-12-26 04:48+0000\n"
 "X-Generator: Launchpad (build 16378)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
 msgid "Kazam"
-msgstr ""
+msgstr "Kazam"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Capture"
@@ -118,7 +118,7 @@ msgstr "Выберите папку"
 
 #: ../data/ui/preferences.ui.h:15
 msgid "Kazam_screencast"
-msgstr ""
+msgstr "Kazam_screencast"
 
 #: ../data/ui/preferences.ui.h:17
 msgid "Shutter sound:"
