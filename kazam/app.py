@@ -162,7 +162,7 @@ class KazamApp(GObject.GObject):
         self.btn_cast = Gtk.RadioToolButton(group=None)
         self.btn_cast.set_label(_("Screencast"))
         self.btn_cast.set_tooltip_text(_("Record a video of your desktop."))
-        cast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+        cast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if cast_icon:
             cast_icon_pixbuf, was_sym = cast_icon.load_symbolic(self.main_fg_color, None, None, None)
             cast_img  = Gtk.Image.new_from_pixbuf(cast_icon_pixbuf)
@@ -174,7 +174,7 @@ class KazamApp(GObject.GObject):
         self.btn_shot = Gtk.RadioToolButton(group=self.btn_cast)
         self.btn_shot.set_label(_("Screenshot"))
         self.btn_shot.set_tooltip_text(_("Record a picture of your desktop."))
-        shot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+        shot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if shot_icon:
             shot_icon_pixbuf, was_sym = shot_icon.load_symbolic(self.main_fg_color, None, None, None)
             shot_img  = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
@@ -198,7 +198,7 @@ class KazamApp(GObject.GObject):
         self.btn_full = Gtk.RadioToolButton(group=None)
         self.btn_full.set_label(_("Fullscreen"))
         self.btn_full.set_tooltip_text(_("Capture contents of the current screen."))
-        full_icon = self.icons.lookup_icon("kazam-fullscreen-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+        full_icon = self.icons.lookup_icon("kazam-fullscreen-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if full_icon:
             full_icon_pixbuf, was_sym = full_icon.load_symbolic(self.aux_fg_color, None, None, None)
             full_img  = Gtk.Image.new_from_pixbuf(full_icon_pixbuf)
@@ -210,7 +210,7 @@ class KazamApp(GObject.GObject):
         self.btn_allscreens = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_allscreens.set_label(_("All Screens"))
         self.btn_allscreens.set_tooltip_text(_("Capture contents of all of your screens."))
-        allscreens_icon = self.icons.lookup_icon("kazam-all-screens-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+        allscreens_icon = self.icons.lookup_icon("kazam-all-screens-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if allscreens_icon:
             allscreens_icon_pixbuf, was_sym = allscreens_icon.load_symbolic(self.aux_fg_color, None, None, None)
             allscreens_img  = Gtk.Image.new_from_pixbuf(allscreens_icon_pixbuf)
@@ -223,7 +223,7 @@ class KazamApp(GObject.GObject):
         self.btn_window = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_window.set_label(_("Window"))
         self.btn_window.set_tooltip_text(_("Capture contents of a single window."))
-        window_icon = self.icons.lookup_icon("kazam-window-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+        window_icon = self.icons.lookup_icon("kazam-window-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if window_icon:
             window_icon_pixbuf, was_sym = window_icon.load_symbolic(self.aux_fg_color, None, None, None)
             window_img  = Gtk.Image.new_from_pixbuf(window_icon_pixbuf)
@@ -235,7 +235,7 @@ class KazamApp(GObject.GObject):
         self.btn_area = Gtk.RadioToolButton(group=self.btn_full)
         self.btn_area.set_label(_("Area"))
         self.btn_area.set_tooltip_text(_("Capture a pre-selected area of your screen."))
-        area_icon = self.icons.lookup_icon("kazam-area-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+        area_icon = self.icons.lookup_icon("kazam-area-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if area_icon:
             area_icon_pixbuf, was_sym = area_icon.load_symbolic(self.aux_fg_color, None, None, None)
             area_img  = Gtk.Image.new_from_pixbuf(area_icon_pixbuf)
@@ -373,14 +373,14 @@ class KazamApp(GObject.GObject):
             #
             # Update icons on the main toolbar
             #
-            cast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+            cast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if cast_icon:
                 cast_icon_pixbuf, was_sym = cast_icon.load_symbolic(self.main_fg_color, None, None, None)
                 cast_img  = Gtk.Image.new_from_pixbuf(cast_icon_pixbuf)
                 self.btn_cast.set_icon_widget(cast_img)
                 cast_img.show_all()
 
-            shot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+            shot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if shot_icon:
                 shot_icon_pixbuf, was_sym = shot_icon.load_symbolic(self.main_fg_color, None, None, None)
                 shot_img  = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
@@ -390,28 +390,28 @@ class KazamApp(GObject.GObject):
             #
             # Update icons on the aux toolbar
             #
-            full_icon = self.icons.lookup_icon("kazam-fullscreen-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+            full_icon = self.icons.lookup_icon("kazam-fullscreen-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if full_icon:
                 full_icon_pixbuf, was_sym = full_icon.load_symbolic(self.aux_fg_color, None, None, None)
                 full_img  = Gtk.Image.new_from_pixbuf(full_icon_pixbuf)
                 self.btn_full.set_icon_widget(full_img)
                 full_img.show_all()
 
-            allscreens_icon = self.icons.lookup_icon("kazam-all-screens-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+            allscreens_icon = self.icons.lookup_icon("kazam-all-screens-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if allscreens_icon:
                 allscreens_icon_pixbuf, was_sym = allscreens_icon.load_symbolic(self.aux_fg_color, None, None, None)
                 allscreens_img  = Gtk.Image.new_from_pixbuf(allscreens_icon_pixbuf)
                 self.btn_allscreens.set_icon_widget(allscreens_img)
                 allscreens_img.show_all()
 
-            window_icon = self.icons.lookup_icon("kazam-window-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+            window_icon = self.icons.lookup_icon("kazam-window-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if window_icon:
                 window_icon_pixbuf, was_sym = window_icon.load_symbolic(self.aux_fg_color, None, None, None)
                 window_img  = Gtk.Image.new_from_pixbuf(window_icon_pixbuf)
                 self.btn_window.set_icon_widget(window_img)
                 window_img.show_all()
 
-            area_icon = self.icons.lookup_icon("kazam-area-symbolic", 32, Gtk.IconLookupFlags.FORCE_SIZE)
+            area_icon = self.icons.lookup_icon("kazam-area-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if area_icon:
                 area_icon_pixbuf, was_sym = area_icon.load_symbolic(self.aux_fg_color, None, None, None)
                 area_img  = Gtk.Image.new_from_pixbuf(area_icon_pixbuf)
