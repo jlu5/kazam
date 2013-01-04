@@ -75,3 +75,4 @@ if __name__ == "__main__":
     appWindow.show_all()
     Gtk.main()
     log.debug("Finishing ...")
+    sys.exit(0)
