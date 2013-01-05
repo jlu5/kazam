@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-12-20 16:20+0100\n"
+"POT-Creation-Date: 2013-01-04 09:42+0100\n"
 "PO-Revision-Date: 2012-10-21 10:35+0000\n"
 "Last-Translator: Cédric VALMARY (Tot en òc) <cvalmary@yahoo.fr>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-31 04:47+0000\n"
-"X-Generator: Launchpad (build 16378)\n"
+"X-Launchpad-Export-Date: 2013-01-05 05:15+0000\n"
+"X-Generator: Launchpad (build 16393)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Mouse cursor"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:159
+#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
 #: ../kazam/frontend/save_dialog.py:43
 msgid "Screencast"
 msgstr ""
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Window borders"
 msgstr ""
 
-#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:167
+#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
 #: ../kazam/frontend/save_dialog.py:45
 msgid "Screenshot"
 msgstr ""
@@ -160,59 +160,59 @@ msgstr ""
 msgid "Gstreamer 1.0 or higher required, bailing out."
 msgstr ""
 
-#: ../kazam/app.py:160
+#: ../kazam/app.py:164
 msgid "Record a video of your desktop."
 msgstr ""
 
-#: ../kazam/app.py:168
+#: ../kazam/app.py:176
 msgid "Record a picture of your desktop."
 msgstr ""
 
-#: ../kazam/app.py:183
+#: ../kazam/app.py:199
 msgid "Fullscreen"
 msgstr ""
 
-#: ../kazam/app.py:184
+#: ../kazam/app.py:200
 msgid "Capture contents of the current screen."
 msgstr ""
 
-#: ../kazam/app.py:191
+#: ../kazam/app.py:211
 msgid "All Screens"
 msgstr ""
 
-#: ../kazam/app.py:192
+#: ../kazam/app.py:212
 msgid "Capture contents of all of your screens."
 msgstr ""
 
-#: ../kazam/app.py:200
+#: ../kazam/app.py:224
 msgid "Window"
 msgstr ""
 
-#: ../kazam/app.py:201
+#: ../kazam/app.py:225
 msgid "Capture contents of a single window."
 msgstr ""
 
-#: ../kazam/app.py:208
+#: ../kazam/app.py:236
 msgid "Area"
 msgstr ""
 
-#: ../kazam/app.py:209
+#: ../kazam/app.py:237
 msgid "Capture a pre-selected area of your screen."
 msgstr ""
 
-#: ../kazam/app.py:268 ../kazam/frontend/indicator.py:68
+#: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
 msgstr "Començar l'enregistrament"
 
-#: ../kazam/app.py:276
+#: ../kazam/app.py:309
 msgid "Take screenshot"
 msgstr ""
 
-#: ../kazam/app.py:472 ../kazam/app.py:487 ../kazam/frontend/indicator.py:76
+#: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
 msgstr "Acabar l'enregistrament"
 
-#: ../kazam/app.py:646
+#: ../kazam/app.py:730
 msgid "Cancel countdown"
 msgstr "Anullar la temporizacion"
 
@@ -268,7 +268,7 @@ msgstr "Enregistrar"
 msgid "File"
 msgstr ""
 
-#: ../kazam/frontend/main_menu.py:63 ../kazam/frontend/indicator.py:90
+#: ../kazam/frontend/main_menu.py:63 ../kazam/frontend/indicator.py:82
 msgid "Quit"
 msgstr "Quitar"
 
@@ -284,7 +284,7 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: ../kazam/frontend/main_menu.py:68 ../kazam/frontend/indicator.py:86
+#: ../kazam/frontend/main_menu.py:68
 msgid "About"
 msgstr "A prepaus"
 
@@ -292,21 +292,17 @@ msgstr "A prepaus"
 msgid "About Kazam"
 msgstr "A prepaus de Kazam"
 
-#: ../kazam/frontend/window_area.py:189
+#: ../kazam/frontend/window_area.py:209
 msgid "Select an area by clicking and dragging."
 msgstr ""
 
-#: ../kazam/frontend/window_area.py:190
+#: ../kazam/frontend/window_area.py:210
 msgid "Press ENTER to confirm or ESC to cancel"
 msgstr ""
 
 #: ../kazam/frontend/indicator.py:72
 msgid "Pause recording"
 msgstr "Pausa d'enregistrament"
-
-#: ../kazam/frontend/indicator.py:83
-msgid "Record setup"
-msgstr "Configuracion de l'enregistrament"
 
 #: ../kazam/backend/grabber.py:171
 msgid "Save capture"
@@ -342,6 +338,9 @@ msgstr "Desconegut"
 
 #~ msgid "Record a video of activity on your screen"
 #~ msgstr "Enregistrar una vidèo de vòstre ecran"
+
+#~ msgid "Record setup"
+#~ msgstr "Configuracion de l'enregistrament"
 
 #~ msgid "Recording will start in ..."
 #~ msgstr "L'enregistrament començarà dins ..."
