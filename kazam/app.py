@@ -93,8 +93,7 @@ class KazamApp(GObject.GObject):
                 prefs.sound = False
 
         self.icons = Gtk.IconTheme.get_default()
-        #self.icons.append_search_path(os.path.join(prefs.datadir,"icons", "48x48", "apps"))
-        #self.icons.append_search_path(os.path.join(prefs.datadir,"icons", "16x16", "apps"))
+        self.default_cursor = Gdk.Cursor(Gdk.CursorType.LEFT_PTR)
 
         # Initialize all the variables
 
@@ -148,6 +147,10 @@ class KazamApp(GObject.GObject):
                 setattr(self, name, w)
             else:
                 logger.debug("Unable to get name for '%s'" % w)
+
+
+        # Retrieve gdk_win for the root window
+        self.gdk_win = self.window.get_root_window()
 
         #
         # Attach main menu, so that
@@ -501,6 +504,8 @@ class KazamApp(GObject.GObject):
 
     def cb_quit_request(self, indicator):
         logger.debug("Quit requested.")
+        # Restore cursor, just in case if by some chance stays set to cross-hairs
+        self.gdk_win.set_cursor(self.default_cursor)
         (prefs.main_x, prefs.main_y) = self.window.get_position()
         try:
             os.remove(self.recorder.tempfile)
