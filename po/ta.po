@@ -1,51 +1,51 @@
-# Esperanto translation for kazam
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Tamil translation for kazam
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the kazam package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-04 09:42+0100\n"
-"PO-Revision-Date: 2011-01-09 10:52+0000\n"
-"Last-Translator: Kristjan SCHMIDT <Unknown>\n"
-"Language-Team: Esperanto <eo@li.org>\n"
+"PO-Revision-Date: 2013-01-05 15:15+0000\n"
+"Last-Translator: A.K.Karthikeyan <mindaslab@gmail.com>\n"
+"Language-Team: Tamil <ta@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-06 05:01+0000\n"
+"X-Launchpad-Export-Date: 2013-01-06 05:02+0000\n"
 "X-Generator: Launchpad (build 16393)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
 msgid "Kazam"
-msgstr ""
+msgstr "காசாம்"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Capture"
-msgstr ""
+msgstr "எடுத்தல்"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Seconds to wait before capturing:"
-msgstr ""
+msgstr "காத்திருக்கும் நோடிகள்"
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Sound from microphone"
-msgstr ""
+msgstr "மைக்ரொபொன் ஓலி"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Sound from speakers"
-msgstr ""
+msgstr "ஸ்பீக்கர் ஓலி"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Mouse cursor"
-msgstr ""
+msgstr "மவுஸ் கர்சர்"
 
 #: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
 #: ../kazam/frontend/save_dialog.py:43
 msgid "Screencast"
-msgstr ""
+msgstr "திரை"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Window borders"
@@ -54,7 +54,7 @@ msgstr ""
 #: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
 #: ../kazam/frontend/save_dialog.py:45
 msgid "Screenshot"
-msgstr ""
+msgstr "திரைபிடிப்பு"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "When capturing include:"
@@ -66,15 +66,15 @@ msgstr ""
 
 #: ../data/ui/preferences.ui.h:2
 msgid "Speakers:"
-msgstr ""
+msgstr "ஒலிப்பான்கள்"
 
 #: ../data/ui/preferences.ui.h:3
 msgid "Set volume"
-msgstr ""
+msgstr "ஒலியளவை அமை"
 
 #: ../data/ui/preferences.ui.h:4
 msgid "Microphone:"
-msgstr ""
+msgstr "நுன் ஓலி வாங்கி"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
@@ -86,15 +86,15 @@ msgstr ""
 
 #: ../data/ui/preferences.ui.h:7
 msgid "General"
-msgstr ""
+msgstr "பொதுவான"
 
 #: ../data/ui/preferences.ui.h:8
 msgid "Framerate:"
-msgstr ""
+msgstr "சட்டவிகிதம்:"
 
 #: ../data/ui/preferences.ui.h:9
 msgid "Set the number of frames per second"
-msgstr ""
+msgstr "ஒர் நோடியின் சட்டவிகித அளவு?"
 
 #: ../data/ui/preferences.ui.h:10
 msgid "Record with:"
@@ -102,11 +102,11 @@ msgstr ""
 
 #: ../data/ui/preferences.ui.h:11
 msgid "Automatic file saving:"
-msgstr ""
+msgstr "தானாக கோப்பை சேமி:"
 
 #: ../data/ui/preferences.ui.h:12
 msgid "Directory:"
-msgstr ""
+msgstr "அடைவு:"
 
 #: ../data/ui/preferences.ui.h:13
 msgid "Filename prefix:"
@@ -114,7 +114,7 @@ msgstr ""
 
 #: ../data/ui/preferences.ui.h:14
 msgid "Select a directory"
-msgstr ""
+msgstr "ஓர் அடைவை தேர்ந்தெடு"
 
 #: ../data/ui/preferences.ui.h:15
 msgid "Kazam_screencast"
@@ -122,11 +122,11 @@ msgstr ""
 
 #: ../data/ui/preferences.ui.h:17
 msgid "Shutter sound:"
-msgstr ""
+msgstr "ஷட்டர் ஒலி:"
 
 #: ../data/ui/preferences.ui.h:18
 msgid "Shutter type:"
-msgstr ""
+msgstr "ஷட்டர் அமைப்பு:"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencast and Screenshot tool"
@@ -154,7 +154,7 @@ msgstr ""
 
 #: ../data/kazam.desktop.in.h:8 ../kazam/frontend/main_menu.py:65
 msgid "Preferences"
-msgstr ""
+msgstr "விருப்பங்கள்"
 
 #: ../kazam/app.py:57 ../kazam/app.py:66
 msgid "Gstreamer 1.0 or higher required, bailing out."
@@ -170,7 +170,7 @@ msgstr ""
 
 #: ../kazam/app.py:199
 msgid "Fullscreen"
-msgstr ""
+msgstr "முழுத்திரை"
 
 #: ../kazam/app.py:200
 msgid "Capture contents of the current screen."
@@ -178,7 +178,7 @@ msgstr ""
 
 #: ../kazam/app.py:211
 msgid "All Screens"
-msgstr ""
+msgstr "எல்லா திரை"
 
 #: ../kazam/app.py:212
 msgid "Capture contents of all of your screens."
@@ -186,7 +186,7 @@ msgstr ""
 
 #: ../kazam/app.py:224
 msgid "Window"
-msgstr ""
+msgstr "சாளரம்"
 
 #: ../kazam/app.py:225
 msgid "Capture contents of a single window."
@@ -194,7 +194,7 @@ msgstr ""
 
 #: ../kazam/app.py:236
 msgid "Area"
-msgstr ""
+msgstr "பரப்பு"
 
 #: ../kazam/app.py:237
 msgid "Capture a pre-selected area of your screen."
@@ -202,15 +202,15 @@ msgstr ""
 
 #: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
-msgstr ""
+msgstr "பதிவு செய்ய தொடங்கவும்"
 
 #: ../kazam/app.py:309
 msgid "Take screenshot"
-msgstr ""
+msgstr "திரைபிடிப்பு எடுக்கவும்"
 
 #: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
-msgstr ""
+msgstr "பதிவு செய்வதை நிருத்தவும்"
 
 #: ../kazam/app.py:730
 msgid "Cancel countdown"
@@ -236,7 +236,7 @@ msgstr ""
 
 #: ../kazam/frontend/done_recording.py:65
 msgid "Edit with:"
-msgstr "redakto kun:"
+msgstr "வைத்து தொகுக்கவும்:"
 
 #: ../kazam/frontend/done_recording.py:73
 msgid "Save for later"
@@ -244,11 +244,11 @@ msgstr ""
 
 #: ../kazam/frontend/done_recording.py:83
 msgid "Cancel"
-msgstr "Nuligi"
+msgstr "ரத்து செய்"
 
 #: ../kazam/frontend/done_recording.py:85
 msgid "Continue"
-msgstr "Daŭrigi"
+msgstr "தொடரவும்"
 
 #: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
@@ -260,35 +260,35 @@ msgstr ""
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
-msgstr ""
+msgstr "சேமி"
 
 #: ../kazam/frontend/main_menu.py:62
 msgid "File"
-msgstr ""
+msgstr "கோப்பு"
 
 #: ../kazam/frontend/main_menu.py:63 ../kazam/frontend/indicator.py:82
 msgid "Quit"
-msgstr ""
+msgstr "வெளியேறு"
 
 #: ../kazam/frontend/main_menu.py:63
 msgid "Quit Kazam"
-msgstr ""
+msgstr "காசாமை விட்டு வெளியேறு"
 
 #: ../kazam/frontend/main_menu.py:65
 msgid "Open preferences"
-msgstr ""
+msgstr "விருப்பங்களைத்திற"
 
 #: ../kazam/frontend/main_menu.py:67
 msgid "Help"
-msgstr ""
+msgstr "உதவி"
 
 #: ../kazam/frontend/main_menu.py:68
 msgid "About"
-msgstr "Pri"
+msgstr "குறித்து"
 
 #: ../kazam/frontend/main_menu.py:68
 msgid "About Kazam"
-msgstr ""
+msgstr "காசாமை பற்றி அறியவும்"
 
 #: ../kazam/frontend/window_area.py:209
 msgid "Select an area by clicking and dragging."
