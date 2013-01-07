@@ -1,16 +1,16 @@
-# Latvian translation for kazam
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Asturian translation for kazam
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the kazam package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-04 09:42+0100\n"
-"PO-Revision-Date: 2013-01-06 19:20+0000\n"
-"Last-Translator: tuxmaniack <Unknown>\n"
-"Language-Team: Latvian <lv@li.org>\n"
+"PO-Revision-Date: 2013-01-07 03:44+0000\n"
+"Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
+"Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,410 +24,291 @@ msgstr "Kazam"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Capture"
-msgstr "Uzņemt"
+msgstr "Capturar"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Seconds to wait before capturing:"
-msgstr "Sekundes, cik gaidīt pirms uzņemšanas:"
+msgstr "Segundos d'espera enantes de capturar:"
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Sound from microphone"
-msgstr "Skaņa no mikrofona"
+msgstr "Soníu del micrófonu"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Sound from speakers"
-msgstr "Skaņa no skaļruņiem"
+msgstr "Soníu de los altavoces"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Mouse cursor"
-msgstr "Peles kursors"
+msgstr "Cursor del mur"
 
 #: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
 #: ../kazam/frontend/save_dialog.py:43
 msgid "Screencast"
-msgstr "Ekrānieraksts"
+msgstr "Grabación de videu"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Window borders"
-msgstr "Loga apmales"
+msgstr "Bordes de la ventana"
 
 #: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
 #: ../kazam/frontend/save_dialog.py:45
 msgid "Screenshot"
-msgstr "Ekrānuzņēmums"
+msgstr "Imaxe de pantalla"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "When capturing include:"
-msgstr "Uzņemot ietvert:"
+msgstr "Na captura incluir:"
 
 #: ../data/ui/preferences.ui.h:1
 msgid "Kazam Preferences"
-msgstr "Kazam iestatījumi"
+msgstr "Preferencies de Kazam"
 
 #: ../data/ui/preferences.ui.h:2
 msgid "Speakers:"
-msgstr "Skaļruņi:"
+msgstr "Altavoces:"
 
 #: ../data/ui/preferences.ui.h:3
 msgid "Set volume"
-msgstr "Iestatīt skaļumu"
+msgstr "Configurar volume"
 
 #: ../data/ui/preferences.ui.h:4
 msgid "Microphone:"
-msgstr "Mikrofons:"
+msgstr "Micrófonu:"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
-msgstr "Atpakaļatskaites uzplaiksnījums:"
+msgstr "Pantalla de cuenta atrás:"
 
 #: ../data/ui/preferences.ui.h:6
 msgid "Toggle display of countdown splash"
-msgstr "Pārslēgt atpakaļatskaites rādīšanu"
+msgstr "Conmutar la pantalla de cuenta atrás"
 
 #: ../data/ui/preferences.ui.h:7
 msgid "General"
-msgstr "Vispārīgi"
+msgstr "Xeneral"
 
 #: ../data/ui/preferences.ui.h:8
 msgid "Framerate:"
-msgstr "Kadrātrums:"
+msgstr "Velocidá de fotogrames:"
 
 #: ../data/ui/preferences.ui.h:9
 msgid "Set the number of frames per second"
-msgstr "Iestatīt kadru skaitu sekundē"
+msgstr "Configurar el númberu de fotogrames por segundu"
 
 #: ../data/ui/preferences.ui.h:10
 msgid "Record with:"
-msgstr "Ierakstīt ar:"
+msgstr "Grabar con:"
 
 #: ../data/ui/preferences.ui.h:11
 msgid "Automatic file saving:"
-msgstr "Automātiska faila saglabāšana:"
+msgstr "Guardáu automáticu de ficheru:"
 
 #: ../data/ui/preferences.ui.h:12
 msgid "Directory:"
-msgstr "Mape:"
+msgstr "Direutoriu:"
 
 #: ../data/ui/preferences.ui.h:13
 msgid "Filename prefix:"
-msgstr "Faila nosaukuma prefikss:"
+msgstr "Prefixu del nome de ficheru:"
 
 #: ../data/ui/preferences.ui.h:14
 msgid "Select a directory"
-msgstr "Izvēlēties mapi"
+msgstr "Seleiciona un direutoriu"
 
 #: ../data/ui/preferences.ui.h:15
 msgid "Kazam_screencast"
-msgstr "Kazam_ekrānieraksts"
+msgstr "Videograbación_Kazam"
 
 #: ../data/ui/preferences.ui.h:17
 msgid "Shutter sound:"
-msgstr "Aizvara skaņa:"
+msgstr "Soníu del disparador:"
 
 #: ../data/ui/preferences.ui.h:18
 msgid "Shutter type:"
-msgstr "Aizvara tips:"
+msgstr "Triba de disparador:"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencast and Screenshot tool"
-msgstr "Ekrānieraksta un ekrānuzņēmuma rīks"
+msgstr "Ferramienta pa capturar imaxes y videos de pantalla"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video or take a screenshot of your screen"
-msgstr "Ierakstīt video vai uzņemt ekrānuzņēmumu"
+msgstr "Grabar un videu o tomar una imaxe de pantalla"
 
 #: ../data/kazam.desktop.in.h:4
 msgid "screenshot;screencast;videorecord;desktop recording;"
-msgstr ""
+msgstr "captura;screencast;grabar videu;grabación d'escritoriu;"
 
 #: ../data/kazam.desktop.in.h:5
 msgid "Take a screenshot of entire workspace"
-msgstr "Uzņemt visas darbvirsmas ekrānuzņēmumu"
+msgstr "Captura de pantalla del área de trabayu ensembre"
 
 #: ../data/kazam.desktop.in.h:6
 msgid "Select an area to screenshot"
-msgstr "Izvēlieties reģionu, kuru uzņemt"
+msgstr "Seleiciona un área a capturar"
 
 #: ../data/kazam.desktop.in.h:7
 msgid "Select a window to screenshot"
-msgstr "Izvēlieties logu, kuru uzņemt"
+msgstr "Seleiciona una ventana a capturar"
 
 #: ../data/kazam.desktop.in.h:8 ../kazam/frontend/main_menu.py:65
 msgid "Preferences"
-msgstr "Iestatījumi"
+msgstr "Preferencies"
 
 #: ../kazam/app.py:57 ../kazam/app.py:66
 msgid "Gstreamer 1.0 or higher required, bailing out."
-msgstr ""
+msgstr "Requier Gstreamer 1.0 o superior, encaboxando."
 
 #: ../kazam/app.py:164
 msgid "Record a video of your desktop."
-msgstr "Ierakstīt darbvirsmas video."
+msgstr "Grabar un videu del escritoriu."
 
 #: ../kazam/app.py:176
 msgid "Record a picture of your desktop."
-msgstr "Ierakstīt darbvirsmas attēlu."
+msgstr "Tomar una imaxe del escritoriu."
 
 #: ../kazam/app.py:199
 msgid "Fullscreen"
-msgstr "Pilnekrāns"
+msgstr "Pantalla completa"
 
 #: ../kazam/app.py:200
 msgid "Capture contents of the current screen."
-msgstr "Uzņemt pašreizējā ekrāna saturu."
+msgstr "Capturar el conteníu de la pantalla actual."
 
 #: ../kazam/app.py:211
 msgid "All Screens"
-msgstr "Visi ekrāni"
+msgstr "Toles pantalles"
 
 #: ../kazam/app.py:212
 msgid "Capture contents of all of your screens."
-msgstr "Uzņemt visu ekrānu saturu."
+msgstr "Capturar el conteníu de toles pantalles"
 
 #: ../kazam/app.py:224
 msgid "Window"
-msgstr "Logs"
+msgstr "Ventana"
 
 #: ../kazam/app.py:225
 msgid "Capture contents of a single window."
-msgstr "Uzņemt viena loga saturu."
+msgstr "Capturar el conteníu d'una única ventana."
 
 #: ../kazam/app.py:236
 msgid "Area"
-msgstr "Reģions"
+msgstr "Área"
 
 #: ../kazam/app.py:237
 msgid "Capture a pre-selected area of your screen."
-msgstr "Uzņemt iepriekš izvēlētu reģionu no ekrāna"
+msgstr "Capturar un área pre-seleicionada de la pantalla."
 
 #: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
-msgstr "Sākt ierakstīšanu"
+msgstr "Aniciar grabación"
 
 #: ../kazam/app.py:309
 msgid "Take screenshot"
-msgstr "Uzņemt ekrānuzņēmumu"
+msgstr "Facer captura de pantalla"
 
 #: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
-msgstr "Pārtraukt ierakstu"
+msgstr "Acabar grabación"
 
 #: ../kazam/app.py:730
 msgid "Cancel countdown"
-msgstr "Atcelt atskaiti"
+msgstr "Encaboxar la cuenta atrás"
 
 #: ../kazam/frontend/window_select.py:155
 msgid "Select a window by clicking on it."
-msgstr "Izvēlieties logu uzklikšķinot tam."
+msgstr "Seleiciona una ventana calcando nella."
 
 #: ../kazam/frontend/window_select.py:156
 msgid "Press ENTER or ESC to cancel"
-msgstr "Nospiediet ENTER vai ESC, lai atceltu"
+msgstr "Calca Intro o Esc pa encaboxar"
 
 #: ../kazam/frontend/done_recording.py:50
 msgid "Recording finished"
-msgstr "Ierakstīšana pabeigta"
+msgstr "Grabación terminada"
 
 #: ../kazam/frontend/done_recording.py:62
 msgid ""
 "Kazam finished recording.\n"
 "What do you want to do now?"
 msgstr ""
-"Kazam pabeidza ierakstīšanu.\n"
-"Ko jūs vēlaties darīt tagad?"
+"Kazam terminó de grabar.\n"
+"¿Qué quies facer agora?"
 
 #: ../kazam/frontend/done_recording.py:65
 msgid "Edit with:"
-msgstr "Rediģēt ar:"
+msgstr "Editar con:"
 
 #: ../kazam/frontend/done_recording.py:73
 msgid "Save for later"
-msgstr "Saglabāt izmantošanai vēlāk"
+msgstr "Guardar pa dempués"
 
 #: ../kazam/frontend/done_recording.py:83
 msgid "Cancel"
-msgstr "Atcelt"
+msgstr "Encaboxar"
 
 #: ../kazam/frontend/done_recording.py:85
 msgid "Continue"
-msgstr "Turpināt"
+msgstr "Siguir"
 
 #: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
-msgstr "Saglabāt ierakstīto"
+msgstr "Guardar grabación"
 
 #: ../kazam/frontend/about_dialog.py:58
 msgid "Record a video of activity on your screen or capture a screenshot."
-msgstr "Ieraksta video ar darbībām uz ekrkāna vai uzņem ekrānuzņēmumu."
+msgstr ""
+"Graba un videu de les actividaes na pantalla o captura una imaxe de pantalla."
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
-msgstr "Saglabāt"
+msgstr "Guardar"
 
 #: ../kazam/frontend/main_menu.py:62
 msgid "File"
-msgstr "Fails"
+msgstr "Ficheru"
 
 #: ../kazam/frontend/main_menu.py:63 ../kazam/frontend/indicator.py:82
 msgid "Quit"
-msgstr "Iziet"
+msgstr "Colar"
 
 #: ../kazam/frontend/main_menu.py:63
 msgid "Quit Kazam"
-msgstr "Iziet Kazam"
+msgstr "Colar de Kazam"
 
 #: ../kazam/frontend/main_menu.py:65
 msgid "Open preferences"
-msgstr "Atvērt iestatījumus"
+msgstr "Abrir les preferencies"
 
 #: ../kazam/frontend/main_menu.py:67
 msgid "Help"
-msgstr "Palīdzība"
+msgstr "Ayuda"
 
 #: ../kazam/frontend/main_menu.py:68
 msgid "About"
-msgstr "Par"
+msgstr "Tocante a"
 
 #: ../kazam/frontend/main_menu.py:68
 msgid "About Kazam"
-msgstr "Par Kazam"
+msgstr "Tocante a Kazam"
 
 #: ../kazam/frontend/window_area.py:209
 msgid "Select an area by clicking and dragging."
-msgstr "Izvēlieties reģionu klikšķinot un velkot."
+msgstr "Seleiciona un área calcando y arrastrando."
 
 #: ../kazam/frontend/window_area.py:210
 msgid "Press ENTER to confirm or ESC to cancel"
-msgstr "Nospiediet ENTER, lai apstiprinātu vai ESC, lai atceltu"
+msgstr "Calca Intro pa confirmar o Esc pa encaboxar"
 
 #: ../kazam/frontend/indicator.py:72
 msgid "Pause recording"
-msgstr "Pauzēt ierakstu"
+msgstr "Posar la grabación"
 
 #: ../kazam/backend/grabber.py:171
 msgid "Save capture"
-msgstr "Saglabāt uzņēmumu"
+msgstr "Guardar captura"
 
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
-msgstr "Nezināms"
-
-#~ msgid "Close"
-#~ msgstr "Aizvērt"
-
-#~ msgid "Description"
-#~ msgstr "Apraksts"
-
-#~ msgid "Category"
-#~ msgstr "Kategorija"
-
-#~ msgid "Record"
-#~ msgstr "Ierakstīt"
-
-#~ msgid "Title"
-#~ msgstr "Virsraksts"
-
-#~ msgid "Keywords"
-#~ msgstr "Atslēgvārdi"
-
-#~ msgid "Private"
-#~ msgstr "Privāts"
-
-#~ msgid "There was an error converting."
-#~ msgstr "Radās kļūda konvertējot"
-
-#~ msgid "Screencast converted."
-#~ msgstr "Ieraksts konvertēts"
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "Ieraksts tiek augšupielādēts..."
-
-#~ msgid "There was an error logging in."
-#~ msgstr "Radās kļūda ielogojoties."
-
-#~ msgid "Converting screencast..."
-#~ msgstr "Konvertē ierakstu"
-
-#~ msgid "Logging in..."
-#~ msgstr "Ielogojas..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "Ielogošanās pabeigta."
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "Jūsu ieraksts ir veiksmīgi augšupielādēts"
-
-#~ msgid "There was an error uploading."
-#~ msgstr "Radās kļūda augšupielādējot."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "Ieraksts augšupielādēts."
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "Tas ir pieejams pēc norādītās adreses zemāk:"
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "Kazam darbvirsmas ierakstītājs"
-
-#~ msgid "Record setup"
-#~ msgstr "Ieraksta iestatījumi"
-
-#~ msgid "Display {n} ({w}x{h})"
-#~ msgstr "Ekrāns {n} ({w}x{h})"
-
-#~ msgid "Kazam Screencaster - Recording finished"
-#~ msgstr "Kazam ierakstītājs - ierakstīšana pabeigta"
-
-#~ msgid "Screencaster"
-#~ msgstr "Ierakstītājs"
-
-#~ msgid "Recording will start in ..."
-#~ msgstr "Ieraksts sāksies pēc ..."
-
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "Record Region"
-#~ msgstr "Ierakstīt reģionu"
-
-#~ msgid "Select region by resizing the window"
-#~ msgstr "Izvēlieties reģionu mainot loga izmēru"
-
-#~ msgid "Press ENTER to confirm or ESC to cancel."
-#~ msgstr "Nospiediet ENTER, lai apstiprinātu. ESC, lai atceltu."
-
-#~ msgid "Untitled_Screencast"
-#~ msgstr "Nenosaukts_ekrānieraksts"
-
-#~ msgid "Combined ({w}x{h})"
-#~ msgstr "Apvienotais ({w}x{h})"
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "Ieraksta video par darbvirsmā notiekošo."
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "Ierakstīt video par darbvirsmā notiekošo"
-
-#~ msgid "Countdown timer"
-#~ msgstr "Aizture pirms ieraksta"
-
-#~ msgid "Encoder type"
-#~ msgstr "Kodētāja tips"
-
-#~ msgid "Audio Source 2"
-#~ msgstr "Audio avots 2"
-
-#~ msgid "Audio Source 1"
-#~ msgstr "Audio avots 1"
-
-#~ msgid "Video Source"
-#~ msgstr "Video avots"
-
-#~ msgid "Framerate"
-#~ msgstr "Kadrātrums"
-
-#~ msgid "Capture mouse"
-#~ msgstr "Ierakstīt peles kursoru"
-
-#~ msgid "Email"
-#~ msgstr "E-pasts"
+msgstr "Desconocíu"
