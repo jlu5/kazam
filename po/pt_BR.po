@@ -8,23 +8,23 @@ msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-04 09:42+0100\n"
-"PO-Revision-Date: 2012-05-29 13:51+0000\n"
-"Last-Translator: Rafael Neri <Unknown>\n"
+"PO-Revision-Date: 2013-01-10 23:04+0000\n"
+"Last-Translator: Leo Silva Souza <eleuvano13@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-06 05:02+0000\n"
-"X-Generator: Launchpad (build 16393)\n"
+"X-Launchpad-Export-Date: 2013-01-11 04:46+0000\n"
+"X-Generator: Launchpad (build 16412)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
 msgid "Kazam"
-msgstr ""
+msgstr "Kazam"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Capture"
-msgstr ""
+msgstr "Captura"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Seconds to wait before capturing:"
@@ -32,33 +32,33 @@ msgstr ""
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Sound from microphone"
-msgstr ""
+msgstr "O som do microfone"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Sound from speakers"
-msgstr ""
+msgstr "O som dos alto-falantes"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Mouse cursor"
-msgstr ""
+msgstr "O cursor do mouse"
 
 #: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
 #: ../kazam/frontend/save_dialog.py:43
 msgid "Screencast"
-msgstr ""
+msgstr "Screencast"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Window borders"
-msgstr ""
+msgstr "bordas da janela"
 
 #: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
 #: ../kazam/frontend/save_dialog.py:45
 msgid "Screenshot"
-msgstr ""
+msgstr "Captura de tela"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "When capturing include:"
-msgstr ""
+msgstr "Ao capturar incluem:"
 
 #: ../data/ui/preferences.ui.h:1
 msgid "Kazam Preferences"
