@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-04 09:42+0100\n"
-"PO-Revision-Date: 2013-01-09 12:02+0000\n"
+"PO-Revision-Date: 2013-01-14 06:50+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-10 04:55+0000\n"
-"X-Generator: Launchpad (build 16412)\n"
+"X-Launchpad-Export-Date: 2013-01-15 05:02+0000\n"
+"X-Generator: Launchpad (build 16420)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -102,7 +102,7 @@ msgstr "Gravar con:"
 
 #: ../data/ui/preferences.ui.h:11
 msgid "Automatic file saving:"
-msgstr ""
+msgstr "Gardado automático de ficheiro:"
 
 #: ../data/ui/preferences.ui.h:12
 msgid "Directory:"
@@ -110,7 +110,7 @@ msgstr "Directorio:"
 
 #: ../data/ui/preferences.ui.h:13
 msgid "Filename prefix:"
-msgstr ""
+msgstr "Prefixo do ficheiro:"
 
 #: ../data/ui/preferences.ui.h:14
 msgid "Select a directory"
@@ -134,7 +134,7 @@ msgstr ""
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video or take a screenshot of your screen"
-msgstr ""
+msgstr "Grave un vídeo ou tire unha captura de pantalla"
 
 #: ../data/kazam.desktop.in.h:4
 msgid "screenshot;screencast;videorecord;desktop recording;"
@@ -142,15 +142,15 @@ msgstr ""
 
 #: ../data/kazam.desktop.in.h:5
 msgid "Take a screenshot of entire workspace"
-msgstr ""
+msgstr "Facer unha captura de toda a área de traballo"
 
 #: ../data/kazam.desktop.in.h:6
 msgid "Select an area to screenshot"
-msgstr ""
+msgstr "Seleccione un área a capturar"
 
 #: ../data/kazam.desktop.in.h:7
 msgid "Select a window to screenshot"
-msgstr ""
+msgstr "Seleccione uhna xanela a capturar"
 
 #: ../data/kazam.desktop.in.h:8 ../kazam/frontend/main_menu.py:65
 msgid "Preferences"
@@ -158,15 +158,15 @@ msgstr "Preferencias"
 
 #: ../kazam/app.py:57 ../kazam/app.py:66
 msgid "Gstreamer 1.0 or higher required, bailing out."
-msgstr ""
+msgstr "Requirese Gstreamer 1.0 ou posterior, saíndo."
 
 #: ../kazam/app.py:164
 msgid "Record a video of your desktop."
-msgstr ""
+msgstr "Grave un vídeo do seu escritorio"
 
 #: ../kazam/app.py:176
 msgid "Record a picture of your desktop."
-msgstr ""
+msgstr "Obter unha imaxe do seu escritorio."
 
 #: ../kazam/app.py:199
 msgid "Fullscreen"
@@ -174,7 +174,7 @@ msgstr "Pantalla completa"
 
 #: ../kazam/app.py:200
 msgid "Capture contents of the current screen."
-msgstr ""
+msgstr "Capturar o contido da pantalla actual"
 
 #: ../kazam/app.py:211
 msgid "All Screens"
@@ -182,7 +182,7 @@ msgstr "Todas as pantallas"
 
 #: ../kazam/app.py:212
 msgid "Capture contents of all of your screens."
-msgstr ""
+msgstr "Capturar o contido de todas as súas pantallas"
 
 #: ../kazam/app.py:224
 msgid "Window"
@@ -190,7 +190,7 @@ msgstr "Xanela"
 
 #: ../kazam/app.py:225
 msgid "Capture contents of a single window."
-msgstr ""
+msgstr "Capturar o contido dunha xanela en particular"
 
 #: ../kazam/app.py:236
 msgid "Area"
@@ -198,11 +198,11 @@ msgstr "Área"
 
 #: ../kazam/app.py:237
 msgid "Capture a pre-selected area of your screen."
-msgstr ""
+msgstr "Capturar unha área seleccionada da súa pantalla"
 
 #: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
-msgstr ""
+msgstr "Iniciar a gravación"
 
 #: ../kazam/app.py:309
 msgid "Take screenshot"
@@ -214,11 +214,11 @@ msgstr "Rematar a gravación"
 
 #: ../kazam/app.py:730
 msgid "Cancel countdown"
-msgstr ""
+msgstr "Cancelar a conta atrás"
 
 #: ../kazam/frontend/window_select.py:155
 msgid "Select a window by clicking on it."
-msgstr ""
+msgstr "Seleccione unha xanela premendo nela."
 
 #: ../kazam/frontend/window_select.py:156
 msgid "Press ENTER or ESC to cancel"
@@ -226,13 +226,15 @@ msgstr "Prema INTRO ou ESC para cancelar"
 
 #: ../kazam/frontend/done_recording.py:50
 msgid "Recording finished"
-msgstr ""
+msgstr "Gravación terminada"
 
 #: ../kazam/frontend/done_recording.py:62
 msgid ""
 "Kazam finished recording.\n"
 "What do you want to do now?"
 msgstr ""
+"Kazam rematou a gravación.\n"
+"Que quere facer agora?"
 
 #: ../kazam/frontend/done_recording.py:65
 msgid "Edit with:"
@@ -240,7 +242,7 @@ msgstr "Editar con:"
 
 #: ../kazam/frontend/done_recording.py:73
 msgid "Save for later"
-msgstr ""
+msgstr "Gardar para mais adiante"
 
 #: ../kazam/frontend/done_recording.py:83
 msgid "Cancel"
@@ -256,7 +258,7 @@ msgstr "Gardar gravación"
 
 #: ../kazam/frontend/about_dialog.py:58
 msgid "Record a video of activity on your screen or capture a screenshot."
-msgstr ""
+msgstr "Grave un vídeo da actividade na súa pantalla ou capture unha imaxe."
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
