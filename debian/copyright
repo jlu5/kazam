@@ -6,21 +6,30 @@ Source: https://launchpad.net/kazam
 Files: *
 Copyright: 2012, David Klasinc
            2010, Andrew Higginson
-           2009, Michael Vogt
-License: GPL-3
+License: GPL-3+
+
+Files: kazam/pulseaudio/ctypes_pulseaudio.py
+Copyright: 2012, David Klasinc
+License: LGPL-3+
+
+Files: debian/*
+Copyright: 2013, Andrew Starr-Bochicchio <asb@debian.org>
+License: GPL-3+
+
+License: GPL-3+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; version 3.
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
  .
  On Debian systems, the complete text of the GNU General
  Public License can be found in `/usr/share/common-licenses/GPL-3'.
 
-Files: kazam/pulseaudio/ctypes_pulseaudio.py
-Copyright: 2012, David Klasinc
-License: LGPL-3
+License: LGPL-3+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
- License as published by the Free Software Foundation; version 3.
+ License as published by the Free Software Foundation; either
+ version 3 of the License, or (at your option) any later version.
  .
  On Debian systems, the complete text of the GNU General
  Public License can be found in `/usr/share/common-licenses/LGPL-3'.
