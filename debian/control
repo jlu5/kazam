@@ -1,0 +1,42 @@
+Source: kazam
+Section: video
+Priority: optional
+Maintainer: Andrew Starr-Bochicchio <asb@debian.org>
+Build-Depends: debhelper (>= 9),
+               gettext,
+               intltool,
+               python3-all (>= 3.2),
+               python3-distutils-extra,
+               python3-setuptools
+Standards-Version: 3.9.4
+X-Python3-Version: >= 3.2
+Vcs-Bzr:
+Vcs-Browser:
+Homepage: https://launchpad.net/kazam
+
+Package: kazam
+Architecture: all
+Depends: gir1.2-appindicator3-0.1,
+         gir1.2-gst-plugins-base-1.0,
+         gir1.2-gstreamer-1.0,
+         gir1.2-keybinder-3.0,
+         gir1.2-wnck-3.0,
+         gstreamer1.0-plugins-base,
+         gstreamer1.0-plugins-good,
+         gstreamer1.0-plugins-ugly,
+         gstreamer1.0-pulseaudio,
+         python3-cairo,
+         python3-dbus,
+         python3-gi,
+         python3-gi-cairo,
+         python3-xdg,
+         ${dist:Depends},
+         ${misc:Depends},
+         ${python3:Depends}
+Recommends: gstreamer1.0-libav
+XB-Python-Version: ${python:Versions}
+Description: Easy to use application for recording on-screen action
+ A program that lets you record action on-screen into one video file.
+ Its special features include a well designed interface, the ability
+ to record two audio channels and mix them, and built-in support for
+ volume adjustments. You can also chose between VP8 or H264 codecs.

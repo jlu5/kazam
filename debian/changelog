@@ -1,0 +1,5 @@
+kazam (1.3.101-1) UNRELEASED; urgency=low
+
+  * Initial release (Closes: #635623).
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 21 Jan 2013 10:56:45 -0500

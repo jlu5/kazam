@@ -1,0 +1,26 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Kazam
+Upstream-Contact: David Klasinc <bigwhale@lubica.net>
+Source: https://launchpad.net/kazam
+
+Files: *
+Copyright: 2012, David Klasinc
+           2010, Andrew Higginson
+           2009, Michael Vogt
+License: GPL-3
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; version 3.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License can be found in `/usr/share/common-licenses/GPL-3'.
+
+Files: kazam/pulseaudio/ctypes_pulseaudio.py
+Copyright: 2012, David Klasinc
+License: LGPL-3
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; version 3.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License can be found in `/usr/share/common-licenses/LGPL-3'.
