@@ -33,8 +33,11 @@ Depends: gir1.2-gst-plugins-base-1.0,
          ${python3:Depends}
 Recommends: gstreamer1.0-libav
 XB-Python-Version: ${python:Versions}
-Description: Easy to use application for recording on-screen action
- A program that lets you record action on-screen into one video file.
- Its special features include a well designed interface, the ability
- to record two audio channels and mix them, and built-in support for
- volume adjustments. You can also chose between VP8 or H264 codecs.
+Description: screencast and screenshot application created with design in mind
+ Kazam provides a well designed and easy to use interface for capturing
+ screencasts and screenshots. It can record desktop video and multiple audio
+ streams simultaneously with control over audio levels and the screen region
+ being captured.
+ .
+ Support for H264 and VP8 codecs is built in.
+
