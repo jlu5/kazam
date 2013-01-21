@@ -16,10 +16,8 @@ Homepage: https://launchpad.net/kazam
 
 Package: kazam
 Architecture: all
-Depends: gir1.2-appindicator3-0.1,
-         gir1.2-gst-plugins-base-1.0,
+Depends: gir1.2-gst-plugins-base-1.0,
          gir1.2-gstreamer-1.0,
-         gir1.2-keybinder-3.0,
          gir1.2-wnck-3.0,
          gstreamer1.0-plugins-base,
          gstreamer1.0-plugins-good,
