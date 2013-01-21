@@ -17,7 +17,7 @@ override_dh_auto_install:
 
 override_dh_auto_clean:
 	rm -rf build/
-	dh_auto_clean
+	python3 setup.py clean -a
 
 override_dh_gencontrol:
 	dh_gencontrol -- $(SUBSTVARS)
