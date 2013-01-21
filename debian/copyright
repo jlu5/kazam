@@ -6,6 +6,7 @@ Source: https://launchpad.net/kazam
 Files: *
 Copyright: 2012, David Klasinc
            2010, Andrew Higginson
+           2012, Georgi Karavasilev
 License: GPL-3+
 
 Files: kazam/pulseaudio/ctypes_pulseaudio.py
