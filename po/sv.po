@@ -8,63 +8,63 @@ msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-04 09:42+0100\n"
-"PO-Revision-Date: 2012-05-18 06:04+0000\n"
-"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
+"PO-Revision-Date: 2013-01-25 05:34+0000\n"
+"Last-Translator: Mikael Hiort af Ornäs <lakritslemmel@hotmail.com>\n"
 "Language-Team: Launchpad Swedish Translators <lp-l10n-"
 "sv@lists.launchpad.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-06 05:02+0000\n"
-"X-Generator: Launchpad (build 16393)\n"
+"X-Launchpad-Export-Date: 2013-01-25 05:39+0000\n"
+"X-Generator: Launchpad (build 16445)\n"
 "X-Poedit-Language: Swedish\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
 msgid "Kazam"
-msgstr ""
+msgstr "Kazam"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Capture"
-msgstr ""
+msgstr "Fånga"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Seconds to wait before capturing:"
-msgstr ""
+msgstr "Fördröjning innan infångning (s):"
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Sound from microphone"
-msgstr ""
+msgstr "Ljud från mikrofon"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Sound from speakers"
-msgstr ""
+msgstr "Ljud från högtalare"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Mouse cursor"
-msgstr ""
+msgstr "Muspekare"
 
 #: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
 #: ../kazam/frontend/save_dialog.py:43
 msgid "Screencast"
-msgstr ""
+msgstr "Skärminspelning"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Window borders"
-msgstr ""
+msgstr "Fönsterramar"
 
 #: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
 #: ../kazam/frontend/save_dialog.py:45
 msgid "Screenshot"
-msgstr ""
+msgstr "Skärmbild"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "When capturing include:"
-msgstr ""
+msgstr "Inkludera följande vid infångning:"
 
 #: ../data/ui/preferences.ui.h:1
 msgid "Kazam Preferences"
-msgstr ""
+msgstr "Inställningar för Kazam"
 
 #: ../data/ui/preferences.ui.h:2
 msgid "Speakers:"
@@ -80,7 +80,7 @@ msgstr "Mikrofon:"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
-msgstr ""
+msgstr "Nedräkningsskärm:"
 
 #: ../data/ui/preferences.ui.h:6
 msgid "Toggle display of countdown splash"
@@ -88,7 +88,7 @@ msgstr "Växla visning av nedräknaren"
 
 #: ../data/ui/preferences.ui.h:7
 msgid "General"
-msgstr ""
+msgstr "Allmänt"
 
 #: ../data/ui/preferences.ui.h:8
 msgid "Framerate:"
@@ -104,31 +104,31 @@ msgstr "Spela in med:"
 
 #: ../data/ui/preferences.ui.h:11
 msgid "Automatic file saving:"
-msgstr ""
+msgstr "Autmatiskt sparande av fil:"
 
 #: ../data/ui/preferences.ui.h:12
 msgid "Directory:"
-msgstr ""
+msgstr "Mapp:"
 
 #: ../data/ui/preferences.ui.h:13
 msgid "Filename prefix:"
-msgstr ""
+msgstr "Filnamnsprefix:"
 
 #: ../data/ui/preferences.ui.h:14
 msgid "Select a directory"
-msgstr ""
+msgstr "Välj en mapp"
 
 #: ../data/ui/preferences.ui.h:15
 msgid "Kazam_screencast"
-msgstr ""
+msgstr "Kazamskärminspelning"
 
 #: ../data/ui/preferences.ui.h:17
 msgid "Shutter sound:"
-msgstr ""
+msgstr "Ljud för slutare:"
 
 #: ../data/ui/preferences.ui.h:18
 msgid "Shutter type:"
-msgstr ""
+msgstr "Typ av slutare:"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencast and Screenshot tool"
