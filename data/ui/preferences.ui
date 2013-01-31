@@ -64,11 +64,12 @@
                 <property name="relief">none</property>
                 <property name="focus_on_click">False</property>
                 <property name="orientation">vertical</property>
+                <property name="size">large-toolbar</property>
                 <property name="adjustment">adjustment_volume</property>
-                <property name="icons">audio-volume-muted
-audio-volume-high
-audio-volume-low
-audio-volume-medium</property>
+                <property name="icons">audio-volume-muted-symbolic
+audio-volume-high-symbolic
+audio-volume-low-symbolic
+audio-volume-medium-symbolic</property>
                 <signal name="value-changed" handler="cb_volume_changed" swapped="no"/>
               </object>
               <packing>
@@ -106,11 +107,12 @@ audio-volume-medium</property>
                 <property name="relief">none</property>
                 <property name="focus_on_click">False</property>
                 <property name="orientation">vertical</property>
+                <property name="size">large-toolbar</property>
                 <property name="adjustment">adjustment_volume2</property>
-                <property name="icons">audio-volume-muted
-audio-volume-high
-audio-volume-low
-audio-volume-medium</property>
+                <property name="icons">audio-volume-muted-symbolic
+audio-volume-high-symbolic
+audio-volume-low-symbolic
+audio-volume-medium-symbolic</property>
                 <signal name="value-changed" handler="cb_volume2_changed" swapped="no"/>
               </object>
               <packing>
