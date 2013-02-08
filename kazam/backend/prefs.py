@@ -169,14 +169,12 @@ class Prefs():
         elif os.path.isdir(paths['HOME_DIR']):
             self.picture_dest = paths['HOME_DIR']
 
-
     def get_sound_files(self):
         self.sound_files = []
         for root, dir, files in os.walk(os.path.join(self.datadir, "sounds")):
             for file in files:
                 if file.endswith('.ogg'):
                     self.sound_files.append(file)
-
 
     def read_config (self):
         self.audio_source = int(self.config.get("main", "audio_source"))
@@ -211,7 +209,6 @@ class Prefs():
 
         self.shutter_sound = self.config.getboolean("main", "shutter_sound")
         self.shutter_type = int(self.config.get("main", "shutter_type"))
-
 
     def save_config(self):
         self.config.set("main", "capture_cursor", self.capture_cursor)

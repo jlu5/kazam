@@ -148,7 +148,6 @@ class KazamApp(GObject.GObject):
             else:
                 logger.debug("Unable to get name for '%s'" % w)
 
-
         # Retrieve gdk_win for the root window
         self.gdk_win = self.window.get_root_window()
 
@@ -280,7 +279,7 @@ class KazamApp(GObject.GObject):
                         """  SUPER-CTRL-F to finish recording.\n"""
                         """  SUPER-CTRL-P to pause/resume recording.\n"""
                         """  SUPER-CTRL-Q to quit.\n"""
-                       )
+                        )
 
         self.restore_UI()
 
@@ -380,14 +379,14 @@ class KazamApp(GObject.GObject):
             cast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if cast_icon:
                 cast_icon_pixbuf, was_sym = cast_icon.load_symbolic(self.main_fg_color, None, None, None)
-                cast_img  = Gtk.Image.new_from_pixbuf(cast_icon_pixbuf)
+                cast_img = Gtk.Image.new_from_pixbuf(cast_icon_pixbuf)
                 self.btn_cast.set_icon_widget(cast_img)
                 cast_img.show_all()
 
             shot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if shot_icon:
                 shot_icon_pixbuf, was_sym = shot_icon.load_symbolic(self.main_fg_color, None, None, None)
-                shot_img  = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
+                shot_img = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
                 self.btn_shot.set_icon_widget(shot_img)
                 shot_img.show_all()
 
@@ -397,28 +396,28 @@ class KazamApp(GObject.GObject):
             full_icon = self.icons.lookup_icon("kazam-fullscreen-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if full_icon:
                 full_icon_pixbuf, was_sym = full_icon.load_symbolic(self.aux_fg_color, None, None, None)
-                full_img  = Gtk.Image.new_from_pixbuf(full_icon_pixbuf)
+                full_img = Gtk.Image.new_from_pixbuf(full_icon_pixbuf)
                 self.btn_full.set_icon_widget(full_img)
                 full_img.show_all()
 
             allscreens_icon = self.icons.lookup_icon("kazam-all-screens-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if allscreens_icon:
                 allscreens_icon_pixbuf, was_sym = allscreens_icon.load_symbolic(self.aux_fg_color, None, None, None)
-                allscreens_img  = Gtk.Image.new_from_pixbuf(allscreens_icon_pixbuf)
+                allscreens_img = Gtk.Image.new_from_pixbuf(allscreens_icon_pixbuf)
                 self.btn_allscreens.set_icon_widget(allscreens_img)
                 allscreens_img.show_all()
 
             window_icon = self.icons.lookup_icon("kazam-window-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if window_icon:
                 window_icon_pixbuf, was_sym = window_icon.load_symbolic(self.aux_fg_color, None, None, None)
-                window_img  = Gtk.Image.new_from_pixbuf(window_icon_pixbuf)
+                window_img = Gtk.Image.new_from_pixbuf(window_icon_pixbuf)
                 self.btn_window.set_icon_widget(window_img)
                 window_img.show_all()
 
             area_icon = self.icons.lookup_icon("kazam-area-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if area_icon:
                 area_icon_pixbuf, was_sym = area_icon.load_symbolic(self.aux_fg_color, None, None, None)
-                area_img  = Gtk.Image.new_from_pixbuf(area_icon_pixbuf)
+                area_img = Gtk.Image.new_from_pixbuf(area_icon_pixbuf)
                 self.btn_area.set_icon_widget(area_img)
                 area_img.show_all()
 
@@ -467,7 +466,6 @@ class KazamApp(GObject.GObject):
                       self.area_window.height)
         self.window.set_sensitive(True)
 
-
     def cb_area_canceled(self, widget):
         logger.debug("Area selection canceled.")
         self.window.set_sensitive(True)
@@ -495,7 +493,6 @@ class KazamApp(GObject.GObject):
             self.btn_allscreens.set_sensitive(True)
         else:
             self.btn_allscreens.set_sensitive(False)
-
 
     def cb_configure_event(self, widget, event):
         if event.type == Gdk.EventType.CONFIGURE:
@@ -627,7 +624,6 @@ class KazamApp(GObject.GObject):
                 self.grabber.autosave(fname)
             else:
                 self.grabber.save_capture(self.old_pic_path)
-
 
     def cb_pause_request(self, widget):
         logger.debug("Pause requested.")
@@ -789,7 +785,6 @@ class KazamApp(GObject.GObject):
                                        prefs.xid if self.record_mode == MODE_WIN else None)
             self.grabber.connect("flush-done", self.cb_flush_done)
 
-
         self.countdown = CountdownWindow(self.indicator, show_window = prefs.countdown_splash)
         self.countdown.connect("counter-finished", self.cb_counter_finished)
         self.countdown.run(prefs.countdown_timer)
@@ -804,7 +799,6 @@ class KazamApp(GObject.GObject):
             locale.setlocale(locale.LC_ALL, "")
         except Exception as e:
             logger.exception("EXCEPTION: Setlocale failed, no language support.")
-
 
     def restore_UI (self):
         self.window.move(prefs.main_x, prefs.main_y)
