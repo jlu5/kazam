@@ -739,12 +739,20 @@ class KazamApp(GObject.GObject):
 
         if self.main_mode == MODE_SCREENCAST and prefs.sound:
             if prefs.capture_speakers:
-                audio_source = prefs.speaker_sources[prefs.audio_source][1]
+                try:
+                    audio_source = prefs.speaker_sources[prefs.audio_source][1]
+                except  IndexError:
+                    logger.warning("It appears that speakers audio source isn't set up correctly.")
+                    audio_source = None
             else:
                 audio_source = None
 
             if prefs.capture_microphone:
-                audio2_source = prefs.mic_sources[prefs.audio2_source][1]
+                try:
+                    audio2_source = prefs.mic_sources[prefs.audio2_source][1]
+                except IndexError:
+                    logger.warning("It appears that microphone audio source isn't set up correctly.")
+                    audio2_source = None
             else:
                 audio2_source = None
 

@@ -187,6 +187,9 @@ class Prefs():
         self.codec = int(self.config.get("main", "codec"))
 
         self.countdown_timer = float(self.config.get("main", "counter"))
+        #
+        # Just in case this blows up in our face later
+        #
         if self.countdown_timer > 10:
             self.countdown_timer = 10
         self.framerate = float(self.config.get("main", "framerate"))
