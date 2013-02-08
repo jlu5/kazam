@@ -104,6 +104,7 @@ class KazamApp(GObject.GObject):
         self.tempfile = ""
         self.recorder = None
         self.area_window = None
+        self.select_window = None
         self.old_vid_path = None
         self.old_pic_path = None
         self.in_countdown = False
