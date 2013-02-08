@@ -66,6 +66,7 @@ except ImportError:
     logger.critical(_("Gstreamer 1.0 or higher required, bailing out."))
     sys.exit(0)
 
+
 class KazamApp(GObject.GObject):
 
     def __init__(self, datadir, dist, debug, test, sound, silent):
@@ -314,7 +315,6 @@ class KazamApp(GObject.GObject):
             else:
                 self.chk_borders_pic.set_sensitive(False)
 
-
     #
     # Record mode toggles
     #
@@ -363,7 +363,6 @@ class KazamApp(GObject.GObject):
                 self.select_window.disconnect(self.tmp_sig4)
                 self.select_window.window.destroy()
                 self.select_window = None
-
 
     def cb_main_context_change(self, widget):
         #
@@ -669,8 +668,7 @@ class KazamApp(GObject.GObject):
         (command, arg_list) = data
         arg_list.insert(0, command)
         #
-        # Even if we're not autosaving get the next autosave file and move currently recorded file there
-        # In case user might lost it.
+        # Even if we're not autosaving get the next autosave file and move currently recorded file there.
         #
         fname = get_next_filename(prefs.video_dest,
                                   prefs.autosave_video_file,
@@ -682,7 +680,7 @@ class KazamApp(GObject.GObject):
         try:
             Popen(arg_list)
         except:
-            logger.warning("Failed to open selected editor. Have no ")
+            logger.warning("Failed to open selected editor.")
         self.window.set_sensitive(True)
         self.window.show_all()
 
