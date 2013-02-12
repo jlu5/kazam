@@ -1,4 +1,4 @@
-kazam (1.3.101-1) unstable; urgency=low
+kazam (1.3.101-1) experimental; urgency=low
 
   * Initial release (Closes: #635623).
 
