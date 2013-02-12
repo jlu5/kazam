@@ -43,6 +43,7 @@ from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
 from kazam.frontend.window_select import SelectWindow
 from kazam.frontend.done_recording import DoneRecording
+from kazam.frontend.window_outline import OutlineWindow
 from kazam.frontend.window_countdown import CountdownWindow
 
 logger = logging.getLogger("Main")
@@ -105,6 +106,7 @@ class KazamApp(GObject.GObject):
         self.recorder = None
         self.area_window = None
         self.select_window = None
+        self.outline_window = None
         self.old_vid_path = None
         self.old_pic_path = None
         self.in_countdown = False
@@ -568,6 +570,12 @@ class KazamApp(GObject.GObject):
 
     def cb_stop_request(self, widget):
         self.recording = False
+
+        if self.outline_window:
+            self.outline_window.hide()
+            self.outline_window.window.destroy()
+            self.outline_window = None
+
         if self.in_countdown:
             logger.debug("Cancel countdown request.")
             self.countdown.cancel_countdown()
@@ -790,6 +798,13 @@ class KazamApp(GObject.GObject):
         self.recording = True
         logger.debug("Hiding main window.")
         self.window.hide()
+        if prefs.area:
+            logger.debug("Showing recording outline.")
+            self.outline_window = OutlineWindow(prefs.area[0],
+                                                prefs.area[1],
+                                                prefs.area[4],
+                                                prefs.area[5])
+            self.outline_window.show()
 
     def setup_translations(self):
         gettext.bindtextdomain("kazam", "/usr/share/locale")
