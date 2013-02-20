@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-04 09:42+0100\n"
-"PO-Revision-Date: 2013-02-17 11:49+0000\n"
-"Last-Translator: Abdullah Ibraheem <19sa91@gmail.com>\n"
+"PO-Revision-Date: 2013-02-19 09:16+0000\n"
+"Last-Translator: Abdelmadjid Cherfaoui <Unknown>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-18 05:02+0000\n"
+"X-Launchpad-Export-Date: 2013-02-20 05:08+0000\n"
 "X-Generator: Launchpad (build 16491)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
@@ -24,7 +24,7 @@ msgstr "كازام"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Capture"
-msgstr ""
+msgstr "تسجيل الشاشة"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Seconds to wait before capturing:"
@@ -45,7 +45,7 @@ msgstr "مؤشر الفأرة"
 #: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
 #: ../kazam/frontend/save_dialog.py:43
 msgid "Screencast"
-msgstr ""
+msgstr "تسجيل الشاشة"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Window borders"
@@ -58,7 +58,7 @@ msgstr "التقاط الشاشة"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "When capturing include:"
-msgstr ""
+msgstr "عند التصوير،أضف"
 
 #: ../data/ui/preferences.ui.h:1
 msgid "Kazam Preferences"
