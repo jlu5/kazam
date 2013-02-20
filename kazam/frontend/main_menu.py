@@ -30,7 +30,6 @@ MENUBAR = """
                 <menuitem action='FilePreferences' />
                 <menuitem action='FileQuit' />
             </menu>
-            <separator />
             <menu action='HelpMenu'>
                 <menuitem action='HelpAbout' />
             </menu>
