@@ -33,7 +33,6 @@ class OutlineWindow(GObject.GObject):
     def __init__(self, x, y, w, h):
         super(OutlineWindow, self).__init__()
         logger.debug("Initializing outline window.")
-        print ("X: {0} Y: {1} W: {2} H: {3}".format(x, y, w, h))
         self.x = x - 1
         self.y = y - 1
         self.w = w + 3
@@ -42,7 +41,6 @@ class OutlineWindow(GObject.GObject):
         else:
             self.no_top = True
             self.h = h - 23 + y
-        print ("X: {0} Y: {1} W: {2} H: {3}".format(self.x, self.y, self.w, self.h))
         self.window = Gtk.Window()
 
         self.window.connect("draw", self.cb_draw)
@@ -56,7 +54,6 @@ class OutlineWindow(GObject.GObject):
         self.window.set_keep_above(True)
 
         self.screen = self.window.get_screen()
-        print (self.screen.get_number())
         self.visual = self.screen.get_rgba_visual()
 
         self.disp = GdkX11.X11Display.get_default()
@@ -71,11 +68,31 @@ class OutlineWindow(GObject.GObject):
             logger.warning("Compositing window manager not found, expect the unexpected.")
             self.compositing = False
 
+
+        #
+        # Hardcore Launcher and Panel size detection
+        #
+        screen = Wnck.Screen.get_default()
+        screen.force_update()
+        workspace = screen.get_active_workspace()
+        wins = screen.get_windows_stacked()
+        self.panel_height = 24
+        self.launcher_width = 49
+
+        try:
+            logger.debug("Trying to determine Unity Launcher and Panel sizes.")
+            for win in reversed(wins):
+                if win.get_name() == 'unity-panel':
+                    self.panel_height = win.get_client_window_geometry()[3]
+                if win.get_name() == 'unity-launcher':
+                    self.launcher_width = win.get_client_window_geometry()[2]
+        except:
+            logger.warning("Unable to detect correct launcher and panel sizes. Using fallback.")
+
         self.window.move(self.x, self.y)
         self.window.set_default_geometry(self.w, self.h)
         (x, y) = self.window.get_position()
         (w, h) = self.window.get_size()
-        print ("Given: X: {0} Y: {1} W: {2} H: {3}".format(x, y, w, h))
         self.window.show_all()
 
     def show(self):
@@ -98,16 +115,15 @@ class OutlineWindow(GObject.GObject):
         reg = Gdk.cairo_region_create_from_surface(surface)
         widget.input_shape_combine_region(reg)
         cr.move_to(0, 0)
-        cr.set_source_rgb(1.0, 0.0, 0.0)
+        cr.set_source_rgba(1.0, 0.0, 0.0, 0.8)
         cr.set_line_width(2.0)
 
         #
         # Seriously?
-        # The thing is, windows cannot overlap Panel or Launcher, so if your Launcher is 49 pixels wide and you panel
-        # is 24 pixels high, you'll be just fine. Until I can find a way to detect those numbers.
-        # Also, I should make this code Ubuntu only.
+        # The thing is, windows cannot overlap Panel or Launcher.
+        # Ugly code taking care of this overlapping is below.
         #
-        if self.y > 23:
+        if self.y > self.panel_height - 1:
             cr.line_to(self.w, 0)
         else:
             cr.move_to(self.w, 0)
@@ -119,7 +135,7 @@ class OutlineWindow(GObject.GObject):
             cr.line_to(0, self.h)
         else:
             cr.move_to(0, self.h)
-        if self.x > 49:
+        if self.x > self.launcher_width:
             cr.line_to(0, 0)
 
         cr.stroke()
