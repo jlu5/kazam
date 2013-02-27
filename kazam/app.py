@@ -798,13 +798,18 @@ class KazamApp(GObject.GObject):
         self.recording = True
         logger.debug("Hiding main window.")
         self.window.hide()
-        if prefs.area:
-            logger.debug("Showing recording outline.")
-            self.outline_window = OutlineWindow(prefs.area[0],
-                                                prefs.area[1],
-                                                prefs.area[4],
-                                                prefs.area[5])
-            self.outline_window.show()
+        try:
+            if prefs.area and prefs.dist[0] == 'Ubuntu' and int(prefs.dist[1].split(".")[0]) > 12:
+                logger.debug("Showing recording outline.")
+                self.outline_window = OutlineWindow(prefs.area[0],
+                                                    prefs.area[1],
+                                                    prefs.area[4],
+                                                    prefs.area[5])
+                self.outline_window.show()
+            else:
+                logger.debug("Ubuntu 13.04 or higher not detected, recording outline not shown.")
+        except:
+                logger.debug("Unable to show recording outline.")
 
     def setup_translations(self):
         gettext.bindtextdomain("kazam", "/usr/share/locale")
