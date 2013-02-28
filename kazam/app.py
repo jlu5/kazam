@@ -799,7 +799,7 @@ class KazamApp(GObject.GObject):
         logger.debug("Hiding main window.")
         self.window.hide()
         try:
-            if prefs.area and prefs.dist[0] == 'Ubuntu' and int(prefs.dist[1].split(".")[0]) > 12:
+            if self.record_mode == MODE_AREA and prefs.area and prefs.dist[0] == 'Ubuntu' and int(prefs.dist[1].split(".")[0]) > 12:
                 logger.debug("Showing recording outline.")
                 self.outline_window = OutlineWindow(prefs.area[0],
                                                     prefs.area[1],
