@@ -1,4 +1,29 @@
+Kazam 1.4.0 - NCC-2000
+----------------------
+
+- When recording an area a red rectangle will be displayed to mark
+  the recording area during the recording if you are using Ubuntu
+  13.04 or higher.
+
+- New program icon.
+
+- Kazam is now using symbolic icons for toolbars.
+
+- Minor changes to countdown screen.
+
+- Various minor bug fixes:
+  #1096331
+  #1104888
+  #1105618
+  #1116294
+  #1099942
+  #1096370
+  #1073818
+  #1073572
+
+
 Kazam 1.3.99 - NX-01
+--------------------
 
 - Switch to python3 is complete and all necessary dependencies are
   taken care of.
@@ -21,6 +46,7 @@ Kazam 1.3.99 - NX-01
   #1083047
 
 Kazam 1.3.4 - NCC-2893 (Stargazer Edition)
+------------------------------------------
 
 - Instant mode, to capture screenshots from command line, use
   the following switches:
