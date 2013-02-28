@@ -1,4 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
+
+import sys
+if sys.version_info < (3, 2):
+    sys.exit('Kazam requires Python 3.2 or newer')
 
 from distutils.core import setup
 from DistUtilsExtra.command import *
@@ -17,6 +21,8 @@ except:
 setup(name="kazam",
       version=VERSION,
       description="A screencasting program created with design in mind.",
+      author="David Klasinc",
+      author_email="bigwhale@lubica.net",
       long_description= ( open('README').read() + '\n'),
       classifiers=[
         "Development Status :: 4 - Beta",
@@ -29,7 +35,7 @@ setup(name="kazam",
         "Topic :: Multimedia :: Sound/Audio :: Capture/Recording",
         "Topic :: Multimedia :: Video :: Capture",
        ],
-      keywords='kazam screen audio recorder',
+      keywords='kazam screenshot screencast audio sound recorder',
       url='https://launchpad.net/kazam',
       license='GPLv3',
       scripts=["bin/kazam"
@@ -37,16 +43,13 @@ setup(name="kazam",
       packages = ['kazam',
                   'kazam.pulseaudio',
                   'kazam.backend',
-                  'kazam.backend.export_sources',
                   'kazam.frontend',
                  ],
       data_files=[
-                  ('share/kazam/ui/',
-                   glob.glob("data/ui/*ui")),
-                  ('share/kazam/images/',
-                   glob.glob("data/images/*svg")),
-                  ('share/kazam/ui/export_sources/',
-                   glob.glob("data/ui/export_sources/*.ui")),
+                  ('share/kazam/ui/', glob.glob("data/ui/*ui")),
+                  ('share/kazam/icons/counter/', glob.glob("data/icons/counter/*png")),
+                  ('share/kazam/sounds/', glob.glob("data/sounds/*ogg")),
+                  ('share/icons/gnome/scalable/apps/', glob.glob("data/icons/scalable/*svg")),
                   ],
       cmdclass = { "build" : build_extra.build_extra,
                    "build_i18n" :  build_i18n.build_i18n,

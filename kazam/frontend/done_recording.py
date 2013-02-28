@@ -47,12 +47,13 @@ class DoneRecording(Gtk.Window):
     }
 
     def __init__(self, icons, tempfile, codec, old_path):
-        Gtk.Window.__init__(self, title=_("Kazam Screencaster - Recording finished"))
+        Gtk.Window.__init__(self, title="Kazam - " + _("Recording finished"))
         self.icons = icons
         self.tempfile = tempfile
         self.codec = codec
         self.action = ACTION_SAVE
         self.old_path = old_path
+        self.set_position(Gtk.WindowPosition.NONE)
 
         # Setup UI
         self.set_border_width(10)
@@ -114,24 +115,23 @@ class DoneRecording(Gtk.Window):
             self.emit("edit-request", (command, args))
             self.destroy()
         else:
-            logger.debug("Continue - Save.")
+            self.set_sensitive(False)
+            logger.debug("Continue - Save ({0}).".format(self.codec))
             (dialog, result, self.old_path) = SaveDialog(_("Save screencast"),
                                           self.old_path, self.codec)
 
             if result == Gtk.ResponseType.OK:
                 uri = os.path.join(dialog.get_current_folder(), dialog.get_filename())
-                if self.codec == CODEC_VP8:
-                    if not uri.endswith(".webm"):
-                        uri += ".webm"
-                else:
-                    if not uri.endswith(".mp4"):
-                        uri += ".mp4"
+
+                if not uri.endswith(CODEC_LIST[self.codec][3]):
+                    uri += CODEC_LIST[self.codec][3]
 
                 shutil.move(self.tempfile, uri)
                 dialog.destroy()
                 self.emit("save-done", self.old_path)
                 self.destroy()
             else:
+                self.set_sensitive(True)
                 dialog.destroy()
 
 
@@ -141,7 +141,7 @@ class DoneRecording(Gtk.Window):
 
     def cb_delete_event(self, widget, data):
         self.emit("save-cancel")
-        return True
+        self.destroy()
 
     def cb_radiobutton_save_toggled(self, widget):
         if not widget.get_active():

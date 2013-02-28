@@ -30,9 +30,13 @@ David Klasinc <bigwhale@lubica.net>
 """
 
 ARTISTS = """
+Matthew Paul Thomas <mpt@canonical.com>
+Georgi Karavasilev <motorslav@gmail.com>
+Frank Souza <franksouza183@gmail.com>
 Robert McKenna <ttk1opc@yahoo.com>
 Andrew Higginson <rugby471@gmail.com>
 """
+
 LICENSE = """
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,8 +54,8 @@ LICENSE = """
 
 def AboutDialog(icons):
     dialog = Gtk.AboutDialog()
-    dialog.set_program_name(_("Kazam Screencaster") + " - \"" + CODENAME + "\"")
-    dialog.set_comments(_("Record a video of activity on your screen."))
+    dialog.set_program_name(_("Kazam") + " - \"" + CODENAME + "\"")
+    dialog.set_comments(_("Record a video of activity on your screen or capture a screenshot."))
     dialog.set_license(LICENSE)
     dialog.set_version(VERSION)
     dialog.set_copyright("© 2010 Andrew Higginson, © 2012 David Klasinc")

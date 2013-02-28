@@ -21,7 +21,13 @@
 #       MA 02110-1301, USA.
 
 import os
-from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
+import sys
+
+try:
+    from configparser import SafeConfigParser, NoSectionError, NoOptionError
+except ImportError:
+    from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
+
 from xdg.BaseDirectory import xdg_config_home
 
 class KazamConfig(SafeConfigParser):
@@ -29,18 +35,35 @@ class KazamConfig(SafeConfigParser):
     DEFAULTS = [{
                 "name": "main",
                 "keys": {
-                         "video_toggled":  "True",
-                         "video_source":   "0",
-                         "audio_toggled":  "False",
-                         "audio_source":   "0",
-                         "audio_volume":   "0",
-                         "audio2_toggled": "False",
-                         "audio2_source":  "0",
-                         "audio2_volume":  "0",
-                         "codec":          "0",
-                         "counter":        "5",
-                         "capture_cursor": "True",
-                         "framerate":      "15",
+                         "video_toggled"          : "True",
+                         "video_source"           : "0",
+                         "audio_toggled"          : "False",
+                         "audio_source"           : "0",
+                         "audio_volume"           : "0",
+                         "audio2_toggled"         : "False",
+                         "audio2_source"          : "0",
+                         "audio2_volume"          : "0",
+                         "codec"                  : "0",
+                         "counter"                : "5",
+                         "capture_cursor"         : "True",
+                         "capture_microphone"     : "False",
+                         "capture_speakers"       : "False",
+                         "capture_cursor_pic"     : "True",
+                         "capture_borders_pic"    : "True",
+                         "framerate"              : "15",
+                         "countdown_splash"       : "True",
+                         "last_x"                 : "60",
+                         "last_y"                 : "25",
+                         "advanced"               : "0",
+                         "silent"                 : "0",
+                         "autosave_video"         : "False",
+                         "autosave_video_dir"     : "",
+                         "autosave_video_file"    : "Kazam_screencast",
+                         "autosave_picture"       : "False",
+                         "autosave_picture_dir"   : "",
+                         "autosave_picture_file"  : "Kazam_screenshot",
+                         "shutter_sound"          : "True",
+                         "shutter_type"           : "0",
                          },
                 },
                 {
@@ -95,6 +118,13 @@ class KazamConfig(SafeConfigParser):
             self.set(section, key, default)
             self.write()
             return default
+
+    def getboolean(self, section, key):
+        val = self.get(section, key)
+        if val.lower() == 'true' or val.lower == "on" or val.lower() == "yes":
+            return True
+        else:
+            return False
 
     def set(self, section, option, value):
         # If the section referred to doesn't exist (rare case),

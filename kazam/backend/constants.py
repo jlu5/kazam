@@ -22,9 +22,23 @@
 
 # Codecs
 
-CODEC_VP8 = 0
-CODEC_H264 = 1
+CODEC_RAW = 0
+CODEC_VP8 = 1
+CODEC_H264 = 2
+CODEC_HUFF = 3
+CODEC_JPEG = 4
 
+#
+# Number, gstreamer element name, string description, file extension, advanced
+#
+
+CODEC_LIST = [
+              [0, None, 'RAW / AVI', '.avi', True],
+              [1, 'vp8enc', 'VP8 / WEBM', '.webm', False],
+              [2, 'x264enc', 'H264 / MP4', '.mp4', False],
+              [3, 'ffenc_huffyuv', 'HUFFYUV / AVI', '.avi', True],
+              [4, 'ffenc_ljpeg', 'Lossless JPEG / AVI', '.avi', True],
+             ]
 
 # PulseAudio Error Codes
 PA_LOAD_ERROR = 1
@@ -57,3 +71,82 @@ PA_STATE_WORKING = 3
 ACTION_SAVE = 0
 ACTION_EDIT = 1
 
+# Blink modes and states
+BLINK_STOP = 0
+BLINK_START = 1
+BLINK_SLOW = 2
+BLINK_FAST = 3
+BLINK_STOP_ICON = 4
+BLINK_READY_ICON = 5
+
+# Main modes
+MODE_SCREENCAST = 0
+MODE_SCREENSHOT = 1
+
+# Record modes
+MODE_FULL = 0
+MODE_ALL = 1
+MODE_AREA = 2
+MODE_WIN = 3
+MODE_ACTIVE = 4
+MODE_GOD = 666
+
+import logging
+
+from gi.repository import Gdk, GdkX11
+
+class hw:
+    def __init__(self):
+        self.logger = logging.getLogger("Constants")
+        self.logger.debug("Getting hardware specs")
+        self.screens = None
+        self.combined_screen = None
+
+        self.get_screens()
+
+    def get_current_screen(self, window = None):
+        try:
+            if window:
+                screen = self.default_screen.get_monitor_at_window(window.get_window())
+            else:
+                disp = GdkX11.X11Display.get_default()
+                dm = Gdk.Display.get_device_manager(disp)
+                pntr_device = dm.get_client_pointer()
+                (src, x, y) = pntr_device.get_position()
+                screen = self.default_screen.get_monitor_at_point(x, y)
+        except:
+           screen = 0
+        return screen
+
+    def get_screens(self):
+        try:
+            self.logger.debug("Getting Video sources.")
+            self.screens = []
+            self.default_screen = Gdk.Screen.get_default()
+            self.logger.debug("Found {0} monitor(s).".format(self.default_screen.get_n_monitors()))
+
+            for i in range(self.default_screen.get_n_monitors()):
+                rect = self.default_screen.get_monitor_geometry(i)
+                self.logger.debug("  Monitor {0} - X: {1}, Y: {2}, W: {3}, H: {4}".format(i,
+                                                                                     rect.x,
+                                                                                     rect.y,
+                                                                                     rect.width,
+                                                                                     rect.height))
+                self.screens.append({"x": rect.x,
+                                     "y": rect.y,
+                                     "width": rect.width,
+                                      "height": rect.height})
+
+            if self.default_screen.get_n_monitors() > 1:
+                self.combined_screen = {"x": 0, "y": 0,
+                                       "width": self.default_screen.get_width(),
+                                       "height": self.default_screen.get_height()}
+                self.logger.debug("  Combined screen - X: 0, Y: 0, W: {0}, H: {1}".format(self.default_screen.get_width(),
+                                                                                          self.default_screen.get_height()))
+            else:
+                self.combined_screen = None
+
+        except:
+            self.logger.warning("Unable to find any video sources.")
+
+HW = hw()

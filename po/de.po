@@ -7,248 +7,432 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-08 14:12+0100\n"
-"PO-Revision-Date: 2010-10-11 18:12+0000\n"
-"Last-Translator: Jan-Christoph Borchardt <JanCBorchardt@gmail.com>\n"
+"POT-Creation-Date: 2013-01-04 09:42+0100\n"
+"PO-Revision-Date: 2013-01-06 21:19+0000\n"
+"Last-Translator: melchiaros <melchiaros@aol.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-24 16:04+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2013-01-07 05:13+0000\n"
+"X-Generator: Launchpad (build 16402)\n"
 
-#: ../data/ui/authenticate.ui.h:1
-msgid " "
-msgstr " "
+#: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
+#: ../kazam/frontend/about_dialog.py:57
+msgid "Kazam"
+msgstr "Kazam"
 
-#: ../data/ui/authenticate.ui.h:2 ../data/ui/done-recording.ui.h:2
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: ../data/ui/authenticate.ui.h:3 ../data/ui/done-recording.ui.h:3
-msgid "Continue"
-msgstr "Weiter"
-
-#: ../data/ui/authenticate.ui.h:4
-msgid "Email address:"
-msgstr "E-Mailadresse:"
-
-#: ../data/ui/authenticate.ui.h:5
-msgid "I want to register an account now"
-msgstr "Ein neues Konto erstellen"
-
-#: ../data/ui/authenticate.ui.h:6
-msgid "Password:"
-msgstr "Passwort:"
-
-#: ../data/ui/done-recording.ui.h:1 ../data/ui/start.ui.h:1
-msgid "About"
-msgstr "Über"
-
-#: ../data/ui/done-recording.ui.h:4
-msgid "Edit with:"
-msgstr "Bearbeiten mit:"
-
-#: ../data/ui/done-recording.ui.h:5 ../data/ui/export.ui.h:7
-#: ../data/ui/start.ui.h:3 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/widgets/comboboxes.py:106
-#: ../kazam/frontend/widgets/dialogs.py:46
-msgid "Kazam Screencaster"
-msgstr "Kazam Bildschirmvideo"
-
-#: ../data/ui/done-recording.ui.h:6 ../data/ui/start.ui.h:4
-#: ../kazam/frontend/indicator.py:65
-msgid "Quit"
-msgstr "Beenden"
-
-#: ../data/ui/done-recording.ui.h:7
-msgid "Save for later use..."
-msgstr "Für spätere Verwendung speichern …"
-
-#: ../data/ui/done-recording.ui.h:8
-msgid ""
-"Your screencast has finished recording.\n"
-"What do you want to do now?"
-msgstr ""
-"Ihr Bildschirmvideo wurde aufgenommen.\n"
-"Wie möchten Sie fortfahren?"
-
-#: ../data/ui/done-recording.ui.h:10 ../data/ui/export.ui.h:10
-#: ../data/ui/start.ui.h:8
-msgid "_File"
-msgstr "_Datei"
-
-#: ../data/ui/done-recording.ui.h:11 ../data/ui/export.ui.h:11
-#: ../data/ui/start.ui.h:9
-msgid "_Help"
-msgstr "_Hilfe"
-
-#: ../data/ui/export.ui.h:1
-msgid "<b>Export to:</b>"
-msgstr "<b>Exportieren nach:</b>"
-
-#: ../data/ui/export.ui.h:2
-msgid "Audio"
-msgstr "Ton"
-
-#: ../data/ui/export.ui.h:3
-msgid "Back"
-msgstr "Zurück"
-
-#: ../data/ui/export.ui.h:4 ../data/ui/start.ui.h:2
-msgid "Close"
-msgstr "Schließen"
-
-#: ../data/ui/export.ui.h:5
-msgid "Crop"
-msgstr "Zuschneiden"
-
-#: ../data/ui/export.ui.h:6
-msgid "Export"
-msgstr "Exportieren"
-
-#: ../data/ui/export.ui.h:8
-msgid "Quality:"
-msgstr "Qualität:"
-
-#: ../data/ui/export.ui.h:9
-msgid "Video"
-msgstr "Video"
-
-#: ../data/ui/start.ui.h:5
-msgid "Record"
+#: ../data/ui/kazam.ui.h:2
+msgid "Capture"
 msgstr "Aufnehmen"
 
-#: ../data/ui/start.ui.h:6
-msgid "Record Audio from:"
-msgstr "Ton aufnehmen von:"
+#: ../data/ui/kazam.ui.h:3
+msgid "Seconds to wait before capturing:"
+msgstr "Wartezeit vor der Aufnahme in Sekunden"
 
-#: ../data/ui/start.ui.h:7
-msgid "Record Video from:"
-msgstr "Video aufnehmen von:"
+#: ../data/ui/kazam.ui.h:4
+msgid "Sound from microphone"
+msgstr "Mikrofon"
 
-#: ../data/ui/export_sources/youtube.ui.h:1
-msgid "Category"
-msgstr "Kategorie"
+#: ../data/ui/kazam.ui.h:5
+msgid "Sound from speakers"
+msgstr "Audioausgabe"
 
-#: ../data/ui/export_sources/youtube.ui.h:2
-msgid "Description"
-msgstr "Beschreibung"
+#: ../data/ui/kazam.ui.h:6
+msgid "Mouse cursor"
+msgstr "Mauszeiger"
 
-#: ../data/ui/export_sources/youtube.ui.h:3
-msgid "Keywords"
-msgstr "Stichworte"
+#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
+#: ../kazam/frontend/save_dialog.py:43
+msgid "Screencast"
+msgstr "Bildschirmaufnahme"
 
-#: ../data/ui/export_sources/youtube.ui.h:4
-msgid "Private"
-msgstr "Privat"
+#: ../data/ui/kazam.ui.h:8
+msgid "Window borders"
+msgstr "Fensterdekorationen"
 
-#: ../data/ui/export_sources/youtube.ui.h:5
-msgid "Title"
-msgstr "Titel"
+#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
+#: ../kazam/frontend/save_dialog.py:45
+msgid "Screenshot"
+msgstr "Bildschirmfoto"
+
+#: ../data/ui/kazam.ui.h:10
+msgid "When capturing include:"
+msgstr "Bei der Aufnahme folgende Quellen einbeziehen"
+
+#: ../data/ui/preferences.ui.h:1
+msgid "Kazam Preferences"
+msgstr "Kazam Einstellungen"
+
+#: ../data/ui/preferences.ui.h:2
+msgid "Speakers:"
+msgstr "Lautsprecher"
+
+#: ../data/ui/preferences.ui.h:3
+msgid "Set volume"
+msgstr "Lautstärke einstellen"
+
+#: ../data/ui/preferences.ui.h:4
+msgid "Microphone:"
+msgstr "Mikrofon"
+
+#: ../data/ui/preferences.ui.h:5
+msgid "Countdown splash:"
+msgstr "Countdown:"
+
+#: ../data/ui/preferences.ui.h:6
+msgid "Toggle display of countdown splash"
+msgstr "Zeige Countdown Ladebildschrim"
+
+#: ../data/ui/preferences.ui.h:7
+msgid "General"
+msgstr "Allgemein"
+
+#: ../data/ui/preferences.ui.h:8
+msgid "Framerate:"
+msgstr "Bildrate:"
+
+#: ../data/ui/preferences.ui.h:9
+msgid "Set the number of frames per second"
+msgstr "Bildrate pro Sekunde"
+
+#: ../data/ui/preferences.ui.h:10
+msgid "Record with:"
+msgstr "Aufnehmen mit:"
+
+#: ../data/ui/preferences.ui.h:11
+msgid "Automatic file saving:"
+msgstr "Automatisch speichern:"
+
+#: ../data/ui/preferences.ui.h:12
+msgid "Directory:"
+msgstr "Verzeichnis:"
+
+#: ../data/ui/preferences.ui.h:13
+msgid "Filename prefix:"
+msgstr "Dateiname:"
+
+#: ../data/ui/preferences.ui.h:14
+msgid "Select a directory"
+msgstr "Verzeichnis auswählen"
+
+#: ../data/ui/preferences.ui.h:15
+msgid "Kazam_screencast"
+msgstr "Kazam_aufnahme"
+
+#: ../data/ui/preferences.ui.h:17
+msgid "Shutter sound:"
+msgstr "Auslösegeräusch:"
+
+#: ../data/ui/preferences.ui.h:18
+msgid "Shutter type:"
+msgstr "Auslösetyp"
 
 #: ../data/kazam.desktop.in.h:2
-msgid "Record a video of activity on your screen"
-msgstr "Ein Video Ihrer Bildschirm-Aktivität aufnehmen"
+msgid "Screencast and Screenshot tool"
+msgstr "Bildschirmaufnahme und Bildschirmfoto Programm"
 
 #: ../data/kazam.desktop.in.h:3
-msgid "Screencaster"
-msgstr "Bildschirmvideo"
+msgid "Record a video or take a screenshot of your screen"
+msgstr ""
+"Eine Bildschirmaufnahme oder ein Bildschirmfoto vom Bildschirm machen"
 
-#. Open the save dialog
-#: ../kazam/app.py:149
-msgid "Save screencast"
-msgstr "Bildschirmvideo speichern"
+#: ../data/kazam.desktop.in.h:4
+msgid "screenshot;screencast;videorecord;desktop recording;"
+msgstr "Bildschirmfoto;Bildschirmvideo;Videoaufnahme;Desktopaufnahme"
 
-#: ../kazam/frontend/export.py:201
-msgid "Logging in..."
-msgstr "Anmelden …"
+#: ../data/kazam.desktop.in.h:5
+msgid "Take a screenshot of entire workspace"
+msgstr "Ein Bildschirmfoto des gesamten Arbeitsbereichs machen"
 
-#: ../kazam/frontend/export.py:207
-msgid "Log-in completed."
-msgstr "Angemeldet."
+#: ../data/kazam.desktop.in.h:6
+msgid "Select an area to screenshot"
+msgstr "Einen Bereich für ein Bildschirmfoto auswählen"
 
-#: ../kazam/frontend/export.py:209
-msgid "There was an error logging in."
-msgstr "Beim Anmelden trat ein Fehler auf."
+#: ../data/kazam.desktop.in.h:7
+msgid "Select a window to screenshot"
+msgstr "Ein Fenster für ein Bildschirmfoto auswählen"
 
-#: ../kazam/frontend/export.py:214
-msgid "Converting screencast..."
-msgstr "Bildschirmvideo wird umgewandelt …"
+#: ../data/kazam.desktop.in.h:8 ../kazam/frontend/main_menu.py:65
+msgid "Preferences"
+msgstr "Einstellungen"
 
-#: ../kazam/frontend/export.py:218
-msgid "Screencast converted."
-msgstr "Bildschirmvideo umgewandelt."
+#: ../kazam/app.py:57 ../kazam/app.py:66
+msgid "Gstreamer 1.0 or higher required, bailing out."
+msgstr "Gstreamer 1.0 oder höher wird benötigt"
 
-#: ../kazam/frontend/export.py:220
-msgid "There was an error converting."
-msgstr "Beim Umwandeln trat ein Fehler auf."
+#: ../kazam/app.py:164
+msgid "Record a video of your desktop."
+msgstr "Eine Bildschirmaufnahme erstellen"
 
-#: ../kazam/frontend/export.py:225
-msgid "Uploading screencast..."
-msgstr "Bildschirmvideo wird hochgeladen …"
+#: ../kazam/app.py:176
+msgid "Record a picture of your desktop."
+msgstr "Ein Bildschirmfoto erstellen"
 
-#: ../kazam/frontend/export.py:229
-msgid "Screencast uploaded."
-msgstr "Bildschirmvideo hochgeladen."
+#: ../kazam/app.py:199
+msgid "Fullscreen"
+msgstr "Vollbild"
 
-#. Show a dialog with the url of the uploaded file
-#: ../kazam/frontend/export.py:233
-msgid "Your screencast has uploaded successfully."
-msgstr "Ihr Bildschirmvideo wurde erfolgreich hochgeladen."
+#: ../kazam/app.py:200
+msgid "Capture contents of the current screen."
+msgstr "Erstellt eine Bildschirmaufnahme des aktuellen Bildschirms"
 
-#: ../kazam/frontend/export.py:234
-msgid "It is available at the location below:"
-msgstr "Es ist an folgendem Ort verfügbar:"
-
-#: ../kazam/frontend/export.py:236
-msgid "There was an error uploading."
-msgstr "Beim Hochladen trat ein Fehler auf."
-
-#: ../kazam/frontend/indicator.py:58
-msgid "Pause recording"
-msgstr "Aufnahme pausieren"
-
-#: ../kazam/frontend/indicator.py:61
-msgid "Finish recording..."
-msgstr "Aufnahme wird fertiggestellt …"
-
-#: ../kazam/frontend/window_countdown.py:98
-msgid "Recording will start in..."
-msgstr "Aufnahme beginnt in …"
-
-#: ../kazam/frontend/widgets/comboboxes.py:199
-msgid "Screen"
-msgstr "Bildschirm"
-
-#: ../kazam/frontend/widgets/comboboxes.py:205
+#: ../kazam/app.py:211
 msgid "All Screens"
 msgstr "Alle Bildschirme"
 
-#: ../kazam/frontend/widgets/comboboxes.py:207
-#, python-format
-msgid "Screen %s"
-msgstr "Bildschirm %s"
+#: ../kazam/app.py:212
+msgid "Capture contents of all of your screens."
+msgstr "Erstellt eine Bildschirmaufnahme aller Bildschirme"
 
-#: ../kazam/frontend/widgets/comboboxes.py:218
-msgid "Computer"
-msgstr "Rechner"
+#: ../kazam/app.py:224
+msgid "Window"
+msgstr "Fenster"
 
-#: ../kazam/frontend/widgets/dialogs.py:47
-msgid "Record a video of activity on your screen."
-msgstr "Machen Sie eine Aufnahme Ihrer Bildschirm-Aktivitäten."
+#: ../kazam/app.py:225
+msgid "Capture contents of a single window."
+msgstr "Erstellt eine Bildschirmaufnahme eines fensters"
 
-#: ../kazam/frontend/widgets/dialogs.py:65
-msgid "Untitled Screencast"
-msgstr "Unbenanntes Bildschirmvideo"
+#: ../kazam/app.py:236
+msgid "Area"
+msgstr "Bereich"
 
-#: ../kazam/frontend/widgets/dialogs.py:150
-#, python-format
-msgid "To upload a screencast to %s, you need a %s account."
+#: ../kazam/app.py:237
+msgid "Capture a pre-selected area of your screen."
+msgstr "Erstellt eine Bildschirmaufnahme eines ausgewählten Bereichs"
+
+#: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
+msgid "Start recording"
+msgstr "Aufnahme beginnen"
+
+#: ../kazam/app.py:309
+msgid "Take screenshot"
+msgstr "Bildschirmfoto aufnehmen"
+
+#: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
+msgid "Finish recording"
+msgstr "Aufnahme beenden"
+
+#: ../kazam/app.py:730
+msgid "Cancel countdown"
+msgstr "Countdown abbrechen"
+
+#: ../kazam/frontend/window_select.py:155
+msgid "Select a window by clicking on it."
+msgstr "Ein Fenster mit einem Klick auswählen"
+
+#: ../kazam/frontend/window_select.py:156
+msgid "Press ENTER or ESC to cancel"
+msgstr "ENTER oder ESC drücken, um abzubrechen"
+
+#: ../kazam/frontend/done_recording.py:50
+msgid "Recording finished"
+msgstr "Aufnahme beendet"
+
+#: ../kazam/frontend/done_recording.py:62
+msgid ""
+"Kazam finished recording.\n"
+"What do you want to do now?"
 msgstr ""
-"Um ein Bildschirmvideo auf %s hochzuladen, brauchen Sie ein %s-Konto."
+"Kazam hat die Aufnahme beendet.\n"
+"Was wollen Sie jetzt tun?"
 
-#: ../kazam/frontend/widgets/dialogs.py:154
-#, python-format
-msgid "I have a %s account:"
-msgstr "Bestehendes %s-Konto:"
+#: ../kazam/frontend/done_recording.py:65
+msgid "Edit with:"
+msgstr "Bearbeiten mit:"
+
+#: ../kazam/frontend/done_recording.py:73
+msgid "Save for later"
+msgstr "Für späteren Gebrauch speichern"
+
+#: ../kazam/frontend/done_recording.py:83
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: ../kazam/frontend/done_recording.py:85
+msgid "Continue"
+msgstr "Weiter"
+
+#: ../kazam/frontend/done_recording.py:120
+msgid "Save screencast"
+msgstr "Bildschirmvideo speichern"
+
+#: ../kazam/frontend/about_dialog.py:58
+msgid "Record a video of activity on your screen or capture a screenshot."
+msgstr ""
+"Nimmt ein Video des Bildschirms auf oder macht einen einzelnes "
+"Bildschirmfoto."
+
+#: ../kazam/frontend/save_dialog.py:38
+msgid "Save"
+msgstr "Speichern"
+
+#: ../kazam/frontend/main_menu.py:62
+msgid "File"
+msgstr "Datei"
+
+#: ../kazam/frontend/main_menu.py:63 ../kazam/frontend/indicator.py:82
+msgid "Quit"
+msgstr "Beenden"
+
+#: ../kazam/frontend/main_menu.py:63
+msgid "Quit Kazam"
+msgstr "Kazam beenden"
+
+#: ../kazam/frontend/main_menu.py:65
+msgid "Open preferences"
+msgstr "Einstellungen festlegen"
+
+#: ../kazam/frontend/main_menu.py:67
+msgid "Help"
+msgstr "Hilfe"
+
+#: ../kazam/frontend/main_menu.py:68
+msgid "About"
+msgstr "Über"
+
+#: ../kazam/frontend/main_menu.py:68
+msgid "About Kazam"
+msgstr "Über Kazam"
+
+#: ../kazam/frontend/window_area.py:209
+msgid "Select an area by clicking and dragging."
+msgstr ""
+"Einen Bereich festlegen indem man einen Links klick macht und den Mauszeiger "
+"zieht"
+
+#: ../kazam/frontend/window_area.py:210
+msgid "Press ENTER to confirm or ESC to cancel"
+msgstr "Drücke ENTER zur Bestätigung oder ESC um abzubrechen"
+
+#: ../kazam/frontend/indicator.py:72
+msgid "Pause recording"
+msgstr "Aufnahme pausieren"
+
+#: ../kazam/backend/grabber.py:171
+msgid "Save capture"
+msgstr "Speichere Aufnamhe"
+
+#: ../kazam/backend/prefs.py:137
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#~ msgid "Close"
+#~ msgstr "Schließen"
+
+#~ msgid "Description"
+#~ msgstr "Beschreibung"
+
+#~ msgid "Category"
+#~ msgstr "Kategorie"
+
+#~ msgid "Keywords"
+#~ msgstr "Stichworte"
+
+#~ msgid "Private"
+#~ msgstr "Privat"
+
+#~ msgid "There was an error logging in."
+#~ msgstr "Beim Anmelden trat ein Fehler auf."
+
+#~ msgid "There was an error converting."
+#~ msgstr "Beim Umwandeln trat ein Fehler auf."
+
+#~ msgid "Logging in..."
+#~ msgstr "Anmelden …"
+
+#~ msgid "Log-in completed."
+#~ msgstr "Angemeldet."
+
+#~ msgid "Title"
+#~ msgstr "Titel"
+
+#~ msgid "Record a video of activity on your screen"
+#~ msgstr "Ein Video Ihrer Bildschirm-Aktivität aufnehmen"
+
+#~ msgid "There was an error uploading."
+#~ msgstr "Beim Hochladen trat ein Fehler auf."
+
+#~ msgid "Your screencast has uploaded successfully."
+#~ msgstr "Ihr Bildschirmvideo wurde erfolgreich hochgeladen."
+
+#~ msgid "Screencast converted."
+#~ msgstr "Bildschirmvideo umgewandelt."
+
+#~ msgid "Screencast uploaded."
+#~ msgstr "Bildschirmvideo hochgeladen."
+
+#~ msgid "Uploading screencast..."
+#~ msgstr "Bildschirmvideo wird hochgeladen …"
+
+#~ msgid "Converting screencast..."
+#~ msgstr "Bildschirmvideo wird umgewandelt …"
+
+#~ msgid "Screencaster"
+#~ msgstr "Bildschirmvideo"
+
+#~ msgid "It is available at the location below:"
+#~ msgstr "Es ist an folgendem Ort verfügbar:"
+
+#~ msgid "Record"
+#~ msgstr "Aufnehmen"
+
+#~ msgid "Record a video of activity on your screen."
+#~ msgstr "Machen Sie eine Aufnahme Ihrer Bildschirm-Aktivitäten."
+
+#~ msgid "Untitled_Screencast"
+#~ msgstr "Unbenannter_Screencast"
+
+#~ msgid "Email"
+#~ msgstr "E-Mail"
+
+#~ msgid "Audio Source 2"
+#~ msgstr "Audioquelle 2"
+
+#~ msgid "Audio Source 1"
+#~ msgstr "Audioquelle 1"
+
+#~ msgid "Video Source"
+#~ msgstr "Videoquelle"
+
+#~ msgid "Kazam Screencaster - Recording finished"
+#~ msgstr "Kazam Screencaster - Aufnahme beendet"
+
+#~ msgid "Record setup"
+#~ msgstr "Aufnahme-Setup"
+
+#~ msgid "Framerate"
+#~ msgstr "Bildwiederholrate"
+
+#~ msgid "Capture mouse"
+#~ msgstr "Mausaufzeichnung"
+
+#~ msgid "Record Region"
+#~ msgstr "Aufnahmebereich"
+
+#~ msgid "Countdown timer"
+#~ msgstr "Countdown-Zähler"
+
+#~ msgid "Encoder type"
+#~ msgstr "Encoder-Typ"
+
+#~ msgid "Combined ({w}x{h})"
+#~ msgstr "Kombiniert ({w}×{h})"
+
+#~ msgid "Select region by resizing the window"
+#~ msgstr "Wählen Sie den Bereich durch Ändern der Fenstergröße"
+
+#~ msgid "Display {n} ({w}x{h})"
+#~ msgstr "Anzeige {n} ({w}×{h})"
+
+#~ msgid "Press ENTER to confirm or ESC to cancel."
+#~ msgstr "Drücken Sie EINGABE zum Bestätigen oder ESC zum Abbrechen."
+
+#~ msgid "Recording will start in ..."
+#~ msgstr "Aufnahme startet in …"
+
+#~ msgid "{0}"
+#~ msgstr "{0}"
+
+#~ msgid "Kazam Screencaster"
+#~ msgstr "Kazam – Bildschirmvideoaufnahme"
