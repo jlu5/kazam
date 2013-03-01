@@ -24,7 +24,7 @@ import logging
 logger = logging.getLogger("Indicator")
 
 from gettext import gettext as _
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, GObject, GLib
 
 from kazam.backend.constants import *
 
@@ -192,7 +192,7 @@ try:
                 self.indicator.set_icon("kazam-stopped")
             elif state == BLINK_START:
                 self.blink_state = BLINK_SLOW
-                GObject.timeout_add(500, self.blink)
+                GLib.timeout_add(500, self.blink)
             elif state == BLINK_SLOW:
                 self.blink_state = BLINK_SLOW
             elif state == BLINK_FAST:
@@ -210,9 +210,9 @@ try:
                     self.blink_icon = BLINK_READY_ICON
 
                 if self.blink_state == BLINK_SLOW:
-                    GObject.timeout_add(500, self.blink)
+                    GLib.timeout_add(500, self.blink)
                 elif self.blink_state == BLINK_FAST:
-                    GObject.timeout_add(200, self.blink)
+                    GLib.timeout_add(200, self.blink)
 
         def start_recording(self):
             logger.debug("Recording started.")
@@ -268,7 +268,7 @@ except ImportError:
                 self.indicator.set_from_icon_name("kazam-stopped")
             elif state == BLINK_START:
                 self.blink_state = BLINK_SLOW
-                GObject.timeout_add(500, self.blink)
+                GLib.timeout_add(500, self.blink)
             elif state == BLINK_SLOW:
                 self.blink_state = BLINK_SLOW
             elif state == BLINK_FAST:
@@ -284,9 +284,9 @@ except ImportError:
                     self.blink_icon = BLINK_READY_ICON
 
                 if self.blink_state == BLINK_SLOW:
-                    GObject.timeout_add(500, self.blink)
+                    GLib.timeout_add(500, self.blink)
                 elif self.blink_state == BLINK_FAST:
-                    GObject.timeout_add(200, self.blink)
+                    GLib.timeout_add(200, self.blink)
 
         def start_recording(self):
             logger.debug("Recording started.")

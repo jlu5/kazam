@@ -92,6 +92,7 @@ class AreaWindow(GObject.GObject):
             self.window.set_visual(self.visual)
             self.compositing = True
         else:
+            logger.warning("Compositing window manager not found, expect the unexpected.")
             self.compositing = False
 
         (scr, x, y) = self.pntr_device.get_position()
