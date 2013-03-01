@@ -35,7 +35,7 @@ setup(name="kazam",
         "Topic :: Multimedia :: Sound/Audio :: Capture/Recording",
         "Topic :: Multimedia :: Video :: Capture",
        ],
-      keywords='kazam screenshot screencast audio sound recorder',
+      keywords='screencast screenshot capture audio sound video recorder kazam',
       url='https://launchpad.net/kazam',
       license='GPLv3',
       scripts=["bin/kazam"

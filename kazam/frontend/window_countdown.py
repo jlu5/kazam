@@ -24,7 +24,7 @@ import os
 import cairo
 
 from gettext import gettext as _
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, GObject, GLib
 
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
@@ -82,11 +82,11 @@ class CountdownWindow(GObject.GObject):
                 self.indicator.blink_set_state(BLINK_FAST)
             if self.number > 1:
                 self.window.queue_draw()
-                GObject.timeout_add(1000, self.countdown)
+                GLib.timeout_add(1000, self.countdown)
                 self.number -= 1
             else:
                 self.window.destroy()
-                GObject.timeout_add(400, self.counter_finished)
+                GLib.timeout_add(400, self.counter_finished)
 
     def cancel_countdown(self):
         self.indicator.blink_set_state(BLINK_STOP)

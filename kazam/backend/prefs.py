@@ -21,6 +21,7 @@
 
 import os
 import logging
+from os.path import expanduser
 from gettext import gettext as _
 from xdg.BaseDirectory import xdg_config_home
 
@@ -142,7 +143,7 @@ class Prefs():
         try:
             f = open(os.path.join(xdg_config_home, "user-dirs.dirs"))
             for la in f:
-                if la.startswith("XDG_VIDEOS") or la.startswith("XDG_DOCUMENTS") or la.startswith("XDG_PICTURES") :
+                if la.startswith("XDG_VIDEOS") or la.startswith("XDG_DOCUMENTS") or la.startswith("XDG_PICTURES"):
                     (idx, val) = la.strip()[:-1].split('="')
                     paths[idx] = os.path.expandvars(val)
         except:
@@ -155,30 +156,32 @@ class Prefs():
 
         paths['HOME_DIR'] = os.path.expandvars("$HOME")
 
-        if os.path.isdir(paths['XDG_VIDEOS_DIR']):
+        if 'XDG_VIDEOS_DIR' in paths and os.path.isdir(paths['XDG_VIDEOS_DIR']):
             self.video_dest = paths['XDG_VIDEOS_DIR']
-        elif os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
+        elif 'XDG_DOCUMENTS_DIR' in paths and os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
             self.video_dest = paths['XDG_DOCUMENTS_DIR']
-        elif os.path.isdir(paths['HOME_DIR']):
+        elif 'HOME_DIR' in paths and os.path.isdir(paths['HOME_DIR']):
             self.video_dest = paths['HOME_DIR']
+        else:
+            self.video_dest = expanduser("~")
 
-        if os.path.isdir(paths['XDG_PICTURES_DIR']):
+        if 'XDG_PICTURES_DIR' in paths and os.path.isdir(paths['XDG_PICTURES_DIR']):
             self.picture_dest = paths['XDG_PICTURES_DIR']
-        elif os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
+        elif 'XDG_DOCUMENTS_DIR' in paths and os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
             self.picture_dest = paths['XDG_DOCUMENTS_DIR']
-        elif os.path.isdir(paths['HOME_DIR']):
+        elif 'HOME_DIR' in paths and os.path.isdir(paths['HOME_DIR']):
             self.picture_dest = paths['HOME_DIR']
-
+        else:
+            self.picture_dest = expanduser("~")
 
     def get_sound_files(self):
         self.sound_files = []
-        for root, dir, files in os.walk(os.path.join(self.datadir, "sounds")):
-            for file in files:
-                if file.endswith('.ogg'):
-                    self.sound_files.append(file)
+        for root, d_dir, files in os.walk(os.path.join(self.datadir, "sounds")):
+            for f_file in files:
+                if f_file.endswith('.ogg'):
+                    self.sound_files.append(f_file)
 
-
-    def read_config (self):
+    def read_config(self):
         self.audio_source = int(self.config.get("main", "audio_source"))
         self.audio2_source = int(self.config.get("main", "audio2_source"))
         self.main_x = int(self.config.get("main", "last_x"))
@@ -187,6 +190,11 @@ class Prefs():
         self.codec = int(self.config.get("main", "codec"))
 
         self.countdown_timer = float(self.config.get("main", "counter"))
+        #
+        # Just in case this blows up in our face later
+        #
+        if self.countdown_timer > 10:
+            self.countdown_timer = 10
         self.framerate = float(self.config.get("main", "framerate"))
 
         self.capture_cursor = self.config.getboolean("main", "capture_cursor")
@@ -206,7 +214,6 @@ class Prefs():
 
         self.shutter_sound = self.config.getboolean("main", "shutter_sound")
         self.shutter_type = int(self.config.get("main", "shutter_type"))
-
 
     def save_config(self):
         self.config.set("main", "capture_cursor", self.capture_cursor)
