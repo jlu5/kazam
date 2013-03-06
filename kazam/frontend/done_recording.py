@@ -57,11 +57,11 @@ class DoneRecording(Gtk.Window):
 
         # Setup UI
         self.set_border_width(10)
-        self.vbox = Gtk.Box(spacing = 20, orientation = Gtk.Orientation.VERTICAL)
+        self.vbox = Gtk.Box(spacing=20, orientation=Gtk.Orientation.VERTICAL)
         self.label_box = Gtk.Box()
         self.done_label = Gtk.Label(_("Kazam finished recording.\nWhat do you want to do now?"))
         self.label_box.add(self.done_label)
-        self.grid = Gtk.Grid(row_spacing = 10, column_spacing = 5)
+        self.grid = Gtk.Grid(row_spacing=10, column_spacing=5)
         self.radiobutton_edit = Gtk.RadioButton.new_with_label_from_widget(None, _("Edit with:"))
         self.combobox_editor = EditComboBox(self.icons)
         self.grid.add(self.radiobutton_edit)

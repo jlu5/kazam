@@ -139,9 +139,9 @@ class Screencast(GObject.GObject):
         if prefs.test:
             logger.info("Using test signal instead of screen capture.")
             self.vid_caps = Gst.caps_from_string("video/x-raw,format=(x-raw-rgb),framerate={0}/1, width={1}, height={2}".format(
-                  prefs.framerate,
-                  endx - startx,
-                  endy - starty))
+                prefs.framerate,
+                endx - startx,
+                endy - starty))
             self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
             self.vid_caps_filter.set_property("caps", self.vid_caps)
         else:
@@ -434,6 +434,7 @@ def detect_codecs():
             logger.info("Supported encoder: {0}.".format(codec[2]))
         codec_test = None
     return codecs_supported
+
 
 def get_codec(codec):
     for c in CODEC_LIST:

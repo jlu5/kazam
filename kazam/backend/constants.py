@@ -32,13 +32,12 @@ CODEC_JPEG = 4
 # Number, gstreamer element name, string description, file extension, advanced
 #
 
-CODEC_LIST = [
-              [0, None, 'RAW / AVI', '.avi', True],
+CODEC_LIST = [[0, None, 'RAW / AVI', '.avi', True],
               [1, 'vp8enc', 'VP8 / WEBM', '.webm', False],
               [2, 'x264enc', 'H264 / MP4', '.mp4', False],
               [3, 'ffenc_huffyuv', 'HUFFYUV / AVI', '.avi', True],
               [4, 'ffenc_ljpeg', 'Lossless JPEG / AVI', '.avi', True],
-             ]
+              ]
 
 # PulseAudio Error Codes
 PA_LOAD_ERROR = 1
@@ -95,6 +94,7 @@ import logging
 
 from gi.repository import Gdk, GdkX11
 
+
 class hw:
     def __init__(self):
         self.logger = logging.getLogger("Constants")
@@ -115,7 +115,7 @@ class hw:
                 (src, x, y) = pntr_device.get_position()
                 screen = self.default_screen.get_monitor_at_point(x, y)
         except:
-           screen = 0
+            screen = 0
         return screen
 
     def get_screens(self):
@@ -128,19 +128,19 @@ class hw:
             for i in range(self.default_screen.get_n_monitors()):
                 rect = self.default_screen.get_monitor_geometry(i)
                 self.logger.debug("  Monitor {0} - X: {1}, Y: {2}, W: {3}, H: {4}".format(i,
-                                                                                     rect.x,
-                                                                                     rect.y,
-                                                                                     rect.width,
-                                                                                     rect.height))
+                                                                                          rect.x,
+                                                                                          rect.y,
+                                                                                          rect.width,
+                                                                                          rect.height))
                 self.screens.append({"x": rect.x,
                                      "y": rect.y,
                                      "width": rect.width,
-                                      "height": rect.height})
+                                     "height": rect.height})
 
             if self.default_screen.get_n_monitors() > 1:
                 self.combined_screen = {"x": 0, "y": 0,
-                                       "width": self.default_screen.get_width(),
-                                       "height": self.default_screen.get_height()}
+                                        "width": self.default_screen.get_width(),
+                                        "height": self.default_screen.get_height()}
                 self.logger.debug("  Combined screen - X: 0, Y: 0, W: {0}, H: {1}".format(self.default_screen.get_width(),
                                                                                           self.default_screen.get_height()))
             else:

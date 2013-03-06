@@ -22,9 +22,10 @@
 
 import os
 
-def get_next_filename(dir, prefix, ext):
+
+def get_next_filename(sdir, prefix, ext):
     for cnt in range(0, 99999):
-        fname = os.path.join(dir, "{0}_{1}{2}".format(prefix,
+        fname = os.path.join(sdir, "{0}_{1}{2}".format(prefix,
                                                        str(cnt).zfill(5),
                                                        ext))
         if os.path.isfile(fname):
@@ -33,15 +34,3 @@ def get_next_filename(dir, prefix, ext):
             return fname
 
     return "Kazam_recording{0}".format(ext)
-
-def remove_list_dups(seq, idfun = None):
-    if idfun is None:
-        def idfun(x): return x
-    seen = {}
-    result = []
-    for item in seq:
-        marker = idfun(item)
-        if marker in seen: continue
-        seen[marker] = 1
-        result.append(item)
-    return result
