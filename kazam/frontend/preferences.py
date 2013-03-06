@@ -25,12 +25,11 @@ import logging
 logger = logging.getLogger("Preferences")
 
 from gi.repository import Gtk, Gdk, GObject, Pango
-from gettext import gettext as _
 
 from kazam.utils import *
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
-from kazam.backend.gstreamer import detect_codecs, get_codec
+from kazam.utils import detect_codecs, get_codec
 
 class Preferences(GObject.GObject):
     __gsignals__ = {
@@ -112,7 +111,7 @@ class Preferences(GObject.GObject):
             if not CODEC_LIST[codec][4]:
                 codec_model.append([CODEC_LIST[codec][0], CODEC_LIST[codec][2]])
 
-        codec_model.append([99, "--"]) # Insert dummy item for separator
+        codec_model.append([99, "--"])  # Insert dummy item for separator
 
         for codec in codecs:
             if CODEC_LIST[codec][4]:
@@ -169,7 +168,6 @@ class Preferences(GObject.GObject):
 
         self.filechooser_video.set_current_folder(prefs.video_dest)
 
-
         if prefs.shutter_sound:
             self.switch_shutter_sound.set_active(True)
             self.combobox_shutter_type.set_sensitive(True)
@@ -193,13 +191,13 @@ class Preferences(GObject.GObject):
 
         self.filechooser_picture.set_current_folder(prefs.picture_dest)
 
-
         #
         # Crappy code below ... Can this be done some other way?
         #
         codec_model = self.combobox_codec.get_model()
         cnt = 0
         bingo = False
+
         for entry in codec_model:
             if prefs.codec == entry[0]:
                 bingo = True
@@ -220,7 +218,7 @@ class Preferences(GObject.GObject):
     #
 
     def cb_delete_event(self, widget, user_data):
-        logger.debug("Deleteting preferences window")
+        logger.debug("Deleting preferences window")
         self.emit("prefs-quit")
 
     def cb_switch_countdown_splash(self, widget, user_data):

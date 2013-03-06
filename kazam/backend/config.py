@@ -21,66 +21,59 @@
 #       MA 02110-1301, USA.
 
 import os
-import sys
-
-try:
-    from configparser import SafeConfigParser, NoSectionError, NoOptionError
-except ImportError:
-    from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
-
+from configparser import ConfigParser, NoSectionError, NoOptionError
 from xdg.BaseDirectory import xdg_config_home
 
-class KazamConfig(SafeConfigParser):
+
+class KazamConfig(ConfigParser):
 
     DEFAULTS = [{
                 "name": "main",
-                "keys": {
-                         "video_toggled"          : "True",
-                         "video_source"           : "0",
-                         "audio_toggled"          : "False",
-                         "audio_source"           : "0",
-                         "audio_volume"           : "0",
-                         "audio2_toggled"         : "False",
-                         "audio2_source"          : "0",
-                         "audio2_volume"          : "0",
-                         "codec"                  : "0",
-                         "counter"                : "5",
-                         "capture_cursor"         : "True",
-                         "capture_microphone"     : "False",
-                         "capture_speakers"       : "False",
-                         "capture_cursor_pic"     : "True",
-                         "capture_borders_pic"    : "True",
-                         "framerate"              : "15",
-                         "countdown_splash"       : "True",
-                         "last_x"                 : "60",
-                         "last_y"                 : "25",
-                         "advanced"               : "0",
-                         "silent"                 : "0",
-                         "autosave_video"         : "False",
-                         "autosave_video_dir"     : "",
-                         "autosave_video_file"    : "Kazam_screencast",
-                         "autosave_picture"       : "False",
-                         "autosave_picture_dir"   : "",
-                         "autosave_picture_file"  : "Kazam_screenshot",
-                         "shutter_sound"          : "True",
-                         "shutter_type"           : "0",
+                "keys": {"video_toggled":        "True",
+                         "video_source":          "0",
+                         "audio_toggled":         "False",
+                         "audio_source":          "0",
+                         "audio_volume":          "0",
+                         "audio2_toggled":        "False",
+                         "audio2_source":         "0",
+                         "audio2_volume":         "0",
+                         "codec":                 "0",
+                         "counter":               "5",
+                         "capture_cursor":        "True",
+                         "capture_microphone":    "False",
+                         "capture_speakers":      "False",
+                         "capture_cursor_pic":    "True",
+                         "capture_borders_pic":   "True",
+                         "framerate":             "15",
+                         "countdown_splash":      "True",
+                         "last_x":                "60",
+                         "last_y":                "25",
+                         "advanced":              "0",
+                         "silent":                "0",
+                         "autosave_video":        "False",
+                         "autosave_video_dir":     "",
+                         "autosave_video_file":   "Kazam_screencast",
+                         "autosave_picture":      "False",
+                         "autosave_picture_dir":   "",
+                         "autosave_picture_file":  "Kazam_screenshot",
+                         "shutter_sound":          "True",
+                         "shutter_type":           "0",
+                         "first_run":              "True",
                          },
                 },
-                {
-                 "name": "keyboard_shortcuts",
-                 "keys": {
-                          "pause":  "<Shift><Control>p",
+                {"name": "keyboard_shortcuts",
+                 "keys": {"pause":  "<Shift><Control>p",
                           "finish": "<Shift><Control>f",
                           "show":   "<Shift><Control>s",
                           "quit":   "<Shift><Control>q",
-                         },
+                          },
                  }]
 
     CONFIGDIR = os.path.join(xdg_config_home, "kazam")
     CONFIGFILE = os.path.join(CONFIGDIR, "kazam.conf")
 
     def __init__(self):
-        SafeConfigParser.__init__(self, self.DEFAULTS[0]['keys'])
+        ConfigParser.__init__(self, self.DEFAULTS[0]['keys'])
         if not os.path.isdir(self.CONFIGDIR):
             os.makedirs(self.CONFIGDIR)
         if not os.path.isfile(self.CONFIGFILE):
@@ -107,7 +100,7 @@ class KazamConfig(SafeConfigParser):
 
     def get(self, section, key):
         try:
-            return SafeConfigParser.get(self, section, key)
+            return ConfigParser.get(self, section, key)
         except NoSectionError:
             default = self.find_default(section, key)
             self.set(section, key, default)
@@ -131,11 +124,11 @@ class KazamConfig(SafeConfigParser):
         # then create it
         if not self.has_section(section):
             self.add_section(section)
-        SafeConfigParser.set(self, section, option, str(value))
+        ConfigParser.set(self, section, option, str(value))
 
     def write(self):
         file_ = open(self.CONFIGFILE, "w")
-        SafeConfigParser.write(self, file_)
+        ConfigParser.write(self, file_)
         file_.close()
 
 
