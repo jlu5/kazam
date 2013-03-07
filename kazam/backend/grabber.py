@@ -127,8 +127,8 @@ class Grabber(GObject.GObject):
                 (px, py) = (pointer[1], pointer[2])
                 logger.debug("XID cursor: {0} {1}".format(px, py))
                 c_picbuf.composite(self.pixbuf, rx, ry, rw, rh,
-                                   0,
-                                   0,
+                                   px + dx - 6,
+                                   py + dy - 2,
                                    1.0,
                                    1.0,
                                    GdkPixbuf.InterpType.BILINEAR,
