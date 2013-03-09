@@ -19,6 +19,7 @@ Architecture: all
 Depends: gir1.2-gst-plugins-base-1.0,
          gir1.2-gstreamer-1.0,
          gir1.2-wnck-3.0,
+         gnome-session-canberra,
          gstreamer1.0-plugins-base,
          gstreamer1.0-plugins-good,
          gstreamer1.0-plugins-ugly,
@@ -40,4 +41,3 @@ Description: screencast and screenshot application created with design in mind
  being captured.
  .
  Support for H264 and VP8 codecs is built in.
-
