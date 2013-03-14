@@ -21,6 +21,14 @@
 #       MA 02110-1301, USA.
 
 import os
+import logging
+from gi.repository import Gst
+from kazam.backend.constants import *
+
+Gst.init(None)
+
+logger = logging.getLogger("Utils")
+
 
 def get_next_filename(dir, prefix, ext):
     for cnt in range(0, 99999):
@@ -34,14 +42,32 @@ def get_next_filename(dir, prefix, ext):
 
     return "Kazam_recording{0}".format(ext)
 
-def remove_list_dups(seq, idfun = None):
-    if idfun is None:
-        def idfun(x): return x
-    seen = {}
-    result = []
-    for item in seq:
-        marker = idfun(item)
-        if marker in seen: continue
-        seen[marker] = 1
-        result.append(item)
-    return result
+
+def detect_codecs():
+    codecs_supported = []
+    codec_test = None
+    for codec in CODEC_LIST:
+        logger.debug("Testing for: {0}".format(codec[2]))
+        if codec[0]:
+            try:
+                codec_test = Gst.ElementFactory.make(codec[1], "video_encoder")
+            except:
+                logger.debug("Unable to find {0} GStreamer plugin - support disabled.".format(codec))
+                codec_test = None
+
+            if codec_test:
+                codecs_supported.append(codec[0])
+                logger.debug("Supported encoder: {0}.".format(codec[2]))
+        else:
+            # RAW codec is None, so we don't try to load it.
+            codecs_supported.append(codec[0])
+            logger.debug("Supported encoder: {0}.".format(codec[2]))
+        codec_test = None
+    return codecs_supported
+
+
+def get_codec(codec):
+    for c in CODEC_LIST:
+        if c[0] == codec:
+            return c
+    return None

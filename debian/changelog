@@ -1,3 +1,9 @@
+kazam (1.4.1-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Wed, 13 Mar 2013 20:25:22 -0400
+
 kazam (1.4.0-2) experimental; urgency=low
 
   * Add missing dependency on gnome-session-canberra (LP: #1152867).
