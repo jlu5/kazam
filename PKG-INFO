@@ -1,13 +1,13 @@
 Metadata-Version: 1.1
 Name: kazam
-Version: 1.4.0-0ubuntu1
+Version: 1.4.1-0ubuntu1
 Summary: A screencasting program created with design in mind.
 Home-page: https://launchpad.net/kazam
 Author: David Klasinc
 Author-email: bigwhale@lubica.net
 License: GPLv3
 Description: 
-                   Kazam v1.4.0 "NCC-2000"
+                   Kazam v1.4.1 "NCC-2000"
         
         
         Introduction
@@ -26,7 +26,7 @@ Description:
         
         Kazam is always available from Launchpad under https://launchpad.net/kazam
         
-        Latest stable release is 1.4.0.
+        Latest stable release is 1.4.1.
         Latest unstable release is 1.3.99
         
         
@@ -49,16 +49,16 @@ Description:
         For distribution independent installation you will have to get the latest
         tarball release from Launchpad:
         
-        http://launchpad.net/kazam/stable/1.4.0/+download/kazam_1.4.0.tar.gz
+        http://launchpad.net/kazam/stable/1.4.1/+download/kazam_1.4.1.tar.gz
         
         Unpack it and then run setup:
         
-           $ tar -xzf kazam_1.4.0.tar.gz
-           $ cd kazam-1.4.0
+           $ tar -xzf kazam_1.4.1.tar.gz
+           $ cd kazam-1.4.1
         
         Run installation as root user, or use sudo:
         
-           # python setup.py install
+           # python3 setup.py install
         
         
         Installation - unstable version
@@ -83,7 +83,7 @@ Description:
         Then you need to run setup.py to build and install Kazam:
         
            $ cd kazam
-           # python setup.py install
+           # python3 setup.py install
         
         You will have to run setup as root user or use sudo. Default installation
         path is /usr/local.
@@ -147,6 +147,9 @@ Description:
         - Non compositing window managers are not able to render transparent
         windows. Area selection and countdown timers will be affected by this.
         Mint users can turn on window compositing in Desktop Settings.
+        
+        - When taking a screenshot of a preselected window with window decoration
+        you have to make sure that your window is not covered by other windows.
         
         
         Recording Tips

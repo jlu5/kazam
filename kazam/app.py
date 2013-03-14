@@ -619,6 +619,11 @@ class KazamApp(GObject.GObject):
             self.window.set_sensitive(False)
 
         elif self.main_mode == MODE_SCREENSHOT:
+            if self.outline_window:
+                self.outline_window.hide()
+                self.outline_window.window.destroy()
+                self.outline_window = None
+
             self.grabber.connect("save-done", self.cb_save_done)
             self.indicator.recording = False
             self.indicator.menuitem_start.set_sensitive(True)
