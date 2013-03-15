@@ -21,6 +21,7 @@
 
 import time
 import cairo
+import math
 import logging
 logger = logging.getLogger("Window Select")
 
@@ -29,6 +30,9 @@ from gettext import gettext as _
 from gi.repository import Gtk, GObject, Gdk, Wnck, GdkX11
 
 from kazam.backend.constants import *
+from kazam.utils import in_circle
+
+
 class AreaWindow(GObject.GObject):
 
     __gsignals__ = {
@@ -46,6 +50,7 @@ class AreaWindow(GObject.GObject):
         super(AreaWindow, self).__init__()
         logger.debug("Initializing select window.")
 
+        self.corner = None
         self.startx = 0
         self.starty = 0
         self.endx = 0
@@ -70,8 +75,9 @@ class AreaWindow(GObject.GObject):
         self.drawing.connect("draw", self.cb_draw)
         self.drawing.connect("motion-notify-event", self.cb_draw_motion_notify_event)
         self.drawing.connect("button-press-event", self.cb_draw_button_press_event)
+        self.drawing.connect("button-release-event", self.cb_draw_button_release_event)
         self.drawing.connect("leave-notify-event", self.cb_leave_notify_event)
-        self.drawing.add_events(Gdk.EventMask.BUTTON_PRESS_MASK | Gdk.EventMask.POINTER_MOTION_MASK | Gdk.EventMask.POINTER_MOTION_HINT_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK)
+        self.drawing.add_events(Gdk.EventMask.BUTTON_PRESS_MASK | Gdk.EventMask.BUTTON_RELEASE_MASK | Gdk.EventMask.POINTER_MOTION_MASK | Gdk.EventMask.POINTER_MOTION_HINT_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK)
 
         self.window.set_border_width(0)
         self.window.set_app_paintable(True)
@@ -108,13 +114,44 @@ class AreaWindow(GObject.GObject):
 
     def cb_draw_motion_notify_event(self, widget, event):
         (state, x, y, mask) = event.window.get_device_position(self.pntr_device)
+
         if mask & Gdk.ModifierType.BUTTON1_MASK:
             (scr, x, y) = self.pntr_device.get_position()
             cur = scr.get_monitor_at_point(x, y)
-            self.endx = int(event.x)
-            self.endy = int(event.y)
-            self.g_endx = HW.screens[cur]['x'] + self.endx
-            self.g_endy = HW.screens[cur]['y'] + self.endy
+
+            ex = int(event.x)
+            ey = int(event.y)
+            sx = HW.screens[cur]['x']
+            sy = HW.screens[cur]['y']
+            if self.corner == 1:
+                self.startx = ex
+                self.starty = ey
+                self.g_startx = sx + ex
+                self.g_starty = sy + ey
+
+            elif self.corner == 2:
+                self.endx = ex
+                self.starty = ey
+                self.g_endx = sx + ex
+                self.g_starty = sy + ey
+
+            elif self.corner == 3:
+                self.endx = ex
+                self.endy = ey
+                self.g_endx = sx + ex
+                self.g_endy = sy + ey
+
+            elif self.corner == 4:
+                self.startx = ex
+                self.endy = ey
+                self.g_startx = sx + ex
+                self.g_endy = sy + ey
+            else:
+                self.endx = ex
+                self.endy = ey
+                self.g_endx = sx + ex
+                self.g_endy = sy + ey
+
             self.width  = self.endx - self.startx
             self.height = self.endy - self.starty
         widget.queue_draw()
@@ -123,18 +160,38 @@ class AreaWindow(GObject.GObject):
     def cb_draw_button_press_event(self, widget, event):
         (scr, x, y) = self.pntr_device.get_position()
         cur = scr.get_monitor_at_point(x, y)
-        self.startx = int(event.x)
-        self.starty = int(event.y)
-        self.g_startx = HW.screens[cur]['x'] + self.startx
-        self.g_starty = HW.screens[cur]['y'] + self.starty
 
-        self.endx = 0
-        self.endy = 0
-        self.g_endx = 0
-        self.g_endy = 0
+        # Save them temporarily here as we need both the new and old values
+        startx = int(event.x)
+        starty = int(event.y)
+        g_startx = HW.screens[cur]['x'] + startx
+        g_starty = HW.screens[cur]['y'] + starty
 
-        self.width  = 0
-        self.height = 0
+        # Detects mouse clicks on each corner, in the clockwise direction, starting from the top left corner.
+        if in_circle(min(self.g_startx, self.g_endx), min(self.g_starty, self.g_endy), 20, g_startx, g_starty):
+            self.corner = 1
+        elif in_circle(max(self.g_startx, self.g_endx), min(self.g_starty, self.g_endy), 20, g_startx, g_starty):
+            self.corner = 2
+        elif in_circle(max(self.g_startx, self.g_endx), max(self.g_starty, self.g_endy), 20, g_startx, g_starty):
+            self.corner = 3
+        elif in_circle(min(self.g_startx, self.g_endx), max(self.g_starty, self.g_endy), 20, g_startx, g_starty):
+            self.corner = 4
+        else:
+            self.corner = None
+
+            self.startx = startx
+            self.starty = starty
+            self.g_startx = g_startx
+            self.g_starty = g_starty
+            self.endx = 0
+            self.endy = 0
+            self.g_endx = 0
+            self.g_endy = 0
+            self.width  = 0
+            self.height = 0
+
+    def cb_draw_button_release_event(self, widget, event):
+        self.corner = None
 
     def cb_leave_notify_event(self, widget, event):
         (scr, x, y) = self.pntr_device.get_position()
@@ -204,6 +261,18 @@ class AreaWindow(GObject.GObject):
 
         cr.rectangle(self.startx, self.starty, self.width, self.height)
         cr.fill()
+
+        # Corner handles
+        if abs(self.width) > 20 and abs(self.height) > 20:
+            cr.set_source_rgb(1.0, 0.0, 0.0)
+            cr.arc(self.startx, self.starty, 10, 0, 2*math.pi)
+            cr.stroke()
+            cr.arc(self.startx + self.width, self.starty, 10, 0, 2*math.pi)
+            cr.stroke()
+            cr.arc(self.startx + self.width, self.starty + self.height, 10, 0, 2*math.pi)
+            cr.stroke()
+            cr.arc(self.startx, self.starty + self.height, 10, 0, 2*math.pi)
+            cr.stroke()
 
         cr.set_operator(cairo.OPERATOR_OVER)
 
