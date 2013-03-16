@@ -155,10 +155,10 @@ class AreaWindow(GObject.GObject):
                 self.starty = ey - self.height / 2
                 self.endx = ex + self.width / 2
                 self.endy = ey + self.height / 2
-                self.g_startx = sx + ex
-                self.g_starty = sy + ey
-                self.g_endx = sx + ex
-                self.g_endy = sy + ey
+                self.g_startx = sx + self.startx
+                self.g_starty = sy + self.starty
+                self.g_endx = sx + self.endx
+                self.g_endy = sy + self.endy
 
             # Center right
             elif self.resize_handle == 5:
