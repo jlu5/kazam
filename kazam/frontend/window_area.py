@@ -186,10 +186,20 @@ class AreaWindow(GObject.GObject):
                     self.move_offsety = ey - self.starty
 
                 # Update area position with respect to the initial offset
-                self.startx = ex - self.move_offsetx
-                self.starty = ey - self.move_offsety
+                self.startx = max(0, ex - self.move_offsetx)
+                self.starty = max(0, ey - self.move_offsety)
                 self.endx = self.startx + self.width
                 self.endy = self.starty + self.height
+
+                sw = HW.screens[cur]['width']
+                sh = HW.screens[cur]['height']
+                if self.endx > sw:
+                    self.startx -= self.endx - sw
+                    self.endx = sw
+                if self.endy > sh:
+                    self.starty -= self.endy - sh
+                    self.endy = sh
+
                 self.g_startx = sx + self.startx
                 self.g_starty = sy + self.starty
                 self.g_endx = sx + self.endx
