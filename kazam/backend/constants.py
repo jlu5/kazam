@@ -90,6 +90,18 @@ MODE_WIN = 3
 MODE_ACTIVE = 4
 MODE_GOD = 666
 
+
+# Area resize handles
+HANDLE_TL = 0
+HANDLE_TC = 1
+HANDLE_TR = 2
+HANDLE_CL = 3
+HANDLE_CC = 4
+HANDLE_CR = 5
+HANDLE_BL = 6
+HANDLE_BC = 7
+HANDLE_BR = 8
+
 import logging
 
 from gi.repository import Gdk, GdkX11
