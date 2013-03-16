@@ -139,6 +139,7 @@ class AreaWindow(GObject.GObject):
         sy = HW.screens[cur]['y']
 
         # Set arrow cursors
+        cursor_changed = False
         for i in range(0, 9):
             # X and Y offsets, added to start position
             x = i % 3 / 2
@@ -147,12 +148,14 @@ class AreaWindow(GObject.GObject):
             offsety = self.height * y
 
             if in_circle(self.g_startx + offsetx, self.g_starty + offsety, 8, sx + ex, sy + ey):
+                cursor_changed = True
                 self.gdk_win.set_cursor(Gdk.Cursor(self.handle_cursors[i]))
                 break
             self.gdk_win.set_cursor(Gdk.Cursor(Gdk.CursorType.CROSSHAIR))
 
         # Set hand cursor
-        if min(self.startx, self.endx) < ex < max(self.startx, self.endx) and \
+        if not cursor_changed and \
+           min(self.startx, self.endx) < ex < max(self.startx, self.endx) and \
            min(self.starty, self.endy) < ey < max(self.starty, self.endy):
             self.gdk_win.set_cursor(Gdk.Cursor(self.handle_cursors[HANDLE_MOVE]))
 
