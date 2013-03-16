@@ -50,7 +50,7 @@ class AreaWindow(GObject.GObject):
         super(AreaWindow, self).__init__()
         logger.debug("Initializing select window.")
 
-        self.corner = None
+        self.resize_handle = None
         self.startx = 0
         self.starty = 0
         self.endx = 0
@@ -119,34 +119,71 @@ class AreaWindow(GObject.GObject):
             (scr, x, y) = self.pntr_device.get_position()
             cur = scr.get_monitor_at_point(x, y)
 
-            # Only change appropriate values based on which corner the user drags from
+            # Only change appropriate values based on which resize handle the user drags from
             ex = int(event.x)
             ey = int(event.y)
             sx = HW.screens[cur]['x']
             sy = HW.screens[cur]['y']
-            if self.corner == 1:
+
+            # Top left
+            if self.resize_handle == 0:
                 self.startx = ex
                 self.starty = ey
                 self.g_startx = sx + ex
                 self.g_starty = sy + ey
 
-            elif self.corner == 2:
+            # Top center
+            elif self.resize_handle == 1:
+                self.starty = ey
+                self.g_starty = sy + ey
+
+            # Top right
+            elif self.resize_handle == 2:
                 self.endx = ex
                 self.starty = ey
                 self.g_endx = sx + ex
                 self.g_starty = sy + ey
 
-            elif self.corner == 3:
+            # Center left
+            elif self.resize_handle == 3:
+                self.startx = ex
+                self.g_startx = sx + ex
+
+            # Center
+            elif self.resize_handle == 4:
+                self.startx = ex - self.width / 2
+                self.starty = ey - self.height / 2
+                self.endx = ex + self.width / 2
+                self.endy = ey + self.height / 2
+                self.g_startx = sx + ex
+                self.g_starty = sy + ey
+                self.g_endx = sx + ex
+                self.g_endy = sy + ey
+
+            # Center right
+            elif self.resize_handle == 5:
+                self.endx = ex
+                self.g_endx = sx + ex
+
+            # Bottom left
+            elif self.resize_handle == 6:
+                self.startx = ex
+                self.endy = ey
+                self.g_startx = sx + ex
+                self.g_endy = sy + ey
+
+            # Bottom center
+            elif self.resize_handle == 7:
+                self.endy = ey
+                self.g_endy = sy + ey
+
+            # Bottom right
+            elif self.resize_handle == 8:
                 self.endx = ex
                 self.endy = ey
                 self.g_endx = sx + ex
                 self.g_endy = sy + ey
 
-            elif self.corner == 4:
-                self.startx = ex
-                self.endy = ey
-                self.g_startx = sx + ex
-                self.g_endy = sy + ey
             else:
                 self.endx = ex
                 self.endy = ey
@@ -170,19 +207,21 @@ class AreaWindow(GObject.GObject):
         g_startx = HW.screens[cur]['x'] + startx
         g_starty = HW.screens[cur]['y'] + starty
 
-        # Detects mouse clicks on each corner, in the clockwise direction, starting from the top left corner
-        if in_circle(self.g_startx, self.g_starty, 10, g_startx, g_starty):
-            self.corner = 1
-        elif in_circle(self.g_endx, self.g_starty, 10, g_startx, g_starty):
-            self.corner = 2
-        elif in_circle(self.g_endx, self.g_endy, 10, g_startx, g_starty):
-            self.corner = 3
-        elif in_circle(self.g_startx, self.g_endy, 10, g_startx, g_starty):
-            self.corner = 4
-        else:
-            self.corner = None
+        resize = False
+        for i in range(0, 9):
+            # X and Y offsets, added to start position
+            x = i % 3 / 2
+            y = math.floor(i / 3) / 2
+            offsetx = self.width * x
+            offsety = self.height * y
 
-            # Start new selection if no corner is selected
+            if in_circle(self.g_startx + offsetx, self.g_starty + offsety, 10, g_startx, g_starty):
+                self.resize_handle = i
+                resize = True
+                break
+
+        if not resize:
+            # Start new selection if no resize handle is selected
             self.startx = startx
             self.starty = starty
             self.g_startx = g_startx
@@ -195,7 +234,7 @@ class AreaWindow(GObject.GObject):
             self.height = 0
 
     def cb_draw_button_release_event(self, widget, event):
-        self.corner = None
+        self.resize_handle = None
 
     def cb_leave_notify_event(self, widget, event):
         (scr, x, y) = self.pntr_device.get_position()
@@ -266,16 +305,17 @@ class AreaWindow(GObject.GObject):
         cr.rectangle(self.startx, self.starty, self.width, self.height)
         cr.fill()
 
-        # Draw corner handles
+        # Draw resize handles
         cr.set_source_rgb(1.0, 0.0, 0.0)
-        cr.arc(self.startx, self.starty, 10, 0, 2*math.pi)
-        cr.stroke()
-        cr.arc(self.startx + self.width, self.starty, 10, 0, 2*math.pi)
-        cr.stroke()
-        cr.arc(self.startx + self.width, self.starty + self.height, 10, 0, 2*math.pi)
-        cr.stroke()
-        cr.arc(self.startx, self.starty + self.height, 10, 0, 2*math.pi)
-        cr.stroke()
+        for i in range(0, 9):
+            # X and Y offsets, added to start position
+            x = i % 3 / 2
+            y = math.floor(i / 3) / 2
+            offsetx = self.width * x
+            offsety = self.height * y
+
+            cr.arc(self.startx + offsetx, self.starty + offsety, 10, 0, 2*math.pi)
+            cr.stroke()
 
         cr.set_operator(cairo.OPERATOR_OVER)
 
