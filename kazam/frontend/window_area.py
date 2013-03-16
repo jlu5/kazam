@@ -126,31 +126,31 @@ class AreaWindow(GObject.GObject):
             sy = HW.screens[cur]['y']
 
             # Top left
-            if self.resize_handle == 0:
+            if self.resize_handle == HANDLE_TL:
                 self.startx = ex
                 self.starty = ey
                 self.g_startx = sx + ex
                 self.g_starty = sy + ey
 
             # Top center
-            elif self.resize_handle == 1:
+            elif self.resize_handle == HANDLE_TC:
                 self.starty = ey
                 self.g_starty = sy + ey
 
             # Top right
-            elif self.resize_handle == 2:
+            elif self.resize_handle == HANDLE_TR:
                 self.endx = ex
                 self.starty = ey
                 self.g_endx = sx + ex
                 self.g_starty = sy + ey
 
             # Center left
-            elif self.resize_handle == 3:
+            elif self.resize_handle == HANDLE_CL:
                 self.startx = ex
                 self.g_startx = sx + ex
 
             # Center
-            elif self.resize_handle == 4:
+            elif self.resize_handle == HANDLE_CC:
                 self.startx = int(ex - self.width / 2)
                 self.starty = int(ey - self.height / 2)
                 self.endx = int(ex + self.width / 2)
@@ -161,24 +161,24 @@ class AreaWindow(GObject.GObject):
                 self.g_endy = sy + self.endy
 
             # Center right
-            elif self.resize_handle == 5:
+            elif self.resize_handle == HANDLE_CR:
                 self.endx = ex
                 self.g_endx = sx + ex
 
             # Bottom left
-            elif self.resize_handle == 6:
+            elif self.resize_handle == HANDLE_BL:
                 self.startx = ex
                 self.endy = ey
                 self.g_startx = sx + ex
                 self.g_endy = sy + ey
 
             # Bottom center
-            elif self.resize_handle == 7:
+            elif self.resize_handle == HANDLE_BC:
                 self.endy = ey
                 self.g_endy = sy + ey
 
             # Bottom right
-            elif self.resize_handle == 8:
+            elif self.resize_handle == HANDLE_BR:
                 self.endx = ex
                 self.endy = ey
                 self.g_endx = sx + ex
