@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-18 05:36+0000\n"
-"X-Generator: Launchpad (build 16430)\n"
+"X-Launchpad-Export-Date: 2013-03-07 05:28+0000\n"
+"X-Generator: Launchpad (build 16514)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -313,69 +313,3 @@ msgstr "Gardar a captura"
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr "Descoñecida"
-
-#~ msgid "Close"
-#~ msgstr "Pechar"
-
-#~ msgid "Description"
-#~ msgstr "Descrición"
-
-#~ msgid "Category"
-#~ msgstr "Categoría"
-
-#~ msgid "Keywords"
-#~ msgstr "Palabras chave"
-
-#~ msgid "Private"
-#~ msgstr "Privado"
-
-#~ msgid "Logging in..."
-#~ msgstr "Iniciando sesión..."
-
-#~ msgid "Title"
-#~ msgstr "Título"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "A súa gravación enviouse correctamente."
-
-#~ msgid "There was an error uploading."
-#~ msgstr "Houbo un erro durante o envío."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "Gravación enviada."
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "Enviando a súa gravación..."
-
-#~ msgid "There was an error converting."
-#~ msgstr "Houbo un erro durante a conversión."
-
-#~ msgid "Screencast converted."
-#~ msgstr "Gravación convertida."
-
-#~ msgid "There was an error logging in."
-#~ msgstr "Houbo un erro durante o inicio de sesión."
-
-#~ msgid "Converting screencast..."
-#~ msgstr "A converter a gravación..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "Inicio de sesión completado."
-
-#~ msgid "Screencaster"
-#~ msgstr "Gravador de pantalla"
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "Gravar un vídeo da actividade na súa pantalla"
-
-#~ msgid "Record"
-#~ msgstr "Gravar"
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "Grave un vídeo da actividade na súa pantalla."
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "Está dispoñilble na seguinte localización:"
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "Kazam Screencaster"
