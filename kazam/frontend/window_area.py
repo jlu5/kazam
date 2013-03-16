@@ -119,6 +119,7 @@ class AreaWindow(GObject.GObject):
             (scr, x, y) = self.pntr_device.get_position()
             cur = scr.get_monitor_at_point(x, y)
 
+            # Only change appropriate values based on which corner the user drags from
             ex = int(event.x)
             ey = int(event.y)
             sx = HW.screens[cur]['x']
@@ -152,8 +153,10 @@ class AreaWindow(GObject.GObject):
                 self.g_endx = sx + ex
                 self.g_endy = sy + ey
 
+            # Width and height should always be updated
             self.width  = self.endx - self.startx
             self.height = self.endy - self.starty
+
         widget.queue_draw()
         return True
 
@@ -167,18 +170,19 @@ class AreaWindow(GObject.GObject):
         g_startx = HW.screens[cur]['x'] + startx
         g_starty = HW.screens[cur]['y'] + starty
 
-        # Detects mouse clicks on each corner, in the clockwise direction, starting from the top left corner.
-        if in_circle(min(self.g_startx, self.g_endx), min(self.g_starty, self.g_endy), 20, g_startx, g_starty):
+        # Detects mouse clicks on each corner, in the clockwise direction, starting from the top left corner
+        if in_circle(self.g_startx, self.g_starty, 10, g_startx, g_starty):
             self.corner = 1
-        elif in_circle(max(self.g_startx, self.g_endx), min(self.g_starty, self.g_endy), 20, g_startx, g_starty):
+        elif in_circle(self.g_endx, self.g_starty, 10, g_startx, g_starty):
             self.corner = 2
-        elif in_circle(max(self.g_startx, self.g_endx), max(self.g_starty, self.g_endy), 20, g_startx, g_starty):
+        elif in_circle(self.g_endx, self.g_endy, 10, g_startx, g_starty):
             self.corner = 3
-        elif in_circle(min(self.g_startx, self.g_endx), max(self.g_starty, self.g_endy), 20, g_startx, g_starty):
+        elif in_circle(self.g_startx, self.g_endy, 10, g_startx, g_starty):
             self.corner = 4
         else:
             self.corner = None
 
+            # Start new selection if no corner is selected
             self.startx = startx
             self.starty = starty
             self.g_startx = g_startx
@@ -262,17 +266,16 @@ class AreaWindow(GObject.GObject):
         cr.rectangle(self.startx, self.starty, self.width, self.height)
         cr.fill()
 
-        # Corner handles
-        if abs(self.width) > 20 and abs(self.height) > 20:
-            cr.set_source_rgb(1.0, 0.0, 0.0)
-            cr.arc(self.startx, self.starty, 10, 0, 2*math.pi)
-            cr.stroke()
-            cr.arc(self.startx + self.width, self.starty, 10, 0, 2*math.pi)
-            cr.stroke()
-            cr.arc(self.startx + self.width, self.starty + self.height, 10, 0, 2*math.pi)
-            cr.stroke()
-            cr.arc(self.startx, self.starty + self.height, 10, 0, 2*math.pi)
-            cr.stroke()
+        # Draw corner handles
+        cr.set_source_rgb(1.0, 0.0, 0.0)
+        cr.arc(self.startx, self.starty, 10, 0, 2*math.pi)
+        cr.stroke()
+        cr.arc(self.startx + self.width, self.starty, 10, 0, 2*math.pi)
+        cr.stroke()
+        cr.arc(self.startx + self.width, self.starty + self.height, 10, 0, 2*math.pi)
+        cr.stroke()
+        cr.arc(self.startx, self.starty + self.height, 10, 0, 2*math.pi)
+        cr.stroke()
 
         cr.set_operator(cairo.OPERATOR_OVER)
 
