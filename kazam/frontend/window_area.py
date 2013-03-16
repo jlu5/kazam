@@ -50,7 +50,12 @@ class AreaWindow(GObject.GObject):
         super(AreaWindow, self).__init__()
         logger.debug("Initializing select window.")
 
+        # Resizing and movement
         self.resize_handle = None
+        self.move_offsetx = 0
+        self.move_offsety = 0
+
+        # Position and size
         self.startx = 0
         self.starty = 0
         self.endx = 0
@@ -149,17 +154,6 @@ class AreaWindow(GObject.GObject):
                 self.startx = ex
                 self.g_startx = sx + ex
 
-            # Center
-            elif self.resize_handle == HANDLE_CC:
-                self.startx = int(ex - self.width / 2)
-                self.starty = int(ey - self.height / 2)
-                self.endx = int(ex + self.width / 2)
-                self.endy = int(ey + self.height / 2)
-                self.g_startx = sx + self.startx
-                self.g_starty = sy + self.starty
-                self.g_endx = sx + self.endx
-                self.g_endy = sy + self.endy
-
             # Center right
             elif self.resize_handle == HANDLE_CR:
                 self.endx = ex
@@ -183,6 +177,23 @@ class AreaWindow(GObject.GObject):
                 self.endy = ey
                 self.g_endx = sx + ex
                 self.g_endy = sy + ey
+
+            # Make selection movable
+            elif self.resize_handle == HANDLE_MOVE:
+                # The position where the movement was initiated
+                if self.move_offsetx == self.move_offsety == 0:
+                    self.move_offsetx = ex - self.startx
+                    self.move_offsety = ey - self.starty
+
+                # Update area position with respect to the initial offset
+                self.startx = ex - self.move_offsetx
+                self.starty = ey - self.move_offsety
+                self.endx = self.startx + self.width
+                self.endy = self.starty + self.height
+                self.g_startx = sx + self.startx
+                self.g_starty = sy + self.starty
+                self.g_endx = sx + self.endx
+                self.g_endy = sy + self.endy
 
             # New selection
             else:
@@ -208,7 +219,6 @@ class AreaWindow(GObject.GObject):
         g_startx = HW.screens[cur]['x'] + startx
         g_starty = HW.screens[cur]['y'] + starty
 
-        resize = False
         for i in range(0, 9):
             # X and Y offsets, added to start position
             x = i % 3 / 2
@@ -218,24 +228,30 @@ class AreaWindow(GObject.GObject):
 
             if in_circle(self.g_startx + offsetx, self.g_starty + offsety, 8, g_startx, g_starty):
                 self.resize_handle = i
-                resize = True
-                break
+                return True
 
-        if not resize:
-            # Start new selection if no resize handle is selected
-            self.startx = startx
-            self.starty = starty
-            self.g_startx = g_startx
-            self.g_starty = g_starty
-            self.endx = 0
-            self.endy = 0
-            self.g_endx = 0
-            self.g_endy = 0
-            self.width  = 0
-            self.height = 0
+        # Move selection
+        if min(self.startx, self.endx) < startx < max(self.startx, self.endx) and \
+           min(self.starty, self.endy) < starty < max(self.starty, self.endy):
+            self.resize_handle = HANDLE_MOVE
+            return True
+
+        # Start new selection if no handle is selected
+        self.startx = startx
+        self.starty = starty
+        self.g_startx = g_startx
+        self.g_starty = g_starty
+        self.endx = 0
+        self.endy = 0
+        self.g_endx = 0
+        self.g_endy = 0
+        self.width  = 0
+        self.height = 0
 
     def cb_draw_button_release_event(self, widget, event):
         self.resize_handle = None
+        self.move_offsetx = 0
+        self.move_offsety = 0
 
     def cb_leave_notify_event(self, widget, event):
         (scr, x, y) = self.pntr_device.get_position()
@@ -308,6 +324,10 @@ class AreaWindow(GObject.GObject):
 
         # Draw resize handles
         for i in range(0, 9):
+            # Skip center handle
+            if i == HANDLE_MOVE:
+                continue
+
             # X and Y offsets, added to start position
             x = i % 3 / 2
             y = math.floor(i / 3) / 2
