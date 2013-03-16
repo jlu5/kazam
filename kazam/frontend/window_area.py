@@ -151,10 +151,10 @@ class AreaWindow(GObject.GObject):
 
             # Center
             elif self.resize_handle == 4:
-                self.startx = ex - self.width / 2
-                self.starty = ey - self.height / 2
-                self.endx = ex + self.width / 2
-                self.endy = ey + self.height / 2
+                self.startx = int(ex - self.width / 2)
+                self.starty = int(ey - self.height / 2)
+                self.endx = int(ex + self.width / 2)
+                self.endy = int(ey + self.height / 2)
                 self.g_startx = sx + self.startx
                 self.g_starty = sy + self.starty
                 self.g_endx = sx + self.endx
@@ -184,6 +184,7 @@ class AreaWindow(GObject.GObject):
                 self.g_endx = sx + ex
                 self.g_endy = sy + ey
 
+            # New selection
             else:
                 self.endx = ex
                 self.endy = ey
@@ -215,7 +216,7 @@ class AreaWindow(GObject.GObject):
             offsetx = self.width * x
             offsety = self.height * y
 
-            if in_circle(self.g_startx + offsetx, self.g_starty + offsety, 10, g_startx, g_starty):
+            if in_circle(self.g_startx + offsetx, self.g_starty + offsety, 8, g_startx, g_starty):
                 self.resize_handle = i
                 resize = True
                 break
@@ -289,11 +290,9 @@ class AreaWindow(GObject.GObject):
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
 
-        cr.set_operator(cairo.OPERATOR_SOURCE)
-
         # Draw the selection area
-        cr.move_to(self.startx, self.starty)
-        cr.set_source_rgb(1.0, 0.0, 0.0)
+        cr.set_line_width(1)
+        cr.set_source_rgb(1.0, 1.0, 1.0)
         cr.rectangle(self.startx, self.starty, self.width, self.height)
         cr.stroke()
 
@@ -302,22 +301,42 @@ class AreaWindow(GObject.GObject):
         else:
             cr.set_source_rgb(0.0, 0.0, 0.0)
 
-        cr.rectangle(self.startx, self.starty, self.width, self.height)
+        cr.rectangle(self.startx+1, self.starty+1, self.width-2, self.height-2)
         cr.fill()
 
+        cr.set_operator(cairo.OPERATOR_OVER)
+
         # Draw resize handles
-        cr.set_source_rgb(1.0, 0.0, 0.0)
         for i in range(0, 9):
             # X and Y offsets, added to start position
             x = i % 3 / 2
             y = math.floor(i / 3) / 2
-            offsetx = self.width * x
-            offsety = self.height * y
+            centerx = self.startx + self.width * x
+            centery = self.starty + self.height * y
 
-            cr.arc(self.startx + offsetx, self.starty + offsety, 10, 0, 2*math.pi)
+            # Handle shadow
+            grad = cairo.RadialGradient(centerx, centery, 0, centerx, centery + 2, 10)
+            grad.add_color_stop_rgba(0.6, 0.0, 0.0, 0.0, 0.6)
+            grad.add_color_stop_rgba(0.75, 0.0, 0.0, 0.0, 0.25)
+            grad.add_color_stop_rgba(1.0, 0.0, 0.0, 0.0, 0.0)
+
+            cr.arc(centerx, centery, 10, 0, 2*math.pi)
+            cr.set_source(grad)
+            cr.fill()
+
+            # Handle background
+            grad = cairo.LinearGradient(centerx, centery-8, centerx, centery+8)
+            grad.add_color_stop_rgb(0.0, 0.75, 0.75, 0.75)
+            grad.add_color_stop_rgb(0.75, 0.95, 0.95, 0.95)
+
+            cr.arc(centerx, centery, 8, 0, 2*math.pi)
+            cr.set_source(grad)
+            cr.fill()
+
+            # White outline
+            cr.set_source_rgb(1.0, 1.0, 1.0)
+            cr.arc(centerx, centery, 8, 0, 2*math.pi)
             cr.stroke()
-
-        cr.set_operator(cairo.OPERATOR_OVER)
 
         self._outline_text(cr, w, h, 30, _("Select an area by clicking and dragging."))
         self._outline_text(cr, w, h + 50, 26, _("Press ENTER to confirm or ESC to cancel"))
