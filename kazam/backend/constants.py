@@ -107,6 +107,20 @@ import logging
 from gi.repository import Gdk, GdkX11
 
 
+# Area resize handle cursors
+HANDLE_CURSORS = (
+    Gdk.CursorType.TOP_LEFT_CORNER,
+    Gdk.CursorType.TOP_SIDE,
+    Gdk.CursorType.TOP_RIGHT_CORNER,
+    Gdk.CursorType.LEFT_SIDE,
+    Gdk.CursorType.FLEUR,
+    Gdk.CursorType.RIGHT_SIDE,
+    Gdk.CursorType.BOTTOM_LEFT_CORNER,
+    Gdk.CursorType.BOTTOM_SIDE,
+    Gdk.CursorType.BOTTOM_RIGHT_CORNER
+)
+
+
 class hw:
     def __init__(self):
         self.logger = logging.getLogger("Constants")

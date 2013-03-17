@@ -54,17 +54,6 @@ class AreaWindow(GObject.GObject):
         self.resize_handle = None
         self.move_offsetx = 0
         self.move_offsety = 0
-        self.handle_cursors = [
-            Gdk.CursorType.TOP_LEFT_CORNER,
-            Gdk.CursorType.TOP_SIDE,
-            Gdk.CursorType.TOP_RIGHT_CORNER,
-            Gdk.CursorType.LEFT_SIDE,
-            Gdk.CursorType.FLEUR,
-            Gdk.CursorType.RIGHT_SIDE,
-            Gdk.CursorType.BOTTOM_LEFT_CORNER,
-            Gdk.CursorType.BOTTOM_SIDE,
-            Gdk.CursorType.BOTTOM_RIGHT_CORNER,
-        ]
 
         # Position and size
         self.startx = 0
@@ -147,9 +136,10 @@ class AreaWindow(GObject.GObject):
             offsetx = self.width * x
             offsety = self.height * y
 
+            # Show arrow cursors when hovering over any of the handles
             if in_circle(self.g_startx + offsetx, self.g_starty + offsety, 8, sx + ex, sy + ey):
                 cursor_changed = True
-                self.gdk_win.set_cursor(Gdk.Cursor(self.handle_cursors[i]))
+                self.gdk_win.set_cursor(Gdk.Cursor(HANDLE_CURSORS[i]))
                 break
             self.gdk_win.set_cursor(Gdk.Cursor(Gdk.CursorType.CROSSHAIR))
 
@@ -157,10 +147,9 @@ class AreaWindow(GObject.GObject):
         if not cursor_changed and \
            min(self.startx, self.endx) < ex < max(self.startx, self.endx) and \
            min(self.starty, self.endy) < ey < max(self.starty, self.endy):
-            self.gdk_win.set_cursor(Gdk.Cursor(self.handle_cursors[HANDLE_MOVE]))
+            self.gdk_win.set_cursor(Gdk.Cursor(HANDLE_CURSORS[HANDLE_MOVE]))
 
         if mask & Gdk.ModifierType.BUTTON1_MASK:
-
             # Top left
             if self.resize_handle == HANDLE_TL:
                 self.startx = ex
