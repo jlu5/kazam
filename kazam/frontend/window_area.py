@@ -136,8 +136,14 @@ class AreaWindow(GObject.GObject):
             offsetx = self.width * x
             offsety = self.height * y
 
+            # Invert cursors if area is selected from the bottom up
+            if self.g_startx > self.g_endx:
+                offsetx *= -1
+            if self.g_starty > self.g_endy:
+                offsety *= -1
+
             # Show arrow cursors when hovering over any of the handles
-            if in_circle(self.g_startx + offsetx, self.g_starty + offsety, 8, sx + ex, sy + ey):
+            if in_circle(min(self.g_startx, self.g_endx) + offsetx, min(self.g_starty, self.g_endy) + offsety, 8, sx + ex, sy + ey):
                 cursor_changed = True
                 self.gdk_win.set_cursor(Gdk.Cursor(HANDLE_CURSORS[i]))
                 break
