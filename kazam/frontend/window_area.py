@@ -120,16 +120,42 @@ class AreaWindow(GObject.GObject):
     def cb_draw_motion_notify_event(self, widget, event):
         (state, x, y, mask) = event.window.get_device_position(self.pntr_device)
 
+        (scr, x, y) = self.pntr_device.get_position()
+        cur = scr.get_monitor_at_point(x, y)
+        ex = int(event.x)
+        ey = int(event.y)
+        sx = HW.screens[cur]['x']
+        sy = HW.screens[cur]['y']
+
+        # Set arrow cursors
+        cursor_changed = False
+        for i in range(0, 9):
+            # X and Y offsets, added to start position
+            x = i % 3 / 2
+            y = math.floor(i / 3) / 2
+            offsetx = self.width * x
+            offsety = self.height * y
+
+            # Invert cursors if area is selected from the bottom up
+            if self.g_startx > self.g_endx:
+                offsetx *= -1
+            if self.g_starty > self.g_endy:
+                offsety *= -1
+
+            # Show arrow cursors when hovering over any of the handles
+            if in_circle(min(self.g_startx, self.g_endx) + offsetx, min(self.g_starty, self.g_endy) + offsety, 8, sx + ex, sy + ey):
+                cursor_changed = True
+                self.gdk_win.set_cursor(Gdk.Cursor(HANDLE_CURSORS[i]))
+                break
+            self.gdk_win.set_cursor(Gdk.Cursor(Gdk.CursorType.CROSSHAIR))
+
+        # Set hand cursor
+        if not cursor_changed and \
+           min(self.startx, self.endx) < ex < max(self.startx, self.endx) and \
+           min(self.starty, self.endy) < ey < max(self.starty, self.endy):
+            self.gdk_win.set_cursor(Gdk.Cursor(HANDLE_CURSORS[HANDLE_MOVE]))
+
         if mask & Gdk.ModifierType.BUTTON1_MASK:
-            (scr, x, y) = self.pntr_device.get_position()
-            cur = scr.get_monitor_at_point(x, y)
-
-            # Only change appropriate values based on which resize handle the user drags from
-            ex = int(event.x)
-            ey = int(event.y)
-            sx = HW.screens[cur]['x']
-            sy = HW.screens[cur]['y']
-
             # Top left
             if self.resize_handle == HANDLE_TL:
                 self.startx = ex
