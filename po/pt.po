@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-08 04:42+0000\n"
-"X-Generator: Launchpad (build 16482)\n"
+"X-Launchpad-Export-Date: 2013-03-17 05:06+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -309,96 +309,3 @@ msgstr ""
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr "Desconhecido"
-
-#~ msgid "Close"
-#~ msgstr "Fechar"
-
-#~ msgid "Description"
-#~ msgstr "Descrição"
-
-#~ msgid "Category"
-#~ msgstr "Categoria"
-
-#~ msgid "Keywords"
-#~ msgstr "Palavras-chave"
-
-#~ msgid "Private"
-#~ msgstr "Privado"
-
-#~ msgid "There was an error logging in."
-#~ msgstr "Surgiu um erro ao iniciar a sessão."
-
-#~ msgid "Screencast converted."
-#~ msgstr "Screencast convertido."
-
-#~ msgid "Logging in..."
-#~ msgstr "A iniciar sessão..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "Sessão iniciada"
-
-#~ msgid "Title"
-#~ msgstr "Título"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "O seu screencast foi enviado com sucesso."
-
-#~ msgid "There was an error uploading."
-#~ msgstr "Surgiu um erro durante o envio."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "Screencast enviado."
-
-#~ msgid "Converting screencast..."
-#~ msgstr "A converter screencast..."
-
-#~ msgid "There was an error converting."
-#~ msgstr "Ocorreu um erro na conversão."
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "A enviar screencast..."
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "Kazam Screencaster"
-
-#~ msgid "Screencaster"
-#~ msgstr "Screencaster"
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "Encontra-se disponível no local abaixo:"
-
-#~ msgid "Record"
-#~ msgstr "Gravar"
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "Gravar um vídeo da actividade no seu ecrã."
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "Gravar um vídeo da actividade no seu ecrã"
-
-#~ msgid "Countdown timer"
-#~ msgstr "Contador"
-
-#~ msgid "Encoder type"
-#~ msgstr "Tipo de codec"
-
-#~ msgid "Audio Source 2"
-#~ msgstr "Fonte do som 2"
-
-#~ msgid "Audio Source 1"
-#~ msgstr "Fonte do som 1"
-
-#~ msgid "Video Source"
-#~ msgstr "Fonte do video"
-
-#~ msgid "Capture mouse"
-#~ msgstr "Captura o mause"
-
-#~ msgid "Record Region"
-#~ msgstr "Zona de gravação"
-
-#~ msgid "Email"
-#~ msgstr "Email"
-
-#~ msgid "Framerate"
-#~ msgstr "Taxa de frames"

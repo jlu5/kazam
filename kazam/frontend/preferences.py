@@ -133,8 +133,8 @@ class Preferences(GObject.GObject):
         self.combobox_audio2.set_model(mic_source_model)
 
     def populate_shutter_sounds(self):
-        for file in prefs.sound_files:
-            self.combobox_shutter_type.append(None, file[:-4])
+        for s_file in prefs.sound_files:
+            self.combobox_shutter_type.append(None, s_file[:-4])
 
     def restore_UI(self):
         logger.debug("Restoring UI.")
@@ -303,8 +303,8 @@ class Preferences(GObject.GObject):
     def cb_codec_changed(self, widget):
         i = widget.get_active()
         model = widget.get_model()
-        iter = model.get_iter(i)
-        prefs.codec = model.get_value(iter, 0)
+        c_iter = model.get_iter(i)
+        prefs.codec = model.get_value(c_iter, 0)
         logger.debug('Codec selected: {0} - {1}'.format(get_codec(prefs.codec)[2], prefs.codec))
 
     def cb_switch_autosave_video(self, widget, user_data):

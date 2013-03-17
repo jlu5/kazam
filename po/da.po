@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-06 05:01+0000\n"
-"X-Generator: Launchpad (build 16393)\n"
+"X-Launchpad-Export-Date: 2013-03-17 05:06+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -311,99 +311,3 @@ msgstr ""
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr "Ukendt"
-
-#~ msgid "Close"
-#~ msgstr "Luk"
-
-#~ msgid "Description"
-#~ msgstr "Beskrivelse"
-
-#~ msgid "Category"
-#~ msgstr "Kategori"
-
-#~ msgid "Record"
-#~ msgstr "Optag"
-
-#~ msgid "Title"
-#~ msgstr "Titel"
-
-#~ msgid "Private"
-#~ msgstr "Privat"
-
-#~ msgid "Logging in..."
-#~ msgstr "Logger ind..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "Log ind fuldført"
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "Optag en video af aktivitet på din skærm"
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "Optag en video af aktivitet på din skærm."
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "Kazam skærmoptagelse"
-
-#~ msgid "Keywords"
-#~ msgstr "Søgeord"
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "Sender skærmoptagelse..."
-
-#~ msgid "Screencast converted."
-#~ msgstr "Skærmoptagelse konverteret."
-
-#~ msgid "Converting screencast..."
-#~ msgstr "Konverterer skærmoptagelse..."
-
-#~ msgid "Screencaster"
-#~ msgstr "Skærmoptager"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "Din skærmoptagelse blev sendt."
-
-#~ msgid "There was an error uploading."
-#~ msgstr "Der opstod en fejl under afsendelsen."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "Skærmoptagelse sendt."
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "Den er tilgængelig på adressen nedenfor:"
-
-#~ msgid "There was an error converting."
-#~ msgstr "Der opstod en fejl under konverteringen."
-
-#~ msgid "There was an error logging in."
-#~ msgstr "Der opstod en fejl under logind."
-
-#~ msgid "Combined ({w}x{h})"
-#~ msgstr "Kombineret ({w}x{h})"
-
-#~ msgid "Record Region"
-#~ msgstr "Optag område"
-
-#~ msgid "Select region by resizing the window"
-#~ msgstr "Vælg område ved at ændre størrelsen på vinduet"
-
-#~ msgid "Record setup"
-#~ msgstr "Gem opsætning"
-
-#~ msgid "Display {n} ({w}x{h})"
-#~ msgstr "Visning {n} ({w}x{h})"
-
-#~ msgid "Press ENTER to confirm or ESC to cancel."
-#~ msgstr "Tryk på ENTER for at bekræfte eller ESC for at annullere."
-
-#~ msgid "Recording will start in ..."
-#~ msgstr "Optagelse vil starte om ..."
-
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "Untitled_Screencast"
-#~ msgstr "unavngivet_skærmoptagelse"
-
-#~ msgid "Kazam Screencaster - Recording finished"
-#~ msgstr "Kazam skærmoptagelse - Optagelse færdig"

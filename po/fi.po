@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-06 05:01+0000\n"
-"X-Generator: Launchpad (build 16393)\n"
+"X-Launchpad-Export-Date: 2013-03-17 05:06+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -311,117 +311,3 @@ msgstr ""
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr "Tuntematon"
-
-#~ msgid "Close"
-#~ msgstr "Sulje"
-
-#~ msgid "Description"
-#~ msgstr "Kuvaus"
-
-#~ msgid "Keywords"
-#~ msgstr "Avainsanat"
-
-#~ msgid "Category"
-#~ msgstr "Luokka"
-
-#~ msgid "Private"
-#~ msgstr "Yksityinen"
-
-#~ msgid "There was an error logging in."
-#~ msgstr "Sisäänkirjautuessa tapahtui virhe."
-
-#~ msgid "Log-in completed."
-#~ msgstr "Sisäänkirjautuminen suoritettu."
-
-#~ msgid "Logging in..."
-#~ msgstr "Kirjaudutaan sisään..."
-
-#~ msgid "Title"
-#~ msgstr "Nimi"
-
-#~ msgid "Screencaster"
-#~ msgstr "Nauhoitin"
-
-#~ msgid "Screencast converted."
-#~ msgstr "Nauhoituksen muunnos on valmis."
-
-#~ msgid "Converting screencast..."
-#~ msgstr "Muunnetaan nauhoitusta..."
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "Kazam-nauhoitin"
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "Nauhoita video näyttösi tapahtumista"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "Nauhoituksesi on lähetetty onnistuneesti."
-
-#~ msgid "There was an error converting."
-#~ msgstr "Nauhoitusta muunnettaessa tapahtui virhe."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "Nauhoitus lähetetty."
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "Lähetetään nauhoitusta..."
-
-#~ msgid "There was an error uploading."
-#~ msgstr "Nauhoitusta lähettäessä tapahtui virhe."
-
-#~ msgid "Record"
-#~ msgstr "Nauhoita"
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "Se on saatavilla alla olevasta sijainnista:"
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "Nauhoita video työpöytäsi tapahtumista"
-
-#~ msgid "Framerate"
-#~ msgstr "Kuvanopeus"
-
-#~ msgid "Email"
-#~ msgstr "Sähköposti"
-
-#~ msgid "Recording will start in ..."
-#~ msgstr "Nauhoitus alkaa..."
-
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "Audio Source 2"
-#~ msgstr "Äänilähde 2"
-
-#~ msgid "Audio Source 1"
-#~ msgstr "Äänilähde 1"
-
-#~ msgid "Video Source"
-#~ msgstr "Videolähde"
-
-#~ msgid "Record Region"
-#~ msgstr "Nauhoita alue"
-
-#~ msgid "Record setup"
-#~ msgstr "Nauhoitusasetukset"
-
-#~ msgid "Press ENTER to confirm or ESC to cancel."
-#~ msgstr "Paina ENTER vahvistaaksesi tai ESC peruaksesi."
-
-#~ msgid "Combined ({w}x{h})"
-#~ msgstr "Yhdistetty ({w}x{h})"
-
-#~ msgid "Capture mouse"
-#~ msgstr "Sisällytä hiiren osoitin"
-
-#~ msgid "Display {n} ({w}x{h})"
-#~ msgstr "Näyttö {n} ({w}x{h})"
-
-#~ msgid "Untitled_Screencast"
-#~ msgstr "Nimetön_nauhoitus"
-
-#~ msgid "Kazam Screencaster - Recording finished"
-#~ msgstr "Kazam-nauhoitin - Nauhoitus valmistui"
-
-#~ msgid "Select region by resizing the window"
-#~ msgstr "Valitse alue muuttamalla ikkunan kokoa."

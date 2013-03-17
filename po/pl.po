@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-06 05:01+0000\n"
-"X-Generator: Launchpad (build 16393)\n"
+"X-Launchpad-Export-Date: 2013-03-17 05:06+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -311,114 +311,3 @@ msgstr ""
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr "Nieznany"
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "Kazam Screencaster"
-
-#~ msgid "Close"
-#~ msgstr "Zamknij"
-
-#~ msgid "Description"
-#~ msgstr "Opis"
-
-#~ msgid "Category"
-#~ msgstr "Kategoria"
-
-#~ msgid "Keywords"
-#~ msgstr "Słowa kluczowe"
-
-#~ msgid "Private"
-#~ msgstr "Prywatny"
-
-#~ msgid "Converting screencast..."
-#~ msgstr "Konwertowanie screencastu..."
-
-#~ msgid "Logging in..."
-#~ msgstr "Logowanie..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "Logowanie zakończone."
-
-#~ msgid "Screencaster"
-#~ msgstr "Screencaster"
-
-#~ msgid "Title"
-#~ msgstr "Tytuł"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "Screencast wysłany pomyślnie."
-
-#~ msgid "There was an error uploading."
-#~ msgstr "Wystąpił błąd podczas wysyłania."
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "Wysyłanie screencastu..."
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "Nagraj obraz z aktywności na ekranie"
-
-#~ msgid "There was an error logging in."
-#~ msgstr "Wystąpił błąd logowania."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "Screencast wysłany."
-
-#~ msgid "There was an error converting."
-#~ msgstr "Wystąpił błąd podczas konwersji."
-
-#~ msgid "Screencast converted."
-#~ msgstr "Screencast skonwertowany."
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "Dostępne w położeniu poniżej:"
-
-#~ msgid "Record"
-#~ msgstr "Nagrywaj"
-
-#~ msgid "Audio Source 2"
-#~ msgstr "Źródło dźwięku 2"
-
-#~ msgid "Audio Source 1"
-#~ msgstr "Źródło Dźwięku 1"
-
-#~ msgid "Video Source"
-#~ msgstr "Źródło Obrazu"
-
-#~ msgid "Capture mouse"
-#~ msgstr "Przechwycenie myszki"
-
-#~ msgid "Record Region"
-#~ msgstr "Obszar Nagrywania"
-
-#~ msgid "Framerate"
-#~ msgstr "Liczba klatek"
-
-#~ msgid "Kazam Screencaster - Recording finished"
-#~ msgstr "Screencaster Kazam - Nagrywanie ukończone"
-
-#~ msgid "Select region by resizing the window"
-#~ msgstr "Wybierz obszar przez zmianę rozmiaru okna"
-
-#~ msgid "Record setup"
-#~ msgstr "Ustawienia nagrywania"
-
-#~ msgid "Press ENTER to confirm or ESC to cancel."
-#~ msgstr "Naciśnij ENTER dla potwierdzenia lub ESC dla anulowania."
-
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "Recording will start in ..."
-#~ msgstr "Nagrywanie rozpocznie się za ..."
-
-#~ msgid "Combined ({w}x{h})"
-#~ msgstr "Razem ({sz}x{wys})"
-
-#~ msgid "Display {n} ({w}x{h})"
-#~ msgstr "obszar wyświetlania"
-
-#~ msgid "Untitled_Screencast"
-#~ msgstr "Nienazwany_Screencast"
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "Nagraj obraz aktywności swojego ekranu."

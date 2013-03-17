@@ -14,13 +14,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-06 05:01+0000\n"
-"X-Generator: Launchpad (build 16393)\n"
+"X-Launchpad-Export-Date: 2013-03-17 05:06+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
 msgid "Kazam"
-msgstr ""
+msgstr "Kazam"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Capture"
@@ -32,11 +32,11 @@ msgstr ""
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Sound from microphone"
-msgstr ""
+msgstr "Mikrofonoaren soinua"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Sound from speakers"
-msgstr ""
+msgstr "Bozgorailuaren soinua"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Mouse cursor"
@@ -311,72 +311,3 @@ msgstr ""
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr "Ezezaguna"
-
-#~ msgid "Audio Source 2"
-#~ msgstr "Audioaren jatorria 2"
-
-#~ msgid "Audio Source 1"
-#~ msgstr "Audioaren jatorria 1"
-
-#~ msgid "Video Source"
-#~ msgstr "Bideoaren jatorria"
-
-#~ msgid "Encoder type"
-#~ msgstr "Kodetze-mota"
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "Kazam pantaila-grabatzailea"
-
-#~ msgid "Countdown timer"
-#~ msgstr "Atzera kontua"
-
-#~ msgid "Record Region"
-#~ msgstr "Grabatu eremua"
-
-#~ msgid "Framerate"
-#~ msgstr "Fotograma-emaria"
-
-#~ msgid "Capture mouse"
-#~ msgstr "Grabatu sagua"
-
-#~ msgid "Close"
-#~ msgstr "Itxi"
-
-#~ msgid "Screencaster"
-#~ msgstr "Pantaila-grabatzailea"
-
-#~ msgid "Record"
-#~ msgstr "Grabatu"
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "Grabatu zure pantailako jardueraren bideoa"
-
-#~ msgid "Combined ({w}x{h})"
-#~ msgstr "Konbinatua ({w}x{h})"
-
-#~ msgid "Display {n} ({w}x{h})"
-#~ msgstr "{n}. pantaila ({w}x{h})"
-
-#~ msgid "Kazam Screencaster - Recording finished"
-#~ msgstr "Kazam pantaila-grabatzailea - Grabaketa amaitu da"
-
-#~ msgid "Select region by resizing the window"
-#~ msgstr "Hautatu eremua leihoaren tamaina aldatuz"
-
-#~ msgid "Record setup"
-#~ msgstr "Konfiguratu grabaketa"
-
-#~ msgid "Recording will start in ..."
-#~ msgstr "Grabaketa hastear da ..."
-
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "Untitled_Screencast"
-#~ msgstr "Izenik gabeko grabaketa"
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "Grabatu zure pantailako jardueraren bideoa."
-
-#~ msgid "Press ENTER to confirm or ESC to cancel."
-#~ msgstr "Sakatu SARTU tekla baieztatzeko edo IHES tekla ezeztatzeko."
