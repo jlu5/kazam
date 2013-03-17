@@ -31,7 +31,7 @@ from kazam.backend.prefs import *
 from kazam.backend.constants import *
 
 def SaveDialog(title, old_path, codec, main_mode=MODE_SCREENCAST):
-    logger.debug("Save dialog called.")
+    logger.debug("Save dialog called with path: {0}".format(old_path))
     dialog = Gtk.FileChooserDialog(title, None,
                                    Gtk.FileChooserAction.SAVE,
                                    (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
@@ -48,11 +48,14 @@ def SaveDialog(title, old_path, codec, main_mode=MODE_SCREENCAST):
 
     if old_path and os.path.isdir(old_path):
             dialog.set_current_folder(old_path)
+            logger.debug("Previous path is a valid destination")
     else:
         if main_mode == MODE_SCREENCAST:
             dialog.set_current_folder(prefs.video_dest)
+            logger.debug("Previous path invalid, setting it to: {0}".format(prefs.video_dest))
         elif main_mode == MODE_SCREENSHOT:
             dialog.set_current_folder(prefs.picture_dest)
+            logger.debug("Previous path invalid, setting it to: {0}".format(prefs.picture_dest))
 
 
     dialog.show_all()

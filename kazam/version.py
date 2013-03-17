@@ -1,4 +1,4 @@
-VERSION='1.4.0-0ubuntu1'
+VERSION='1.4.1-0ubuntu1'
 CODENAME='NCC-2000'
 DISTRO='Ubuntu'
 RELEASE='13.04'

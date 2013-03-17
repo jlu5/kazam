@@ -172,12 +172,16 @@ class Prefs():
             self.video_dest = expanduser("~")
 
         if 'XDG_PICTURES_DIR' in paths and os.path.isdir(paths['XDG_PICTURES_DIR']):
+            self.logger.debug("XDG_PICTURES is a directory and accessible")
             self.picture_dest = paths['XDG_PICTURES_DIR']
         elif 'XDG_DOCUMENTS_DIR' in paths and os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
+            self.logger.debug("XDG_DOCUMENTS is a directory and accessible")
             self.picture_dest = paths['XDG_DOCUMENTS_DIR']
         elif 'HOME_DIR' in paths and os.path.isdir(paths['HOME_DIR']):
+            self.logger.debug("HOME_DIR is a directory and accessible")
             self.picture_dest = paths['HOME_DIR']
         else:
+            self.logger.debug("Fallback to ~ for save files.")
             self.picture_dest = expanduser("~")
 
     def get_sound_files(self):
