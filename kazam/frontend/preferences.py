@@ -166,7 +166,7 @@ class Preferences(GObject.GObject):
 
         self.entry_autosave_video.set_text(prefs.autosave_video_file)
 
-        self.filechooser_video.set_current_folder(prefs.video_dest)
+        self.filechooser_video.set_current_folder(prefs.autosave_video_dir)
 
         if prefs.shutter_sound:
             self.switch_shutter_sound.set_active(True)
@@ -189,7 +189,7 @@ class Preferences(GObject.GObject):
 
         self.entry_autosave_picture.set_text(prefs.autosave_picture_file)
 
-        self.filechooser_picture.set_current_folder(prefs.picture_dest)
+        self.filechooser_picture.set_current_folder(prefs.autosave_picture_dir)
 
         #
         # Crappy code below ... Can this be done some other way?
@@ -319,8 +319,8 @@ class Preferences(GObject.GObject):
             self.entry_autosave_video.set_sensitive(False)
 
     def cb_filechooser_video(self, widget):
-        prefs.video_dest = self.filechooser_video.get_current_folder()
-        logger.debug("Video folder set to: {0}".format(prefs.video_dest))
+        prefs.autosave_video_dir = self.filechooser_video.get_current_folder()
+        logger.debug("Autosave video folder set to: {0}".format(prefs.autosave_video_dir))
 
     def cb_entry_autosave_video(self, widget):
         prefs.autosave_video_file = widget.get_text()
@@ -355,8 +355,8 @@ class Preferences(GObject.GObject):
             self.entry_autosave_picture.set_sensitive(False)
 
     def cb_filechooser_picture(self, widget):
-        prefs.picture_dest = self.filechooser_picture.get_current_folder()
-        logger.debug("Picture folder set to: {0}".format(prefs.picture_dest))
+        prefs.autosave_picture_dir = self.filechooser_picture.get_current_folder()
+        logger.debug("Autosave picture folder set to: {0}".format(prefs.autosave_picture_dir))
 
     def cb_entry_autosave_picture(self, widget):
         prefs.autosave_picture_file = widget.get_text()

@@ -82,9 +82,11 @@ class Prefs():
         self.pa_q = None
         self.framerate = 15
         self.autosave_video = False
+        self.autosave_video_dir = None
         self.autosave_video_file = None
 
         self.autosave_picture = False
+        self.autosave_picture_dir = None
         self.autosave_picture_file = None
         self.shutter_sound = True
         self.shutter_type = 0
@@ -215,9 +217,11 @@ class Prefs():
         self.countdown_splash = self.config.getboolean("main", "countdown_splash")
 
         self.autosave_video = self.config.getboolean("main", "autosave_video")
+        self.autosave_video_dir = self.config.get("main", "autosave_video_dir")
         self.autosave_video_file = self.config.get("main", "autosave_video_file")
 
         self.autosave_picture = self.config.getboolean("main", "autosave_picture")
+        self.autosave_picture_dir = self.config.get("main", "autosave_picture_dir")
         self.autosave_picture_file = self.config.get("main", "autosave_picture_file")
 
         self.shutter_sound = self.config.getboolean("main", "shutter_sound")
@@ -266,8 +270,10 @@ class Prefs():
         self.config.set("main", "codec", self.codec)
         self.config.set("main", "framerate", self.framerate)
         self.config.set("main", "autosave_video", self.autosave_video)
+        self.config.set("main", "autosave_video_dir", self.autosave_video_dir)
         self.config.set("main", "autosave_video_file", self.autosave_video_file)
         self.config.set("main", "autosave_picture", self.autosave_picture)
+        self.config.set("main", "autosave_picture_dir", self.autosave_picture_dir)
         self.config.set("main", "autosave_picture_file", self.autosave_picture_file)
         self.config.set("main", "shutter_sound", self.shutter_sound)
         self.config.set("main", "shutter_type", self.shutter_type)
