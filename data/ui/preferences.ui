@@ -189,7 +189,7 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
+                    <property name="top_attach">3</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -208,6 +208,48 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
+                    <property name="top_attach">3</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparator" id="separator3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">7</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparator" id="separator4">
+                    <property name="width_request">5</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">7</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparator" id="separator5">
+                    <property name="width_request">1</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">7</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">2</property>
                     <property name="top_attach">2</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
@@ -285,6 +327,7 @@ audio-volume-medium-symbolic</property>
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Set the number of frames per second</property>
                     <property name="tooltip_text" translatable="yes">Set the number of frames per second</property>
+                    <property name="margin_right">230</property>
                     <property name="max_length">2</property>
                     <property name="invisible_char">•</property>
                     <property name="invisible_char_set">True</property>
@@ -317,6 +360,7 @@ audio-volume-medium-symbolic</property>
                   <object class="GtkComboBox" id="combobox_codec">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin_right">200</property>
                     <signal name="changed" handler="cb_codec_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -331,6 +375,7 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
+                    <property name="margin_left">5</property>
                     <property name="margin_right">5</property>
                     <property name="margin_top">10</property>
                     <property name="label" translatable="yes">Automatic file saving:</property>
@@ -338,7 +383,22 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">3</property>
+                    <property name="top_attach">4</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="switch_autosave_video">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                    <property name="margin_top">10</property>
+                    <signal name="notify::active" handler="cb_switch_autosave_video" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">4</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -354,7 +414,27 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">4</property>
+                    <property name="top_attach">5</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFileChooserButton" id="filechooser_video">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_right">140</property>
+                    <property name="orientation">vertical</property>
+                    <property name="action">select-folder</property>
+                    <property name="local_only">False</property>
+                    <property name="title" translatable="yes">Select a directory</property>
+                    <property name="width_chars">20</property>
+                    <signal name="file-set" handler="cb_filechooser_video" swapped="no"/>
+                    <signal name="current-folder-changed" handler="cb_filechooser_video" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">5</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -370,41 +450,7 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">5</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSwitch" id="switch_autosave_video">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="halign">start</property>
-                    <property name="margin_top">10</property>
-                    <signal name="notify::active" handler="cb_switch_autosave_video" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">3</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkFileChooserButton" id="filechooser_video">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
-                    <property name="action">select-folder</property>
-                    <property name="local_only">False</property>
-                    <property name="title" translatable="yes">Select a directory</property>
-                    <property name="width_chars">20</property>
-                    <signal name="file-set" handler="cb_filechooser_video" swapped="no"/>
-                    <signal name="current-folder-changed" handler="cb_filechooser_video" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">4</property>
+                    <property name="top_attach">6</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -413,10 +459,10 @@ audio-volume-medium-symbolic</property>
                   <object class="GtkEntry" id="entry_autosave_video">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="margin_right">140</property>
                     <property name="margin_bottom">5</property>
                     <property name="max_length">40</property>
                     <property name="invisible_char">•</property>
-                    <property name="text" translatable="yes">Kazam_screencast</property>
                     <property name="invisible_char_set">True</property>
                     <property name="caps_lock_warning">False</property>
                     <signal name="changed" handler="cb_entry_autosave_video" swapped="no"/>
@@ -424,7 +470,34 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">5</property>
+                    <property name="top_attach">6</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparator" id="separator1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">7</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">3</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparator" id="separator2">
+                    <property name="width_request">322</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">7</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">3</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -470,7 +543,7 @@ audio-volume-medium-symbolic</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="margin_right">5</property>
-                <property name="margin_top">2</property>
+                <property name="margin_top">5</property>
                 <property name="label" translatable="yes">Shutter sound:</property>
                 <property name="justify">right</property>
               </object>
@@ -486,7 +559,7 @@ audio-volume-medium-symbolic</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="halign">start</property>
-                <property name="margin_top">2</property>
+                <property name="margin_top">5</property>
                 <signal name="notify::active" handler="cb_switch_shutter_sound" swapped="no"/>
               </object>
               <packing>
@@ -516,6 +589,7 @@ audio-volume-medium-symbolic</property>
               <object class="GtkComboBoxText" id="combobox_shutter_type">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_right">215</property>
                 <property name="entry_text_column">0</property>
                 <property name="id_column">1</property>
                 <signal name="changed" handler="cb_shutter_type" swapped="no"/>
@@ -532,6 +606,7 @@ audio-volume-medium-symbolic</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
+                <property name="margin_left">5</property>
                 <property name="margin_right">5</property>
                 <property name="margin_top">10</property>
                 <property name="label" translatable="yes">Automatic file saving:</property>
@@ -539,7 +614,7 @@ audio-volume-medium-symbolic</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
+                <property name="top_attach">3</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
@@ -554,45 +629,7 @@ audio-volume-medium-symbolic</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">2</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFileChooserButton" id="filechooser_picture">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <property name="action">select-folder</property>
-                <property name="local_only">False</property>
-                <property name="title" translatable="yes">Select a directory</property>
-                <property name="width_chars">20</property>
-                <signal name="file-set" handler="cb_filechooser_picture" swapped="no"/>
-                <signal name="current-folder-changed" handler="cb_filechooser_picture" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
                 <property name="top_attach">3</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_autosave_picture">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="margin_bottom">5</property>
-                <property name="max_length">40</property>
-                <property name="invisible_char">•</property>
-                <property name="text" translatable="yes">Kazam_screencast</property>
-                <property name="invisible_char_set">True</property>
-                <property name="caps_lock_warning">False</property>
-                <signal name="activate" handler="cb_entry_autosave_picture" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">4</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
@@ -608,7 +645,27 @@ audio-volume-medium-symbolic</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
+                <property name="top_attach">4</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFileChooserButton" id="filechooser_picture">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_right">140</property>
+                <property name="orientation">vertical</property>
+                <property name="action">select-folder</property>
+                <property name="local_only">False</property>
+                <property name="title" translatable="yes">Select a directory</property>
+                <property name="width_chars">20</property>
+                <signal name="file-set" handler="cb_filechooser_picture" swapped="no"/>
+                <signal name="current-folder-changed" handler="cb_filechooser_picture" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">4</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
@@ -624,7 +681,54 @@ audio-volume-medium-symbolic</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
+                <property name="top_attach">5</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="entry_autosave_picture">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="margin_right">140</property>
+                <property name="margin_bottom">5</property>
+                <property name="max_length">40</property>
+                <property name="invisible_char">•</property>
+                <property name="text" translatable="yes">Kazam_screencast</property>
+                <property name="invisible_char_set">True</property>
+                <property name="caps_lock_warning">False</property>
+                <signal name="activate" handler="cb_entry_autosave_picture" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">5</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparator" id="separator6">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">7</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
+                <property name="width">1</property>
+                <property name="height">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparator" id="separator7">
+                <property name="width_request">322</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">7</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">2</property>
                 <property name="width">1</property>
                 <property name="height">1</property>
               </packing>
