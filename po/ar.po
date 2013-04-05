@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-20 05:08+0000\n"
-"X-Generator: Launchpad (build 16491)\n"
+"X-Launchpad-Export-Date: 2013-03-25 04:48+0000\n"
+"X-Generator: Launchpad (build 16540)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -78,11 +78,11 @@ msgstr "لاقط الصوت:"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
-msgstr ""
+msgstr "شاشة بدء العد التنازلي:"
 
 #: ../data/ui/preferences.ui.h:6
 msgid "Toggle display of countdown splash"
-msgstr ""
+msgstr "بدل شاشة العد التنازلي"
 
 #: ../data/ui/preferences.ui.h:7
 msgid "General"
@@ -311,123 +311,3 @@ msgstr ""
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr "مجهول"
-
-#~ msgid "Description"
-#~ msgstr "الوصف"
-
-#~ msgid "Private"
-#~ msgstr "خاص"
-
-#~ msgid "Title"
-#~ msgstr "العنوان"
-
-#~ msgid "Category"
-#~ msgstr "القسم"
-
-#~ msgid "Screencaster"
-#~ msgstr "مسجل الشاشة"
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "سجل فيديو لنشاط على شاشتك"
-
-#~ msgid "Keywords"
-#~ msgstr "كلمات مفتاحية"
-
-#~ msgid "Screencast converted."
-#~ msgstr "تم التحويل."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "رُفِع التسجيل."
-
-#~ msgid "Encoder type"
-#~ msgstr "نوع المرمّز"
-
-#~ msgid "Audio Source 2"
-#~ msgstr "مصدر الصوت 2"
-
-#~ msgid "Audio Source 1"
-#~ msgstr "مصدر الصوت 1"
-
-#~ msgid "Video Source"
-#~ msgstr "مصدر الفيديو"
-
-#~ msgid "Countdown timer"
-#~ msgstr "مؤقت العد التنازلي"
-
-#~ msgid "Record Region"
-#~ msgstr "منطقة التسجيل"
-
-#~ msgid "Capture mouse"
-#~ msgstr "التقط الفأرة"
-
-#~ msgid "Framerate"
-#~ msgstr "معدّل الإطارات"
-
-#~ msgid "Close"
-#~ msgstr "أغلق"
-
-#~ msgid "Record"
-#~ msgstr "سجّل"
-
-#~ msgid "Kazam Screencaster - Recording finished"
-#~ msgstr "مسجّل الشاشة كازام - انتهى التسجيل"
-
-#~ msgid "Recording will start in ..."
-#~ msgstr "التسجيل سيبدأ خلال ..."
-
-#~ msgid "Record setup"
-#~ msgstr "إعداد التسجيل"
-
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "لتسجيل فيديو لنشاط على شاشتك."
-
-#~ msgid "Press ENTER to confirm or ESC to cancel."
-#~ msgstr "اضغط ENTER للتأكيد أو ESC للإلغاء."
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "مسجل الشاشة \"كازام\""
-
-#~ msgid "Select region by resizing the window"
-#~ msgstr "حدد منطقة عن طريق تحجيم هذه النافذة"
-
-#~ msgid "Display {n} ({w}x{h})"
-#~ msgstr "شاشة عرض {n} ({w}x{h})"
-
-#~ msgid "Combined ({w}x{h})"
-#~ msgstr "مُجَمَّع ({w}x{h})"
-
-#~ msgid "Email"
-#~ msgstr "البريد الإلكتروني"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "تم رفع تسجيلك بنجاح."
-
-#~ msgid "There was an error converting."
-#~ msgstr "حدث خطأ أثناء التحويل."
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "يرفع التسجيل..."
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "متوفر في المكان التالي:"
-
-#~ msgid "There was an error logging in."
-#~ msgstr "حدث خطأ أثناء الولوج."
-
-#~ msgid "Converting screencast..."
-#~ msgstr "يحوّل التسجيل..."
-
-#~ msgid "Logging in..."
-#~ msgstr "يلج..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "اكتمل الولوج."
-
-#~ msgid "There was an error uploading."
-#~ msgstr "حدث خطأ أثناء الرفع."
-
-#~ msgid "Untitled_Screencast"
-#~ msgstr "ت_سجيل بلا عنوان"

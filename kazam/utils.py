@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 import os
+import math
 import logging
 from gi.repository import Gst
 from kazam.backend.constants import *
@@ -30,9 +31,9 @@ Gst.init(None)
 logger = logging.getLogger("Utils")
 
 
-def get_next_filename(dir, prefix, ext):
+def get_next_filename(sdir, prefix, ext):
     for cnt in range(0, 99999):
-        fname = os.path.join(dir, "{0}_{1}{2}".format(prefix,
+        fname = os.path.join(sdir, "{0}_{1}{2}".format(prefix,
                                                        str(cnt).zfill(5),
                                                        ext))
         if os.path.isfile(fname):
@@ -71,3 +72,8 @@ def get_codec(codec):
         if c[0] == codec:
             return c
     return None
+
+
+def in_circle(center_x, center_y, radius, x, y):
+    dist = math.sqrt((center_x - x) ** 2 + (center_y - y) ** 2)
+    return dist <= radius

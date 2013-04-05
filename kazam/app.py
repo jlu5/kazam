@@ -596,7 +596,7 @@ class KazamApp(GObject.GObject):
     def cb_flush_done(self, widget):
         if self.main_mode == MODE_SCREENCAST and prefs.autosave_video:
             logger.debug("Autosaving enabled.")
-            fname = get_next_filename(prefs.video_dest,
+            fname = get_next_filename(prefs.autosave_video_dir,
                                       prefs.autosave_video_file,
                                       CODEC_LIST[prefs.codec][3])
 
@@ -633,7 +633,9 @@ class KazamApp(GObject.GObject):
             self.indicator.menuitem_quit.set_sensitive(True)
 
             if prefs.autosave_picture:
-                fname = get_next_filename(prefs.picture_dest, prefs.autosave_picture_file, ".png")
+                fname = get_next_filename(prefs.autosave_picture_dir,
+                                          prefs.autosave_picture_file,
+                                          ".png")
                 self.grabber.autosave(fname)
             else:
                 self.grabber.save_capture(self.old_pic_path)
@@ -682,7 +684,7 @@ class KazamApp(GObject.GObject):
         (command, arg_list) = data
         arg_list.insert(0, command)
         #
-        # Even if we're not autosaving get the next autosave file and move currently recorded file there.
+        # Use the current autosave filename for edit file.
         #
         fname = get_next_filename(prefs.video_dest,
                                   prefs.autosave_video_file,

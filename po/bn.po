@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-06 05:01+0000\n"
-"X-Generator: Launchpad (build 16393)\n"
+"X-Launchpad-Export-Date: 2013-03-25 04:48+0000\n"
+"X-Generator: Launchpad (build 16540)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -309,60 +309,3 @@ msgstr ""
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr ""
-
-#~ msgid "Close"
-#~ msgstr "বন্ধ"
-
-#~ msgid "Description"
-#~ msgstr "বর্ণনা"
-
-#~ msgid "Category"
-#~ msgstr "শ্রেণীবিভাগ"
-
-#~ msgid "Keywords"
-#~ msgstr "কীওয়ার্ড সমূহ"
-
-#~ msgid "Private"
-#~ msgstr "ব্যক্তিগত"
-
-#~ msgid "Converting screencast..."
-#~ msgstr "স্ক্রীনকাস্ট কনভার্ট করা হচ্ছে..."
-
-#~ msgid "Logging in..."
-#~ msgstr "লগইন করা হচ্ছে..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "লগইন সম্পুর্ণ।"
-
-#~ msgid "Title"
-#~ msgstr "শিরোনাম"
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "কাজ়্যাম স্ক্রীণকাস্টার"
-
-#~ msgid "There was an error logging in."
-#~ msgstr "লগইন করায় গলদ হয়েছে।"
-
-#~ msgid "There was an error converting."
-#~ msgstr "কনভার্ট করায় গলদ হয়েছে।"
-
-#~ msgid "Screencast converted."
-#~ msgstr "স্ক্রীণকাস্ট কনভার্ট করা সম্পুর্ণ।"
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "স্ক্রীণের কার্যকলাপ রেকর্ড করুন"
-
-#~ msgid "Screencaster"
-#~ msgstr "স্ক্রীণকাস্টার"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "স্ক্রীণকাস্ট আপলোড করা সফল হয়েছে।"
-
-#~ msgid "There was an error uploading."
-#~ msgstr "স্ক্রীণকাস্ট আপলোড করায় গলদ হয়েছে।"
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "স্ক্রীণকাস্ট আপলোড সম্পুর্ণ।"
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "স্ক্রীণকাস্ট আপলোড করা হচ্ছে..."

@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-07 05:10+0000\n"
-"X-Generator: Launchpad (build 16477)\n"
+"X-Launchpad-Export-Date: 2013-03-25 04:48+0000\n"
+"X-Generator: Launchpad (build 16540)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -312,69 +312,3 @@ msgstr "Save capture"
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr "Unknown"
-
-#~ msgid "Close"
-#~ msgstr "Close"
-
-#~ msgid "Description"
-#~ msgstr "Description"
-
-#~ msgid "Category"
-#~ msgstr "Category"
-
-#~ msgid "Keywords"
-#~ msgstr "Keywords"
-
-#~ msgid "Private"
-#~ msgstr "Private"
-
-#~ msgid "Title"
-#~ msgstr "Title"
-
-#~ msgid "Logging in..."
-#~ msgstr "Logging in..."
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "Record a video of activity on your screen"
-
-#~ msgid "There was an error logging in."
-#~ msgstr "There was an error logging in."
-
-#~ msgid "There was an error uploading."
-#~ msgstr "There was an error uploading."
-
-#~ msgid "There was an error converting."
-#~ msgstr "There was an error converting."
-
-#~ msgid "Log-in completed."
-#~ msgstr "Log-in completed."
-
-#~ msgid "Record"
-#~ msgstr "Record"
-
-#~ msgid "Converting screencast..."
-#~ msgstr "Converting screencast..."
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "Kazam Screencaster"
-
-#~ msgid "Screencaster"
-#~ msgstr "Screencaster"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "Your screencast uploaded successfully."
-
-#~ msgid "Screencast converted."
-#~ msgstr "Screencast converted."
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "Screencast uploaded."
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "Uploading screencast..."
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "It is available at the following location:"
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "Record a video of activity on your screen."
