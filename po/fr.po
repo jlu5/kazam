@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-18 05:02+0000\n"
-"X-Generator: Launchpad (build 16491)\n"
+"X-Launchpad-Export-Date: 2013-03-25 04:48+0000\n"
+"X-Generator: Launchpad (build 16540)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -118,19 +118,19 @@ msgstr "Sélectionner un répertoire"
 
 #: ../data/ui/preferences.ui.h:15
 msgid "Kazam_screencast"
-msgstr ""
+msgstr "Kazam_screencast"
 
 #: ../data/ui/preferences.ui.h:17
 msgid "Shutter sound:"
-msgstr ""
+msgstr "Son de l'obturateur :"
 
 #: ../data/ui/preferences.ui.h:18
 msgid "Shutter type:"
-msgstr ""
+msgstr "Type d'obturateur :"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencast and Screenshot tool"
-msgstr ""
+msgstr "Outil de screencast et de capture d'écran"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video or take a screenshot of your screen"
@@ -138,7 +138,7 @@ msgstr "Enregistrer une vidéo ou prendre une capture d'écran de votre écran"
 
 #: ../data/kazam.desktop.in.h:4
 msgid "screenshot;screencast;videorecord;desktop recording;"
-msgstr ""
+msgstr "capture d'écran;screencast;videorecord;enregistrement du bureau;"
 
 #: ../data/kazam.desktop.in.h:5
 msgid "Take a screenshot of entire workspace"
@@ -158,7 +158,7 @@ msgstr "Préférences"
 
 #: ../kazam/app.py:57 ../kazam/app.py:66
 msgid "Gstreamer 1.0 or higher required, bailing out."
-msgstr ""
+msgstr "Gstreamer 1.0 ou plus récent requis."
 
 #: ../kazam/app.py:164
 msgid "Record a video of your desktop."
@@ -174,7 +174,7 @@ msgstr "Plein écran"
 
 #: ../kazam/app.py:200
 msgid "Capture contents of the current screen."
-msgstr ""
+msgstr "Capture le contenu de l'écran actif."
 
 #: ../kazam/app.py:211
 msgid "All Screens"
@@ -182,7 +182,7 @@ msgstr "Tous les écrans"
 
 #: ../kazam/app.py:212
 msgid "Capture contents of all of your screens."
-msgstr ""
+msgstr "Capture le contenu de tous les écrans."
 
 #: ../kazam/app.py:224
 msgid "Window"
@@ -190,7 +190,7 @@ msgstr "Fenêtre"
 
 #: ../kazam/app.py:225
 msgid "Capture contents of a single window."
-msgstr ""
+msgstr "Capture le contenu d'une fenêtre spécifique."
 
 #: ../kazam/app.py:236
 msgid "Area"
@@ -311,123 +311,3 @@ msgstr ""
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
 msgstr "Inconnu"
-
-#~ msgid "Kazam Screencaster"
-#~ msgstr "Capture vidéo Kazam"
-
-#~ msgid "Close"
-#~ msgstr "Fermer"
-
-#~ msgid "Description"
-#~ msgstr "Description"
-
-#~ msgid "Category"
-#~ msgstr "Catégorie"
-
-#~ msgid "Private"
-#~ msgstr "Privé"
-
-#~ msgid "Keywords"
-#~ msgstr "Mots-clés"
-
-#~ msgid "There was an error logging in."
-#~ msgstr "Erreur d'identification."
-
-#~ msgid "Screencaster"
-#~ msgstr "Enregistreur d'écran"
-
-#~ msgid "Title"
-#~ msgstr "Titre"
-
-#~ msgid "Logging in..."
-#~ msgstr "Authentification..."
-
-#~ msgid "Log-in completed."
-#~ msgstr "Authentification terminé"
-
-#~ msgid "Screencast uploaded."
-#~ msgstr "Screencast transféré."
-
-#~ msgid "Uploading screencast..."
-#~ msgstr "Transfert du screencast…"
-
-#~ msgid "Converting screencast..."
-#~ msgstr "Conversion de la capture vidéo"
-
-#~ msgid "Screencast converted."
-#~ msgstr "Capture vidéo convertie"
-
-#~ msgid "Your screencast has uploaded successfully."
-#~ msgstr "Votre capture vidéo a été chargée avec succès"
-
-#~ msgid "There was an error uploading."
-#~ msgstr "Une erreur s'est produite durant le chargement"
-
-#~ msgid "It is available at the location below:"
-#~ msgstr "Disponible à l'emplacement suivant :"
-
-#~ msgid "Countdown timer"
-#~ msgstr "Compte à rebours"
-
-#~ msgid "Audio Source 2"
-#~ msgstr "Source Audio 2"
-
-#~ msgid "Audio Source 1"
-#~ msgstr "Source Audio 1"
-
-#~ msgid "Video Source"
-#~ msgstr "Source Vidéo"
-
-#~ msgid "Record setup"
-#~ msgstr "Configuration de l'enregistrement"
-
-#~ msgid "Kazam Screencaster - Recording finished"
-#~ msgstr "Kazam Screencaster - Enregistrement terminé"
-
-#~ msgid "Encoder type"
-#~ msgstr "Type d'encodeur"
-
-#~ msgid "Record"
-#~ msgstr "Démarrer l'enregistrement"
-
-#~ msgid "There was an error converting."
-#~ msgstr "Une erreur est survenue durant la conversion."
-
-#~ msgid "Record a video of activity on your screen."
-#~ msgstr "Enregistrer une vidéo de votre écran."
-
-#~ msgid "Capture mouse"
-#~ msgstr "Capturer la souris"
-
-#~ msgid "Press ENTER to confirm or ESC to cancel."
-#~ msgstr "Appuyez sur Entrée pour confirmer or Echap pour annuler."
-
-#~ msgid "Recording will start in ..."
-#~ msgstr "L'enregistrement débutera dans ..."
-
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "Record a video of activity on your screen"
-#~ msgstr "Enregistrer une vidéo de votre écran"
-
-#~ msgid "Untitled_Screencast"
-#~ msgstr "Capture-vidéo_sanstitre"
-
-#~ msgid "Display {n} ({w}x{h})"
-#~ msgstr "Moniteur vidéo {n} ({w}x{h})"
-
-#~ msgid "Select region by resizing the window"
-#~ msgstr "Sélectionnez la zone d'enregitrement en redimensionnant la fenêtre"
-
-#~ msgid "Combined ({w}x{h})"
-#~ msgstr "Par défaut ({w}x{h})"
-
-#~ msgid "Framerate"
-#~ msgstr "Cadence des images"
-
-#~ msgid "Email"
-#~ msgstr "Email"
-
-#~ msgid "Record Region"
-#~ msgstr "Zone d'enregistrement"
