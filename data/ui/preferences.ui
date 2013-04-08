@@ -20,13 +20,20 @@
   </object>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
+    <property name="halign">start</property>
+    <property name="valign">start</property>
     <property name="title" translatable="yes">Kazam Preferences</property>
     <property name="resizable">False</property>
+    <property name="window_position">mouse</property>
+    <property name="default_width">200</property>
+    <property name="gravity">south-east</property>
     <signal name="delete-event" handler="cb_delete_event" swapped="no"/>
     <child>
       <object class="GtkNotebook" id="notebook1">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
+        <property name="halign">start</property>
+        <property name="valign">start</property>
         <property name="margin_left">15</property>
         <property name="margin_right">15</property>
         <property name="margin_top">15</property>
@@ -35,29 +42,37 @@
           <object class="GtkBox" id="box1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">5</property>
             <child>
-              <object class="GtkAlignment" id="alignment1">
+              <object class="GtkGrid" id="grid6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="bottom_padding">30</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkGrid" id="grid1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="margin_left">40</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">10</property>
                 <property name="row_spacing">5</property>
+                <child>
+                  <object class="GtkLabel" id="label5">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="xpad">5</property>
+                    <property name="label" translatable="yes">Microphone:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
                 <child>
                   <object class="GtkLabel" id="label4">
                     <property name="visible">True</property>
@@ -69,7 +84,35 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="combobox_audio">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="popup_fixed_width">False</property>
+                    <signal name="changed" handler="cb_audio_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="combobox_audio2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="popup_fixed_width">False</property>
+                    <signal name="changed" handler="cb_audio2_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -103,22 +146,6 @@ audio-volume-medium-symbolic</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label5">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="xpad">5</property>
-                    <property name="label" translatable="yes">Microphone:</property>
-                    <property name="justify">right</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkVolumeButton" id="volumebutton_audio2">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -146,36 +173,33 @@ audio-volume-medium-symbolic</property>
                     <property name="height">1</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkComboBox" id="combobox_audio">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="popup_fixed_width">False</property>
-                    <signal name="changed" handler="cb_audio_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkComboBox" id="combobox_audio2">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="popup_fixed_width">False</property>
-                    <signal name="changed" handler="cb_audio2_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparator" id="separator1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid" id="grid1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="row_spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="label6">
                     <property name="visible">True</property>
@@ -189,7 +213,7 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">3</property>
+                    <property name="top_attach">0</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -208,61 +232,16 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">3</property>
+                    <property name="top_attach">0</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
-                </child>
-                <child>
-                  <object class="GtkSeparator" id="separator3">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">7</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSeparator" id="separator4">
-                    <property name="width_request">5</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">7</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSeparator" id="separator5">
-                    <property name="width_request">1</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_right">5</property>
-                    <property name="margin_top">7</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">2</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <placeholder/>
                 </child>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
@@ -281,28 +260,20 @@ audio-volume-medium-symbolic</property>
           <object class="GtkBox" id="box2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="margin_left">5</property>
+            <property name="margin_right">5</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">5</property>
-            <child>
-              <object class="GtkAlignment" id="alignment2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="bottom_padding">30</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
             <child>
               <object class="GtkGrid" id="grid4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="margin_left">55</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
                 <property name="row_spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="label7">
@@ -327,7 +298,7 @@ audio-volume-medium-symbolic</property>
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Set the number of frames per second</property>
                     <property name="tooltip_text" translatable="yes">Set the number of frames per second</property>
-                    <property name="margin_right">230</property>
+                    <property name="margin_right">426</property>
                     <property name="max_length">2</property>
                     <property name="invisible_char">•</property>
                     <property name="invisible_char_set">True</property>
@@ -351,7 +322,7 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
+                    <property name="top_attach">1</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -360,16 +331,43 @@ audio-volume-medium-symbolic</property>
                   <object class="GtkComboBox" id="combobox_codec">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_right">200</property>
+                    <property name="margin_right">400</property>
                     <signal name="changed" handler="cb_codec_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
+                    <property name="top_attach">1</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
                 </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparator" id="separator2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid" id="grid5">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="row_spacing">5</property>
                 <child>
                   <object class="GtkLabel" id="label8">
                     <property name="visible">True</property>
@@ -383,7 +381,7 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">4</property>
+                    <property name="top_attach">0</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -398,7 +396,7 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">4</property>
+                    <property name="top_attach">0</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -414,7 +412,7 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">5</property>
+                    <property name="top_attach">1</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -423,7 +421,9 @@ audio-volume-medium-symbolic</property>
                   <object class="GtkFileChooserButton" id="filechooser_video">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_right">140</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="margin_right">300</property>
                     <property name="orientation">vertical</property>
                     <property name="action">select-folder</property>
                     <property name="local_only">False</property>
@@ -434,7 +434,7 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">5</property>
+                    <property name="top_attach">1</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -450,7 +450,7 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">6</property>
+                    <property name="top_attach">2</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
@@ -459,6 +459,8 @@ audio-volume-medium-symbolic</property>
                   <object class="GtkEntry" id="entry_autosave_video">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
                     <property name="margin_right">140</property>
                     <property name="margin_bottom">5</property>
                     <property name="max_length">40</property>
@@ -470,60 +472,29 @@ audio-volume-medium-symbolic</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="top_attach">6</property>
+                    <property name="top_attach">2</property>
                     <property name="width">1</property>
                     <property name="height">1</property>
                   </packing>
-                </child>
-                <child>
-                  <object class="GtkSeparator" id="separator1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">7</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">3</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSeparator" id="separator2">
-                    <property name="width_request">322</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">7</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">3</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
                 </child>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="position">1</property>
+            <property name="tab_fill">False</property>
           </packing>
         </child>
         <child type="tab">
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">start</property>
             <property name="label" translatable="yes">Screencast</property>
           </object>
           <packing>
@@ -532,205 +503,227 @@ audio-volume-medium-symbolic</property>
           </packing>
         </child>
         <child>
-          <object class="GtkGrid" id="grid6">
+          <object class="GtkBox" id="box3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">start</property>
             <property name="margin_left">5</property>
-            <property name="row_spacing">5</property>
+            <property name="margin_right">5</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkLabel" id="label15">
+              <object class="GtkGrid" id="grid2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="margin_right">5</property>
-                <property name="margin_top">5</property>
-                <property name="label" translatable="yes">Shutter sound:</property>
-                <property name="justify">right</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSwitch" id="switch_shutter_sound">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
                 <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="margin_left">46</property>
                 <property name="margin_top">5</property>
-                <signal name="notify::active" handler="cb_switch_shutter_sound" swapped="no"/>
+                <property name="margin_bottom">10</property>
+                <property name="row_spacing">5</property>
+                <child>
+                  <object class="GtkLabel" id="label15">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">5</property>
+                    <property name="label" translatable="yes">Shutter sound:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="switch_shutter_sound">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                    <property name="margin_top">5</property>
+                    <signal name="notify::active" handler="cb_switch_shutter_sound" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label16">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="margin_right">5</property>
+                    <property name="label" translatable="yes">Shutter type:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBoxText" id="combobox_shutter_type">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="entry_text_column">0</property>
+                    <property name="id_column">1</property>
+                    <signal name="changed" handler="cb_shutter_type" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label16">
+              <object class="GtkSeparator" id="separator3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="margin_right">5</property>
-                <property name="label" translatable="yes">Shutter type:</property>
-                <property name="justify">right</property>
               </object>
               <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
-              <object class="GtkComboBoxText" id="combobox_shutter_type">
+              <object class="GtkGrid" id="grid3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_right">215</property>
-                <property name="entry_text_column">0</property>
-                <property name="id_column">1</property>
-                <signal name="changed" handler="cb_shutter_type" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">1</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label12">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="margin_left">5</property>
-                <property name="margin_right">5</property>
-                <property name="margin_top">10</property>
-                <property name="label" translatable="yes">Automatic file saving:</property>
-                <property name="justify">right</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSwitch" id="switch_autosave_picture">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
                 <property name="halign">start</property>
-                <property name="margin_top">10</property>
-                <signal name="notify::active" handler="cb_switch_autosave_picture" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">3</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label13">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="margin_right">5</property>
-                <property name="label" translatable="yes">Directory:</property>
-                <property name="justify">right</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFileChooserButton" id="filechooser_picture">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_right">140</property>
-                <property name="orientation">vertical</property>
-                <property name="action">select-folder</property>
-                <property name="local_only">False</property>
-                <property name="title" translatable="yes">Select a directory</property>
-                <property name="width_chars">20</property>
-                <signal name="file-set" handler="cb_filechooser_picture" swapped="no"/>
-                <signal name="current-folder-changed" handler="cb_filechooser_picture" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">4</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label14">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="margin_right">5</property>
-                <property name="label" translatable="yes">Filename prefix:</property>
-                <property name="justify">right</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">5</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_autosave_picture">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="margin_right">140</property>
+                <property name="valign">start</property>
+                <property name="margin_top">5</property>
                 <property name="margin_bottom">5</property>
-                <property name="max_length">40</property>
-                <property name="invisible_char">•</property>
-                <property name="text" translatable="yes">Kazam_screencast</property>
-                <property name="invisible_char_set">True</property>
-                <property name="caps_lock_warning">False</property>
-                <signal name="activate" handler="cb_entry_autosave_picture" swapped="no"/>
+                <property name="row_spacing">5</property>
+                <child>
+                  <object class="GtkLabel" id="label12">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_right">5</property>
+                    <property name="margin_top">10</property>
+                    <property name="label" translatable="yes">Automatic file saving:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="switch_autosave_picture">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                    <property name="margin_top">10</property>
+                    <signal name="notify::active" handler="cb_switch_autosave_picture" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label13">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="margin_right">5</property>
+                    <property name="label" translatable="yes">Directory:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFileChooserButton" id="filechooser_picture">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="margin_right">330</property>
+                    <property name="orientation">vertical</property>
+                    <property name="action">select-folder</property>
+                    <property name="local_only">False</property>
+                    <property name="title" translatable="yes">Select a directory</property>
+                    <property name="width_chars">20</property>
+                    <signal name="file-set" handler="cb_filechooser_picture" swapped="no"/>
+                    <signal name="current-folder-changed" handler="cb_filechooser_picture" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label14">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="margin_right">5</property>
+                    <property name="label" translatable="yes">Filename prefix:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_autosave_picture">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="margin_right">400</property>
+                    <property name="margin_bottom">5</property>
+                    <property name="max_length">40</property>
+                    <property name="invisible_char">•</property>
+                    <property name="invisible_char_set">True</property>
+                    <property name="caps_lock_warning">False</property>
+                    <signal name="activate" handler="cb_entry_autosave_picture" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">5</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSeparator" id="separator6">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">7</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSeparator" id="separator7">
-                <property name="width_request">322</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">7</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">2</property>
-                <property name="width">1</property>
-                <property name="height">1</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
