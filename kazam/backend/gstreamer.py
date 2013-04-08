@@ -39,18 +39,21 @@ from kazam.backend.constants import *
 
 GObject.threads_init()
 Gst.init(None)
-Gst.debug_set_active(True)
+if prefs.debug:
+    Gst.debug_set_active(True)
+else:
+    Gst.debug_set_active(False)
+
 
 class Screencast(GObject.GObject):
-    __gsignals__ = {
-        "flush-done" : (GObject.SIGNAL_RUN_LAST,
-                        None,
-                        (),
-            ),
-        }
+    __gsignals__ = {"flush-done": (GObject.SIGNAL_RUN_LAST,
+                    None,
+                    (),),
+                    }
+
     def __init__(self):
         GObject.GObject.__init__(self)
-
+        print(prefs)
         self.temp_fh = tempfile.mkstemp(prefix="kazam_", dir=prefs.video_dest, suffix=".movie")
         self.tempfile = self.temp_fh[1]
         self.muxer_tempfile = "{0}.mux".format(self.tempfile)
@@ -66,7 +69,6 @@ class Screencast(GObject.GObject):
                       area,
                       xid):
 
-
         # Get the number of cores available then use all except one for encoding
         self.cores = multiprocessing.cpu_count()
 
@@ -79,15 +81,14 @@ class Screencast(GObject.GObject):
         self.area = area
         self.xid = xid
 
-        logger.debug("audio_source : {0}".format(audio_source))
-        logger.debug("audio2_source : {0}".format(audio2_source))
-        logger.debug("video_source: {0}".format(video_source))
-        logger.debug("xid: {0}".format(xid))
-        logger.debug("area: {0}".format(area))
+        logger.debug("Audio_source : {0}".format(audio_source))
+        logger.debug("Audio2_source : {0}".format(audio2_source))
+        logger.debug("Video_source: {0}".format(video_source))
+        logger.debug("Xid: {0}".format(xid))
+        logger.debug("Area: {0}".format(area))
 
         logger.debug("Capture Cursor: {0}".format(prefs.capture_cursor))
         logger.debug("Framerate : {0}".format(prefs.framerate))
-        logger.debug("Codec: {0}".format(CODEC_LIST[prefs.codec][1]))
 
         if self.video_source or self.area:
             self.setup_video_source()
@@ -139,9 +140,9 @@ class Screencast(GObject.GObject):
         if prefs.test:
             logger.info("Using test signal instead of screen capture.")
             self.vid_caps = Gst.caps_from_string("video/x-raw,format=(x-raw-rgb),framerate={0}/1, width={1}, height={2}".format(
-                prefs.framerate,
-                endx - startx,
-                endy - starty))
+                  prefs.framerate,
+                  endx - startx,
+                  endy - starty))
             self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
             self.vid_caps_filter.set_property("caps", self.vid_caps)
         else:
@@ -245,7 +246,6 @@ class Screencast(GObject.GObject):
 
         if self.audio_source and self.audio2_source:
             self.audiomixer = Gst.ElementFactory.make("adder", "audiomixer")
-
 
     def setup_filesink(self):
         logger.debug("Filesink: {0}".format(self.tempfile))
@@ -412,32 +412,3 @@ class Screencast(GObject.GObject):
             self.emit("flush-done")
         elif t == Gst.MessageType.ERROR:
             logger.debug("Received an error message: %s", message.parse_error()[1])
-
-
-def detect_codecs():
-    codecs_supported = []
-    codec_test = None
-    for codec in CODEC_LIST:
-        if codec[0]:
-            try:
-                codec_test = Gst.ElementFactory.make(codec[1], "video_encoder")
-            except:
-                logger.info("Unable to find {0} GStreamer plugin - support disabled.".format(codec))
-                codec_test = None
-
-            if codec_test:
-                codecs_supported.append(codec[0])
-                logger.info("Supported encoder: {0}.".format(codec[2]))
-        else:
-            # RAW codec is None, so we don't try to load it.
-            codecs_supported.append(codec[0])
-            logger.info("Supported encoder: {0}.".format(codec[2]))
-        codec_test = None
-    return codecs_supported
-
-
-def get_codec(codec):
-    for c in CODEC_LIST:
-        if c[0] == codec:
-            return c
-    return None

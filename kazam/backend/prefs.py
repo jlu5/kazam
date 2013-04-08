@@ -26,6 +26,11 @@ from gettext import gettext as _
 from xdg.BaseDirectory import xdg_config_home
 
 from kazam.backend.config import KazamConfig
+from kazam.utils import detect_codecs
+
+CODEC_RAW = 0
+CODEC_VP8 = 1
+CODEC_H264 = 2
 
 
 class Prefs():
@@ -77,9 +82,11 @@ class Prefs():
         self.pa_q = None
         self.framerate = 15
         self.autosave_video = False
+        self.autosave_video_dir = None
         self.autosave_video_file = None
 
         self.autosave_picture = False
+        self.autosave_picture_dir = None
         self.autosave_picture_file = None
         self.shutter_sound = True
         self.shutter_type = 0
@@ -110,6 +117,7 @@ class Prefs():
         self.dist = ('Ubuntu', '12.10', 'quantal')
         self.silent = False
         self.sound = True
+        self.first_run = True
 
         self.config = KazamConfig()
 
@@ -166,12 +174,16 @@ class Prefs():
             self.video_dest = expanduser("~")
 
         if 'XDG_PICTURES_DIR' in paths and os.path.isdir(paths['XDG_PICTURES_DIR']):
+            self.logger.debug("XDG_PICTURES is a directory and accessible")
             self.picture_dest = paths['XDG_PICTURES_DIR']
         elif 'XDG_DOCUMENTS_DIR' in paths and os.path.isdir(paths['XDG_DOCUMENTS_DIR']):
+            self.logger.debug("XDG_DOCUMENTS is a directory and accessible")
             self.picture_dest = paths['XDG_DOCUMENTS_DIR']
         elif 'HOME_DIR' in paths and os.path.isdir(paths['HOME_DIR']):
+            self.logger.debug("HOME_DIR is a directory and accessible")
             self.picture_dest = paths['HOME_DIR']
         else:
+            self.logger.debug("Fallback to ~ for save files.")
             self.picture_dest = expanduser("~")
 
     def get_sound_files(self):
@@ -186,10 +198,8 @@ class Prefs():
         self.audio2_source = int(self.config.get("main", "audio2_source"))
         self.main_x = int(self.config.get("main", "last_x"))
         self.main_y = int(self.config.get("main", "last_y"))
-
-        self.codec = int(self.config.get("main", "codec"))
-
         self.countdown_timer = float(self.config.get("main", "counter"))
+
         #
         # Just in case this blows up in our face later
         #
@@ -207,13 +217,38 @@ class Prefs():
         self.countdown_splash = self.config.getboolean("main", "countdown_splash")
 
         self.autosave_video = self.config.getboolean("main", "autosave_video")
+        self.autosave_video_dir = self.config.get("main", "autosave_video_dir")
         self.autosave_video_file = self.config.get("main", "autosave_video_file")
 
         self.autosave_picture = self.config.getboolean("main", "autosave_picture")
+        self.autosave_picture_dir = self.config.get("main", "autosave_picture_dir")
         self.autosave_picture_file = self.config.get("main", "autosave_picture_file")
 
         self.shutter_sound = self.config.getboolean("main", "shutter_sound")
         self.shutter_type = int(self.config.get("main", "shutter_type"))
+
+        self.first_run = self.config.getboolean("main", "first_run")
+
+        #
+        # Determine which codec to use
+        #
+        if self.first_run:
+            self.logger.debug("First run detected.")
+            self.config.set("main", "first_run", False)
+            self.config.write()
+
+            codecs_avail = detect_codecs()
+            if CODEC_H264 in codecs_avail:
+                self.codec = CODEC_H264
+                self.logger.debug("Setting H264 as default codec.")
+            elif CODEC_VP8 in codecs_avail:
+                self.codec = CODEC_VP8
+                self.logger.debug("Setting VP8 as default codec.")
+            else:
+                self.codec = CODEC_RAW
+                self.logger.debug("Setting RAW as default codec.")
+        else:
+            self.codec = int(self.config.get("main", "codec"))
 
     def save_config(self):
         self.config.set("main", "capture_cursor", self.capture_cursor)
@@ -235,8 +270,10 @@ class Prefs():
         self.config.set("main", "codec", self.codec)
         self.config.set("main", "framerate", self.framerate)
         self.config.set("main", "autosave_video", self.autosave_video)
+        self.config.set("main", "autosave_video_dir", self.autosave_video_dir)
         self.config.set("main", "autosave_video_file", self.autosave_video_file)
         self.config.set("main", "autosave_picture", self.autosave_picture)
+        self.config.set("main", "autosave_picture_dir", self.autosave_picture_dir)
         self.config.set("main", "autosave_picture_file", self.autosave_picture_file)
         self.config.set("main", "shutter_sound", self.shutter_sound)
         self.config.set("main", "shutter_type", self.shutter_type)

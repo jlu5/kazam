@@ -269,6 +269,12 @@ class AreaWindow(GObject.GObject):
         # Move selection
         if min(self.startx, self.endx) < startx < max(self.startx, self.endx) and \
            min(self.starty, self.endy) < starty < max(self.starty, self.endy):
+
+            # Check if user double clicked somewhere in the selected area and accept it if they did
+            if event.type == Gdk.EventType._2BUTTON_PRESS:
+                self.accept_area()
+                self.emit("area-selected")
+
             self.resize_handle = HANDLE_MOVE
             return True
 
@@ -302,32 +308,11 @@ class AreaWindow(GObject.GObject):
 
     def cb_keypress_event(self, widget, event):
         (op, keycode) = event.get_keycode()
-        self.gdk_win.set_cursor(self.last_cursor)
-        if keycode == 36 or keycode == 104: # Enter
-            self.window.hide()
-            if self.startx > self.endx:
-                self.startx, self.endx = self.endx, self.startx
-
-            if self.g_startx > self.g_endx:
-                self.g_startx, self.g_endx = self.g_endx, self.g_startx
-
-            if self.starty > self.endy:
-                self.starty, self.endy = self.endy, self.starty
-
-            if self.g_starty > self.g_endy:
-                self.g_starty, self.g_endy = self.g_endy, self.g_starty
-
-            if self.startx < 0:
-                self.startx = 0
-
-            if self.starty < 0:
-                self.starty = 0
-
-            self.width  = abs(self.endx - self.startx)
-            self.height = abs(self.endy - self.starty)
-            logger.debug("Selected coords: {0} {1} {2} {3}".format(self.g_startx, self.g_starty, self.g_endx, self.g_endy))
+        if keycode == 36 or keycode == 104:  # Enter
+            self.accept_area()
             self.emit("area-selected")
-        elif keycode == 9: # ESC
+        elif keycode == 9:  # ESC
+            self.gdk_win.set_cursor(self.last_cursor)
             self.window.hide()
             self.emit("area-canceled")
 
@@ -424,3 +409,29 @@ class AreaWindow(GObject.GObject):
             cr.set_source_rgb(1.0, 1.0, 1.0)
         cr.move_to(cx, cy)
         cr.show_text(text)
+
+
+    def accept_area(self):
+        self.gdk_win.set_cursor(self.last_cursor)
+        self.window.hide()
+        if self.startx > self.endx:
+            self.startx, self.endx = self.endx, self.startx
+
+        if self.g_startx > self.g_endx:
+            self.g_startx, self.g_endx = self.g_endx, self.g_startx
+
+        if self.starty > self.endy:
+            self.starty, self.endy = self.endy, self.starty
+
+        if self.g_starty > self.g_endy:
+            self.g_starty, self.g_endy = self.g_endy, self.g_starty
+
+        if self.startx < 0:
+            self.startx = 0
+
+        if self.starty < 0:
+            self.starty = 0
+
+        self.width  = abs(self.endx - self.startx)
+        self.height = abs(self.endy - self.starty)
+        logger.debug("Selected coords: {0} {1} {2} {3}".format(self.g_startx, self.g_starty, self.g_endx, self.g_endy))

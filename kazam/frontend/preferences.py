@@ -25,12 +25,11 @@ import logging
 logger = logging.getLogger("Preferences")
 
 from gi.repository import Gtk, Gdk, GObject, Pango
-from gettext import gettext as _
 
 from kazam.utils import *
 from kazam.backend.prefs import *
 from kazam.backend.constants import *
-from kazam.backend.gstreamer import detect_codecs, get_codec
+from kazam.utils import detect_codecs, get_codec
 
 class Preferences(GObject.GObject):
     __gsignals__ = {
@@ -167,7 +166,7 @@ class Preferences(GObject.GObject):
 
         self.entry_autosave_video.set_text(prefs.autosave_video_file)
 
-        self.filechooser_video.set_current_folder(prefs.video_dest)
+        self.filechooser_video.set_current_folder(prefs.autosave_video_dir)
 
         if prefs.shutter_sound:
             self.switch_shutter_sound.set_active(True)
@@ -190,7 +189,7 @@ class Preferences(GObject.GObject):
 
         self.entry_autosave_picture.set_text(prefs.autosave_picture_file)
 
-        self.filechooser_picture.set_current_folder(prefs.picture_dest)
+        self.filechooser_picture.set_current_folder(prefs.autosave_picture_dir)
 
         #
         # Crappy code below ... Can this be done some other way?
@@ -198,6 +197,7 @@ class Preferences(GObject.GObject):
         codec_model = self.combobox_codec.get_model()
         cnt = 0
         bingo = False
+
         for entry in codec_model:
             if prefs.codec == entry[0]:
                 bingo = True
@@ -218,7 +218,7 @@ class Preferences(GObject.GObject):
     #
 
     def cb_delete_event(self, widget, user_data):
-        logger.debug("Deleteting preferences window")
+        logger.debug("Deleting preferences window")
         self.emit("prefs-quit")
 
     def cb_switch_countdown_splash(self, widget, user_data):
@@ -319,8 +319,8 @@ class Preferences(GObject.GObject):
             self.entry_autosave_video.set_sensitive(False)
 
     def cb_filechooser_video(self, widget):
-        prefs.video_dest = self.filechooser_video.get_current_folder()
-        logger.debug("Video folder set to: {0}".format(prefs.video_dest))
+        prefs.autosave_video_dir = self.filechooser_video.get_current_folder()
+        logger.debug("Autosave video folder set to: {0}".format(prefs.autosave_video_dir))
 
     def cb_entry_autosave_video(self, widget):
         prefs.autosave_video_file = widget.get_text()
@@ -355,8 +355,8 @@ class Preferences(GObject.GObject):
             self.entry_autosave_picture.set_sensitive(False)
 
     def cb_filechooser_picture(self, widget):
-        prefs.picture_dest = self.filechooser_picture.get_current_folder()
-        logger.debug("Picture folder set to: {0}".format(prefs.picture_dest))
+        prefs.autosave_picture_dir = self.filechooser_picture.get_current_folder()
+        logger.debug("Autosave picture folder set to: {0}".format(prefs.autosave_picture_dir))
 
     def cb_entry_autosave_picture(self, widget):
         prefs.autosave_picture_file = widget.get_text()
