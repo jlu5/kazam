@@ -25,7 +25,6 @@
     <property name="title" translatable="yes">Kazam Preferences</property>
     <property name="resizable">False</property>
     <property name="window_position">mouse</property>
-    <property name="default_width">200</property>
     <property name="gravity">south-east</property>
     <signal name="delete-event" handler="cb_delete_event" swapped="no"/>
     <child>
@@ -42,27 +41,26 @@
           <object class="GtkBox" id="box1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="halign">start</property>
-            <property name="valign">start</property>
-            <property name="margin_left">5</property>
-            <property name="margin_right">5</property>
+            <property name="margin_left">6</property>
+            <property name="margin_right">6</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkGrid" id="grid6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="margin_left">40</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">10</property>
-                <property name="row_spacing">5</property>
+                <property name="margin_left">12</property>
+                <property name="margin_right">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label5">
+                    <property name="width_request">150</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="xpad">5</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Microphone:</property>
                     <property name="justify">right</property>
                   </object>
@@ -78,7 +76,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="xpad">5</property>
                     <property name="label" translatable="yes">Speakers:</property>
                     <property name="justify">right</property>
                   </object>
@@ -197,17 +194,20 @@ audio-volume-medium-symbolic</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">start</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
-                <property name="row_spacing">5</property>
+                <property name="margin_left">12</property>
+                <property name="margin_right">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label6">
+                    <property name="width_request">150</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
                     <property name="valign">center</property>
-                    <property name="margin_top">10</property>
-                    <property name="xpad">5</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Countdown splash:</property>
                     <property name="justify">right</property>
                   </object>
@@ -227,7 +227,6 @@ audio-volume-medium-symbolic</property>
                     <property name="tooltip_text" translatable="yes">Toggle display of countdown splash</property>
                     <property name="halign">start</property>
                     <property name="valign">center</property>
-                    <property name="margin_top">10</property>
                     <signal name="notify::active" handler="cb_switch_countdown_splash" swapped="no"/>
                   </object>
                   <packing>
@@ -260,27 +259,28 @@ audio-volume-medium-symbolic</property>
           <object class="GtkBox" id="box2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="halign">start</property>
-            <property name="valign">start</property>
-            <property name="margin_left">5</property>
-            <property name="margin_right">5</property>
+            <property name="margin_left">6</property>
+            <property name="margin_right">6</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkGrid" id="grid4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="margin_left">55</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
-                <property name="row_spacing">5</property>
+                <property name="valign">center</property>
+                <property name="margin_left">12</property>
+                <property name="margin_right">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label7">
+                    <property name="width_request">150</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="xpad">5</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Framerate:</property>
                     <property name="justify">right</property>
                   </object>
@@ -298,7 +298,7 @@ audio-volume-medium-symbolic</property>
                     <property name="has_tooltip">True</property>
                     <property name="tooltip_markup" translatable="yes">Set the number of frames per second</property>
                     <property name="tooltip_text" translatable="yes">Set the number of frames per second</property>
-                    <property name="margin_right">426</property>
+                    <property name="halign">start</property>
                     <property name="max_length">2</property>
                     <property name="invisible_char">•</property>
                     <property name="invisible_char_set">True</property>
@@ -316,8 +316,7 @@ audio-volume-medium-symbolic</property>
                   <object class="GtkLabel" id="label9">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="xpad">5</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Record with:</property>
                   </object>
                   <packing>
@@ -331,7 +330,6 @@ audio-volume-medium-symbolic</property>
                   <object class="GtkComboBox" id="combobox_codec">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_right">400</property>
                     <signal name="changed" handler="cb_codec_changed" swapped="no"/>
                   </object>
                   <packing>
@@ -365,17 +363,19 @@ audio-volume-medium-symbolic</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">start</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
-                <property name="row_spacing">5</property>
+                <property name="margin_left">12</property>
+                <property name="margin_right">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label8">
+                    <property name="width_request">150</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="margin_left">5</property>
-                    <property name="margin_right">5</property>
-                    <property name="margin_top">10</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Automatic file saving:</property>
                     <property name="justify">right</property>
                   </object>
@@ -391,7 +391,6 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="halign">start</property>
-                    <property name="margin_top">10</property>
                     <signal name="notify::active" handler="cb_switch_autosave_video" swapped="no"/>
                   </object>
                   <packing>
@@ -406,7 +405,6 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="margin_right">5</property>
                     <property name="label" translatable="yes">Directory:</property>
                     <property name="justify">right</property>
                   </object>
@@ -423,7 +421,6 @@ audio-volume-medium-symbolic</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="valign">start</property>
-                    <property name="margin_right">300</property>
                     <property name="orientation">vertical</property>
                     <property name="action">select-folder</property>
                     <property name="local_only">False</property>
@@ -444,7 +441,6 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="margin_right">5</property>
                     <property name="label" translatable="yes">Filename prefix:</property>
                     <property name="justify">right</property>
                   </object>
@@ -461,8 +457,6 @@ audio-volume-medium-symbolic</property>
                     <property name="can_focus">True</property>
                     <property name="halign">start</property>
                     <property name="valign">start</property>
-                    <property name="margin_right">140</property>
-                    <property name="margin_bottom">5</property>
                     <property name="max_length">40</property>
                     <property name="invisible_char">•</property>
                     <property name="invisible_char_set">True</property>
@@ -506,10 +500,8 @@ audio-volume-medium-symbolic</property>
           <object class="GtkBox" id="box3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="halign">start</property>
-            <property name="valign">start</property>
-            <property name="margin_left">5</property>
-            <property name="margin_right">5</property>
+            <property name="margin_left">6</property>
+            <property name="margin_right">6</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkGrid" id="grid2">
@@ -517,17 +509,19 @@ audio-volume-medium-symbolic</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">start</property>
-                <property name="margin_left">46</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">10</property>
-                <property name="row_spacing">5</property>
+                <property name="margin_left">12</property>
+                <property name="margin_right">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label15">
+                    <property name="width_request">150</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="margin_right">5</property>
-                    <property name="margin_top">5</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Shutter sound:</property>
                     <property name="justify">right</property>
                   </object>
@@ -543,7 +537,6 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="halign">start</property>
-                    <property name="margin_top">5</property>
                     <signal name="notify::active" handler="cb_switch_shutter_sound" swapped="no"/>
                   </object>
                   <packing>
@@ -558,7 +551,6 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="margin_right">5</property>
                     <property name="label" translatable="yes">Shutter type:</property>
                     <property name="justify">right</property>
                   </object>
@@ -608,17 +600,19 @@ audio-volume-medium-symbolic</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">start</property>
-                <property name="margin_top">5</property>
-                <property name="margin_bottom">5</property>
-                <property name="row_spacing">5</property>
+                <property name="margin_left">12</property>
+                <property name="margin_right">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="label12">
+                    <property name="width_request">150</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="margin_left">5</property>
-                    <property name="margin_right">5</property>
-                    <property name="margin_top">10</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Automatic file saving:</property>
                     <property name="justify">right</property>
                   </object>
@@ -634,7 +628,6 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="halign">start</property>
-                    <property name="margin_top">10</property>
                     <signal name="notify::active" handler="cb_switch_autosave_picture" swapped="no"/>
                   </object>
                   <packing>
@@ -649,7 +642,6 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="margin_right">5</property>
                     <property name="label" translatable="yes">Directory:</property>
                     <property name="justify">right</property>
                   </object>
@@ -666,7 +658,6 @@ audio-volume-medium-symbolic</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="valign">start</property>
-                    <property name="margin_right">330</property>
                     <property name="orientation">vertical</property>
                     <property name="action">select-folder</property>
                     <property name="local_only">False</property>
@@ -687,7 +678,6 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="margin_right">5</property>
                     <property name="label" translatable="yes">Filename prefix:</property>
                     <property name="justify">right</property>
                   </object>
@@ -704,8 +694,6 @@ audio-volume-medium-symbolic</property>
                     <property name="can_focus">True</property>
                     <property name="halign">start</property>
                     <property name="valign">start</property>
-                    <property name="margin_right">400</property>
-                    <property name="margin_bottom">5</property>
                     <property name="max_length">40</property>
                     <property name="invisible_char">•</property>
                     <property name="invisible_char_set">True</property>
