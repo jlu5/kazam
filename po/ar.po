@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-25 04:48+0000\n"
-"X-Generator: Launchpad (build 16540)\n"
+"X-Launchpad-Export-Date: 2013-04-12 05:35+0000\n"
+"X-Generator: Launchpad (build 16564)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -118,7 +118,7 @@ msgstr "إختر مجلد"
 
 #: ../data/ui/preferences.ui.h:15
 msgid "Kazam_screencast"
-msgstr ""
+msgstr "كازام_تسجيل الشاشة"
 
 #: ../data/ui/preferences.ui.h:17
 msgid "Shutter sound:"
@@ -130,7 +130,7 @@ msgstr "نوع الغالق:"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencast and Screenshot tool"
-msgstr ""
+msgstr "أداة تسجيل والتقاط للشاشة"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video or take a screenshot of your screen"
@@ -138,7 +138,7 @@ msgstr "قم بتسجيل فيدو أو التقاط شاشتك"
 
 #: ../data/kazam.desktop.in.h:4
 msgid "screenshot;screencast;videorecord;desktop recording;"
-msgstr ""
+msgstr "تسجيل;شاشة;التقاط;تسجيل شاشة;التقاط شاشة;تسجيل سطح المكتب;"
 
 #: ../data/kazam.desktop.in.h:5
 msgid "Take a screenshot of entire workspace"
@@ -170,7 +170,7 @@ msgstr "التقاط صورة لسطح المكتب."
 
 #: ../kazam/app.py:199
 msgid "Fullscreen"
-msgstr ""
+msgstr "ملء الشاشة"
 
 #: ../kazam/app.py:200
 msgid "Capture contents of the current screen."
@@ -186,7 +186,7 @@ msgstr "التقاط محتويات جميع الشاشات."
 
 #: ../kazam/app.py:224
 msgid "Window"
-msgstr ""
+msgstr "نافذة"
 
 #: ../kazam/app.py:225
 msgid "Capture contents of a single window."
@@ -198,7 +198,7 @@ msgstr "المساحة"
 
 #: ../kazam/app.py:237
 msgid "Capture a pre-selected area of your screen."
-msgstr ""
+msgstr "التقط منطقة محددة مسبقا من على شاشتك."
 
 #: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
@@ -258,7 +258,7 @@ msgstr "حفظ التسجيل"
 
 #: ../kazam/frontend/about_dialog.py:58
 msgid "Record a video of activity on your screen or capture a screenshot."
-msgstr ""
+msgstr "سجّل فيديو لنشاط على شاشتك أو التقط صورًا."
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
@@ -306,7 +306,7 @@ msgstr "ألبِث التسجيل"
 
 #: ../kazam/backend/grabber.py:171
 msgid "Save capture"
-msgstr ""
+msgstr "حفظ اللقطة"
 
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"
