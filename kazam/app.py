@@ -806,15 +806,16 @@ class KazamApp(GObject.GObject):
         logger.debug("Hiding main window.")
         self.window.hide()
         try:
-            if self.record_mode == MODE_AREA and prefs.area and prefs.dist[0] == 'Ubuntu' and int(prefs.dist[1].split(".")[0]) > 12:
-                logger.debug("Showing recording outline.")
-                self.outline_window = OutlineWindow(prefs.area[0],
-                                                    prefs.area[1],
-                                                    prefs.area[4],
-                                                    prefs.area[5])
-                self.outline_window.show()
-            else:
-                logger.debug("Ubuntu 13.04 or higher not detected, recording outline not shown.")
+            if self.record_mode == MODE_AREA and prefs.area:
+                if prefs.dist[0] == 'Ubuntu' and int(prefs.dist[1].split(".")[0]) > 12:
+                    logger.debug("Showing recording outline.")
+                    self.outline_window = OutlineWindow(prefs.area[0],
+                                                        prefs.area[1],
+                                                        prefs.area[4],
+                                                        prefs.area[5])
+                    self.outline_window.show()
+                else:
+                    logger.debug("Ubuntu 13.04 or higher not detected, recording outline not shown.")
         except:
                 logger.debug("Unable to show recording outline.")
 

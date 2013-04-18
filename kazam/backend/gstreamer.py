@@ -53,7 +53,6 @@ class Screencast(GObject.GObject):
 
     def __init__(self):
         GObject.GObject.__init__(self)
-        print(prefs)
         self.temp_fh = tempfile.mkstemp(prefix="kazam_", dir=prefs.video_dest, suffix=".movie")
         self.tempfile = self.temp_fh[1]
         self.muxer_tempfile = "{0}.mux".format(self.tempfile)
