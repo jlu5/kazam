@@ -29,7 +29,7 @@ from gettext import gettext as _
 
 from gi.repository import Gtk, GObject, Gdk, Wnck, GdkX11
 
-from kazam.backend.constants import *
+from kazam.backend.prefs import *
 from kazam.utils import in_circle
 
 

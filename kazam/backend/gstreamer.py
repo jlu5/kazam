@@ -35,7 +35,7 @@ os.putenv("GST_DEBUG_DUMP_DOT_DIR", "/tmp")
 from gi.repository import GObject, Gst
 
 from kazam.backend.prefs import *
-from kazam.backend.constants import *
+
 
 GObject.threads_init()
 Gst.init(None)

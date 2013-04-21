@@ -26,7 +26,7 @@ logger = logging.getLogger("Indicator")
 from gettext import gettext as _
 from gi.repository import Gtk, GObject, GLib
 
-from kazam.backend.constants import *
+from kazam.backend.prefs import *
 
 class KazamSuperIndicator(GObject.GObject):
     __gsignals__ = {

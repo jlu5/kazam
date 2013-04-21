@@ -28,7 +28,7 @@ logger = logging.getLogger("Done Recording")
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
 
-from kazam.backend.constants import *
+from kazam.backend.prefs import *
 from kazam.frontend.combobox import EditComboBox
 from kazam.frontend.save_dialog import SaveDialog
 
