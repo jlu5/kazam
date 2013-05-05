@@ -187,6 +187,15 @@ class Screencast(GObject.GObject):
             self.videnc.set_property("token-partitions", 2)
             self.videnc.set_property("max-quantizer", 30)
             self.videnc.set_property("threads", self.cores)
+
+            # Good framerate, bad memory
+            #self.videnc.set_property("cpu-used", 6)
+            #self.videnc.set_property("deadline", 1000000)
+            #self.videnc.set_property("min-quantizer", 15)
+            #self.videnc.set_property("max-quantizer", 15)
+            #self.videnc.set_property("threads", self.cores)
+
+
             self.mux = Gst.ElementFactory.make("webmmux", "muxer")
         elif prefs.codec == CODEC_H264:
             self.videnc.set_property("speed-preset", "ultrafast")
