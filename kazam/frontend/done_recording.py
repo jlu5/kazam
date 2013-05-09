@@ -104,6 +104,7 @@ class DoneRecording(Gtk.Window):
         self.vbox.pack_start(self.hbox, True, True, 0)
         self.add(self.vbox)
         self.connect("delete-event", self.cb_delete_event)
+        self.set_resizable(False)
         self.show_all()
         self.present()
 
