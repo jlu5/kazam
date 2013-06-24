@@ -1,6 +1,9 @@
 kazam (1.4.3-1) UNRELEASED; urgency=low
 
   * New upstream release.
+  * Gtk.StatusIconFix.patch: Fix taking screenshots while using
+    the Gtk.StatusIcon fallback by providing indicator.hide_it()
+    and indicator.show_it()
 
  -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 24 Jun 2013 16:54:43 -0400
 
