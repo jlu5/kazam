@@ -1,5 +1,5 @@
 
-           Kazam v1.4.2 "NCC-2000"
+           Kazam v1.4.3 "NCC-2000"
 
 
 Introduction
@@ -18,7 +18,7 @@ Latest version
 
 Kazam is always available from Launchpad under https://launchpad.net/kazam
 
-Latest stable release is 1.4.2.
+Latest stable release is 1.4.3.
 Latest unstable release is 1.3.99
 
 
@@ -41,12 +41,12 @@ $ sudo apt-get install kazam
 For distribution independent installation you will have to get the latest
 tarball release from Launchpad:
 
-http://launchpad.net/kazam/stable/1.4.2/+download/kazam_1.4.2.tar.gz
+http://launchpad.net/kazam/stable/1.4.3/+download/kazam_1.4.3.tar.gz
 
 Unpack it and then run setup:
 
-   $ tar -xzf kazam_1.4.2.tar.gz
-   $ cd kazam-1.4.1
+   $ tar -xzf kazam_1.4.3.tar.gz
+   $ cd kazam-1.4.3
 
 Run installation as root user, or use sudo:
 
@@ -106,10 +106,12 @@ SUPER-CTRL-W - Show/Hide main window
 SUPER-CTRL-R - Start Recording
 SUPER-CTRL-F - Finish Recording
 
-Keyboard shortcuts will work if you installed Kazam 1.4.x from a PPA,
-keybinder 3.0 is now a dependency and will be installed automatically.
+Keyboard shortcuts will work on Precise Pangolin only if you installed
+Kazam 1.4.x from the PPA, keybinder 3.0 is a dependency and will be installed
+automatically.
 
-From Ubuntu 12.10 keyboard binder is available in the universe repositories.
+For Ubuntu 12.10 and newer keyboard binder is available in the universe
+repositories and there is no need to use PPA to get keybinder installed.
 
 
 Known Issues
@@ -132,8 +134,9 @@ the recording. I wasn't able to reproduce this bug and any more info is
 appreciated. See https://bugs.launchpad.net/kazam/+bug/933835 for more
 details.
 
-- Memory leaks. When it leaks, it leaks a lot. Avoid using VP8/WEBM for
-recording and you will do mostly fine.
+- Two memory leaks were noticed, one with VP8 encoder and one with Intel
+graphics cards. Still investigating if this is a driver, Xorg or
+GStreamer problem.
 
 - Non compositing window managers are not able to render transparent
 windows. Area selection and countdown timers will be affected by this.
