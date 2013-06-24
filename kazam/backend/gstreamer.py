@@ -53,7 +53,6 @@ class Screencast(GObject.GObject):
 
     def __init__(self):
         GObject.GObject.__init__(self)
-        print(prefs)
         self.temp_fh = tempfile.mkstemp(prefix="kazam_", dir=prefs.video_dest, suffix=".movie")
         self.tempfile = self.temp_fh[1]
         self.muxer_tempfile = "{0}.mux".format(self.tempfile)
@@ -139,10 +138,8 @@ class Screencast(GObject.GObject):
 
         if prefs.test:
             logger.info("Using test signal instead of screen capture.")
-            self.vid_caps = Gst.caps_from_string("video/x-raw,format=(x-raw-rgb),framerate={0}/1, width={1}, height={2}".format(
-                  prefs.framerate,
-                  endx - startx,
-                  endy - starty))
+            self.vid_caps = Gst.caps_from_string("video/x-raw, framerate={0}/1".format(
+                  int(prefs.framerate)))
             self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
             self.vid_caps_filter.set_property("caps", self.vid_caps)
         else:
@@ -168,9 +165,9 @@ class Screencast(GObject.GObject):
             self.videosrc.set_property("use-damage", False)
             self.videosrc.set_property("show-pointer", prefs.capture_cursor)
 
-        self.vid_caps = Gst.caps_from_string("video/x-raw,format=(x-raw-rgb),framerate={0}/1".format(prefs.framerate))
-        self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
-        self.vid_caps_filter.set_property("caps", self.vid_caps)
+            self.vid_caps = Gst.caps_from_string("video/x-raw, framerate={0}/1".format(int(prefs.framerate)))
+            self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
+            self.vid_caps_filter.set_property("caps", self.vid_caps)
 
         self.videoconvert = Gst.ElementFactory.make("videoconvert", "videoconvert")
         self.videorate = Gst.ElementFactory.make("videorate", "video_rate")
