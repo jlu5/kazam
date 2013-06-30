@@ -1,3 +1,9 @@
+kazam (1.4.3-2) unstable; urgency=low
+
+  * Upload to unstable. 
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 30 Jun 2013 11:44:21 -0400
+
 kazam (1.4.3-1) experimental; urgency=low
 
   * New upstream release.
