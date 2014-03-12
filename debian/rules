@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 ifeq ($(shell dpkg-vendor --derives-from Ubuntu && echo yes),yes)
-	SUBSTVARS = -Vdist:Depends="gir1.2-keybinder-3.0, gir1.2-appindicator3-0.1"
+	SUBSTVARS = -Vdist:Depends="gir1.2-appindicator3-0.1"
 else
 	SUBSTVARS = -Vdist:Depends=""
 endif

@@ -1,3 +1,10 @@
+kazam (1.4.3-3) UNRELEASED; urgency=medium
+
+  * Add Depends on gir1.2-keybinder-3.0 for
+    hot key support.
+
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Wed, 12 Mar 2014 12:04:22 -0400
+
 kazam (1.4.3-2) unstable; urgency=low
 
   * Upload to unstable. 
