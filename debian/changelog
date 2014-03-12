@@ -1,7 +1,7 @@
 kazam (1.4.3-3) UNRELEASED; urgency=medium
 
-  * Add Depends on gir1.2-keybinder-3.0 for
-    hot key support.
+  * Add Depends on gir1.2-keybinder-3.0 for hot key support.
+  * Bump Standards-Version to 3.9.5, no changes needed.
 
  -- Andrew Starr-Bochicchio <asb@debian.org>  Wed, 12 Mar 2014 12:04:22 -0400
 
