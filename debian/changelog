@@ -1,9 +1,9 @@
-kazam (1.4.4-1) UNRELEASED; urgency=medium
+kazam (1.4.4-1) unstable; urgency=medium
 
   * New upstream release.
   * Drop Gtk.StatusIconFix.patch, applied upstream.
 
- -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 23 Mar 2014 19:10:19 -0400
+ -- Andrew Starr-Bochicchio <asb@debian.org>  Sun, 23 Mar 2014 19:16:17 -0400
 
 kazam (1.4.3-3) unstable; urgency=medium
 
