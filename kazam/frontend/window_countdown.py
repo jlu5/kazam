@@ -98,6 +98,7 @@ class CountdownWindow(GObject.GObject):
         self.layout = None
         self.desc = None
         self.dropShadow = self.createDropShadow (int (size), int (size), 10)
+        self.secondsf = 0.0
 
     def setupPixman (self, name):
         libpixman = cdll.LoadLibrary (name)
@@ -230,18 +231,22 @@ class CountdownWindow(GObject.GObject):
         widget.set_visual (visual)
 
     def onTimeout (self, widget):
-        widget.queue_draw ()
-
-        if widget.get_opacity () < 0.03:
+        if self.secondsf >= float (self.number):
             self.counter_finished ()
             return False
 
+        widget.queue_draw ()
         return True
 
     def render (self, cr, width, height, angle, number):
         # clear context
         cr.set_operator (cairo.OPERATOR_CLEAR)
         cr.paint ()
+
+        if self.secondsf >= float (self.number):
+            self.window.set_opacity (0.0)
+            self.window.hide ()
+            return
 
         cr.set_operator (cairo.OPERATOR_SOURCE)
 
@@ -295,36 +300,35 @@ class CountdownWindow(GObject.GObject):
         cr.restore ()
         self.drawNumber (cr, width, height, number)
 
-    def run(self, counter):
+    def run (self, counter):
         self.number = counter
         if self.show_window:
             self.window.show_all ()
         self.timeoutId = GLib.timeout_add (1000 / FPS, self.onTimeout, self.window)
         self.starttime = time.time ()
 
-    def cancel_countdown(self):
+    def cancel_countdown (self):
         self.indicator.blink_set_state(BLINK_STOP)
         self.canceled = True
         GLib.source_remove (self.timeoutId)
-        self.window.destroy ()
         self.counter_finished ()
 
-    def counter_finished(self):
+    def counter_finished (self):
         self.emit("counter-finished")
         self.window.destroy ()
         return False
 
-    def onDraw(self, widget, cr):
-        secondsf = time.time () - self.starttime
-        seconds = math.trunc (secondsf) % self.number
-        angle = (math.trunc (secondsf) - secondsf) * 360.0
+    def onDraw (self, widget, cr):
+        self.secondsf = time.time () - self.starttime
+        seconds = math.trunc (self.secondsf) % self.number
+        angle = (math.trunc (self.secondsf) - self.secondsf) * 360.0
         self.render (cr, widget.get_allocated_width (), widget.get_allocated_height (), angle, self.number - seconds)
 
         if seconds < 5.0:
             self.indicator.blink_set_state(BLINK_FAST)
 
         if self.number - seconds == 1:
-            widget.set_opacity (1.0 + (math.trunc (secondsf) - secondsf))
+            widget.set_opacity (1.0 + (math.trunc (self.secondsf) - self.secondsf))
         else:
             widget.set_opacity (1.0)
 
