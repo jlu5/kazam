@@ -311,7 +311,7 @@ class CountdownWindow(GObject.GObject):
         self.indicator.blink_set_state(BLINK_STOP)
         self.canceled = True
         GLib.source_remove (self.timeoutId)
-        self.counter_finished ()
+        self.window.destroy ()
 
     def counter_finished (self):
         self.emit("counter-finished")
