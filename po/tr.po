@@ -9,13 +9,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-04 09:42+0100\n"
 "PO-Revision-Date: 2012-12-21 20:38+0000\n"
-"Last-Translator: c.k. <Unknown>\n"
+"Last-Translator: jan <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-17 05:39+0000\n"
-"X-Generator: Launchpad (build 16626)\n"
+"X-Launchpad-Export-Date: 2014-04-29 06:26+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -134,7 +134,7 @@ msgstr "Ekran video kaydı ve ekran görüntüsü kaydı aracı"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video or take a screenshot of your screen"
-msgstr "Bir video yada ekran görüntüsü kaydedin"
+msgstr "Ekranınızdan bir video veya ekran görüntüsü kaydedin"
 
 #: ../data/kazam.desktop.in.h:4
 msgid "screenshot;screencast;videorecord;desktop recording;"
@@ -258,7 +258,7 @@ msgstr "Kaydı sakla"
 
 #: ../kazam/frontend/about_dialog.py:58
 msgid "Record a video of activity on your screen or capture a screenshot."
-msgstr "Ekran etkinliklerinizi kaydedin yada ekran görüntüsü alın."
+msgstr "Ekran etkinliklerinizi kaydedin veya ekran görüntüsü alın."
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
@@ -294,11 +294,11 @@ msgstr "Kazam Hakkında"
 
 #: ../kazam/frontend/window_area.py:209
 msgid "Select an area by clicking and dragging."
-msgstr "Tıklayarak yada sürükleyerek bir alan seçin"
+msgstr "Tıklayarak veya sürükleyerek bir alan seçin"
 
 #: ../kazam/frontend/window_area.py:210
 msgid "Press ENTER to confirm or ESC to cancel"
-msgstr "Onaylamak için ENTER'a yada iptal etmek için ESC'e basıl"
+msgstr "Onaylamak için ENTER'a veya iptal etmek için ESC'e basın"
 
 #: ../kazam/frontend/indicator.py:72
 msgid "Pause recording"

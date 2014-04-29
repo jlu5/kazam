@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-17 05:38+0000\n"
-"X-Generator: Launchpad (build 16626)\n"
+"X-Launchpad-Export-Date: 2014-04-29 06:26+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -259,6 +259,8 @@ msgstr "Sauvegarder la capture vidéo"
 #: ../kazam/frontend/about_dialog.py:58
 msgid "Record a video of activity on your screen or capture a screenshot."
 msgstr ""
+"Capturer sous forme de vidéo l'activité de votre écran ou faire une capture "
+"d'écran."
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
@@ -298,7 +300,7 @@ msgstr "Sélectionnez une zone en cliquant et déplacant."
 
 #: ../kazam/frontend/window_area.py:210
 msgid "Press ENTER to confirm or ESC to cancel"
-msgstr ""
+msgstr "Appuyer sur ENTRÉ pour confirmer ou ECHAP pour annuler."
 
 #: ../kazam/frontend/indicator.py:72
 msgid "Pause recording"
@@ -306,7 +308,7 @@ msgstr "Suspendre l'enregistrement"
 
 #: ../kazam/backend/grabber.py:171
 msgid "Save capture"
-msgstr ""
+msgstr "Sauvegarder l'enregistrement"
 
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"

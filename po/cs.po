@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-17 05:38+0000\n"
-"X-Generator: Launchpad (build 16626)\n"
+"X-Launchpad-Export-Date: 2014-04-29 06:26+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -32,7 +32,7 @@ msgstr "Čas v sekundách před zachycením obrazu:"
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Sound from microphone"
-msgstr "Zvuk z mikrofónu"
+msgstr "Zvuk z mikrofonu"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Sound from speakers"
@@ -45,7 +45,7 @@ msgstr "Kurzor myši"
 #: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
 #: ../kazam/frontend/save_dialog.py:43
 msgid "Screencast"
-msgstr "Obrazovkové vysílání"
+msgstr "Záznam obrazovky"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Window borders"
@@ -130,7 +130,7 @@ msgstr "Typ spouště:"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencast and Screenshot tool"
-msgstr "Nástroje obrazovkového vysílání a sejmutí obrazu"
+msgstr "Nástroje záznamu a zachycení obrazovky"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video or take a screenshot of your screen"
@@ -138,7 +138,7 @@ msgstr "Nahrajte video nebo pořiďte snímek vaší obrazovky"
 
 #: ../data/kazam.desktop.in.h:4
 msgid "screenshot;screencast;videorecord;desktop recording;"
-msgstr "snímek obrazovky;obrazovkové vysílání;video záznam; záznam plochy;"
+msgstr "snímek obrazovky;záznam obrazovky;video záznam;záznam plochy;"
 
 #: ../data/kazam.desktop.in.h:5
 msgid "Take a screenshot of entire workspace"
@@ -170,7 +170,7 @@ msgstr "Nahrajte obrázek plochy."
 
 #: ../kazam/app.py:199
 msgid "Fullscreen"
-msgstr "Na celou obrazovku"
+msgstr "Celou obrazovku"
 
 #: ../kazam/app.py:200
 msgid "Capture contents of the current screen."
@@ -210,7 +210,7 @@ msgstr "Pořídit snímek obrazovky"
 
 #: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
-msgstr "Ukončit zaznamenávání"
+msgstr "Ukončit záznam"
 
 #: ../kazam/app.py:730
 msgid "Cancel countdown"
@@ -254,7 +254,7 @@ msgstr "Pokračovat"
 
 #: ../kazam/frontend/done_recording.py:120
 msgid "Save screencast"
-msgstr "Uložit Screencast"
+msgstr "Uložit záznam"
 
 #: ../kazam/frontend/about_dialog.py:58
 msgid "Record a video of activity on your screen or capture a screenshot."

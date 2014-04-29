@@ -14,55 +14,55 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-17 05:38+0000\n"
-"X-Generator: Launchpad (build 16626)\n"
+"X-Launchpad-Export-Date: 2014-04-29 06:26+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
 msgid "Kazam"
-msgstr ""
+msgstr "Kazam"
 
 #: ../data/ui/kazam.ui.h:2
 msgid "Capture"
-msgstr ""
+msgstr "Nauhoita"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Seconds to wait before capturing:"
-msgstr ""
+msgstr "Viive ennen nauhoitusta:"
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Sound from microphone"
-msgstr ""
+msgstr "Ääni mikrofonista"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Sound from speakers"
-msgstr ""
+msgstr "Ääni kaiuttimista"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Mouse cursor"
-msgstr ""
+msgstr "Hiiren osoitin"
 
 #: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
 #: ../kazam/frontend/save_dialog.py:43
 msgid "Screencast"
-msgstr ""
+msgstr "Näyttölähetys"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Window borders"
-msgstr ""
+msgstr "Ikkunan reunat"
 
 #: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
 #: ../kazam/frontend/save_dialog.py:45
 msgid "Screenshot"
-msgstr ""
+msgstr "Kuvakaappaus"
 
 #: ../data/ui/kazam.ui.h:10
 msgid "When capturing include:"
-msgstr ""
+msgstr "Sisällytä nauhoitukseen:"
 
 #: ../data/ui/preferences.ui.h:1
 msgid "Kazam Preferences"
-msgstr ""
+msgstr "Kazamin asetukset"
 
 #: ../data/ui/preferences.ui.h:2
 msgid "Speakers:"
@@ -78,23 +78,23 @@ msgstr "Mikrofoni:"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
-msgstr ""
+msgstr "Alkulaskenta:"
 
 #: ../data/ui/preferences.ui.h:6
 msgid "Toggle display of countdown splash"
-msgstr ""
+msgstr "Näytä tai piilota laskenta ennen aloittamista"
 
 #: ../data/ui/preferences.ui.h:7
 msgid "General"
-msgstr ""
+msgstr "Yleiset"
 
 #: ../data/ui/preferences.ui.h:8
 msgid "Framerate:"
-msgstr ""
+msgstr "Kuvataajuus:"
 
 #: ../data/ui/preferences.ui.h:9
 msgid "Set the number of frames per second"
-msgstr ""
+msgstr "Aseta sekunnissa tallennettavien kuvien määrä"
 
 #: ../data/ui/preferences.ui.h:10
 msgid "Record with:"
@@ -102,103 +102,105 @@ msgstr "Nauhoita käyttäen:"
 
 #: ../data/ui/preferences.ui.h:11
 msgid "Automatic file saving:"
-msgstr ""
+msgstr "Automaattinen tiedoston tallennus:"
 
 #: ../data/ui/preferences.ui.h:12
 msgid "Directory:"
-msgstr ""
+msgstr "Kansio:"
 
 #: ../data/ui/preferences.ui.h:13
 msgid "Filename prefix:"
-msgstr ""
+msgstr "Tiedostonimen etuliite:"
 
 #: ../data/ui/preferences.ui.h:14
 msgid "Select a directory"
-msgstr ""
+msgstr "Valitse kansio"
 
 #: ../data/ui/preferences.ui.h:15
 msgid "Kazam_screencast"
-msgstr ""
+msgstr "Kazam-tallenne"
 
 #: ../data/ui/preferences.ui.h:17
 msgid "Shutter sound:"
-msgstr ""
+msgstr "Sulkimen ääni:"
 
 #: ../data/ui/preferences.ui.h:18
 msgid "Shutter type:"
-msgstr ""
+msgstr "Sulkimen tyyppi:"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencast and Screenshot tool"
-msgstr ""
+msgstr "Työkalu kuvakaappausta ja näytön videotallennusta varten"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video or take a screenshot of your screen"
-msgstr ""
+msgstr "Nauhoita video tai ota kuvakaappaus näytöstäsi"
 
 #: ../data/kazam.desktop.in.h:4
 msgid "screenshot;screencast;videorecord;desktop recording;"
 msgstr ""
+"screenshot;screencast;videorecord;desktop "
+"recording;kuvakaappaus;kuvankaappaus;video;nauhoitus;nauhoita työpöytä;"
 
 #: ../data/kazam.desktop.in.h:5
 msgid "Take a screenshot of entire workspace"
-msgstr ""
+msgstr "Ota kuvakaappaus koko työtilasta"
 
 #: ../data/kazam.desktop.in.h:6
 msgid "Select an area to screenshot"
-msgstr ""
+msgstr "Valitse kuvakaappauksen alue"
 
 #: ../data/kazam.desktop.in.h:7
 msgid "Select a window to screenshot"
-msgstr ""
+msgstr "Valitse ikkuna kuvakaappausta varten"
 
 #: ../data/kazam.desktop.in.h:8 ../kazam/frontend/main_menu.py:65
 msgid "Preferences"
-msgstr ""
+msgstr "Asetukset"
 
 #: ../kazam/app.py:57 ../kazam/app.py:66
 msgid "Gstreamer 1.0 or higher required, bailing out."
-msgstr ""
+msgstr "Gstreamer 1.0 tai uudempi vaaditaan, lopetetaan nyt."
 
 #: ../kazam/app.py:164
 msgid "Record a video of your desktop."
-msgstr ""
+msgstr "Nauhoita video työpöydästäsi."
 
 #: ../kazam/app.py:176
 msgid "Record a picture of your desktop."
-msgstr ""
+msgstr "Ota kuva työpöydästäsi."
 
 #: ../kazam/app.py:199
 msgid "Fullscreen"
-msgstr ""
+msgstr "Koko näyttö"
 
 #: ../kazam/app.py:200
 msgid "Capture contents of the current screen."
-msgstr ""
+msgstr "Sisällytä nykyisellä näytöllä oleva sisältö."
 
 #: ../kazam/app.py:211
 msgid "All Screens"
-msgstr ""
+msgstr "Kaikki näytöt"
 
 #: ../kazam/app.py:212
 msgid "Capture contents of all of your screens."
-msgstr ""
+msgstr "Sisällytä kaikilla näytöillä oleva sisältö."
 
 #: ../kazam/app.py:224
 msgid "Window"
-msgstr ""
+msgstr "Ikkuna"
 
 #: ../kazam/app.py:225
 msgid "Capture contents of a single window."
-msgstr ""
+msgstr "Sisällytä yksittäisen ikkunan sisältö."
 
 #: ../kazam/app.py:236
 msgid "Area"
-msgstr ""
+msgstr "Alue"
 
 #: ../kazam/app.py:237
 msgid "Capture a pre-selected area of your screen."
-msgstr ""
+msgstr "Sisällytä etukäteen valittu alue näytöstäsi."
 
 #: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
@@ -206,7 +208,7 @@ msgstr "Aloita nauhoitus"
 
 #: ../kazam/app.py:309
 msgid "Take screenshot"
-msgstr ""
+msgstr "Ota kuvakaappaus"
 
 #: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
@@ -218,15 +220,15 @@ msgstr "Peru ajastin"
 
 #: ../kazam/frontend/window_select.py:155
 msgid "Select a window by clicking on it."
-msgstr ""
+msgstr "Valitse ikkuna napsauttamalla sitä."
 
 #: ../kazam/frontend/window_select.py:156
 msgid "Press ENTER or ESC to cancel"
-msgstr ""
+msgstr "Paina Enter tai Esc peruaksesi."
 
 #: ../kazam/frontend/done_recording.py:50
 msgid "Recording finished"
-msgstr ""
+msgstr "Nauhoitus valmistui"
 
 #: ../kazam/frontend/done_recording.py:62
 msgid ""
@@ -242,7 +244,7 @@ msgstr "Muokkaa ohjelmalla:"
 
 #: ../kazam/frontend/done_recording.py:73
 msgid "Save for later"
-msgstr ""
+msgstr "Tallenna se"
 
 #: ../kazam/frontend/done_recording.py:83
 msgid "Cancel"
@@ -258,7 +260,7 @@ msgstr "Tallenna nauhoitus"
 
 #: ../kazam/frontend/about_dialog.py:58
 msgid "Record a video of activity on your screen or capture a screenshot."
-msgstr ""
+msgstr "Nauhoita video näyttösi tapahtumista tai ota kuvakaappaus."
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
@@ -278,7 +280,7 @@ msgstr "Lopeta Kazam"
 
 #: ../kazam/frontend/main_menu.py:65
 msgid "Open preferences"
-msgstr ""
+msgstr "Avaa asetusikkuna"
 
 #: ../kazam/frontend/main_menu.py:67
 msgid "Help"
@@ -294,11 +296,11 @@ msgstr "Tietoja Kazamista"
 
 #: ../kazam/frontend/window_area.py:209
 msgid "Select an area by clicking and dragging."
-msgstr ""
+msgstr "Valitse alue napsauttamalla ja vetämällä."
 
 #: ../kazam/frontend/window_area.py:210
 msgid "Press ENTER to confirm or ESC to cancel"
-msgstr ""
+msgstr "Paina Enter vahvistaaksesi tai Esc peruaksesi."
 
 #: ../kazam/frontend/indicator.py:72
 msgid "Pause recording"
@@ -306,7 +308,7 @@ msgstr "Keskeytä nauhoitus"
 
 #: ../kazam/backend/grabber.py:171
 msgid "Save capture"
-msgstr ""
+msgstr "Tallenna kuvakaappaus"
 
 #: ../kazam/backend/prefs.py:137
 msgid "Unknown"

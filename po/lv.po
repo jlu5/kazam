@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-17 05:39+0000\n"
-"X-Generator: Launchpad (build 16626)\n"
+"X-Launchpad-Export-Date: 2014-04-29 06:26+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:57
@@ -32,15 +32,15 @@ msgstr "Sekundes, cik gaidīt pirms uzņemšanas:"
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Sound from microphone"
-msgstr "Skaņa no mikrofona"
+msgstr "Skaņu no mikrofona"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Sound from speakers"
-msgstr "Skaņa no skaļruņiem"
+msgstr "Skaņu no skaļruņiem"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Mouse cursor"
-msgstr "Peles kursors"
+msgstr "Peles kursoru"
 
 #: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
 #: ../kazam/frontend/save_dialog.py:43
@@ -49,7 +49,7 @@ msgstr "Ekrānieraksts"
 
 #: ../data/ui/kazam.ui.h:8
 msgid "Window borders"
-msgstr "Loga apmales"
+msgstr "Logu apmales"
 
 #: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
 #: ../kazam/frontend/save_dialog.py:45
@@ -130,7 +130,7 @@ msgstr "Aizvara tips:"
 
 #: ../data/kazam.desktop.in.h:2
 msgid "Screencast and Screenshot tool"
-msgstr "Ekrānieraksta un ekrānuzņēmuma rīks"
+msgstr "Ekrānierakstu un ekrānuzņēmumu rīks"
 
 #: ../data/kazam.desktop.in.h:3
 msgid "Record a video or take a screenshot of your screen"
@@ -198,7 +198,7 @@ msgstr "Reģions"
 
 #: ../kazam/app.py:237
 msgid "Capture a pre-selected area of your screen."
-msgstr "Uzņemt iepriekš izvēlētu reģionu no ekrāna"
+msgstr "Uzņemt iepriekš izvēlētu reģionu no ekrāna."
 
 #: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
@@ -258,7 +258,7 @@ msgstr "Saglabāt ierakstīto"
 
 #: ../kazam/frontend/about_dialog.py:58
 msgid "Record a video of activity on your screen or capture a screenshot."
-msgstr "Ieraksta video ar darbībām uz ekrkāna vai uzņem ekrānuzņēmumu."
+msgstr "Ieraksta video par darbībām uz ekrāna vai uzņem ekrānuzņēmumu."
 
 #: ../kazam/frontend/save_dialog.py:38
 msgid "Save"
