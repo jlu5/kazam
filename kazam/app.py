@@ -59,9 +59,9 @@ try:
         sys.exit(0)
     else:
         logger.debug("Gstreamer version detected: {0}.{1}.{2}.{3}".format(gst_gi[0],
-                                                                      gst_gi[1],
-                                                                      gst_gi[2],
-                                                                      gst_gi[3]))
+                                                                          gst_gi[1],
+                                                                          gst_gi[2],
+                                                                          gst_gi[3]))
 except ImportError:
     logger.critical(_("Gstreamer 1.0 or higher required, bailing out."))
     sys.exit(0)
@@ -170,7 +170,7 @@ class KazamApp(GObject.GObject):
         cast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if cast_icon:
             cast_icon_pixbuf, was_sym = cast_icon.load_symbolic(self.main_fg_color, None, None, None)
-            cast_img  = Gtk.Image.new_from_pixbuf(cast_icon_pixbuf)
+            cast_img = Gtk.Image.new_from_pixbuf(cast_icon_pixbuf)
             self.btn_cast.set_icon_widget(cast_img)
         self.btn_cast.set_active(True)
         self.btn_cast.set_name("MAIN_SCREENCAST")
@@ -182,7 +182,7 @@ class KazamApp(GObject.GObject):
         shot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if shot_icon:
             shot_icon_pixbuf, was_sym = shot_icon.load_symbolic(self.main_fg_color, None, None, None)
-            shot_img  = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
+            shot_img = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
             self.btn_shot.set_icon_widget(shot_img)
         self.btn_shot.set_name("MAIN_SCREENSHOT")
         self.btn_shot.connect("toggled", self.cb_main_toggled)
@@ -206,7 +206,7 @@ class KazamApp(GObject.GObject):
         full_icon = self.icons.lookup_icon("kazam-fullscreen-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if full_icon:
             full_icon_pixbuf, was_sym = full_icon.load_symbolic(self.aux_fg_color, None, None, None)
-            full_img  = Gtk.Image.new_from_pixbuf(full_icon_pixbuf)
+            full_img = Gtk.Image.new_from_pixbuf(full_icon_pixbuf)
             self.btn_full.set_icon_widget(full_img)
         self.btn_full.set_active(True)
         self.btn_full.set_name("MODE_FULL")
@@ -218,7 +218,7 @@ class KazamApp(GObject.GObject):
         allscreens_icon = self.icons.lookup_icon("kazam-all-screens-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if allscreens_icon:
             allscreens_icon_pixbuf, was_sym = allscreens_icon.load_symbolic(self.aux_fg_color, None, None, None)
-            allscreens_img  = Gtk.Image.new_from_pixbuf(allscreens_icon_pixbuf)
+            allscreens_img = Gtk.Image.new_from_pixbuf(allscreens_icon_pixbuf)
             self.btn_allscreens.set_icon_widget(allscreens_img)
         self.btn_allscreens.set_name("MODE_ALL")
         self.btn_allscreens.connect("toggled", self.cb_record_mode_toggled)
@@ -231,7 +231,7 @@ class KazamApp(GObject.GObject):
         window_icon = self.icons.lookup_icon("kazam-window-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if window_icon:
             window_icon_pixbuf, was_sym = window_icon.load_symbolic(self.aux_fg_color, None, None, None)
-            window_img  = Gtk.Image.new_from_pixbuf(window_icon_pixbuf)
+            window_img = Gtk.Image.new_from_pixbuf(window_icon_pixbuf)
             self.btn_window.set_icon_widget(window_img)
         self.btn_window.set_name("MODE_WIN")
         self.btn_window.connect("toggled", self.cb_record_mode_toggled)
@@ -243,7 +243,7 @@ class KazamApp(GObject.GObject):
         area_icon = self.icons.lookup_icon("kazam-area-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if area_icon:
             area_icon_pixbuf, was_sym = area_icon.load_symbolic(self.aux_fg_color, None, None, None)
-            area_img  = Gtk.Image.new_from_pixbuf(area_icon_pixbuf)
+            area_img = Gtk.Image.new_from_pixbuf(area_icon_pixbuf)
             self.btn_area.set_icon_widget(area_img)
         self.btn_area.set_name("MODE_AREA")
         self.btn_area.connect("toggled", self.cb_record_mode_toggled)
@@ -606,9 +606,9 @@ class KazamApp(GObject.GObject):
             self.window.present()
         elif self.main_mode == MODE_SCREENCAST:
             self.done_recording = DoneRecording(self.icons,
-                                            self.tempfile,
-                                            prefs.codec,
-                                            self.old_vid_path)
+                                                self.tempfile,
+                                                prefs.codec,
+                                                self.old_vid_path)
             logger.debug("Done Recording initialized.")
             self.done_recording.connect("save-done", self.cb_save_done)
             self.done_recording.connect("save-cancel", self.cb_save_cancel)
@@ -731,6 +731,7 @@ class KazamApp(GObject.GObject):
         #
         # Annoyances with the menus
         #
+        logger.debug("Running Counter.")
         (main_x, main_y) = self.window.get_position()
         if main_x and main_y:
             prefs.main_x = main_x
@@ -750,7 +751,7 @@ class KazamApp(GObject.GObject):
             if prefs.capture_speakers:
                 try:
                     audio_source = prefs.speaker_sources[prefs.audio_source][1]
-                except  IndexError:
+                except IndexError:
                     logger.warning("It appears that speakers audio source isn't set up correctly.")
                     audio_source = None
             else:
@@ -798,8 +799,9 @@ class KazamApp(GObject.GObject):
                                        prefs.xid if self.record_mode == MODE_WIN else None)
             self.grabber.connect("flush-done", self.cb_flush_done)
 
-        self.countdown = CountdownWindow(self.indicator, show_window = prefs.countdown_splash)
+        self.countdown = CountdownWindow(self.indicator, show_window=prefs.countdown_splash)
         self.countdown.connect("counter-finished", self.cb_counter_finished)
+        logger.debug("Starting counter.")
         self.countdown.run(prefs.countdown_timer)
         self.recording = True
         logger.debug("Hiding main window.")
@@ -816,7 +818,7 @@ class KazamApp(GObject.GObject):
                 else:
                     logger.debug("Ubuntu 13.04 or higher not detected, recording outline not shown.")
         except:
-                logger.debug("Unable to show recording outline.")
+            logger.debug("Unable to show recording outline.")
 
     def setup_translations(self):
         gettext.bindtextdomain("kazam", "/usr/share/locale")
@@ -826,7 +828,7 @@ class KazamApp(GObject.GObject):
         except Exception as e:
             logger.exception("EXCEPTION: Setlocale failed, no language support.")
 
-    def restore_UI (self):
+    def restore_UI(self):
         self.window.move(prefs.main_x, prefs.main_y)
         self.chk_cursor.set_active(prefs.capture_cursor)
         self.chk_speakers.set_active(prefs.capture_speakers)

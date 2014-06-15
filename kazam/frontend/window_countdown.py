@@ -22,22 +22,25 @@
 
 import os
 import cairo
+import logging
 
 from gettext import gettext as _
 from gi.repository import Gtk, GObject, GLib
 
 from kazam.backend.prefs import *
 
+logger = logging.getLogger("Countdown")
+
 class CountdownWindow(GObject.GObject):
 
     __gsignals__ = {
-        "counter-finished" : (GObject.SIGNAL_RUN_LAST,
-                                   None,
-                                   (),
-                                  ),
+        "counter-finished": (GObject.SIGNAL_RUN_LAST,
+                             None,
+                             (),
+                             ),
     }
 
-    def __init__(self, indicator, number = 5, show_window = True):
+    def __init__(self, indicator, number=5, show_window=True):
         super(CountdownWindow, self).__init__()
         self.indicator = indicator
         self.number = number
@@ -65,14 +68,15 @@ class CountdownWindow(GObject.GObject):
         if self.visual is not None and self.screen.is_composited():
             self.window.set_visual(self.visual)
 
-
     def run(self, counter):
+
         if counter > 0:
             self.number = counter + 1
             if self.show_window:
                 self.window.show_all()
         else:
             self.number = 0
+        logger.debug("Invoking countdown.")
         self.countdown()
 
     def countdown(self):
@@ -80,8 +84,11 @@ class CountdownWindow(GObject.GObject):
             if self.number < 5:
                 self.indicator.blink_set_state(BLINK_FAST)
             if self.number > 1:
+                logger.debug("Draw current.")
                 self.window.queue_draw()
+                logger.debug("Call next.")
                 GLib.timeout_add(1000, self.countdown)
+                logger.debug("Decrease number.")
                 self.number -= 1
             else:
                 self.window.destroy()
@@ -100,7 +107,8 @@ class CountdownWindow(GObject.GObject):
     def cb_draw(self, widget, cr):
         w = self.width
         h = self.height
-        background = cairo.ImageSurface.create_from_png(os.path.join(prefs.datadir, "icons", "counter", "cb-{0}.png".format(int(self.number))))
+        background = cairo.ImageSurface.create_from_png(
+            os.path.join(prefs.datadir, "icons", "counter", "cb-{0}.png".format(int(self.number))))
         cr.set_source_rgba(0.0, 0.0, 0.0, 0.45)
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
