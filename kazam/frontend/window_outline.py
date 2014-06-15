@@ -114,8 +114,13 @@ class OutlineWindow(GObject.GObject):
         surface_ctx.set_source_rgba(1.0, 1.0, 1.0, 0.0)
         surface_ctx.set_operator(cairo.OPERATOR_SOURCE)
         surface_ctx.paint()
-        reg = Gdk.cairo_region_create_from_surface(surface)
-        widget.input_shape_combine_region(reg)
+
+        rect = cairo.RectangleInt(0, 0, 1, 1)
+        reg = cairo.Region(rect)
+        if (not reg.is_empty()):
+            widget.input_shape_combine_region(None)
+            widget.input_shape_combine_region(reg)
+
         cr.move_to(0, 0)
         cr.set_source_rgba(1.0, 0.0, 0.0, 0.8)
         cr.set_line_width(2.0)
