@@ -130,5 +130,3 @@ class KazamConfig(ConfigParser):
         file_ = open(self.CONFIGFILE, "w")
         ConfigParser.write(self, file_)
         file_.close()
-
-

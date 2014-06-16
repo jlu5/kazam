@@ -26,6 +26,7 @@ import logging
 
 logger = logging.getLogger("Utils")
 
+
 def get_next_filename(sdir, prefix, ext):
     for cnt in range(0, 99999):
         fname = os.path.join(sdir, "{0}_{1}{2}".format(prefix,

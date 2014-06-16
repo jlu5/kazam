@@ -70,9 +70,6 @@ def AboutDialog(icons):
     except:
         # Not important, we just don't get to show our lovely logo.. :)
         pass
-    # dialog.set_modal(True)
-    # dialog.set_transient_for(kazam)
-    # dialog.set_decorated(False)
     dialog.show_all()
     dialog.set_position(Gtk.WindowPosition.CENTER)
     dialog.run()
