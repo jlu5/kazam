@@ -197,7 +197,7 @@ class KazamApp(GObject.GObject):
         self.btn_webcam = Gtk.RadioToolButton(group=self.btn_screencast)
         self.btn_webcam.set_label(_("Webcam"))
         self.btn_webcam.set_tooltip_text(_("Capture form your webcam."))
-        webcam_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+        webcam_icon = self.icons.lookup_icon("kazam-webcam-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if webcam_icon:
             cam_icon_pixbuf, was_sym = webcam_icon.load_symbolic(self.main_fg_color, None, None, None)
             cam_img = Gtk.Image.new_from_pixbuf(cam_icon_pixbuf)
@@ -211,7 +211,7 @@ class KazamApp(GObject.GObject):
         self.btn_broadcast = Gtk.RadioToolButton(group=self.btn_screencast)
         self.btn_broadcast.set_label(_("Broadcast"))
         self.btn_broadcast.set_tooltip_text(_("Broadcast your desktop."))
-        broadcast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+        broadcast_icon = self.icons.lookup_icon("kazam-broadcast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if broadcast_icon:
             cam_icon_pixbuf, was_sym = broadcast_icon.load_symbolic(self.main_fg_color, None, None, None)
             cam_img = Gtk.Image.new_from_pixbuf(cam_icon_pixbuf)
