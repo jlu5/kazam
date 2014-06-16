@@ -164,35 +164,78 @@ class KazamApp(GObject.GObject):
         self.main_context.connect("changed", self.cb_main_context_change)
         self.main_fg_color = self.main_context.get_color(Gtk.StateFlags.ACTIVE)
 
-        self.btn_cast = Gtk.RadioToolButton(group=None)
-        self.btn_cast.set_label(_("Screencast"))
-        self.btn_cast.set_tooltip_text(_("Record a video of your desktop."))
-        cast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
-        if cast_icon:
-            cast_icon_pixbuf, was_sym = cast_icon.load_symbolic(self.main_fg_color, None, None, None)
+        self.btn_screencast = Gtk.RadioToolButton(group=None)
+        self.btn_screencast.set_label(_("Screencast"))
+        self.btn_screencast.set_tooltip_text(_("Record a video of your desktop."))
+        screencast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+        if screencast_icon:
+            cast_icon_pixbuf, was_sym = screencast_icon.load_symbolic(self.main_fg_color, None, None, None)
             cast_img = Gtk.Image.new_from_pixbuf(cast_icon_pixbuf)
-            self.btn_cast.set_icon_widget(cast_img)
-        self.btn_cast.set_active(True)
-        self.btn_cast.set_name("MAIN_SCREENCAST")
-        self.btn_cast.connect("toggled", self.cb_main_toggled)
+            self.btn_screencast.set_icon_widget(cast_img)
+        self.btn_screencast.set_active(True)
+        self.btn_screencast.set_name("MAIN_SCREENCAST")
+        self.btn_screencast.connect("toggled", self.cb_main_toggled)
 
-        self.btn_shot = Gtk.RadioToolButton(group=self.btn_cast)
-        self.btn_shot.set_label(_("Screenshot"))
-        self.btn_shot.set_tooltip_text(_("Record a picture of your desktop."))
-        shot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
-        if shot_icon:
-            shot_icon_pixbuf, was_sym = shot_icon.load_symbolic(self.main_fg_color, None, None, None)
+        self.btn_screenshot = Gtk.RadioToolButton(group=self.btn_screencast)
+        self.btn_screenshot.set_label(_("Screenshot"))
+        self.btn_screenshot.set_tooltip_text(_("Record a picture of your desktop."))
+        screenshot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+        if screenshot_icon:
+            shot_icon_pixbuf, was_sym = screenshot_icon.load_symbolic(self.main_fg_color, None, None, None)
             shot_img = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
-            self.btn_shot.set_icon_widget(shot_img)
-        self.btn_shot.set_name("MAIN_SCREENSHOT")
-        self.btn_shot.connect("toggled", self.cb_main_toggled)
+            self.btn_screenshot.set_icon_widget(shot_img)
+        self.btn_screenshot.set_name("MAIN_SCREENSHOT")
+        self.btn_screenshot.connect("toggled", self.cb_main_toggled)
+
+        self.btn_webcam = Gtk.RadioToolButton(group=self.btn_screencast)
+        self.btn_webcam.set_label(_("Webcam"))
+        self.btn_webcam.set_tooltip_text(_("Capture form your webcam."))
+        #
+        #
+        webcam_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+        if webcam_icon:
+            cam_icon_pixbuf, was_sym = webcam_icon.load_symbolic(self.main_fg_color, None, None, None)
+            cam_img = Gtk.Image.new_from_pixbuf(cam_icon_pixbuf)
+            self.btn_webcam.set_icon_widget(cam_img)
+        self.btn_webcam.set_active(True)
+        self.btn_webcam.set_name("MAIN_WEBCAM")
+        self.btn_webcam.connect("toggled", self.cb_main_toggled)
+
+        self.btn_screenshot = Gtk.RadioToolButton(group=self.btn_screencast)
+        self.btn_screenshot.set_label(_("Screenshot"))
+        self.btn_screenshot.set_tooltip_text(_("Record a picture of your desktop."))
+        screenshot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+        if screenshot_icon:
+            shot_icon_pixbuf, was_sym = screenshot_icon.load_symbolic(self.main_fg_color, None, None, None)
+            shot_img = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
+            self.btn_screenshot.set_icon_widget(shot_img)
+        self.btn_screenshot.set_name("MAIN_SCREENSHOT")
+        self.btn_screenshot.connect("toggled", self.cb_main_toggled)
+
+        self.btn_broadcast = Gtk.RadioToolButton(group=self.btn_screencast)
+        self.btn_broadcast.set_label(_("Broadcast"))
+        self.btn_broadcast.set_tooltip_text(_("Broadcast your desktop."))
+        #
+        #
+        broadcast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+        if broadcast_icon:
+            cam_icon_pixbuf, was_sym = broadcast_icon.load_symbolic(self.main_fg_color, None, None, None)
+            cam_img = Gtk.Image.new_from_pixbuf(cam_icon_pixbuf)
+            self.btn_broadcast.set_icon_widget(cam_img)
+        self.btn_broadcast.set_active(True)
+        self.btn_broadcast.set_name("MAIN_WEBCAM")
+        self.btn_broadcast.connect("toggled", self.cb_main_toggled)
+
+
 
         self.sep_1 = Gtk.SeparatorToolItem()
         self.sep_1.set_draw(False)
         self.sep_1.set_expand(True)
         self.toolbar_main.insert(self.sep_1, -1)
-        self.toolbar_main.insert(self.btn_cast, -1)
-        self.toolbar_main.insert(self.btn_shot, -1)
+        self.toolbar_main.insert(self.btn_screencast, -1)
+        self.toolbar_main.insert(self.btn_screenshot, -1)
+        self.toolbar_main.insert(self.btn_webcam, -1)
+        self.toolbar_main.insert(self.btn_broadcast, -1)
         self.toolbar_main.insert(self.sep_1, -1)
 
         # Auxiliary toolbar
@@ -316,6 +359,12 @@ class KazamApp(GObject.GObject):
                 self.chk_borders_pic.set_sensitive(True)
             else:
                 self.chk_borders_pic.set_sensitive(False)
+        elif name == "MAIN_WEBCAM" and widget.get_active():
+            logger.debug("Main toggled: {0}".format(name))
+            self.main_mode = MODE_WEBCAM
+        elif name == "MAIN_BROADCAST" and widget.get_active():
+            logger.debug("Main toggled: {0}".format(name))
+            self.main_mode = MODE_BROADCAST
 
     #
     # Record mode toggles
@@ -381,14 +430,14 @@ class KazamApp(GObject.GObject):
             if cast_icon:
                 cast_icon_pixbuf, was_sym = cast_icon.load_symbolic(self.main_fg_color, None, None, None)
                 cast_img = Gtk.Image.new_from_pixbuf(cast_icon_pixbuf)
-                self.btn_cast.set_icon_widget(cast_img)
+                self.btn_screencast.set_icon_widget(cast_img)
                 cast_img.show_all()
 
             shot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
             if shot_icon:
                 shot_icon_pixbuf, was_sym = shot_icon.load_symbolic(self.main_fg_color, None, None, None)
                 shot_img = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
-                self.btn_shot.set_icon_widget(shot_img)
+                self.btn_screenshot.set_icon_widget(shot_img)
                 shot_img.show_all()
 
             #
@@ -428,12 +477,12 @@ class KazamApp(GObject.GObject):
 
     def cb_ql_screencast(self, menu, data):
         logger.debug("Screencast quicklist activated.")
-        self.btn_cast.set_active(True)
+        self.btn_screencast.set_active(True)
         self.run_counter()
 
     def cb_ql_screenshot(self, menu, data):
         logger.debug("Screenshot quicklist activated.")
-        self.btn_shot.set_active(True)
+        self.btn_screenshot.set_active(True)
         self.run_counter()
 
     def cb_record_area_clicked(self, widget):

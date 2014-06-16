@@ -53,6 +53,7 @@ LICENSE = """
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+
 def AboutDialog(icons):
     dialog = Gtk.AboutDialog()
     dialog.set_program_name(_("Kazam") + " - \"" + CODENAME + "\"")
@@ -71,7 +72,7 @@ def AboutDialog(icons):
         pass
     # dialog.set_modal(True)
     # dialog.set_transient_for(kazam)
-    # dialog.set_decorated(False) 
+    # dialog.set_decorated(False)
     dialog.show_all()
     dialog.set_position(Gtk.WindowPosition.CENTER)
     dialog.run()
