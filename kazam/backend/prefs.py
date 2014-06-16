@@ -31,6 +31,7 @@ from kazam.backend.config import KazamConfig
 
 
 class Prefs():
+
     def __init__(self):
         """Initialize prefs and set all the preference variables to their
            default values.
@@ -125,7 +126,6 @@ class Prefs():
         #
         # Fix codec list
         #
-
 
     def get_audio_sources(self):
         self.logger.debug("Getting Audio sources.")
@@ -282,7 +282,9 @@ class Prefs():
 
         self.config.write()
 
+
 class hw:
+
     def __init__(self):
         self.logger = logging.getLogger("Prefs-HW")
         self.logger.debug("Getting hardware specs")
@@ -291,7 +293,7 @@ class hw:
 
         self.get_screens()
 
-    def get_current_screen(self, window = None):
+    def get_current_screen(self, window=None):
         try:
             if window:
                 screen = self.default_screen.get_monitor_at_window(window.get_window())
@@ -437,6 +439,8 @@ BLINK_READY_ICON = 5
 # Main modes
 MODE_SCREENCAST = 0
 MODE_SCREENSHOT = 1
+MODE_WEBCAM = 2
+MODE_BROADCAST = 3
 
 # Record modes
 MODE_FULL = 0

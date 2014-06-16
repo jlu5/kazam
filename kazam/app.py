@@ -164,6 +164,9 @@ class KazamApp(GObject.GObject):
         self.main_context.connect("changed", self.cb_main_context_change)
         self.main_fg_color = self.main_context.get_color(Gtk.StateFlags.ACTIVE)
 
+        #
+        # Screen cast mode
+        #
         self.btn_screencast = Gtk.RadioToolButton(group=None)
         self.btn_screencast.set_label(_("Screencast"))
         self.btn_screencast.set_tooltip_text(_("Record a video of your desktop."))
@@ -175,7 +178,9 @@ class KazamApp(GObject.GObject):
         self.btn_screencast.set_active(True)
         self.btn_screencast.set_name("MAIN_SCREENCAST")
         self.btn_screencast.connect("toggled", self.cb_main_toggled)
-
+        #
+        # Screen shot mode
+        #
         self.btn_screenshot = Gtk.RadioToolButton(group=self.btn_screencast)
         self.btn_screenshot.set_label(_("Screenshot"))
         self.btn_screenshot.set_tooltip_text(_("Record a picture of your desktop."))
@@ -186,12 +191,12 @@ class KazamApp(GObject.GObject):
             self.btn_screenshot.set_icon_widget(shot_img)
         self.btn_screenshot.set_name("MAIN_SCREENSHOT")
         self.btn_screenshot.connect("toggled", self.cb_main_toggled)
-
+        #
+        # Webcam mode
+        #
         self.btn_webcam = Gtk.RadioToolButton(group=self.btn_screencast)
         self.btn_webcam.set_label(_("Webcam"))
         self.btn_webcam.set_tooltip_text(_("Capture form your webcam."))
-        #
-        #
         webcam_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if webcam_icon:
             cam_icon_pixbuf, was_sym = webcam_icon.load_symbolic(self.main_fg_color, None, None, None)
@@ -200,33 +205,20 @@ class KazamApp(GObject.GObject):
         self.btn_webcam.set_active(True)
         self.btn_webcam.set_name("MAIN_WEBCAM")
         self.btn_webcam.connect("toggled", self.cb_main_toggled)
-
-        self.btn_screenshot = Gtk.RadioToolButton(group=self.btn_screencast)
-        self.btn_screenshot.set_label(_("Screenshot"))
-        self.btn_screenshot.set_tooltip_text(_("Record a picture of your desktop."))
-        screenshot_icon = self.icons.lookup_icon("kazam-screenshot-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
-        if screenshot_icon:
-            shot_icon_pixbuf, was_sym = screenshot_icon.load_symbolic(self.main_fg_color, None, None, None)
-            shot_img = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
-            self.btn_screenshot.set_icon_widget(shot_img)
-        self.btn_screenshot.set_name("MAIN_SCREENSHOT")
-        self.btn_screenshot.connect("toggled", self.cb_main_toggled)
-
+        #
+        # Broadcast mode
+        #
         self.btn_broadcast = Gtk.RadioToolButton(group=self.btn_screencast)
         self.btn_broadcast.set_label(_("Broadcast"))
         self.btn_broadcast.set_tooltip_text(_("Broadcast your desktop."))
-        #
-        #
         broadcast_icon = self.icons.lookup_icon("kazam-screencast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
         if broadcast_icon:
             cam_icon_pixbuf, was_sym = broadcast_icon.load_symbolic(self.main_fg_color, None, None, None)
             cam_img = Gtk.Image.new_from_pixbuf(cam_icon_pixbuf)
             self.btn_broadcast.set_icon_widget(cam_img)
         self.btn_broadcast.set_active(True)
-        self.btn_broadcast.set_name("MAIN_WEBCAM")
+        self.btn_broadcast.set_name("MAIN_BROADCAST")
         self.btn_broadcast.connect("toggled", self.cb_main_toggled)
-
-
 
         self.sep_1 = Gtk.SeparatorToolItem()
         self.sep_1.set_draw(False)
@@ -359,12 +351,16 @@ class KazamApp(GObject.GObject):
                 self.chk_borders_pic.set_sensitive(True)
             else:
                 self.chk_borders_pic.set_sensitive(False)
+
         elif name == "MAIN_WEBCAM" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
             self.main_mode = MODE_WEBCAM
+            self.indicator.menuitem_start.set_label(_("Start recording"))
+
         elif name == "MAIN_BROADCAST" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
             self.main_mode = MODE_BROADCAST
+            self.indicator.menuitem_start.set_label(_("Start broadcasting"))
 
     #
     # Record mode toggles

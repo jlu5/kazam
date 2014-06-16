@@ -24,18 +24,19 @@ import math
 import logging
 logger = logging.getLogger("Preferences")
 
-from gi.repository import Gtk, Gdk, GObject, Pango
+from gi.repository import Gtk, GObject, Pango
 
 from kazam.utils import *
 from kazam.backend.prefs import *
 
+
 class Preferences(GObject.GObject):
     __gsignals__ = {
-        "prefs-quit" : (GObject.SIGNAL_RUN_LAST,
-                        None,
-                        (),
-            ),
-        }
+        "prefs-quit": (GObject.SIGNAL_RUN_LAST,
+                       None,
+                       (),
+                       ),
+    }
 
     def __init__(self):
         GObject.GObject.__init__(self)
@@ -228,7 +229,7 @@ class Preferences(GObject.GObject):
         prefs.audio_source = self.combobox_audio.get_active()
         logger.debug("  - A_1 {0}".format(prefs.audio_source))
 
-        pa_audio_idx =  prefs.speaker_sources[prefs.audio_source][0]
+        pa_audio_idx = prefs.speaker_sources[prefs.audio_source][0]
         prefs.pa_q.set_source_mute_by_index(pa_audio_idx, 0)
 
         logger.debug("  - PA Audio1 IDX: {0}".format(pa_audio_idx))
@@ -243,7 +244,7 @@ class Preferences(GObject.GObject):
         else:
             logger.debug("Error getting volume info for Audio 1")
         if len(self.audio_source_info):
-           logger.debug("New Audio1: {0}".format(self.audio_source_info[3]))
+            logger.debug("New Audio1: {0}".format(self.audio_source_info[3]))
         else:
             logger.debug("New Audio1: Error retrieving data.")
 
@@ -253,7 +254,7 @@ class Preferences(GObject.GObject):
         prefs.audio2_source = self.combobox_audio2.get_active()
         logger.debug("  - A_2 {0}".format(prefs.audio2_source))
 
-        pa_audio2_idx =  prefs.mic_sources[prefs.audio2_source][0]
+        pa_audio2_idx = prefs.mic_sources[prefs.audio2_source][0]
         prefs.pa_q.set_source_mute_by_index(pa_audio2_idx, 0)
 
         logger.debug("  - PA Audio2 IDX: {0}".format(pa_audio2_idx))
@@ -277,17 +278,17 @@ class Preferences(GObject.GObject):
     def cb_volume_changed(self, widget, value):
         logger.debug("Volume 1 changed, new value: {0}".format(value))
         idx = self.combobox_audio.get_active()
-        pa_idx =  prefs.audio_sources[idx][0]
+        pa_idx = prefs.audio_sources[idx][0]
         chn = self.audio_source_info[2].channels
-        cvol = prefs.pa_q.dB_to_cvolume(chn, value-60)
+        cvol = prefs.pa_q.dB_to_cvolume(chn, value - 60)
         prefs.pa_q.set_source_volume_by_index(pa_idx, cvol)
 
     def cb_volume2_changed(self, widget, value):
         logger.debug("Volume 2 changed, new value: {0}".format(value))
         idx = self.combobox_audio2.get_active()
-        pa_idx =  prefs.audio_sources[idx][0]
+        pa_idx = prefs.audio_sources[idx][0]
         chn = self.audio2_source_info[2].channels
-        cvol = prefs.pa_q.dB_to_cvolume(chn, value-60)
+        cvol = prefs.pa_q.dB_to_cvolume(chn, value - 60)
         prefs.pa_q.set_source_volume_by_index(pa_idx, cvol)
 
     #
@@ -359,4 +360,3 @@ class Preferences(GObject.GObject):
     def cb_entry_autosave_picture(self, widget):
         prefs.autosave_picture_file = widget.get_text()
         logger.debug("Picture autosave file set to: {0}".format(prefs.autosave_picture_file))
-
