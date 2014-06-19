@@ -27,6 +27,7 @@ from xdg.BaseDirectory import xdg_config_home
 
 from gi.repository import Gdk, GdkX11
 
+from kazam.backend.webcam import Webcam
 from kazam.backend.config import KazamConfig
 
 
@@ -53,6 +54,9 @@ class Prefs():
         self.capture_cursor = False
         self.capture_speakers = False
         self.capture_microphone = False
+
+        self.capture_speakers_webcam = False
+        self.capture_microphone_webcam = False
 
         self.capture_cursor_pic = False
         self.capture_borders_pic = False
@@ -108,6 +112,12 @@ class Prefs():
         self.mic_sources = []
 
         #
+        # Broadcast and webcam stuff
+        #
+        self.webcam_source = None
+        self.webcam_sources = []
+
+        #
         # Command line parameters
         #
         self.debug = False
@@ -146,6 +156,14 @@ class Prefs():
             # Something went wrong, just fallback to no-sound
             self.logger.warning("Unable to find any audio devices.")
             self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
+
+    def get_webcam_sources(self):
+        self.logger.debug("Getting Webcam sources.")
+        try:
+            self.webcam_sources = HW.get_webcams()
+        except:
+            self.logger.warning("Unable to find any web cams.")
+
 
     def get_dirs(self):
         paths = {}
@@ -198,10 +216,12 @@ class Prefs():
     def read_config(self):
         self.audio_source = int(self.config.get("main", "audio_source"))
         self.audio2_source = int(self.config.get("main", "audio2_source"))
+        self.webcam_source = int(self.config.get("main", "webcam_source"))
+
         self.main_x = int(self.config.get("main", "last_x"))
         self.main_y = int(self.config.get("main", "last_y"))
-        self.countdown_timer = float(self.config.get("main", "counter"))
 
+        self.countdown_timer = float(self.config.get("main", "counter"))
         #
         # Just in case this blows up in our face later
         #
@@ -212,6 +232,9 @@ class Prefs():
         self.capture_cursor = self.config.getboolean("main", "capture_cursor")
         self.capture_microphone = self.config.getboolean("main", "capture_microphone")
         self.capture_speakers = self.config.getboolean("main", "capture_speakers")
+
+        self.capture_microphone_webcam = self.config.getboolean("main", "capture_microphone_w")
+        self.capture_speakers_webcam = self.config.getboolean("main", "capture_speakers_w")
 
         self.capture_cursor_pic = self.config.getboolean("main", "capture_cursor_pic")
         self.capture_borders_pic = self.config.getboolean("main", "capture_borders_pic")
@@ -257,6 +280,9 @@ class Prefs():
         self.config.set("main", "capture_speakers", self.capture_speakers)
         self.config.set("main", "capture_microphone", self.capture_microphone)
 
+        self.config.set("main", "capture_speakers_w", self.capture_speakers_webcam)
+        self.config.set("main", "capture_microphone_w", self.capture_microphone_webcam)
+
         self.config.set("main", "capture_cursor_pic", self.capture_cursor_pic)
         self.config.set("main", "capture_borders_pic", self.capture_borders_pic)
 
@@ -266,6 +292,8 @@ class Prefs():
         if self.sound:
             self.config.set("main", "audio_source", self.audio_source)
             self.config.set("main", "audio2_source", self.audio2_source)
+
+        self.config.set("main", "webcam_source", self.webcam_source)
 
         self.config.set("main", "countdown_splash", self.countdown_splash)
         self.config.set("main", "counter", self.countdown_timer)
@@ -290,6 +318,8 @@ class hw:
         self.logger.debug("Getting hardware specs")
         self.screens = None
         self.combined_screen = None
+
+        self.webcam = Webcam()
 
         self.get_screens()
 
@@ -330,13 +360,24 @@ class hw:
                 self.combined_screen = {"x": 0, "y": 0,
                                         "width": self.default_screen.get_width(),
                                         "height": self.default_screen.get_height()}
-                self.logger.debug("  Combined screen - X: 0, Y: 0, W: {0}, H: {1}".format(self.default_screen.get_width(),
-                                                                                          self.default_screen.get_height()))
+                self.logger.debug("  Combined - X: 0, Y: 0, W: {0}, H: {1}".format(self.default_screen.get_width(),
+                                                                                   self.default_screen.get_height()))
             else:
                 self.combined_screen = None
 
         except:
             self.logger.warning("Unable to find any video sources.")
+
+    def get_webcams(self):
+        self.logger.debug("Deteting webcams.")
+        try:
+            return self.webcam.detect()
+        except:
+            self.logger.warning("Failed to detect a webcam.")
+            return []
+
+    def get_webcam_support(self):
+        return self.webcam.has_webcam
 
 
 def detect_codecs():
@@ -439,8 +480,8 @@ BLINK_READY_ICON = 5
 # Main modes
 MODE_SCREENCAST = 0
 MODE_SCREENSHOT = 1
-MODE_WEBCAM = 2
-MODE_BROADCAST = 3
+MODE_BROADCAST = 2
+MODE_WEBCAM = 3
 
 # Record modes
 MODE_FULL = 0

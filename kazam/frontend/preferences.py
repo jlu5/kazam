@@ -65,6 +65,8 @@ class Preferences(GObject.GObject):
         audio_renderer.props.ellipsize = Pango.EllipsizeMode.END
         audio_renderer.props.max_width_chars = 40
 
+        webcam_renderer = Gtk.CellRendererText()
+
         self.combobox_codec.pack_start(codec_renderer, True)
         self.combobox_codec.add_attribute(codec_renderer, "text", 1)
 
@@ -74,12 +76,17 @@ class Preferences(GObject.GObject):
         self.combobox_audio2.pack_start(audio_renderer, True)
         self.combobox_audio2.add_attribute(audio_renderer, "text", 0)
 
+        self.combobox_webcam.pack_start(webcam_renderer, True)
+        self.combobox_webcam.add_attribute(webcam_renderer, "text", 3)
+
         self.filechooser_video.set_current_folder(prefs.video_dest)
 
         self.populate_codecs()
         if prefs.sound:
             self.populate_audio_sources()
         self.populate_shutter_sounds()
+
+        self.populate_webcams()
 
         self.restore_UI()
 
@@ -135,6 +142,13 @@ class Preferences(GObject.GObject):
         for s_file in prefs.sound_files:
             self.combobox_shutter_type.append(None, s_file[:-4])
 
+    def populate_webcams(self):
+        webcam_source_model = Gtk.ListStore(int, str, str, str)
+        for cam in prefs.webcam_sources:
+            webcam_source_model.append(cam)
+
+        self.combobox_webcam.set_model(webcam_source_model)
+
     def restore_UI(self):
         logger.debug("Restoring UI.")
 
@@ -186,8 +200,9 @@ class Preferences(GObject.GObject):
             self.filechooser_picture.set_sensitive(False)
             self.entry_autosave_picture.set_sensitive(False)
 
-        self.entry_autosave_picture.set_text(prefs.autosave_picture_file)
+        self.combobox_webcam.set_active(prefs.webcam_source)
 
+        self.entry_autosave_picture.set_text(prefs.autosave_picture_file)
         self.filechooser_picture.set_current_folder(prefs.autosave_picture_dir)
 
         #
@@ -360,3 +375,12 @@ class Preferences(GObject.GObject):
     def cb_entry_autosave_picture(self, widget):
         prefs.autosave_picture_file = widget.get_text()
         logger.debug("Picture autosave file set to: {0}".format(prefs.autosave_picture_file))
+
+    #
+    # Webcam callbacks
+    #
+
+    def cb_webcam_changed(self, widget):
+        logger.debug("Webcam changed.")
+        prefs.webcam_source = self.combobox_webcam.get_active()
+        logger.debug("  - CAM_0 {0}".format(prefs.webcam_source))

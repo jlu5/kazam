@@ -40,8 +40,10 @@ class KazamConfig(ConfigParser):
                          "codec":                 "0",
                          "counter":               "5",
                          "capture_cursor":        "True",
-                         "capture_microphone":    "False",
                          "capture_speakers":      "False",
+                         "capture_microphone":    "False",
+                         "capture_speakers_w":    "False",
+                         "capture_microphone_w":  "False",
                          "capture_cursor_pic":    "True",
                          "capture_borders_pic":   "True",
                          "framerate":             "15",
@@ -59,6 +61,7 @@ class KazamConfig(ConfigParser):
                          "shutter_sound":          "True",
                          "shutter_type":           "0",
                          "first_run":              "True",
+                         "webcam_source":          "0",
                          },
                 },
                 {"name": "keyboard_shortcuts",
@@ -100,13 +103,25 @@ class KazamConfig(ConfigParser):
 
     def get(self, section, key):
         try:
-            return ConfigParser.get(self, section, key)
+            ret = ConfigParser.get(self, section, key)
+            if ret == "None":
+                default = self.find_default(section, key)
+                self.set(section, key, default)
+                self.write()
+                return default
+            else:
+                return ret
         except NoSectionError:
             default = self.find_default(section, key)
             self.set(section, key, default)
             self.write()
             return default
         except NoOptionError:
+            default = self.find_default(section, key)
+            self.set(section, key, default)
+            self.write()
+            return default
+        except ValueError:
             default = self.find_default(section, key)
             self.set(section, key, default)
             self.write()

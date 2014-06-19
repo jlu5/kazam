@@ -34,9 +34,10 @@ from gettext import gettext as _
 from kazam.utils import *
 from kazam.backend.prefs import *
 from kazam.backend.grabber import Grabber
+from kazam.backend.gstreamer import Screencast
+
 from kazam.frontend.main_menu import MainMenu
 from kazam.frontend.window_area import AreaWindow
-from kazam.backend.gstreamer import Screencast
 from kazam.frontend.preferences import Preferences
 from kazam.frontend.about_dialog import AboutDialog
 from kazam.frontend.indicator import KazamIndicator
@@ -119,6 +120,9 @@ class KazamApp(GObject.GObject):
             prefs.pa_q = pulseaudio_q()
             prefs.pa_q.start()
 
+        # Get webcams
+        prefs.get_webcam_sources()
+
         self.mainmenu = MainMenu()
 
         logger.debug("Connecting indicator signals.")
@@ -192,20 +196,6 @@ class KazamApp(GObject.GObject):
         self.btn_screenshot.set_name("MAIN_SCREENSHOT")
         self.btn_screenshot.connect("toggled", self.cb_main_toggled)
         #
-        # Webcam mode
-        #
-        self.btn_webcam = Gtk.RadioToolButton(group=self.btn_screencast)
-        self.btn_webcam.set_label(_("Webcam"))
-        self.btn_webcam.set_tooltip_text(_("Capture form your webcam."))
-        webcam_icon = self.icons.lookup_icon("kazam-webcam-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
-        if webcam_icon:
-            cam_icon_pixbuf, was_sym = webcam_icon.load_symbolic(self.main_fg_color, None, None, None)
-            cam_img = Gtk.Image.new_from_pixbuf(cam_icon_pixbuf)
-            self.btn_webcam.set_icon_widget(cam_img)
-        self.btn_webcam.set_active(True)
-        self.btn_webcam.set_name("MAIN_WEBCAM")
-        self.btn_webcam.connect("toggled", self.cb_main_toggled)
-        #
         # Broadcast mode
         #
         self.btn_broadcast = Gtk.RadioToolButton(group=self.btn_screencast)
@@ -216,9 +206,26 @@ class KazamApp(GObject.GObject):
             cam_icon_pixbuf, was_sym = broadcast_icon.load_symbolic(self.main_fg_color, None, None, None)
             cam_img = Gtk.Image.new_from_pixbuf(cam_icon_pixbuf)
             self.btn_broadcast.set_icon_widget(cam_img)
-        self.btn_broadcast.set_active(True)
         self.btn_broadcast.set_name("MAIN_BROADCAST")
         self.btn_broadcast.connect("toggled", self.cb_main_toggled)
+
+        self.webcam = Webcam()
+
+        #
+        # Webcam mode
+        #
+        #
+        print("************************************ {}".format(HW.webcam.has_webcam))
+        self.btn_webcam = Gtk.RadioToolButton(group=self.btn_screencast)
+        self.btn_webcam.set_label(_("Webcam"))
+        self.btn_webcam.set_tooltip_text(_("Capture form your webcam."))
+        webcam_icon = self.icons.lookup_icon("kazam-webcam-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+        if webcam_icon:
+            cam_icon_pixbuf, was_sym = webcam_icon.load_symbolic(self.main_fg_color, None, None, None)
+            cam_img = Gtk.Image.new_from_pixbuf(cam_icon_pixbuf)
+            self.btn_webcam.set_icon_widget(cam_img)
+        self.btn_webcam.set_name("MAIN_WEBCAM")
+        self.btn_webcam.connect("toggled", self.cb_main_toggled)
 
         self.sep_1 = Gtk.SeparatorToolItem()
         self.sep_1.set_draw(False)
@@ -226,8 +233,8 @@ class KazamApp(GObject.GObject):
         self.toolbar_main.insert(self.sep_1, -1)
         self.toolbar_main.insert(self.btn_screencast, -1)
         self.toolbar_main.insert(self.btn_screenshot, -1)
-        self.toolbar_main.insert(self.btn_webcam, -1)
         self.toolbar_main.insert(self.btn_broadcast, -1)
+        self.toolbar_main.insert(self.btn_webcam, -1)
         self.toolbar_main.insert(self.sep_1, -1)
 
         # Auxiliary toolbar
@@ -333,6 +340,10 @@ class KazamApp(GObject.GObject):
     #
 
     def cb_main_toggled(self, widget):
+        # Here be defaults
+        self.toolbar_aux.set_sensitive(True)
+        self.chk_borders_pic.set_sensitive(True)
+
         name = widget.get_name()
         if name == "MAIN_SCREENCAST" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
@@ -347,20 +358,21 @@ class KazamApp(GObject.GObject):
             if self.record_mode == MODE_WIN:
                 self.last_mode.set_active(True)
             self.indicator.menuitem_start.set_label(_("Take screenshot"))
-            if self.record_mode == "MODE_WIN":
-                self.chk_borders_pic.set_sensitive(True)
-            else:
+            if self.record_mode != "MODE_WIN":
                 self.chk_borders_pic.set_sensitive(False)
-
-        elif name == "MAIN_WEBCAM" and widget.get_active():
-            logger.debug("Main toggled: {0}".format(name))
-            self.main_mode = MODE_WEBCAM
-            self.indicator.menuitem_start.set_label(_("Start recording"))
 
         elif name == "MAIN_BROADCAST" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
             self.main_mode = MODE_BROADCAST
+            self.ntb_main.set_current_page(2)
             self.indicator.menuitem_start.set_label(_("Start broadcasting"))
+
+        elif name == "MAIN_WEBCAM" and widget.get_active():
+            logger.debug("Main toggled: {0}".format(name))
+            self.ntb_main.set_current_page(3)
+            self.main_mode = MODE_WEBCAM
+            self.toolbar_aux.set_sensitive(False)
+            self.indicator.menuitem_start.set_label(_("Start recording"))
 
     #
     # Record mode toggles
@@ -435,6 +447,20 @@ class KazamApp(GObject.GObject):
                 shot_img = Gtk.Image.new_from_pixbuf(shot_icon_pixbuf)
                 self.btn_screenshot.set_icon_widget(shot_img)
                 shot_img.show_all()
+
+            webcam_icon = self.icons.lookup_icon("kazam-webcam-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+            if webcam_icon:
+                webcam_icon_pixbuf, was_sym = webcam_icon.load_symbolic(self.main_fg_color, None, None, None)
+                webcam_img = Gtk.Image.new_from_pixbuf(webcam_icon_pixbuf)
+                self.btn_screencast.set_icon_widget(webcam_img)
+                webcam_img.show_all()
+
+            broadcast_icon = self.icons.lookup_icon("kazam-broadcast-symbolic", 24, Gtk.IconLookupFlags.FORCE_SIZE)
+            if broadcast_icon:
+                broadcast_icon_pixbuf, was_sym = broadcast_icon.load_symbolic(self.main_fg_color, None, None, None)
+                broadcast_img = Gtk.Image.new_from_pixbuf(broadcast_icon_pixbuf)
+                self.btn_screenshot.set_icon_widget(broadcast_img)
+                broadcast_img.show_all()
 
             #
             # Update icons on the aux toolbar
@@ -757,12 +783,22 @@ class KazamApp(GObject.GObject):
         logger.debug("Capture borders_pic: {0}.".format(prefs.capture_borders_pic))
 
     def cb_check_speakers(self, widget):
-        prefs.capture_speakers = widget.get_active()
-        logger.debug("Capture speakers: {0}.".format(prefs.capture_speakers))
+        name = Gtk.Buildable.get_name(widget)
+        if name == "chk_speakers":
+            prefs.capture_speakers = widget.get_active()
+            logger.debug("Capture speakers: {0}.".format(prefs.capture_speakers))
+        elif name == "chk_speakers_webcam":
+            prefs.capture_speakers_webcam = widget.get_active()
+            logger.debug("Capture speakers for webcam: {0}.".format(prefs.capture_speakers_webcam))
 
     def cb_check_microphone(self, widget):
-        prefs.capture_microphone = widget.get_active()
-        logger.debug("Capture microphone: {0}.".format(prefs.capture_microphone))
+        name = Gtk.Buildable.get_name(widget)
+        if name == "chk_microphone":
+            prefs.capture_microphone = widget.get_active()
+            logger.debug("Capture microphone: {0}.".format(prefs.capture_microphone))
+        elif name == "chk_microphone_webcam":
+            prefs.capture_microphone_webcam = widget.get_active()
+            logger.debug("Capture microphone for webcam: {0}.".format(prefs.capture_microphone_webcam))
 
     def cb_spinbutton_delay_change(self, widget):
         prefs.countdown_timer = widget.get_value_as_int()
@@ -870,7 +906,7 @@ class KazamApp(GObject.GObject):
         gettext.textdomain("kazam")
         try:
             locale.setlocale(locale.LC_ALL, "")
-        except Exception as e:
+        except:
             logger.exception("EXCEPTION: Setlocale failed, no language support.")
 
     def restore_UI(self):
@@ -882,6 +918,9 @@ class KazamApp(GObject.GObject):
         self.chk_borders_pic.set_active(prefs.capture_borders_pic)
         self.spinbutton_delay.set_value(prefs.countdown_timer)
 
+        self.chk_speakers_webcam.set_active(prefs.capture_speakers_webcam)
+        self.chk_microphone_webcam.set_active(prefs.capture_microphone_webcam)
+
         #
         # Turn off the combined screen icon if we don't have more than one screen.
         #
@@ -889,3 +928,6 @@ class KazamApp(GObject.GObject):
             self.btn_allscreens.set_sensitive(True)
         else:
             self.btn_allscreens.set_sensitive(False)
+
+    def cb_device_monitor(self, client, action, device):
+        print(client, action, device)

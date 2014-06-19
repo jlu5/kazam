@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment_framerate">
     <property name="lower">1</property>
     <property name="upper">60</property>
@@ -134,6 +135,18 @@ audio-volume-low-symbolic
 audio-volume-medium-symbolic</property>
                     <property name="use_symbolic">True</property>
                     <signal name="value-changed" handler="cb_volume_changed" swapped="no"/>
+                    <child internal-child="plus_button">
+                      <object class="GtkButton" id="volumebutton-plus_button1">
+                        <property name="can_focus">False</property>
+                        <property name="receives_default">False</property>
+                      </object>
+                    </child>
+                    <child internal-child="minus_button">
+                      <object class="GtkButton" id="volumebutton-minus_button1">
+                        <property name="can_focus">False</property>
+                        <property name="receives_default">False</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -162,6 +175,18 @@ audio-volume-low-symbolic
 audio-volume-medium-symbolic</property>
                     <property name="use_symbolic">True</property>
                     <signal name="value-changed" handler="cb_volume2_changed" swapped="no"/>
+                    <child internal-child="plus_button">
+                      <object class="GtkButton" id="volumebutton-plus_button2">
+                        <property name="can_focus">False</property>
+                        <property name="receives_default">False</property>
+                      </object>
+                    </child>
+                    <child internal-child="minus_button">
+                      <object class="GtkButton" id="volumebutton-minus_button2">
+                        <property name="can_focus">False</property>
+                        <property name="receives_default">False</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -243,6 +268,107 @@ audio-volume-medium-symbolic</property>
                 <property name="position">2</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkSeparator" id="separator5">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid" id="grid10">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="margin_left">12</property>
+                <property name="margin_right">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
+                <child>
+                  <object class="GtkLabel" id="label20">
+                    <property name="width_request">150</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="valign">center</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">Framerate:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSpinButton" id="spinbutton_framerate">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip_markup" translatable="yes">Set the number of frames per second</property>
+                    <property name="tooltip_text" translatable="yes">Set the number of frames per second</property>
+                    <property name="halign">start</property>
+                    <property name="max_length">2</property>
+                    <property name="invisible_char">•</property>
+                    <property name="text" translatable="yes">15</property>
+                    <property name="adjustment">adjustment_framerate</property>
+                    <property name="value">15</property>
+                    <signal name="value-changed" handler="cb_spinbutton_framerate_change" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label9">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">Record with:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="combobox_codec">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <signal name="changed" handler="cb_codec_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
           </object>
         </child>
         <child type="tab">
@@ -275,69 +401,31 @@ audio-volume-medium-symbolic</property>
                 <property name="row_spacing">6</property>
                 <property name="column_spacing">6</property>
                 <child>
-                  <object class="GtkLabel" id="label7">
-                    <property name="width_request">150</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="xalign">1</property>
-                    <property name="label" translatable="yes">Framerate:</property>
-                    <property name="justify">right</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
-                  <object class="GtkSpinButton" id="spinbutton_framerate">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip_markup" translatable="yes">Set the number of frames per second</property>
-                    <property name="tooltip_text" translatable="yes">Set the number of frames per second</property>
-                    <property name="halign">start</property>
-                    <property name="max_length">2</property>
-                    <property name="invisible_char">•</property>
-                    <property name="invisible_char_set">True</property>
-                    <property name="adjustment">adjustment_framerate</property>
-                    <signal name="value-changed" handler="cb_spinbutton_framerate_change" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label9">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">1</property>
-                    <property name="label" translatable="yes">Record with:</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
-                  <object class="GtkComboBox" id="combobox_codec">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="changed" handler="cb_codec_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -421,13 +509,12 @@ audio-volume-medium-symbolic</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="valign">start</property>
-                    <property name="orientation">vertical</property>
                     <property name="action">select-folder</property>
                     <property name="local_only">False</property>
                     <property name="title" translatable="yes">Select a directory</property>
                     <property name="width_chars">20</property>
-                    <signal name="file-set" handler="cb_filechooser_video" swapped="no"/>
                     <signal name="current-folder-changed" handler="cb_filechooser_video" swapped="no"/>
+                    <signal name="file-set" handler="cb_filechooser_video" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -459,10 +546,9 @@ audio-volume-medium-symbolic</property>
                     <property name="valign">start</property>
                     <property name="max_length">40</property>
                     <property name="invisible_char">•</property>
-                    <property name="invisible_char_set">True</property>
                     <property name="caps_lock_warning">False</property>
-                    <signal name="changed" handler="cb_entry_autosave_video" swapped="no"/>
                     <signal name="activate" handler="cb_entry_autosave_video" swapped="no"/>
+                    <signal name="changed" handler="cb_entry_autosave_video" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -565,8 +651,6 @@ audio-volume-medium-symbolic</property>
                   <object class="GtkComboBoxText" id="combobox_shutter_type">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="entry_text_column">0</property>
-                    <property name="id_column">1</property>
                     <signal name="changed" handler="cb_shutter_type" swapped="no"/>
                   </object>
                   <packing>
@@ -658,13 +742,12 @@ audio-volume-medium-symbolic</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="valign">start</property>
-                    <property name="orientation">vertical</property>
                     <property name="action">select-folder</property>
                     <property name="local_only">False</property>
                     <property name="title" translatable="yes">Select a directory</property>
                     <property name="width_chars">20</property>
-                    <signal name="file-set" handler="cb_filechooser_picture" swapped="no"/>
                     <signal name="current-folder-changed" handler="cb_filechooser_picture" swapped="no"/>
+                    <signal name="file-set" handler="cb_filechooser_picture" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -696,7 +779,6 @@ audio-volume-medium-symbolic</property>
                     <property name="valign">start</property>
                     <property name="max_length">40</property>
                     <property name="invisible_char">•</property>
-                    <property name="invisible_char_set">True</property>
                     <property name="caps_lock_warning">False</property>
                     <signal name="activate" handler="cb_entry_autosave_picture" swapped="no"/>
                   </object>
@@ -729,6 +811,217 @@ audio-volume-medium-symbolic</property>
           </object>
           <packing>
             <property name="position">2</property>
+            <property name="tab_fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel" id="label17">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Broadcast</property>
+          </object>
+          <packing>
+            <property name="position">3</property>
+            <property name="tab_fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_left">6</property>
+            <property name="margin_right">6</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkGrid" id="grid7">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">center</property>
+                <property name="margin_left">12</property>
+                <property name="margin_right">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
+                <child>
+                  <object class="GtkLabel" id="label19">
+                    <property name="width_request">150</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">Select webcam:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="combobox_webcam">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <signal name="changed" handler="cb_webcam_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparator" id="separator4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid" id="grid8">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="margin_left">12</property>
+                <property name="margin_right">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="row_spacing">6</property>
+                <property name="column_spacing">6</property>
+                <child>
+                  <object class="GtkLabel" id="label21">
+                    <property name="width_request">150</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">Automatic file saving:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="switch_autosave_webcam">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label22">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">Directory:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFileChooserButton" id="filechooser_webcam">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="action">select-folder</property>
+                    <property name="local_only">False</property>
+                    <property name="title" translatable="yes">Select a directory</property>
+                    <property name="width_chars">20</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label23">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">Filename prefix:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_autosave_webcam">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="max_length">40</property>
+                    <property name="invisible_char">•</property>
+                    <property name="caps_lock_warning">False</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">2</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel" id="label18">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Webcam</property>
+          </object>
+          <packing>
+            <property name="position">4</property>
             <property name="tab_fill">False</property>
           </packing>
         </child>
