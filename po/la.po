@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-01-04 09:42+0100\n"
+"POT-Creation-Date: 2014-06-16 20:19+0200\n"
 "PO-Revision-Date: 2013-01-25 14:46+0000\n"
 "Last-Translator: Mikael Hiort af Ornäs <lakritslemmel@hotmail.com>\n"
 "Language-Team: Latin <la@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-29 06:26+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-20 05:46+0000\n"
+"X-Generator: Launchpad (build 17058)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/about_dialog.py:57
+#: ../kazam/frontend/about_dialog.py:59
 msgid "Kazam"
 msgstr "Kazamus"
 
@@ -42,8 +42,8 @@ msgstr "Sono ex megaphona"
 msgid "Mouse cursor"
 msgstr "Indicatorium muris"
 
-#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
-#: ../kazam/frontend/save_dialog.py:43
+#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:15 ../kazam/app.py:171
+#: ../kazam/frontend/save_dialog.py:42
 msgid "Screencast"
 msgstr "Impressio albi"
 
@@ -51,8 +51,8 @@ msgstr "Impressio albi"
 msgid "Window borders"
 msgstr "Termini fenestrarum"
 
-#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
-#: ../kazam/frontend/save_dialog.py:45
+#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:18 ../kazam/app.py:185
+#: ../kazam/frontend/save_dialog.py:44
 msgid "Screenshot"
 msgstr "Imago albi"
 
@@ -69,12 +69,12 @@ msgid "Speakers:"
 msgstr "Megaphona:"
 
 #: ../data/ui/preferences.ui.h:3
-msgid "Set volume"
-msgstr "Sonorum intentio definire"
-
-#: ../data/ui/preferences.ui.h:4
 msgid "Microphone:"
 msgstr "Microphonum:"
+
+#: ../data/ui/preferences.ui.h:4
+msgid "Set volume"
+msgstr "Sonorum intentio definire"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
@@ -109,22 +109,18 @@ msgid "Directory:"
 msgstr "Scrinium:"
 
 #: ../data/ui/preferences.ui.h:13
-msgid "Filename prefix:"
-msgstr "Praeverbium tituli documenti:"
-
-#: ../data/ui/preferences.ui.h:14
 msgid "Select a directory"
 msgstr "Unum scrinium seligere"
 
-#: ../data/ui/preferences.ui.h:15
-msgid "Kazam_screencast"
-msgstr "impressio_albi_kazami"
+#: ../data/ui/preferences.ui.h:14
+msgid "Filename prefix:"
+msgstr "Praeverbium tituli documenti:"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:16
 msgid "Shutter sound:"
 msgstr "Sonus obturatorii:"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:17
 msgid "Shutter type:"
 msgstr "Typus obturatorii:"
 
@@ -162,59 +158,79 @@ msgstr "Praepositiones"
 msgid "Gstreamer 1.0 or higher required, bailing out."
 msgstr "Gstreamer 1.0 vel versio posterae requirit, interrumpam."
 
-#: ../kazam/app.py:164
+#: ../kazam/app.py:172
 msgid "Record a video of your desktop."
 msgstr "Pelliculam tabulae tuae excipere."
 
-#: ../kazam/app.py:176
+#: ../kazam/app.py:186
 msgid "Record a picture of your desktop."
 msgstr "Imaginem tabulae tuae reddere."
 
+#: ../kazam/app.py:198
+msgid "Webcam"
+msgstr ""
+
 #: ../kazam/app.py:199
+msgid "Capture form your webcam."
+msgstr ""
+
+#: ../kazam/app.py:212
+msgid "Broadcast"
+msgstr ""
+
+#: ../kazam/app.py:213
+msgid "Broadcast your desktop."
+msgstr ""
+
+#: ../kazam/app.py:239
 msgid "Fullscreen"
 msgstr "Visificum albi maximum"
 
-#: ../kazam/app.py:200
+#: ../kazam/app.py:240
 msgid "Capture contents of the current screen."
 msgstr "Quae in album praesentarium insunt prehendere."
 
-#: ../kazam/app.py:211
+#: ../kazam/app.py:251
 msgid "All Screens"
 msgstr "Omne alba"
 
-#: ../kazam/app.py:212
+#: ../kazam/app.py:252
 msgid "Capture contents of all of your screens."
 msgstr "Quae in omne alba insunt prehendere."
 
-#: ../kazam/app.py:224
+#: ../kazam/app.py:264
 msgid "Window"
 msgstr "Fenestra"
 
-#: ../kazam/app.py:225
+#: ../kazam/app.py:265
 msgid "Capture contents of a single window."
 msgstr "Quae in fenestra singularis insunt prehendere."
 
-#: ../kazam/app.py:236
+#: ../kazam/app.py:276
 msgid "Area"
 msgstr "Area"
 
-#: ../kazam/app.py:237
+#: ../kazam/app.py:277
 msgid "Capture a pre-selected area of your screen."
 msgstr "Area praeselecta album tuum prehendere."
 
-#: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
+#: ../kazam/app.py:341 ../kazam/app.py:358 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
 msgstr "Impressio incipere"
 
-#: ../kazam/app.py:309
+#: ../kazam/app.py:349
 msgid "Take screenshot"
 msgstr "Imaginem albi reddere"
 
-#: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
+#: ../kazam/app.py:363
+msgid "Start broadcasting"
+msgstr ""
+
+#: ../kazam/app.py:606 ../kazam/app.py:627 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
 msgstr "Impressio conficere"
 
-#: ../kazam/app.py:730
+#: ../kazam/app.py:790
 msgid "Cancel countdown"
 msgstr "Inversa computatio interrumpere"
 
@@ -254,15 +270,15 @@ msgstr "Interrumpere"
 msgid "Continue"
 msgstr "Pergere"
 
-#: ../kazam/frontend/done_recording.py:120
+#: ../kazam/frontend/done_recording.py:121
 msgid "Save screencast"
 msgstr "Impressio albi recondere"
 
-#: ../kazam/frontend/about_dialog.py:58
+#: ../kazam/frontend/about_dialog.py:60
 msgid "Record a video of activity on your screen or capture a screenshot."
 msgstr "Una pellicula agitatus albi tuum excipere vel imago albi prehendere."
 
-#: ../kazam/frontend/save_dialog.py:38
+#: ../kazam/frontend/save_dialog.py:37
 msgid "Save"
 msgstr "Recondere"
 
@@ -294,11 +310,11 @@ msgstr "De programma"
 msgid "About Kazam"
 msgstr "De Kazamo"
 
-#: ../kazam/frontend/window_area.py:209
+#: ../kazam/frontend/window_area.py:384
 msgid "Select an area by clicking and dragging."
 msgstr "Area seligere per pressio et tractus."
 
-#: ../kazam/frontend/window_area.py:210
+#: ../kazam/frontend/window_area.py:385
 msgid "Press ENTER to confirm or ESC to cancel"
 msgstr "Clavis Enter ut confirmare vel clavis Esc ut interrumpere premere"
 
@@ -306,10 +322,13 @@ msgstr "Clavis Enter ut confirmare vel clavis Esc ut interrumpere premere"
 msgid "Pause recording"
 msgstr "Impressio pausare"
 
-#: ../kazam/backend/grabber.py:171
+#: ../kazam/backend/grabber.py:172
 msgid "Save capture"
 msgstr "Prehensio recondere"
 
-#: ../kazam/backend/prefs.py:137
+#: ../kazam/backend/prefs.py:148
 msgid "Unknown"
 msgstr "Ignotus"
+
+#~ msgid "Kazam_screencast"
+#~ msgstr "impressio_albi_kazami"

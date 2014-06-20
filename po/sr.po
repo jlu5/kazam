@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-01-04 09:42+0100\n"
+"POT-Creation-Date: 2014-06-16 20:19+0200\n"
 "PO-Revision-Date: 2013-02-02 15:24+0000\n"
 "Last-Translator: Марко М. Костић <Unknown>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-29 06:26+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-20 05:46+0000\n"
+"X-Generator: Launchpad (build 17058)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/about_dialog.py:57
+#: ../kazam/frontend/about_dialog.py:59
 msgid "Kazam"
 msgstr "Казам"
 
@@ -42,8 +42,8 @@ msgstr "Звук са звучника"
 msgid "Mouse cursor"
 msgstr "Показивач миша"
 
-#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
-#: ../kazam/frontend/save_dialog.py:43
+#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:15 ../kazam/app.py:171
+#: ../kazam/frontend/save_dialog.py:42
 msgid "Screencast"
 msgstr "Запис екрана"
 
@@ -51,8 +51,8 @@ msgstr "Запис екрана"
 msgid "Window borders"
 msgstr "Границе прозора"
 
-#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
-#: ../kazam/frontend/save_dialog.py:45
+#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:18 ../kazam/app.py:185
+#: ../kazam/frontend/save_dialog.py:44
 msgid "Screenshot"
 msgstr "Снимак екрана"
 
@@ -69,12 +69,12 @@ msgid "Speakers:"
 msgstr "Звучници:"
 
 #: ../data/ui/preferences.ui.h:3
-msgid "Set volume"
-msgstr "Подеси јачину"
-
-#: ../data/ui/preferences.ui.h:4
 msgid "Microphone:"
 msgstr "Микрофон:"
+
+#: ../data/ui/preferences.ui.h:4
+msgid "Set volume"
+msgstr "Подеси јачину"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
@@ -109,22 +109,18 @@ msgid "Directory:"
 msgstr "Фасцикла:"
 
 #: ../data/ui/preferences.ui.h:13
-msgid "Filename prefix:"
-msgstr "Префикс имена датотеке:"
-
-#: ../data/ui/preferences.ui.h:14
 msgid "Select a directory"
 msgstr "Изаберите фасциклу"
 
-#: ../data/ui/preferences.ui.h:15
-msgid "Kazam_screencast"
-msgstr "Казам_снимак-екрана"
+#: ../data/ui/preferences.ui.h:14
+msgid "Filename prefix:"
+msgstr "Префикс имена датотеке:"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:16
 msgid "Shutter sound:"
 msgstr "Шутер звук:"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:17
 msgid "Shutter type:"
 msgstr "Шутер тип:"
 
@@ -160,59 +156,79 @@ msgstr "Поставке"
 msgid "Gstreamer 1.0 or higher required, bailing out."
 msgstr "Пакет Gstreamer 1.0 или новији је потребан. Прекид."
 
-#: ../kazam/app.py:164
+#: ../kazam/app.py:172
 msgid "Record a video of your desktop."
 msgstr "Сними видео запис твоје радне површи."
 
-#: ../kazam/app.py:176
+#: ../kazam/app.py:186
 msgid "Record a picture of your desktop."
 msgstr "Ухвати снимак екрана твоје радне површи."
 
+#: ../kazam/app.py:198
+msgid "Webcam"
+msgstr ""
+
 #: ../kazam/app.py:199
+msgid "Capture form your webcam."
+msgstr ""
+
+#: ../kazam/app.py:212
+msgid "Broadcast"
+msgstr ""
+
+#: ../kazam/app.py:213
+msgid "Broadcast your desktop."
+msgstr ""
+
+#: ../kazam/app.py:239
 msgid "Fullscreen"
 msgstr "Преко целог екрана"
 
-#: ../kazam/app.py:200
+#: ../kazam/app.py:240
 msgid "Capture contents of the current screen."
 msgstr "Ухвати садржај тренутног екрана."
 
-#: ../kazam/app.py:211
+#: ../kazam/app.py:251
 msgid "All Screens"
 msgstr "Сви екрани"
 
-#: ../kazam/app.py:212
+#: ../kazam/app.py:252
 msgid "Capture contents of all of your screens."
 msgstr "Ухвати садржај свих мојих екрана."
 
-#: ../kazam/app.py:224
+#: ../kazam/app.py:264
 msgid "Window"
 msgstr "Прозор"
 
-#: ../kazam/app.py:225
+#: ../kazam/app.py:265
 msgid "Capture contents of a single window."
 msgstr "Ухвати садржај појединачног прозора."
 
-#: ../kazam/app.py:236
+#: ../kazam/app.py:276
 msgid "Area"
 msgstr "Простор"
 
-#: ../kazam/app.py:237
+#: ../kazam/app.py:277
 msgid "Capture a pre-selected area of your screen."
 msgstr "Ухвати већ изабрани део мог екрана."
 
-#: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
+#: ../kazam/app.py:341 ../kazam/app.py:358 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
 msgstr "Започни снимање"
 
-#: ../kazam/app.py:309
+#: ../kazam/app.py:349
 msgid "Take screenshot"
 msgstr "Ухвати снимак екрана"
 
-#: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
+#: ../kazam/app.py:363
+msgid "Start broadcasting"
+msgstr ""
+
+#: ../kazam/app.py:606 ../kazam/app.py:627 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
 msgstr "Заврши снимање"
 
-#: ../kazam/app.py:730
+#: ../kazam/app.py:790
 msgid "Cancel countdown"
 msgstr "Откажи одбројавање"
 
@@ -252,15 +268,15 @@ msgstr "Одустани"
 msgid "Continue"
 msgstr "Настави"
 
-#: ../kazam/frontend/done_recording.py:120
+#: ../kazam/frontend/done_recording.py:121
 msgid "Save screencast"
 msgstr "Сачувај снимак екрана"
 
-#: ../kazam/frontend/about_dialog.py:58
+#: ../kazam/frontend/about_dialog.py:60
 msgid "Record a video of activity on your screen or capture a screenshot."
 msgstr "Сними видео запис приказа твог рада или ухвати снимак екрана."
 
-#: ../kazam/frontend/save_dialog.py:38
+#: ../kazam/frontend/save_dialog.py:37
 msgid "Save"
 msgstr "Сачувај"
 
@@ -292,11 +308,11 @@ msgstr "О програму"
 msgid "About Kazam"
 msgstr "О Kazam-у"
 
-#: ../kazam/frontend/window_area.py:209
+#: ../kazam/frontend/window_area.py:384
 msgid "Select an area by clicking and dragging."
 msgstr "Изабери део тако што ћеш кликнути или превући."
 
-#: ../kazam/frontend/window_area.py:210
+#: ../kazam/frontend/window_area.py:385
 msgid "Press ENTER to confirm or ESC to cancel"
 msgstr "Притисни ЕНТЕР да би потврдио или ЕСЦ да би отказао радњу"
 
@@ -304,10 +320,13 @@ msgstr "Притисни ЕНТЕР да би потврдио или ЕСЦ д�
 msgid "Pause recording"
 msgstr "Пауза за снимање"
 
-#: ../kazam/backend/grabber.py:171
+#: ../kazam/backend/grabber.py:172
 msgid "Save capture"
 msgstr "Сачувај снимак"
 
-#: ../kazam/backend/prefs.py:137
+#: ../kazam/backend/prefs.py:148
 msgid "Unknown"
 msgstr "Непознато"
+
+#~ msgid "Kazam_screencast"
+#~ msgstr "Казам_снимак-екрана"
