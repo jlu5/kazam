@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-01-04 09:42+0100\n"
+"POT-Creation-Date: 2014-06-16 20:19+0200\n"
 "PO-Revision-Date: 2013-05-27 02:55+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-29 06:26+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-20 05:46+0000\n"
+"X-Generator: Launchpad (build 17058)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/about_dialog.py:57
+#: ../kazam/frontend/about_dialog.py:59
 msgid "Kazam"
 msgstr "Kazam"
 
@@ -42,8 +42,8 @@ msgstr "スピーカーの音声"
 msgid "Mouse cursor"
 msgstr "マウスカーソル"
 
-#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
-#: ../kazam/frontend/save_dialog.py:43
+#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:15 ../kazam/app.py:171
+#: ../kazam/frontend/save_dialog.py:42
 msgid "Screencast"
 msgstr "スクリーンキャスト"
 
@@ -51,8 +51,8 @@ msgstr "スクリーンキャスト"
 msgid "Window borders"
 msgstr "ウィンドウ枠"
 
-#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
-#: ../kazam/frontend/save_dialog.py:45
+#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:18 ../kazam/app.py:185
+#: ../kazam/frontend/save_dialog.py:44
 msgid "Screenshot"
 msgstr "スクリーンショット"
 
@@ -69,12 +69,12 @@ msgid "Speakers:"
 msgstr "スピーカー:"
 
 #: ../data/ui/preferences.ui.h:3
-msgid "Set volume"
-msgstr "音量を設定します"
-
-#: ../data/ui/preferences.ui.h:4
 msgid "Microphone:"
 msgstr "マイク:"
+
+#: ../data/ui/preferences.ui.h:4
+msgid "Set volume"
+msgstr "音量を設定します"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
@@ -109,22 +109,18 @@ msgid "Directory:"
 msgstr "ディレクトリ:"
 
 #: ../data/ui/preferences.ui.h:13
-msgid "Filename prefix:"
-msgstr "ファイル名の接頭辞:"
-
-#: ../data/ui/preferences.ui.h:14
 msgid "Select a directory"
 msgstr "ディレクトリの選択"
 
-#: ../data/ui/preferences.ui.h:15
-msgid "Kazam_screencast"
-msgstr "Kazam_screencast"
+#: ../data/ui/preferences.ui.h:14
+msgid "Filename prefix:"
+msgstr "ファイル名の接頭辞:"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:16
 msgid "Shutter sound:"
 msgstr "シャッター音:"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:17
 msgid "Shutter type:"
 msgstr "シャッター音の種類:"
 
@@ -160,59 +156,79 @@ msgstr "設定"
 msgid "Gstreamer 1.0 or higher required, bailing out."
 msgstr "Gstreamer 1.0 以上が必要です。終了します。"
 
-#: ../kazam/app.py:164
+#: ../kazam/app.py:172
 msgid "Record a video of your desktop."
 msgstr "デスクトップの動画を録画します。"
 
-#: ../kazam/app.py:176
+#: ../kazam/app.py:186
 msgid "Record a picture of your desktop."
 msgstr "デスクトップの静止画像を撮影します。"
 
+#: ../kazam/app.py:198
+msgid "Webcam"
+msgstr ""
+
 #: ../kazam/app.py:199
+msgid "Capture form your webcam."
+msgstr ""
+
+#: ../kazam/app.py:212
+msgid "Broadcast"
+msgstr ""
+
+#: ../kazam/app.py:213
+msgid "Broadcast your desktop."
+msgstr ""
+
+#: ../kazam/app.py:239
 msgid "Fullscreen"
 msgstr "フルスクリーン"
 
-#: ../kazam/app.py:200
+#: ../kazam/app.py:240
 msgid "Capture contents of the current screen."
 msgstr "現在の画面の内容をキャプチャします。"
 
-#: ../kazam/app.py:211
+#: ../kazam/app.py:251
 msgid "All Screens"
 msgstr "全スクリーン"
 
-#: ../kazam/app.py:212
+#: ../kazam/app.py:252
 msgid "Capture contents of all of your screens."
 msgstr "すべての画面の内容をキャプチャします。"
 
-#: ../kazam/app.py:224
+#: ../kazam/app.py:264
 msgid "Window"
 msgstr "ウィンドウ"
 
-#: ../kazam/app.py:225
+#: ../kazam/app.py:265
 msgid "Capture contents of a single window."
 msgstr "一つのウィンドウの内容をキャプチャします。"
 
-#: ../kazam/app.py:236
+#: ../kazam/app.py:276
 msgid "Area"
 msgstr "領域"
 
-#: ../kazam/app.py:237
+#: ../kazam/app.py:277
 msgid "Capture a pre-selected area of your screen."
 msgstr "あらかじめ選択した画面範囲をキャプチャします。"
 
-#: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
+#: ../kazam/app.py:341 ../kazam/app.py:358 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
 msgstr "録画の開始"
 
-#: ../kazam/app.py:309
+#: ../kazam/app.py:349
 msgid "Take screenshot"
 msgstr "スクリーンショットの撮影"
 
-#: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
+#: ../kazam/app.py:363
+msgid "Start broadcasting"
+msgstr ""
+
+#: ../kazam/app.py:606 ../kazam/app.py:627 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
 msgstr "録画の完了"
 
-#: ../kazam/app.py:730
+#: ../kazam/app.py:790
 msgid "Cancel countdown"
 msgstr "カウントダウンの中止"
 
@@ -252,15 +268,15 @@ msgstr "キャンセル"
 msgid "Continue"
 msgstr "次へ"
 
-#: ../kazam/frontend/done_recording.py:120
+#: ../kazam/frontend/done_recording.py:121
 msgid "Save screencast"
 msgstr "スクリーンキャストの保存"
 
-#: ../kazam/frontend/about_dialog.py:58
+#: ../kazam/frontend/about_dialog.py:60
 msgid "Record a video of activity on your screen or capture a screenshot."
 msgstr ""
 
-#: ../kazam/frontend/save_dialog.py:38
+#: ../kazam/frontend/save_dialog.py:37
 msgid "Save"
 msgstr "保存"
 
@@ -292,11 +308,11 @@ msgstr "このアプリケーションについて"
 msgid "About Kazam"
 msgstr "Kazam について"
 
-#: ../kazam/frontend/window_area.py:209
+#: ../kazam/frontend/window_area.py:384
 msgid "Select an area by clicking and dragging."
 msgstr "クリック・ドラッグして、領域を選択してください。"
 
-#: ../kazam/frontend/window_area.py:210
+#: ../kazam/frontend/window_area.py:385
 msgid "Press ENTER to confirm or ESC to cancel"
 msgstr "ENTER を押して確定するか ESC を押してキャンセルしてください"
 
@@ -304,10 +320,13 @@ msgstr "ENTER を押して確定するか ESC を押してキャンセルして�
 msgid "Pause recording"
 msgstr "録画を一時停止"
 
-#: ../kazam/backend/grabber.py:171
+#: ../kazam/backend/grabber.py:172
 msgid "Save capture"
 msgstr "キャプチャの保存"
 
-#: ../kazam/backend/prefs.py:137
+#: ../kazam/backend/prefs.py:148
 msgid "Unknown"
 msgstr "不明"
+
+#~ msgid "Kazam_screencast"
+#~ msgstr "Kazam_screencast"

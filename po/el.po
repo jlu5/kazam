@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-01-04 09:42+0100\n"
+"POT-Creation-Date: 2014-06-16 20:19+0200\n"
 "PO-Revision-Date: 2010-10-15 21:31+0000\n"
 "Last-Translator: Salih EMIN <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-29 06:26+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-20 05:46+0000\n"
+"X-Generator: Launchpad (build 17058)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
-#: ../kazam/frontend/about_dialog.py:57
+#: ../kazam/frontend/about_dialog.py:59
 msgid "Kazam"
 msgstr "Kazam"
 
@@ -42,8 +42,8 @@ msgstr "Ήχος από ηχεία"
 msgid "Mouse cursor"
 msgstr "Δρομέας ποντικιού"
 
-#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:16 ../kazam/app.py:163
-#: ../kazam/frontend/save_dialog.py:43
+#: ../data/ui/kazam.ui.h:7 ../data/ui/preferences.ui.h:15 ../kazam/app.py:171
+#: ../kazam/frontend/save_dialog.py:42
 msgid "Screencast"
 msgstr "Βίντεο οθόνης"
 
@@ -51,8 +51,8 @@ msgstr "Βίντεο οθόνης"
 msgid "Window borders"
 msgstr "Περιγράμματα παραθύρου"
 
-#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:19 ../kazam/app.py:175
-#: ../kazam/frontend/save_dialog.py:45
+#: ../data/ui/kazam.ui.h:9 ../data/ui/preferences.ui.h:18 ../kazam/app.py:185
+#: ../kazam/frontend/save_dialog.py:44
 msgid "Screenshot"
 msgstr "Στιγμιότυπο οθόνης"
 
@@ -69,12 +69,12 @@ msgid "Speakers:"
 msgstr "Ηχεία:"
 
 #: ../data/ui/preferences.ui.h:3
-msgid "Set volume"
-msgstr "Ορισμός έντασης"
-
-#: ../data/ui/preferences.ui.h:4
 msgid "Microphone:"
 msgstr "Μικρόφωνο:"
+
+#: ../data/ui/preferences.ui.h:4
+msgid "Set volume"
+msgstr "Ορισμός έντασης"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
@@ -109,22 +109,18 @@ msgid "Directory:"
 msgstr "Κατάλογος:"
 
 #: ../data/ui/preferences.ui.h:13
-msgid "Filename prefix:"
-msgstr "Πρόθεμα ονόματος αρχείου:"
-
-#: ../data/ui/preferences.ui.h:14
 msgid "Select a directory"
 msgstr "Επιλογή καταλόγου"
 
-#: ../data/ui/preferences.ui.h:15
-msgid "Kazam_screencast"
-msgstr "ΒίντεοΟθόνης_Kazam"
+#: ../data/ui/preferences.ui.h:14
+msgid "Filename prefix:"
+msgstr "Πρόθεμα ονόματος αρχείου:"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:16
 msgid "Shutter sound:"
 msgstr "Ήχος διαφράγματος:"
 
-#: ../data/ui/preferences.ui.h:18
+#: ../data/ui/preferences.ui.h:17
 msgid "Shutter type:"
 msgstr "Τύπος διαφράγματος:"
 
@@ -161,59 +157,79 @@ msgstr "Προτιμήσεις"
 msgid "Gstreamer 1.0 or higher required, bailing out."
 msgstr "Απαιτείται Gstreamer 1.0 ή νεότερο, εγκατάλειψη."
 
-#: ../kazam/app.py:164
+#: ../kazam/app.py:172
 msgid "Record a video of your desktop."
 msgstr "Εγγραφή βίντεο της επιφάνειας εργασίας σας."
 
-#: ../kazam/app.py:176
+#: ../kazam/app.py:186
 msgid "Record a picture of your desktop."
 msgstr "Εγγραφή εικόνας της επιφάνειας εργασίας σας."
 
+#: ../kazam/app.py:198
+msgid "Webcam"
+msgstr ""
+
 #: ../kazam/app.py:199
+msgid "Capture form your webcam."
+msgstr ""
+
+#: ../kazam/app.py:212
+msgid "Broadcast"
+msgstr ""
+
+#: ../kazam/app.py:213
+msgid "Broadcast your desktop."
+msgstr ""
+
+#: ../kazam/app.py:239
 msgid "Fullscreen"
 msgstr "Πλήρης οθόνη"
 
-#: ../kazam/app.py:200
+#: ../kazam/app.py:240
 msgid "Capture contents of the current screen."
 msgstr "Καταγραφή περιεχομένων της τρέχουσας οθόνης."
 
-#: ../kazam/app.py:211
+#: ../kazam/app.py:251
 msgid "All Screens"
 msgstr "Όλες οι οθόνες"
 
-#: ../kazam/app.py:212
+#: ../kazam/app.py:252
 msgid "Capture contents of all of your screens."
 msgstr "Καταγραφή περιεχομένων όλων των οθονών σας."
 
-#: ../kazam/app.py:224
+#: ../kazam/app.py:264
 msgid "Window"
 msgstr "Παράθυρο"
 
-#: ../kazam/app.py:225
+#: ../kazam/app.py:265
 msgid "Capture contents of a single window."
 msgstr "Καταγραφή περιεχομένων ενός μοναδικού παραθύρου."
 
-#: ../kazam/app.py:236
+#: ../kazam/app.py:276
 msgid "Area"
 msgstr "Περιοχή"
 
-#: ../kazam/app.py:237
+#: ../kazam/app.py:277
 msgid "Capture a pre-selected area of your screen."
 msgstr "Καταγραφή μιας προεπιλεγμένης περιοχής της οθόνης σας."
 
-#: ../kazam/app.py:301 ../kazam/frontend/indicator.py:68
+#: ../kazam/app.py:341 ../kazam/app.py:358 ../kazam/frontend/indicator.py:68
 msgid "Start recording"
 msgstr "Έναρξη εγγραφής"
 
-#: ../kazam/app.py:309
+#: ../kazam/app.py:349
 msgid "Take screenshot"
 msgstr "Λήψη στιγμιότυπου οθόνης"
 
-#: ../kazam/app.py:558 ../kazam/app.py:573 ../kazam/frontend/indicator.py:76
+#: ../kazam/app.py:363
+msgid "Start broadcasting"
+msgstr ""
+
+#: ../kazam/app.py:606 ../kazam/app.py:627 ../kazam/frontend/indicator.py:76
 msgid "Finish recording"
 msgstr "Τερματισμός εγγραφής"
 
-#: ../kazam/app.py:730
+#: ../kazam/app.py:790
 msgid "Cancel countdown"
 msgstr "Ακύρωση αντίστροφης μέτρησης"
 
@@ -253,17 +269,17 @@ msgstr "Άκυρο"
 msgid "Continue"
 msgstr "Συνέχεια"
 
-#: ../kazam/frontend/done_recording.py:120
+#: ../kazam/frontend/done_recording.py:121
 msgid "Save screencast"
 msgstr "Αποθήκευση βίντεο οθόνης"
 
-#: ../kazam/frontend/about_dialog.py:58
+#: ../kazam/frontend/about_dialog.py:60
 msgid "Record a video of activity on your screen or capture a screenshot."
 msgstr ""
 "Καταγραφή ενός βίντεο με τη δραστηριότητα στην οθόνη σας ή λήψη ενός "
 "στιγμιότυπου."
 
-#: ../kazam/frontend/save_dialog.py:38
+#: ../kazam/frontend/save_dialog.py:37
 msgid "Save"
 msgstr "Αποθήκευση"
 
@@ -295,11 +311,11 @@ msgstr "Περί"
 msgid "About Kazam"
 msgstr "Σχετικά με το Kazam"
 
-#: ../kazam/frontend/window_area.py:209
+#: ../kazam/frontend/window_area.py:384
 msgid "Select an area by clicking and dragging."
 msgstr "Επιλέξτε μια περιοχή πατώντας και μεταφέροντας."
 
-#: ../kazam/frontend/window_area.py:210
+#: ../kazam/frontend/window_area.py:385
 msgid "Press ENTER to confirm or ESC to cancel"
 msgstr "Πατήστε ENTER για επιβεβαίωση ή ESC για ακύρωση"
 
@@ -307,10 +323,13 @@ msgstr "Πατήστε ENTER για επιβεβαίωση ή ESC για ακύ�
 msgid "Pause recording"
 msgstr "Παύση εγγραφής"
 
-#: ../kazam/backend/grabber.py:171
+#: ../kazam/backend/grabber.py:172
 msgid "Save capture"
 msgstr "Αποθήκευση καταγραφής"
 
-#: ../kazam/backend/prefs.py:137
+#: ../kazam/backend/prefs.py:148
 msgid "Unknown"
 msgstr "Άγνωστο"
+
+#~ msgid "Kazam_screencast"
+#~ msgstr "ΒίντεοΟθόνης_Kazam"
