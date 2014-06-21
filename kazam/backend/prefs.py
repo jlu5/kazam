@@ -393,8 +393,8 @@ def detect_codecs():
         if codec[0]:
             try:
                 codec_test = Gst.ElementFactory.make(codec[1], "video_encoder")
-                logger.debug("Error loading {0} GStreamer plugin - support disabled.".format(codec))
             except:
+                logger.debug("Error loading {0} GStreamer plugin - support disabled.".format(codec[1]))
                 codec_test = None
 
             if codec_test:
