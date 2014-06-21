@@ -77,7 +77,7 @@ class Preferences(GObject.GObject):
         self.combobox_audio2.add_attribute(audio_renderer, "text", 0)
 
         self.combobox_webcam.pack_start(webcam_renderer, True)
-        self.combobox_webcam.add_attribute(webcam_renderer, "text", 3)
+        self.combobox_webcam.add_attribute(webcam_renderer, "text", 1)
 
         self.filechooser_video.set_current_folder(prefs.video_dest)
 
@@ -143,9 +143,9 @@ class Preferences(GObject.GObject):
             self.combobox_shutter_type.append(None, s_file[:-4])
 
     def populate_webcams(self):
-        webcam_source_model = Gtk.ListStore(int, str, str, str)
-        for cam in prefs.webcam_sources:
-            webcam_source_model.append(cam)
+        webcam_source_model = Gtk.ListStore(str, str)
+        for dev, cam in prefs.webcam_sources.items():
+            webcam_source_model.append((dev, cam))
 
         self.combobox_webcam.set_model(webcam_source_model)
 

@@ -120,7 +120,6 @@ class KazamApp(GObject.GObject):
             prefs.pa_q = pulseaudio_q()
             prefs.pa_q.start()
 
-        # Get webcams
         prefs.get_webcam_sources()
 
         self.mainmenu = MainMenu()
@@ -139,6 +138,8 @@ class KazamApp(GObject.GObject):
         self.mainmenu.connect("file-quit", self.cb_quit_request)
         self.mainmenu.connect("file-preferences", self.cb_preferences_request)
         self.mainmenu.connect("help-about", self.cb_help_about)
+        self.webcam = HW.webcam
+        self.webcam.connect("webcam-change", self.cb_webcam_change)
 
         #
         # Setup UI
@@ -182,6 +183,7 @@ class KazamApp(GObject.GObject):
         self.btn_screencast.set_active(True)
         self.btn_screencast.set_name("MAIN_SCREENCAST")
         self.btn_screencast.connect("toggled", self.cb_main_toggled)
+
         #
         # Screen shot mode
         #
@@ -195,6 +197,7 @@ class KazamApp(GObject.GObject):
             self.btn_screenshot.set_icon_widget(shot_img)
         self.btn_screenshot.set_name("MAIN_SCREENSHOT")
         self.btn_screenshot.connect("toggled", self.cb_main_toggled)
+
         #
         # Broadcast mode
         #
@@ -209,13 +212,9 @@ class KazamApp(GObject.GObject):
         self.btn_broadcast.set_name("MAIN_BROADCAST")
         self.btn_broadcast.connect("toggled", self.cb_main_toggled)
 
-        self.webcam = Webcam()
-
         #
         # Webcam mode
         #
-        #
-        print("************************************ {}".format(HW.webcam.has_webcam))
         self.btn_webcam = Gtk.RadioToolButton(group=self.btn_screencast)
         self.btn_webcam.set_label(_("Webcam"))
         self.btn_webcam.set_tooltip_text(_("Capture form your webcam."))
@@ -234,8 +233,10 @@ class KazamApp(GObject.GObject):
         self.toolbar_main.insert(self.btn_screencast, -1)
         self.toolbar_main.insert(self.btn_screenshot, -1)
         self.toolbar_main.insert(self.btn_broadcast, -1)
-        self.toolbar_main.insert(self.btn_webcam, -1)
+        if prefs.webcam_sources:
+            self.toolbar_main.insert(self.btn_webcam, -1)
         self.toolbar_main.insert(self.sep_1, -1)
+
 
         # Auxiliary toolbar
         self.aux_context = self.toolbar_aux.get_style_context()
@@ -314,6 +315,7 @@ class KazamApp(GObject.GObject):
         # Fetch sources info, take care of all the widgets and saved settings and show main window
         if prefs.sound:
             prefs.get_audio_sources()
+
 
         if not prefs.silent:
             self.window.show_all()
@@ -929,5 +931,11 @@ class KazamApp(GObject.GObject):
         else:
             self.btn_allscreens.set_sensitive(False)
 
-    def cb_device_monitor(self, client, action, device):
-        print(client, action, device)
+    def cb_webcam_change(self, widget):
+        prefs.get_webcam_sources()
+
+        if prefs.webcam_sources:
+            self.toolbar_main.insert(self.btn_webcam, -1)
+            self.toolbar_main.show_all()
+        else:
+            self.toolbar_main.remove(self.btn_webcam)

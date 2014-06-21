@@ -115,7 +115,7 @@ class Prefs():
         # Broadcast and webcam stuff
         #
         self.webcam_source = None
-        self.webcam_sources = []
+        self.webcam_sources = {}
 
         #
         # Command line parameters
@@ -158,12 +158,7 @@ class Prefs():
             self.audio_sources = [[0, _("Unknown"), _("Unknown")]]
 
     def get_webcam_sources(self):
-        self.logger.debug("Getting Webcam sources.")
-        try:
-            self.webcam_sources = HW.get_webcams()
-        except:
-            self.logger.warning("Unable to find any web cams.")
-
+        self.webcam_sources = HW.webcam.device_list
 
     def get_dirs(self):
         paths = {}
@@ -322,6 +317,7 @@ class hw:
         self.webcam = Webcam()
 
         self.get_screens()
+        self.get_webcams()
 
     def get_current_screen(self, window=None):
         try:
@@ -369,15 +365,7 @@ class hw:
             self.logger.warning("Unable to find any video sources.")
 
     def get_webcams(self):
-        self.logger.debug("Deteting webcams.")
-        try:
-            return self.webcam.detect()
-        except:
-            self.logger.warning("Failed to detect a webcam.")
-            return []
-
-    def get_webcam_support(self):
-        return self.webcam.has_webcam
+        self.webcam.detect()
 
 
 def detect_codecs():

@@ -32,10 +32,15 @@ class Webcam(GObject.GObject):
 
     """docstring for Webcam."""
 
+    __gsignals__ = {"webcam-change": (GObject.SIGNAL_RUN_LAST,
+                    None,
+                    (),),
+                    }
+
     def __init__(self):
         super(Webcam, self).__init__()
 
-        self.device_list = []
+        self.device_list = {}
         self.has_webcam = False
 
         logger.debug("Initializing webcam support.")
@@ -44,27 +49,42 @@ class Webcam(GObject.GObject):
         self.detect()
 
     def watch(self, client, action, device):
-        print(action)
-        for device_key in device.get_property_keys():
-            print ("device property {}: {}".format(device_key, device.get_property(device_key)))
-        print("\n\n")
+        if action == 'add':
+            try:
+                c_name = device.get_property('ID_V4L_PRODUCT')
+                c_devname = device.get_property('DEVNAME')
+                self.device_list[c_devname] = c_name
+                logger.debug("New webcam found: {}".format(c_name))
+            except Exception as e:
+                logger.debug("Unable to register new webcam. {}".format(e.str))
+        elif action == 'remove':
+            try:
+                c_name = device.get_property('ID_V4L_PRODUCT')
+                c_devname = device.get_property('DEVNAME')
+                if c_devname in self.device_list:
+                    del self.device_list[c_devname]
+                    logger.debug("Removed webcam {}".format(c_name))
+            except Exception as e:
+                logger.debug("Unable to de-register a webcam. {}".format(e.str))
+
+        else:
+            logger.debug("Unknown UDEV action {}.".format(action))
+        self.emit("webcam-change")
 
     def detect(self):
-        if os.path.isdir("/sys/class/video4linux"):
-            logger.debug("Video for linux supported.")
-            files = glob.glob("/sys/class/video4linux/*")
-            for f in files:
-                with open(f + "/index", "r") as r:
-                    cam_index = r.read().strip()
-                with open(f + "/dev", "r") as r:
-                    cam_dev_id = r.read().strip()
-                with open(f + "/name", "r") as r:
-                    cam_name = r.read().strip()
-                cam_dev = "/dev/" + os.path.basename(f)
-                logger.debug("  Webcam found: {0}".format(cam_name))
-                self.device_list.append([int(cam_index), cam_dev_id, cam_dev, cam_name])
-        else:
-            logger.warning("Video for linux not supported.")
+        self.device_list = {}
+        try:
+            cams = self.udev_client.query_by_subsystem(subsystem='video4linux')
+            if cams:
+                for c in cams:
+                    c_name = c.get_property('ID_V4L_PRODUCT')
+                    c_devname = c.get_property('DEVNAME')
+                    logger.debug("  Webcam found: {0}".format(c_name))
+                    self.device_list[c_devname] = c_name
+            else:
+                logger.info("Webcam not detected.")
+        except:
+            logger.debug("Error while detecting webcams.")
 
         if self.device_list:
             self.has_webcam = True
