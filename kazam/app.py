@@ -939,3 +939,5 @@ class KazamApp(GObject.GObject):
             self.toolbar_main.show_all()
         else:
             self.toolbar_main.remove(self.btn_webcam)
+            if self.btn_webcam.get_active():
+                self.btn_screencast.set_active(True)

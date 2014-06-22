@@ -490,6 +490,11 @@ HANDLE_BL = 6
 HANDLE_BC = 7
 HANDLE_BR = 8
 
+CAM_TL = 0
+CAM_TR = 1
+CAM_BR = 2
+CAM_BL = 3
+
 # Area resize handle cursors
 HANDLE_CURSORS = (
     Gdk.CursorType.TOP_LEFT_CORNER,
