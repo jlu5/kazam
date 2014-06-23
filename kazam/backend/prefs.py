@@ -116,6 +116,8 @@ class Prefs():
         #
         self.webcam_source = None
         self.webcam_sources = {}
+        self.webcam_show_preview = True
+        self.webcam_preview_pos = 1
 
         #
         # Command line parameters
@@ -247,6 +249,9 @@ class Prefs():
         self.shutter_sound = self.config.getboolean("main", "shutter_sound")
         self.shutter_type = int(self.config.get("main", "shutter_type"))
 
+        self.webcam_show_preview = self.config.getboolean("main", "webcam_show_preview")
+        self.webcam_preview_pos = int(self.config.get("main", "webcam_preview_pos"))
+
         self.first_run = self.config.getboolean("main", "first_run")
 
         #
@@ -302,6 +307,9 @@ class Prefs():
         self.config.set("main", "autosave_picture_file", self.autosave_picture_file)
         self.config.set("main", "shutter_sound", self.shutter_sound)
         self.config.set("main", "shutter_type", self.shutter_type)
+
+        self.config.set("main", "webcam_show_preview", self.webcam_show_preview)
+        self.config.set("main", "webcam_preview_pos", self.webcam_preview_pos)
 
         self.config.write()
 
@@ -490,10 +498,10 @@ HANDLE_BL = 6
 HANDLE_BC = 7
 HANDLE_BR = 8
 
-CAM_TL = 0
-CAM_TR = 1
-CAM_BR = 2
-CAM_BL = 3
+CAM_PREVIEW_TL = 0
+CAM_PREVIEW_TR = 1
+CAM_PREVIEW_BR = 2
+CAM_PREVIEW_BL = 3
 
 # Area resize handle cursors
 HANDLE_CURSORS = (
