@@ -62,6 +62,7 @@ class KazamConfig(ConfigParser):
                          "webcam_source":          "0",
                          "webcam_show_preview":    "True",
                          "webcam_preview_pos":     "1",
+                         "webcam_resolution":      "0",
                          "capture_speakers_w":     "False",
                          "capture_microphone_w":   "False",
                          },

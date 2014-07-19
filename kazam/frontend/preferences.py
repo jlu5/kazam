@@ -202,6 +202,7 @@ class Preferences(GObject.GObject):
 
         self.combobox_webcam.set_active(prefs.webcam_source)
         self.combobox_webcam_preview.set_active(prefs.webcam_preview_pos)
+        self.combobox_webcam_resolution.set_active(prefs.webcam_resolution)
 
         if prefs.webcam_show_preview:
             self.switch_webcam_preview.set_active(True)
@@ -398,3 +399,7 @@ class Preferences(GObject.GObject):
     def cb_switch_webcam_preview(self, widget, user_data):
         prefs.webcam_show_preview = widget.get_active()
         logger.debug("Webcam preview: {}".format(prefs.webcam_show_preview))
+
+    def cb_combobox_webcam_resolution_changed(self, widget):
+        prefs.webcam_resolution = self.combobox_webcam_resolution.get_active()
+        logger.debug("Webcam resolution: {}".format(prefs.webcam_resolution))

@@ -251,6 +251,7 @@ class Prefs():
 
         self.webcam_show_preview = self.config.getboolean("main", "webcam_show_preview")
         self.webcam_preview_pos = int(self.config.get("main", "webcam_preview_pos"))
+        self.webcam_resolution = int(self.config.get("main", "webcam_resolution"))
 
         self.first_run = self.config.getboolean("main", "first_run")
 
@@ -310,6 +311,7 @@ class Prefs():
 
         self.config.set("main", "webcam_show_preview", self.webcam_show_preview)
         self.config.set("main", "webcam_preview_pos", self.webcam_preview_pos)
+        self.config.set("main", "webcam_resolution", self.webcam_resolution)
 
         self.config.write()
 
@@ -502,6 +504,13 @@ CAM_PREVIEW_TL = 0
 CAM_PREVIEW_TR = 1
 CAM_PREVIEW_BR = 2
 CAM_PREVIEW_BL = 3
+
+CAM_RESOLUTIONS = [
+    [320, 200],
+    [640, 480],
+    [800, 600],
+    [1024, 768]
+]
 
 # Area resize handle cursors
 HANDLE_CURSORS = (

@@ -830,7 +830,7 @@ class KazamApp(GObject.GObject):
 
         self.indicator.blink_set_state(BLINK_START)
 
-        if self.main_mode == MODE_SCREENCAST and prefs.sound:
+        if (self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_WEBCAM) and prefs.sound:
             if prefs.capture_speakers:
                 try:
                     audio_source = prefs.speaker_sources[prefs.audio_source][1]
