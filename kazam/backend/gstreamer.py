@@ -51,7 +51,7 @@ class Screencast(GObject.GObject):
                     (),),
                     }
 
-    def __init__(self):
+    def __init__(self, mode):
         GObject.GObject.__init__(self)
         self.temp_fh = tempfile.mkstemp(prefix="kazam_", dir=prefs.video_dest, suffix=".movie")
         self.tempfile = self.temp_fh[1]
@@ -60,6 +60,7 @@ class Screencast(GObject.GObject):
         self.area = None
         self.xid = None
         self.crop_vid = False
+        self.mode = mode
 
     def setup_sources(self,
                       video_source,
@@ -107,8 +108,10 @@ class Screencast(GObject.GObject):
         if prefs.test:
             self.videosrc = Gst.ElementFactory.make("videotestsrc", "video_src")
             self.videosrc.set_property("pattern", "smpte")
-        else:
+        elif self.mode == MODE_SCREENSHOT or self.mode == MODE_SCREENCAST or self.mode == MODE_BROADCAST:
             self.videosrc = Gst.ElementFactory.make("ximagesrc", "video_src")
+        elif self.mode == MODE_WEBCAM:
+            self.videosrc = Gst.ElementFactory.make("v4l2src", "video_src")
 
         if self.area:
             logger.debug("Capturing area.")
@@ -117,12 +120,20 @@ class Screencast(GObject.GObject):
             endx = self.area[2]
             endy = self.area[3]
         else:
-            startx = self.video_source['x']
-            starty = self.video_source['y']
-            width = self.video_source['width']
-            height = self.video_source['height']
-            endx = startx + width - 1
-            endy = starty + height - 1
+            if self.mode != MODE_WEBCAM:
+                startx = self.video_source['x']
+                starty = self.video_source['y']
+                width = self.video_source['width']
+                height = self.video_source['height']
+                endx = startx + width - 1
+                endy = starty + height - 1
+            else:
+                startx = 0
+                starty = 0
+                width = CAM_RESOLUTIONS[prefs.webcam_resolution][0]
+                height = CAM_RESOLUTIONS[prefs.webcam_resolution][1]
+                endx = CAM_RESOLUTIONS[prefs.webcam_resolution][0] - 1
+                endy = CAM_RESOLUTIONS[prefs.webcam_resolution][1] - 1
 
         #
         # H264 requirement is that video dimensions are divisible by 2.
@@ -138,41 +149,48 @@ class Screencast(GObject.GObject):
 
         if prefs.test:
             logger.info("Using test signal instead of screen capture.")
-            self.vid_caps = Gst.caps_from_string("video/x-raw, framerate={0}/1".format(
-                  int(prefs.framerate)))
-            self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
-            self.vid_caps_filter.set_property("caps", self.vid_caps)
-        else:
-            logger.debug("testing for xid: {0}".format(self.xid))
-            if self.xid:   # xid was passed, so we have to capture a single window.
-                logger.debug("Capturing Window: {0} {1}".format(self.xid, prefs.xid_geometry))
-                self.videosrc.set_property("xid", self.xid)
-
-                if prefs.codec == CODEC_H264:
-                    self.videocrop = Gst.ElementFactory.make("videocrop", "cropper")
-                    if prefs.xid_geometry[2] % 2:
-                        self.videocrop.set_property("left", 1)
-                        self.crop_vid = True
-                    if prefs.xid_geometry[3] % 2:
-                        self.videocrop.set_property("bottom", 1)
-                        self.crop_vid = True
-            else:
-                self.videosrc.set_property("startx", startx)
-                self.videosrc.set_property("starty", starty)
-                self.videosrc.set_property("endx", endx)
-                self.videosrc.set_property("endy", endy)
-
-            self.videosrc.set_property("use-damage", False)
-            self.videosrc.set_property("show-pointer", prefs.capture_cursor)
-
             self.vid_caps = Gst.caps_from_string("video/x-raw, framerate={0}/1".format(int(prefs.framerate)))
             self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
             self.vid_caps_filter.set_property("caps", self.vid_caps)
+        else:
+            if self.mode == MODE_SCREENCAST:
+                logger.debug("Testing for xid: {0}".format(self.xid))
+                if self.xid:   # xid was passed, so we have to capture a single window.
+                    logger.debug("Capturing Window: {0} {1}".format(self.xid, prefs.xid_geometry))
+                    self.videosrc.set_property("xid", self.xid)
+
+                    if prefs.codec == CODEC_H264:
+                        self.videocrop = Gst.ElementFactory.make("videocrop", "cropper")
+                        if prefs.xid_geometry[2] % 2:
+                            self.videocrop.set_property("left", 1)
+                            self.crop_vid = True
+                        if prefs.xid_geometry[3] % 2:
+                            self.videocrop.set_property("bottom", 1)
+                            self.crop_vid = True
+                else:
+                    self.videosrc.set_property("startx", startx)
+                    self.videosrc.set_property("starty", starty)
+                    self.videosrc.set_property("endx", endx)
+                    self.videosrc.set_property("endy", endy)
+
+                self.videosrc.set_property("use-damage", False)
+                self.videosrc.set_property("show-pointer", prefs.capture_cursor)
+                self.vid_caps = Gst.caps_from_string("video/x-raw, framerate={}/1".format(int(prefs.framerate)))
+                self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
+                self.vid_caps_filter.set_property("caps", self.vid_caps)
+            elif self.mode == MODE_WEBCAM:
+                self.videosrc.set_property("device", prefs.webcam_sources[prefs.webcam_source][0])
+                logger.debug("Webcam source: {}".format(prefs.webcam_sources[prefs.webcam_source][0]))
+                self.vid_caps = Gst.caps_from_string("video/x-raw, framerate={}/1, width={}, height={}".format(int(prefs.framerate),
+                                                                                                               width,
+                                                                                                               height))
+                self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
+                self.vid_caps_filter.set_property("caps", self.vid_caps)
 
         self.videoconvert = Gst.ElementFactory.make("videoconvert", "videoconvert")
         self.videorate = Gst.ElementFactory.make("videorate", "video_rate")
 
-        logger.debug("Codec: {0}".format(CODEC_LIST[prefs.codec][2]))
+        logger.debug("Codec: {}".format(CODEC_LIST[prefs.codec][2]))
 
         if prefs.codec is not CODEC_RAW:
             self.videnc = Gst.ElementFactory.make(CODEC_LIST[prefs.codec][1], "video_encoder")
@@ -194,7 +212,6 @@ class Screencast(GObject.GObject):
             #self.videnc.set_property("min-quantizer", 15)
             #self.videnc.set_property("max-quantizer", 15)
             #self.videnc.set_property("threads", self.cores)
-
 
             self.mux = Gst.ElementFactory.make("webmmux", "muxer")
         elif prefs.codec == CODEC_H264:

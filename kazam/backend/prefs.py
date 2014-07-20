@@ -118,6 +118,7 @@ class Prefs():
         self.webcam_sources = {}
         self.webcam_show_preview = True
         self.webcam_preview_pos = 1
+        self.webcam_resolution = 0
 
         #
         # Command line parameters
@@ -317,7 +318,6 @@ class Prefs():
 
 
 class hw:
-
     def __init__(self):
         self.logger = logging.getLogger("Prefs-HW")
         self.logger.debug("Getting hardware specs")

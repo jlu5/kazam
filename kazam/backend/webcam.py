@@ -44,8 +44,11 @@ class Webcam(GObject.GObject):
         self.has_webcam = False
 
         logger.debug("Initializing webcam support.")
-        self.udev_client = GUdev.Client.new(subsystems=['video4linux'])
-        self.udev_client.connect("uevent", self.watch)
+        try:
+            self.udev_client = GUdev.Client.new(subsystems=['video4linux'])
+            self.udev_client.connect("uevent", self.watch)
+        except:
+            logger.warning("Unable to initialize webcam support.")
         self.detect()
 
     def watch(self, client, action, device):
@@ -72,19 +75,19 @@ class Webcam(GObject.GObject):
         self.emit("webcam-change")
 
     def detect(self):
-        self.device_list = {}
-        try:
-            cams = self.udev_client.query_by_subsystem(subsystem='video4linux')
-            if cams:
-                for c in cams:
-                    c_name = c.get_property('ID_V4L_PRODUCT')
-                    c_devname = c.get_property('DEVNAME')
-                    logger.debug("  Webcam found: {0}".format(c_name))
-                    self.device_list[c_devname] = c_name
-            else:
+        self.device_list = []
+        #try:
+        cams = self.udev_client.query_by_subsystem(subsystem='video4linux')
+        if cams:
+            for c in cams:
+                c_name = c.get_property('ID_V4L_PRODUCT')
+                c_devname = c.get_property('DEVNAME')
+                logger.debug("  Webcam found: {0}".format(c_name))
+                self.device_list.append((c_devname, c_name))
+        else:
                 logger.info("Webcam not detected.")
-        except:
-            logger.debug("Error while detecting webcams.")
+        # except:
+        #     logger.debug("Error while detecting webcams.")
 
         if self.device_list:
             self.has_webcam = True

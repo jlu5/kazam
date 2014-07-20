@@ -144,8 +144,8 @@ class Preferences(GObject.GObject):
 
     def populate_webcams(self):
         webcam_source_model = Gtk.ListStore(str, str)
-        for dev, cam in prefs.webcam_sources.items():
-            webcam_source_model.append((dev, cam))
+        for cam in prefs.webcam_sources:
+            webcam_source_model.append((cam[0], cam[1]))
 
         self.combobox_webcam.set_model(webcam_source_model)
 

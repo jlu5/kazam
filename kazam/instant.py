@@ -150,7 +150,7 @@ class InstantApp(GObject.GObject):
             Gtk.main_quit()
             sys.exit(0)
 
-        self.take =+ 1
+        self.take += 1
 
     def cb_prefs_quit(self, widget):
         logger.debug("Saving settings.")
@@ -158,4 +158,3 @@ class InstantApp(GObject.GObject):
         prefs.save_config()
         Gtk.main_quit()
         sys.exit(0)
-

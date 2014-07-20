@@ -340,7 +340,7 @@ class CountdownWindow(GObject.GObject):
 
     def onDraw(self, widget, cr):
         self.secondsf = time.time() - self.starttime
-        seconds = math.trunc(self.secondsf) % self.number
+        seconds = math.trunc(self.secondsf) % self.number if self.number > 0 else 0
         angle = (math.trunc(self.secondsf) - self.secondsf) * 360.0
         self.render(cr, widget.get_allocated_width(), widget.get_allocated_height(), angle, self.number - seconds)
 

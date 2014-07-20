@@ -26,10 +26,10 @@ import locale
 import shutil
 import gettext
 import logging
-
 from subprocess import Popen
-from gi.repository import Gtk, Gdk, GObject
 from gettext import gettext as _
+
+from gi.repository import Gtk, Gdk, GObject
 
 from kazam.utils import *
 from kazam.backend.prefs import *
@@ -59,10 +59,10 @@ try:
         gst_gi = None
         sys.exit(0)
     else:
-        logger.debug("Gstreamer version detected: {0}.{1}.{2}.{3}".format(gst_gi[0],
-                                                                          gst_gi[1],
-                                                                          gst_gi[2],
-                                                                          gst_gi[3]))
+        logger.debug("Gstreamer version detected: {}.{}.{}.{}".format(gst_gi[0],
+                                                                      gst_gi[1],
+                                                                      gst_gi[2],
+                                                                      gst_gi[3]))
 except ImportError:
     logger.critical(_("Gstreamer 1.0 or higher required, bailing out."))
     sys.exit(0)
@@ -237,7 +237,6 @@ class KazamApp(GObject.GObject):
             self.toolbar_main.insert(self.btn_webcam, -1)
         self.toolbar_main.insert(self.sep_1, -1)
 
-
         # Auxiliary toolbar
         self.aux_context = self.toolbar_aux.get_style_context()
         self.aux_context.add_class(Gtk.STYLE_CLASS_TOOLBAR)
@@ -315,7 +314,6 @@ class KazamApp(GObject.GObject):
         # Fetch sources info, take care of all the widgets and saved settings and show main window
         if prefs.sound:
             prefs.get_audio_sources()
-
 
         if not prefs.silent:
             self.window.show_all()
@@ -630,7 +628,7 @@ class KazamApp(GObject.GObject):
         self.in_countdown = False
         self.countdown = None
         self.indicator.blink_set_state(BLINK_STOP)
-        if self.main_mode == MODE_SCREENCAST:
+        if self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_WEBCAM:
             self.indicator.menuitem_finish.set_label(_("Finish recording"))
             self.indicator.menuitem_pause.set_sensitive(True)
             self.indicator.start_recording()
@@ -677,7 +675,7 @@ class KazamApp(GObject.GObject):
             self.window.set_sensitive(True)
             self.window.show()
             self.window.present()
-        elif self.main_mode == MODE_SCREENCAST:
+        elif self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_WEBCAM:
             self.done_recording = DoneRecording(self.icons,
                                                 self.tempfile,
                                                 prefs.codec,
@@ -859,19 +857,21 @@ class KazamApp(GObject.GObject):
 
         video_source = None
 
-        if self.record_mode == MODE_ALL:
+        if self.main_mode == MODE_WEBCAM:
+            video_source = CAM_RESOLUTIONS[prefs.webcam_source]
+        elif self.record_mode == MODE_ALL:
             video_source = HW.combined_screen
         else:
             screen = HW.get_current_screen(self.window)
             video_source = HW.screens[screen]
 
-        if self.main_mode == MODE_SCREENCAST:
-            self.recorder = Screencast()
+        if self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_WEBCAM:
+            self.recorder = Screencast(self.main_mode)
             self.recorder.setup_sources(video_source,
                                         audio_source,
                                         audio2_source,
-                                        prefs.area if self.record_mode == MODE_AREA else None,
-                                        prefs.xid if self.record_mode == MODE_WIN else None)
+                                        prefs.area if self.record_mode == MODE_AREA and self.main_mode != MODE_WEBCAM else None,
+                                        prefs.xid if self.record_mode == MODE_WIN and self.main_mode != MODE_WEBCAM else None)
 
             self.recorder.connect("flush-done", self.cb_flush_done)
 
@@ -889,19 +889,20 @@ class KazamApp(GObject.GObject):
         self.recording = True
         logger.debug("Hiding main window.")
         self.window.hide()
-        try:
-            if self.record_mode == MODE_AREA and prefs.area:
-                if prefs.dist[0] == 'Ubuntu' and int(prefs.dist[1].split(".")[0]) > 12:
-                    logger.debug("Showing recording outline.")
-                    self.outline_window = OutlineWindow(prefs.area[0],
-                                                        prefs.area[1],
-                                                        prefs.area[4],
-                                                        prefs.area[5])
-                    self.outline_window.show()
-                else:
-                    logger.debug("Ubuntu 13.04 or higher not detected, recording outline not shown.")
-        except:
-            logger.debug("Unable to show recording outline.")
+        if self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_SCREENSHOT:
+            try:
+                if self.record_mode == MODE_AREA and prefs.area:
+                    if prefs.dist[0] == 'Ubuntu' and int(prefs.dist[1].split(".")[0]) > 12:
+                        logger.debug("Showing recording outline.")
+                        self.outline_window = OutlineWindow(prefs.area[0],
+                                                            prefs.area[1],
+                                                            prefs.area[4],
+                                                            prefs.area[5])
+                        self.outline_window.show()
+                    else:
+                        logger.debug("Ubuntu 13.04 or higher not detected, recording outline not shown.")
+            except:
+                logger.debug("Unable to show recording outline.")
 
     def setup_translations(self):
         gettext.bindtextdomain("kazam", "/usr/share/locale")
