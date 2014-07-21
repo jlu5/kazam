@@ -858,12 +858,14 @@ class KazamApp(GObject.GObject):
 
         video_source = None
 
+        screen = HW.get_current_screen(self.window)
+        prefs.current_screen = screen
+
         if self.main_mode == MODE_WEBCAM:
             video_source = CAM_RESOLUTIONS[prefs.webcam_source]
         elif self.record_mode == MODE_ALL:
             video_source = HW.combined_screen
         else:
-            screen = HW.get_current_screen(self.window)
             video_source = HW.screens[screen]
 
         if self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_WEBCAM:

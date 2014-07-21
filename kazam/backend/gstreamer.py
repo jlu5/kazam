@@ -32,7 +32,9 @@ import multiprocessing
 os.environ["GST_DEBUG_DUMP_DOT_DIR"] = "/tmp"
 os.putenv("GST_DEBUG_DUMP_DOT_DIR", "/tmp")
 
-from gi.repository import GObject, Gst, Gtk, GdkX11, GstVideo
+from gi.repository import GObject, Gst, GstVideo
+
+from kazam.frontend.window_webcam import WebcamWindow
 from kazam.backend.prefs import *
 
 GObject.threads_init()
@@ -347,15 +349,11 @@ class Screencast(GObject.GObject):
 
         if self.mode == MODE_WEBCAM and prefs.webcam_show_preview is True:
             # Setup camera preview window
-            self.cam_win = Gtk.Window()
-            self.cam_win.set_default_size(CAM_RESOLUTIONS[prefs.webcam_resolution][0],
-                                          CAM_RESOLUTIONS[prefs.webcam_resolution][1])
-            self.webcam_area = Gtk.DrawingArea()
-            self.cam_win.add(self.webcam_area)
-            self.cam_win.show_all()
-            self.cam_win.set_decorated(False)
-            self.cam_win.set_property("skip-taskbar-hint", True)
-            self.cam_win.set_keep_above(True)
+            self.cam_window = WebcamWindow(CAM_RESOLUTIONS[prefs.webcam_resolution][0],
+                                           CAM_RESOLUTIONS[prefs.webcam_resolution][1],
+                                           prefs.webcam_preview_pos)
+
+            self.cam_xid = self.cam_window.xid
 
             # Build the pipeline
             self.q_video_src.link(self.tee)
@@ -445,8 +443,6 @@ class Screencast(GObject.GObject):
         logger.debug("Link file queue -> sink: %s" % ret)
 
     def start_recording(self):
-        if self.mode == MODE_WEBCAM and prefs.webcam_show_preview is True:
-            self.window_xid = self.webcam_area.get_property('window').get_xid()
         logger.debug("Setting STATE_PLAYING")
         self.pipeline.set_state(Gst.State.PLAYING)
 
@@ -471,7 +467,8 @@ class Screencast(GObject.GObject):
     def on_eos(self, bus, message):
         logger.debug("Received EOS, setting pipeline to NULL.")
         if self.mode == MODE_WEBCAM and prefs.webcam_show_preview is True:
-            self.cam_win.destroy()
+            self.cam_window.window.destroy()
+            self.cam_window = None
 
         self.pipeline.set_state(Gst.State.NULL)
         logger.debug("Emitting flush-done.")
@@ -483,4 +480,4 @@ class Screencast(GObject.GObject):
     def on_sync_message(self, bus, message):
         if message.get_structure().get_name() == 'prepare-window-handle':
             logger.debug("Preparing Window Handle")
-            message.src.set_window_handle(self.window_xid)
+            message.src.set_window_handle(self.cam_window.xid)
