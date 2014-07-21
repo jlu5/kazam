@@ -122,9 +122,7 @@ class CountdownWindow(GObject.GObject):
         libpixman = None
         for name in names:
             try:
-                print("Trying name", name)
                 libpixman = cdll.LoadLibrary(name)
-                print("Got here after", name)
                 break
             except:
                 pass
