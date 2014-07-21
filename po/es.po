@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-20 05:58+0000\n"
+"X-Launchpad-Export-Date: 2014-07-21 06:35+0000\n"
 "X-Generator: Launchpad (build 17114)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
@@ -28,7 +28,7 @@ msgstr "Capturar"
 
 #: ../data/ui/kazam.ui.h:3
 msgid "Seconds to wait before capturing:"
-msgstr "Segundos a esperar antes de capturar:"
+msgstr "Segundos que esperar antes de capturar:"
 
 #: ../data/ui/kazam.ui.h:4
 msgid "Sound from microphone"
@@ -102,19 +102,19 @@ msgstr "Grabar con:"
 
 #: ../data/ui/preferences.ui.h:11
 msgid "Automatic file saving:"
-msgstr "Autoguardado"
+msgstr "Guardado automático:"
 
 #: ../data/ui/preferences.ui.h:12
 msgid "Directory:"
-msgstr "Directorio:"
+msgstr "Carpeta:"
 
 #: ../data/ui/preferences.ui.h:13
 msgid "Select a directory"
-msgstr "Seleccione un directorio"
+msgstr "Seleccione una carpeta"
 
 #: ../data/ui/preferences.ui.h:14
 msgid "Filename prefix:"
-msgstr "Prefijo de archivo"
+msgstr "Prefijo del archivo:"
 
 #: ../data/ui/preferences.ui.h:16
 msgid "Shutter sound:"
