@@ -481,3 +481,78 @@ class Screencast(GObject.GObject):
         if message.get_structure().get_name() == 'prepare-window-handle':
             logger.debug("Preparing Window Handle")
             message.src.set_window_handle(self.cam_window.xid)
+
+
+class GWebcam(GObject.GObject):
+
+    def __init__(self):
+        GObject.GObject.__init__(self)
+        self.pipeline = Gst.Pipeline()
+        self.xid = None
+
+        self.bus = self.pipeline.get_bus()
+        self.bus.add_signal_watch()
+        self.bus.connect("message::eos", self.on_eos)
+        self.bus.connect("message::error", self.on_error)
+
+        self.bus.enable_sync_message_emission()
+        self.bus.connect('sync-message::element', self.on_sync_message)
+
+    def start(self):
+        width = CAM_RESOLUTIONS[prefs.webcam_resolution][0]
+        height = CAM_RESOLUTIONS[prefs.webcam_resolution][1]
+
+        self.video_src = Gst.ElementFactory.make("v4l2src", "video_src")
+        self.q_video_src = Gst.ElementFactory.make("queue", "queue_video_source")
+
+        self.video_src.set_property("device", prefs.webcam_sources[prefs.webcam_source][0])
+        logger.debug("Webcam source: {}".format(prefs.webcam_sources[prefs.webcam_source][0]))
+        caps_str = "video/x-raw, framerate={}/1, width={}, height={}"
+        self.video_caps = Gst.caps_from_string(caps_str.format(int(prefs.framerate),
+                                                               width,
+                                                               height))
+        self.f_video_caps = Gst.ElementFactory.make("capsfilter", "vid_filter")
+        self.f_video_caps.set_property("caps", self.video_caps)
+        self.screen_queue = Gst.ElementFactory.make("queue", "screen_queue")
+        self.screen_sink = Gst.ElementFactory.make("xvimagesink", "screen_sink")
+        self.video_flip = Gst.ElementFactory.make("videoflip", "video_flip")
+        self.video_flip.set_property("method", "horizontal-flip")
+
+        self.pipeline.add(self.video_src)
+        self.pipeline.add(self.f_video_caps)
+        self.pipeline.add(self.q_video_src)
+        self.pipeline.add(self.video_flip)
+        self.pipeline.add(self.screen_queue)
+        self.pipeline.add(self.screen_sink)
+
+        self.cam_window = WebcamWindow(CAM_RESOLUTIONS[prefs.webcam_resolution][0],
+                                       CAM_RESOLUTIONS[prefs.webcam_resolution][1],
+                                       prefs.webcam_preview_pos)
+
+        self.cam_xid = self.cam_window.xid
+
+        self.video_src.link(self.f_video_caps)
+        self.f_video_caps.link(self.q_video_src)
+
+        self.q_video_src.link(self.video_flip)
+        self.video_flip.link(self.screen_queue)
+        self.screen_queue.link(self.screen_sink)
+
+        self.pipeline.set_state(Gst.State.PLAYING)
+
+    def close(self):
+        self.pipeline.send_event(Gst.Event.new_eos())
+
+    def on_eos(self, bus, message):
+        logger.debug("Received EOS, setting pipeline to NULL.")
+        self.cam_window.window.destroy()
+        self.cam_window = None
+        self.pipeline.set_state(Gst.State.NULL)
+
+    def on_error(self, bus, message):
+        logger.debug("Received an error message: %s", message.parse_error()[1])
+
+    def on_sync_message(self, bus, message):
+        if message.get_structure().get_name() == 'prepare-window-handle':
+            logger.debug("Preparing Window Handle")
+            message.src.set_window_handle(self.cam_window.xid)

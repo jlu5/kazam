@@ -34,7 +34,7 @@ from gi.repository import Gtk, Gdk, GObject
 from kazam.utils import *
 from kazam.backend.prefs import *
 from kazam.backend.grabber import Grabber
-from kazam.backend.gstreamer import Screencast
+from kazam.backend.gstreamer import Screencast, GWebcam
 
 from kazam.frontend.main_menu import MainMenu
 from kazam.frontend.window_area import AreaWindow
@@ -330,6 +330,9 @@ class KazamApp(GObject.GObject):
 
         HW.get_current_screen(self.window)
         self.startup = False
+
+        screen = HW.get_current_screen(self.window)
+        prefs.current_screen = screen
 
     #
     # Callbacks, go down here ...
@@ -803,6 +806,16 @@ class KazamApp(GObject.GObject):
     def cb_spinbutton_delay_change(self, widget):
         prefs.countdown_timer = widget.get_value_as_int()
         logger.debug("Start delay now: {0}".format(prefs.countdown_timer))
+
+    def cb_check_webcam(self, widget):
+        toggle = widget.get_active()
+        if toggle is True:
+            self.cam = GWebcam()
+            self.cam.start()
+        else:
+            if self.cam:
+                self.cam.close()
+                self.cam = None
 
     #
     # Other somewhat useful stuff ...
