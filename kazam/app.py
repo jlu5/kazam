@@ -828,8 +828,9 @@ class KazamApp(GObject.GObject):
 
         self.indicator.blink_set_state(BLINK_START)
 
-        if (self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_WEBCAM) and prefs.sound:
-            if prefs.capture_speakers:
+        if prefs.sound:
+            if (self.main_mode == MODE_SCREENCAST and prefs.capture_speakers) or \
+               (self.main_mode == MODE_WEBCAM and prefs.capture_speakers_webcam):
                 try:
                     audio_source = prefs.speaker_sources[prefs.audio_source][1]
                 except IndexError:
@@ -838,7 +839,8 @@ class KazamApp(GObject.GObject):
             else:
                 audio_source = None
 
-            if prefs.capture_microphone:
+            if (self.main_mode == MODE_SCREENCAST and prefs.capture_microphone) or \
+               (self.main_mode == MODE_WEBCAM and prefs.capture_microphone_webcam):
                 try:
                     audio2_source = prefs.mic_sources[prefs.audio2_source][1]
                 except IndexError:
@@ -846,7 +848,6 @@ class KazamApp(GObject.GObject):
                     audio2_source = None
             else:
                 audio2_source = None
-
         else:
             audio_source = None
             audio2_source = None

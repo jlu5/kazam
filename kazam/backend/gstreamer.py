@@ -32,10 +32,8 @@ import multiprocessing
 os.environ["GST_DEBUG_DUMP_DOT_DIR"] = "/tmp"
 os.putenv("GST_DEBUG_DUMP_DOT_DIR", "/tmp")
 
-from gi.repository import GObject, Gst
-
+from gi.repository import GObject, Gst, Gtk, GdkX11, GstVideo
 from kazam.backend.prefs import *
-
 
 GObject.threads_init()
 Gst.init(None)
@@ -101,17 +99,21 @@ class Screencast(GObject.GObject):
 
         self.bus = self.pipeline.get_bus()
         self.bus.add_signal_watch()
-        self.bus.connect("message", self.on_message)
+        self.bus.connect("message::eos", self.on_eos)
+        self.bus.connect("message::error", self.on_error)
+
+        self.bus.enable_sync_message_emission()
+        self.bus.connect('sync-message::element', self.on_sync_message)
 
     def setup_video_source(self):
 
         if prefs.test:
-            self.videosrc = Gst.ElementFactory.make("videotestsrc", "video_src")
-            self.videosrc.set_property("pattern", "smpte")
+            self.video_src = Gst.ElementFactory.make("videotestsrc", "video_src")
+            self.video_src.set_property("pattern", "smpte")
         elif self.mode == MODE_SCREENSHOT or self.mode == MODE_SCREENCAST or self.mode == MODE_BROADCAST:
-            self.videosrc = Gst.ElementFactory.make("ximagesrc", "video_src")
+            self.video_src = Gst.ElementFactory.make("ximagesrc", "video_src")
         elif self.mode == MODE_WEBCAM:
-            self.videosrc = Gst.ElementFactory.make("v4l2src", "video_src")
+            self.video_src = Gst.ElementFactory.make("v4l2src", "video_src")
 
         if self.area:
             logger.debug("Capturing area.")
@@ -149,62 +151,70 @@ class Screencast(GObject.GObject):
 
         if prefs.test:
             logger.info("Using test signal instead of screen capture.")
-            self.vid_caps = Gst.caps_from_string("video/x-raw, framerate={0}/1".format(int(prefs.framerate)))
-            self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
-            self.vid_caps_filter.set_property("caps", self.vid_caps)
+            self.video_caps = Gst.caps_from_string("video/x-raw, framerate={0}/1".format(int(prefs.framerate)))
+            self.f_video_caps = Gst.ElementFactory.make("capsfilter", "vid_filter")
+            self.f_video_caps.set_property("caps", self.video_caps)
         else:
             if self.mode == MODE_SCREENCAST:
                 logger.debug("Testing for xid: {0}".format(self.xid))
                 if self.xid:   # xid was passed, so we have to capture a single window.
                     logger.debug("Capturing Window: {0} {1}".format(self.xid, prefs.xid_geometry))
-                    self.videosrc.set_property("xid", self.xid)
+                    self.video_src.set_property("xid", self.xid)
 
                     if prefs.codec == CODEC_H264:
-                        self.videocrop = Gst.ElementFactory.make("videocrop", "cropper")
+                        self.video_crop = Gst.ElementFactory.make("videocrop", "cropper")
                         if prefs.xid_geometry[2] % 2:
-                            self.videocrop.set_property("left", 1)
+                            self.video_crop.set_property("left", 1)
                             self.crop_vid = True
                         if prefs.xid_geometry[3] % 2:
-                            self.videocrop.set_property("bottom", 1)
+                            self.video_crop.set_property("bottom", 1)
                             self.crop_vid = True
                 else:
-                    self.videosrc.set_property("startx", startx)
-                    self.videosrc.set_property("starty", starty)
-                    self.videosrc.set_property("endx", endx)
-                    self.videosrc.set_property("endy", endy)
+                    self.video_src.set_property("startx", startx)
+                    self.video_src.set_property("starty", starty)
+                    self.video_src.set_property("endx", endx)
+                    self.video_src.set_property("endy", endy)
 
-                self.videosrc.set_property("use-damage", False)
-                self.videosrc.set_property("show-pointer", prefs.capture_cursor)
-                self.vid_caps = Gst.caps_from_string("video/x-raw, framerate={}/1".format(int(prefs.framerate)))
-                self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
-                self.vid_caps_filter.set_property("caps", self.vid_caps)
+                self.video_src.set_property("use-damage", False)
+                self.video_src.set_property("show-pointer", prefs.capture_cursor)
+                self.video_caps = Gst.caps_from_string("video/x-raw, framerate={}/1".format(int(prefs.framerate)))
+                self.f_video_caps = Gst.ElementFactory.make("capsfilter", "vid_filter")
+                self.f_video_caps.set_property("caps", self.video_caps)
             elif self.mode == MODE_WEBCAM:
-                self.videosrc.set_property("device", prefs.webcam_sources[prefs.webcam_source][0])
+                self.video_src.set_property("device", prefs.webcam_sources[prefs.webcam_source][0])
                 logger.debug("Webcam source: {}".format(prefs.webcam_sources[prefs.webcam_source][0]))
-                self.vid_caps = Gst.caps_from_string("video/x-raw, framerate={}/1, width={}, height={}".format(int(prefs.framerate),
-                                                                                                               width,
-                                                                                                               height))
-                self.vid_caps_filter = Gst.ElementFactory.make("capsfilter", "vid_filter")
-                self.vid_caps_filter.set_property("caps", self.vid_caps)
+                caps_str = "video/x-raw, framerate={}/1, width={}, height={}"
+                self.video_caps = Gst.caps_from_string(caps_str.format(int(prefs.framerate),
+                                                                       width,
+                                                                       height))
+                self.f_video_caps = Gst.ElementFactory.make("capsfilter", "vid_filter")
+                self.f_video_caps.set_property("caps", self.video_caps)
 
-        self.videoconvert = Gst.ElementFactory.make("videoconvert", "videoconvert")
-        self.videorate = Gst.ElementFactory.make("videorate", "video_rate")
+                if prefs.webcam_show_preview is True:
+                    self.tee = Gst.ElementFactory.make("tee", "tee")
+                    self.screen_queue = Gst.ElementFactory.make("queue", "screen_queue")
+                    self.screen_sink = Gst.ElementFactory.make("xvimagesink", "screen_sink")
+                    self.video_flip = Gst.ElementFactory.make("videoflip", "video_flip")
+                    self.video_flip.set_property("method", "horizontal-flip")
+
+        self.video_convert = Gst.ElementFactory.make("videoconvert", "videoconvert")
+        self.video_rate = Gst.ElementFactory.make("videorate", "video_rate")
 
         logger.debug("Codec: {}".format(CODEC_LIST[prefs.codec][2]))
 
         if prefs.codec is not CODEC_RAW:
-            self.videnc = Gst.ElementFactory.make(CODEC_LIST[prefs.codec][1], "video_encoder")
+            self.video_enc = Gst.ElementFactory.make(CODEC_LIST[prefs.codec][1], "video_encoder")
 
         if prefs.codec == CODEC_RAW:
             self.mux = Gst.ElementFactory.make("avimux", "muxer")
         elif prefs.codec == CODEC_VP8:
-            self.videnc.set_property("cpu-used", 2)
-            self.videnc.set_property("end-usage", "vbr")
-            self.videnc.set_property("target-bitrate", 800000000)
-            self.videnc.set_property("static-threshold", 1000)
-            self.videnc.set_property("token-partitions", 2)
-            self.videnc.set_property("max-quantizer", 30)
-            self.videnc.set_property("threads", self.cores)
+            self.video_enc.set_property("cpu-used", 2)
+            self.video_enc.set_property("end-usage", "vbr")
+            self.video_enc.set_property("target-bitrate", 800000000)
+            self.video_enc.set_property("static-threshold", 1000)
+            self.video_enc.set_property("token-partitions", 2)
+            self.video_enc.set_property("max-quantizer", 30)
+            self.video_enc.set_property("threads", self.cores)
 
             # Good framerate, bad memory
             #self.videnc.set_property("cpu-used", 6)
@@ -215,25 +225,26 @@ class Screencast(GObject.GObject):
 
             self.mux = Gst.ElementFactory.make("webmmux", "muxer")
         elif prefs.codec == CODEC_H264:
-            self.videnc.set_property("speed-preset", "ultrafast")
-            self.videnc.set_property("pass", 4)
-            self.videnc.set_property("quantizer", 15)
+            self.video_enc.set_property("speed-preset", "ultrafast")
+            self.video_enc.set_property("pass", 4)
+            self.video_enc.set_property("quantizer", 15)
             #
             # x264enc supports maximum of four cores
             #
-            self.videnc.set_property("threads", self.cores if self.cores <= 4 else 4)
+            self.video_enc.set_property("threads", self.cores if self.cores <= 4 else 4)
             self.mux = Gst.ElementFactory.make("mp4mux", "muxer")
             self.mux.set_property("faststart", 1)
             self.mux.set_property("faststart-file", self.muxer_tempfile)
             self.mux.set_property("streamable", 1)
         elif prefs.codec == CODEC_HUFF:
             self.mux = Gst.ElementFactory.make("avimux", "muxer")
-            self.videnc.set_property("bitrate", 500000)
+            self.video_enc.set_property("bitrate", 500000)
         elif prefs.codec == CODEC_JPEG:
             self.mux = Gst.ElementFactory.make("avimux", "muxer")
 
-        self.vid_in_queue = Gst.ElementFactory.make("queue", "queue_v1")
-        self.vid_out_queue = Gst.ElementFactory.make("queue", "queue_v2")
+        self.q_video_src = Gst.ElementFactory.make("queue", "queue_video_source")
+        self.q_video_in = Gst.ElementFactory.make("queue", "queue_video_in")
+        self.q_video_out = Gst.ElementFactory.make("queue", "queue_video_out")
 
     def setup_audio_sources(self):
         if self.audio_source or self.audio2_source:
@@ -271,10 +282,10 @@ class Screencast(GObject.GObject):
             self.audiomixer = Gst.ElementFactory.make("adder", "audiomixer")
 
     def setup_filesink(self):
+        self.file_queue = Gst.ElementFactory.make("queue", "queue_file")
         logger.debug("Filesink: {0}".format(self.tempfile))
         self.sink = Gst.ElementFactory.make("filesink", "sink")
         self.sink.set_property("location", self.tempfile)
-        self.file_queue = Gst.ElementFactory.make("queue", "queue_file")
 
     #
     # One day, this horrific code will be optimised... I promise!
@@ -283,18 +294,24 @@ class Screencast(GObject.GObject):
         #
         # Behold, setup the master pipeline
         #
-        self.pipeline.add(self.videosrc)
-        self.pipeline.add(self.vid_in_queue)
+        self.pipeline.add(self.video_src)
+        self.pipeline.add(self.f_video_caps)
+        self.pipeline.add(self.q_video_src)
         if self.crop_vid:
-            self.pipeline.add(self.videocrop)
-        self.pipeline.add(self.videorate)
-        self.pipeline.add(self.vid_caps_filter)
-        self.pipeline.add(self.videoconvert)
-        self.pipeline.add(self.vid_out_queue)
+            self.pipeline.add(self.video_crop)
+        self.pipeline.add(self.video_rate)
+        self.pipeline.add(self.video_convert)
+        self.pipeline.add(self.q_video_out)
         self.pipeline.add(self.file_queue)
 
+        if prefs.webcam_show_preview is True and self.mode == MODE_WEBCAM:
+            self.pipeline.add(self.tee)
+            self.pipeline.add(self.video_flip)
+            self.pipeline.add(self.screen_queue)
+            self.pipeline.add(self.screen_sink)
+
         if prefs.codec is not CODEC_RAW:
-            self.pipeline.add(self.videnc)
+            self.pipeline.add(self.video_enc)
 
         if self.audio_source or self.audio2_source:
             self.pipeline.add(self.audioconv)
@@ -325,23 +342,46 @@ class Screencast(GObject.GObject):
 
     def setup_links(self):
         # Connect everything together
-        self.videosrc.link(self.vid_in_queue)
-        if self.crop_vid:
-            self.vid_in_queue.link(self.videocrop)
-            self.videocrop.link(self.videorate)
+        self.video_src.link(self.f_video_caps)
+        self.f_video_caps.link(self.q_video_src)
+
+        if self.mode == MODE_WEBCAM and prefs.webcam_show_preview is True:
+            # Setup camera preview window
+            self.cam_win = Gtk.Window()
+            self.cam_win.set_default_size(CAM_RESOLUTIONS[prefs.webcam_resolution][0],
+                                          CAM_RESOLUTIONS[prefs.webcam_resolution][1])
+            self.webcam_area = Gtk.DrawingArea()
+            self.cam_win.add(self.webcam_area)
+            self.cam_win.show_all()
+            self.cam_win.set_decorated(False)
+            self.cam_win.set_property("skip-taskbar-hint", True)
+            self.cam_win.set_keep_above(True)
+
+            # Build the pipeline
+            self.q_video_src.link(self.tee)
+            self.tee.link(self.video_rate)
+            self.tee.link(self.video_flip)
+            self.video_flip.link(self.screen_queue)
+            self.screen_queue.link(self.screen_sink)
+
         else:
-            self.vid_in_queue.link(self.videorate)
-        self.videorate.link(self.vid_caps_filter)
-        self.vid_caps_filter.link(self.videoconvert)
+            if self.crop_vid:
+                self.q_video_src.link(self.video_crop)
+                self.video_crop.link(self.video_rate)
+            else:
+                self.q_video_src.link(self.video_rate)
+
+        self.video_rate.link(self.video_convert)
+
         if prefs.codec is CODEC_RAW:
-            self.videoconvert.link(self.vid_out_queue)
+            self.video_convert.link(self.q_video_out)
             logger.debug("Linking RAW Video")
         else:
             logger.debug("Linking Video")
-            self.videoconvert.link(self.videnc)
-            self.videnc.link(self.vid_out_queue)
+            self.video_convert.link(self.video_enc)
+            self.video_enc.link(self.q_video_out)
 
-        self.vid_out_queue.link(self.mux)
+        self.q_video_out.link(self.mux)
 
         if self.audio_source and self.audio2_source:
             logger.debug("Linking Audio")
@@ -405,6 +445,8 @@ class Screencast(GObject.GObject):
         logger.debug("Link file queue -> sink: %s" % ret)
 
     def start_recording(self):
+        if self.mode == MODE_WEBCAM and prefs.webcam_show_preview is True:
+            self.window_xid = self.webcam_area.get_property('window').get_xid()
         logger.debug("Setting STATE_PLAYING")
         self.pipeline.set_state(Gst.State.PLAYING)
 
@@ -426,12 +468,19 @@ class Screencast(GObject.GObject):
     def get_audio_recorded(self):
         return self.audio
 
-    def on_message(self, bus, message):
-        t = message.type
-        if t == Gst.MessageType.EOS:
-            logger.debug("Received EOS, setting pipeline to NULL.")
-            self.pipeline.set_state(Gst.State.NULL)
-            logger.debug("Emitting flush-done.")
-            self.emit("flush-done")
-        elif t == Gst.MessageType.ERROR:
-            logger.debug("Received an error message: %s", message.parse_error()[1])
+    def on_eos(self, bus, message):
+        logger.debug("Received EOS, setting pipeline to NULL.")
+        if self.mode == MODE_WEBCAM and prefs.webcam_show_preview is True:
+            self.cam_win.destroy()
+
+        self.pipeline.set_state(Gst.State.NULL)
+        logger.debug("Emitting flush-done.")
+        self.emit("flush-done")
+
+    def on_error(self, bus, message):
+        logger.debug("Received an error message: %s", message.parse_error()[1])
+
+    def on_sync_message(self, bus, message):
+        if message.get_structure().get_name() == 'prepare-window-handle':
+            logger.debug("Preparing Window Handle")
+            message.src.set_window_handle(self.window_xid)

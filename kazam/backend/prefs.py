@@ -506,7 +506,7 @@ CAM_PREVIEW_BR = 2
 CAM_PREVIEW_BL = 3
 
 CAM_RESOLUTIONS = [
-    [320, 200],
+    [320, 240],
     [640, 480],
     [800, 600],
     [1024, 768]
