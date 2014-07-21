@@ -237,7 +237,7 @@ class CountdownWindow(GObject.GObject):
             self.layout.set_font_description(self.desc)
 
         # print and layout string (pango-wise)
-        self.layout.set_text(str(number), -1)
+        self.layout.set_text(str(int(number)), -1)
 
         # determine center position for number
         rects = self.layout.get_extents()
