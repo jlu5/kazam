@@ -35,7 +35,7 @@ PIXMAN_OP_SRC = 1
 HEIGHT_FRACTION = 2.5
 PIXMAN_a8r8g8b8 = 0x20028888
 PIXMAN_FILTER_CONVOLUTION = 5
-LIBPIXMAN_NAME = "libpixman-1.so"
+LIBPIXMAN_NAMES = ["libpixman-1.so", "libpixman-1.so.0"]
 
 logger = logging.getLogger("Countdown")
 
@@ -68,7 +68,7 @@ class CountdownWindow(GObject.GObject):
             self.good_cairo = False
 
         # setup libpixman via ctypes
-        self.setupPixman(LIBPIXMAN_NAME)
+        self.setupPixman(LIBPIXMAN_NAMES)
 
         self.window = Gtk.Window(Gtk.WindowType.TOPLEVEL)
         self.window.connect("delete-event", Gtk.main_quit)
@@ -108,7 +108,7 @@ class CountdownWindow(GObject.GObject):
         self.window.set_position(Gtk.WindowPosition.CENTER)
 
         # setup libpixman via ctypes and init other stuff
-        self.setupPixman(LIBPIXMAN_NAME)
+        self.setupPixman(LIBPIXMAN_NAMES)
         self.layout = None
         self.desc = None
         if self.good_cairo:
@@ -118,8 +118,16 @@ class CountdownWindow(GObject.GObject):
 
         self.secondsf = 0.0
 
-    def setupPixman(self, name):
-        libpixman = cdll.LoadLibrary(name)
+    def setupPixman(self, names):
+        libpixman = None
+        for name in names:
+            try:
+                libpixman = cdll.LoadLibrary(name)
+                break
+            except:
+                pass
+        if libpixman is None:
+            raise Exception("Could not find libpixman as any of %s." % ",".join(names))
         self.pixman_image_create_bits = libpixman.pixman_image_create_bits
         self.pixman_image_set_filter = libpixman.pixman_image_set_filter
         self.pixman_image_composite = libpixman.pixman_image_composite
@@ -229,7 +237,7 @@ class CountdownWindow(GObject.GObject):
             self.layout.set_font_description(self.desc)
 
         # print and layout string (pango-wise)
-        self.layout.set_text(str(number), -1)
+        self.layout.set_text(str(int(number)), -1)
 
         # determine center position for number
         rects = self.layout.get_extents()
