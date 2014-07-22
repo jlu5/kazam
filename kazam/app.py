@@ -35,6 +35,7 @@ from kazam.utils import *
 from kazam.backend.prefs import *
 from kazam.backend.grabber import Grabber
 from kazam.backend.gstreamer import Screencast, GWebcam
+from kazam.backend.keypress import KeypressViewer
 
 from kazam.frontend.main_menu import MainMenu
 from kazam.frontend.window_area import AreaWindow
@@ -140,6 +141,9 @@ class KazamApp(GObject.GObject):
         self.mainmenu.connect("help-about", self.cb_help_about)
         self.webcam = HW.webcam
         self.webcam.connect("webcam-change", self.cb_webcam_change)
+
+        self.keypress_viewer = KeypressViewer()
+        self.keypress_viewer.connect("keypress", self.cb_got_keypress)
 
         #
         # Setup UI
@@ -337,6 +341,13 @@ class KazamApp(GObject.GObject):
     #
     # Callbacks, go down here ...
     #
+
+    def cb_got_keypress(self, kv, keytype, press_release, keyvalue):
+        """keytype: 'KeySym' or 'KeyStr'
+           press_release: 'Press' or 'Release'
+           keyvalue: A key name ('Control_L' or 'd' or 'backslash' or...)
+        """
+        logger.info("GOT KEYPRESS: %s, %s, %s", keytype, press_release, keyvalue)
 
     #
     # Mode of operation toggles
@@ -636,6 +647,7 @@ class KazamApp(GObject.GObject):
             self.indicator.menuitem_pause.set_sensitive(True)
             self.indicator.start_recording()
             self.recorder.start_recording()
+            if prefs.show_keypresses: self.keypress_viewer.start()
         elif self.main_mode == MODE_SCREENSHOT:
             self.indicator.hide_it()
             self.grabber.grab()
@@ -662,6 +674,7 @@ class KazamApp(GObject.GObject):
                 self.recorder.unpause_recording()
             logger.debug("Stop request.")
             self.recorder.stop_recording()
+            if prefs.show_keypresses: self.keypress_viewer.stop()
             self.tempfile = self.recorder.get_tempfile()
             logger.debug("Recorded tmp file: {0}".format(self.tempfile))
             logger.debug("Waiting for data to flush.")
@@ -817,6 +830,9 @@ class KazamApp(GObject.GObject):
                 self.cam.close()
                 self.cam = None
 
+    def cb_check_keypresses(self, widget):
+        prefs.show_keypresses = widget.get_active()
+        logger.debug("Show keypresses: {0}.".format(prefs.show_keypresses))
     #
     # Other somewhat useful stuff ...
     #
@@ -939,6 +955,8 @@ class KazamApp(GObject.GObject):
 
         self.chk_speakers_webcam.set_active(prefs.capture_speakers_webcam)
         self.chk_microphone_webcam.set_active(prefs.capture_microphone_webcam)
+
+        self.chk_keypresses.set_active(prefs.show_keypresses)
 
         #
         # Turn off the combined screen icon if we don't have more than one screen.

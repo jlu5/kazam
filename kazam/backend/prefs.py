@@ -72,6 +72,8 @@ class Prefs():
         self.countdown_splash = True
         self.silent_start = False
 
+        self.show_keypresses = False
+
         #
         # Other stuff
         #
@@ -254,6 +256,8 @@ class Prefs():
         self.webcam_preview_pos = int(self.config.get("main", "webcam_preview_pos"))
         self.webcam_resolution = int(self.config.get("main", "webcam_resolution"))
 
+        self.show_keypresses = self.config.getboolean("main", "show_keypresses")
+
         self.first_run = self.config.getboolean("main", "first_run")
 
         #
@@ -313,6 +317,8 @@ class Prefs():
         self.config.set("main", "webcam_show_preview", self.webcam_show_preview)
         self.config.set("main", "webcam_preview_pos", self.webcam_preview_pos)
         self.config.set("main", "webcam_resolution", self.webcam_resolution)
+
+        self.config.set("main", "show_keypresses", self.show_keypresses)
 
         self.config.write()
 
