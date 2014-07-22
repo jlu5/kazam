@@ -50,21 +50,29 @@ class Webcam(GObject.GObject):
         self.detect()
 
     def watch(self, client, action, device):
+        logger.debug("Webcam device list: {}".format(self.device_list))
+        logger.debug("Webcam change detected: {}".format(action))
         if action == 'add':
             try:
                 c_name = device.get_property('ID_V4L_PRODUCT')
                 c_devname = device.get_property('DEVNAME')
-                self.device_list[c_devname] = c_name
-                logger.debug("New webcam found: {}".format(c_name))
+                if (c_devname, c_name) not in self.device_list:
+                    self.device_list.append((c_devname, c_name))
+                    logger.debug("New webcam found: {}".format(c_name))
+                else:
+                    logger.warning("Duplicate cam detected!? {} {}".format(c_devname, c_name))
+
             except Exception as e:
                 logger.debug("Unable to register new webcam. {}".format(e.str))
         elif action == 'remove':
             try:
                 c_name = device.get_property('ID_V4L_PRODUCT')
                 c_devname = device.get_property('DEVNAME')
-                if c_devname in self.device_list:
-                    del self.device_list[c_devname]
-                    logger.debug("Removed webcam {}".format(c_name))
+                logger.debug("Removing webcam {}".format(c_name))
+                for cam in self.device_list:
+                    if c_devname == cam[0]:
+                        self.device_list.remove(cam)
+                        logger.debug("Removed webcam {}".format(c_name))
             except Exception as e:
                 logger.debug("Unable to de-register a webcam. {}".format(e.str))
 
