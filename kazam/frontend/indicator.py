@@ -28,33 +28,34 @@ from gi.repository import Gtk, GObject, GLib
 
 from kazam.backend.prefs import *
 
+
 class KazamSuperIndicator(GObject.GObject):
     __gsignals__ = {
-        "indicator-pause-request" : (GObject.SIGNAL_RUN_LAST,
-                                     None,
-                                     (), ),
-        "indicator-unpause-request" : (GObject.SIGNAL_RUN_LAST,
-                                       None,
-                                       (), ),
-        "indicator-quit-request" : (GObject.SIGNAL_RUN_LAST,
+        "indicator-pause-request": (GObject.SIGNAL_RUN_LAST,
                                     None,
                                     (), ),
-        "indicator-show-request" : (GObject.SIGNAL_RUN_LAST,
+        "indicator-unpause-request": (GObject.SIGNAL_RUN_LAST,
+                                      None,
+                                      (), ),
+        "indicator-quit-request": (GObject.SIGNAL_RUN_LAST,
+                                   None,
+                                   (), ),
+        "indicator-show-request": (GObject.SIGNAL_RUN_LAST,
+                                   None,
+                                   (), ),
+        "indicator-stop-request": (GObject.SIGNAL_RUN_LAST,
+                                   None,
+                                   (), ),
+        "indicator-start-request": (GObject.SIGNAL_RUN_LAST,
                                     None,
                                     (), ),
-        "indicator-stop-request" : (GObject.SIGNAL_RUN_LAST,
-                                    None,
-                                    (), ),
-        "indicator-start-request" : (GObject.SIGNAL_RUN_LAST,
-                                     None,
-                                     (), ),
 
-        "indicator-about-request" : (GObject.SIGNAL_RUN_LAST,
-                                     None,
-                                     (), ),
-        }
+        "indicator-about-request": (GObject.SIGNAL_RUN_LAST,
+                                    None,
+                                    (), ),
+    }
 
-    def __init__(self, silent = False):
+    def __init__(self, silent=False):
         super(KazamSuperIndicator, self).__init__()
         self.blink_icon = BLINK_STOP_ICON
         self.blink_state = False
@@ -148,13 +149,14 @@ try:
     from gi.repository import AppIndicator3
 
     class KazamIndicator(KazamSuperIndicator):
-        def __init__(self, silent = False):
+
+        def __init__(self, silent=False):
             super(KazamIndicator, self).__init__(silent)
             self.silent = silent
 
             self.indicator = AppIndicator3.Indicator.new("kazam",
-                             "kazam-stopped",
-                             AppIndicator3.IndicatorCategory.APPLICATION_STATUS)
+                                                         "kazam-stopped",
+                                                         AppIndicator3.IndicatorCategory.APPLICATION_STATUS)
 
             self.indicator.set_menu(self.menu)
             self.indicator.set_attention_icon("kazam-recording")
@@ -226,7 +228,7 @@ except ImportError:
     #
     class KazamIndicator(KazamSuperIndicator):
 
-        def __init__(self, silent = False):
+        def __init__(self, silent=False):
             super(KazamIndicator, self).__init__()
             self.silent = silent
 
