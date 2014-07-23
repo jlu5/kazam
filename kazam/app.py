@@ -46,6 +46,7 @@ from kazam.frontend.window_select import SelectWindow
 from kazam.frontend.done_recording import DoneRecording
 from kazam.frontend.window_outline import OutlineWindow
 from kazam.frontend.window_countdown import CountdownWindow
+from kazam.frontend.window_keypress import KeypressWindow
 
 logger = logging.getLogger("Main")
 
@@ -338,6 +339,9 @@ class KazamApp(GObject.GObject):
         screen = HW.get_current_screen(self.window)
         prefs.current_screen = screen
 
+        # self.keypress_viewer.start()
+        # self.keypress_window = KeypressWindow()
+
     #
     # Callbacks, go down here ...
     #
@@ -348,6 +352,7 @@ class KazamApp(GObject.GObject):
            keyvalue: A key name ('Control_L' or 'd' or 'backslash' or...)
         """
         logger.info("GOT KEYPRESS: %s, %s, %s", keytype, press_release, keyvalue)
+        self.keypress_window.show(keyvalue, press_release)
 
     #
     # Mode of operation toggles
@@ -647,7 +652,9 @@ class KazamApp(GObject.GObject):
             self.indicator.menuitem_pause.set_sensitive(True)
             self.indicator.start_recording()
             self.recorder.start_recording()
-            if prefs.show_keypresses: self.keypress_viewer.start()
+            if prefs.show_keypresses:
+                self.keypress_window = KeypressWindow()
+                self.keypress_viewer.start()
         elif self.main_mode == MODE_SCREENSHOT:
             self.indicator.hide_it()
             self.grabber.grab()
@@ -674,7 +681,11 @@ class KazamApp(GObject.GObject):
                 self.recorder.unpause_recording()
             logger.debug("Stop request.")
             self.recorder.stop_recording()
-            if prefs.show_keypresses: self.keypress_viewer.stop()
+            if prefs.show_keypresses:
+                self.keypress_viewer.stop()
+                self.keypress_window.window.destroy()
+                self.keypress_window = None
+
             self.tempfile = self.recorder.get_tempfile()
             logger.debug("Recorded tmp file: {0}".format(self.tempfile))
             logger.debug("Waiting for data to flush.")

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-#       window_select.py
+#       window_webcam.py
 #
 #       Copyright 2014 David Klasinc <bigwhale@lubica.net>
 #

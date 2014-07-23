@@ -531,7 +531,18 @@ HANDLE_CURSORS = (
     Gdk.CursorType.BOTTOM_RIGHT_CORNER
 )
 
+#
+# Keyboard modifiers
+#
+K_SHIFT = 0
+K_CTRL = 1
+K_SUPER = 2
+K_ALT = 3
 
+KEY_STRINGS = ["Shift",
+               "Control",
+               "Super",
+               "Alt", ]
 #
 # Singletons, because we also like singletons from time to time ... :)
 #
