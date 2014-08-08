@@ -79,8 +79,8 @@ class KeypressWindow(GObject.GObject):
         gdkwindow.set_background_rgba(transparent)
 
         screen = HW.screens[prefs.current_screen]
-        width = 200
-        height = 50
+        width = 1
+        height = 1
         self.window.set_size_request(width, height)
         self.window.set_default_geometry(width, height)
         self.window.move(int(screen['width'] / 2 - width / 2), screen['height'] - 150)
@@ -98,6 +98,9 @@ class KeypressWindow(GObject.GObject):
 
         self.modifiers = [False, False, False, False]
 
+    #
+    # Rewrite this
+    #
     def show(self, key, event):
         logger.debug("Current buffer: {}".format(self.buffer))
         if event == 'Press':
@@ -114,22 +117,29 @@ class KeypressWindow(GObject.GObject):
                 elif key.startswith('Alt'):
                     self.modifiers[K_ALT] = True
                 else:
-                    self.buffer += key
-                    self.previous_key = key
-                self._in = True
-                self.f_t = GLib.timeout_add(1300, self.fade_out, self.window)
-                self.window.queue_draw()
+                        self.buffer += key
+                        self.previous_key = key
+                #
+                # Show keys only if modifiers are pressed
+                #
+                if True in self.modifiers:
+                    self._in = True
+                    # self.f_t = GLib.timeout_add(1300, self.fade_out, self.window)
+                    self.window.queue_draw()
 
         elif event == 'Release':
-            pass
-                # if key.startswith('Shift'):
-                #     self.modifiers[K_SHIFT] = False
-                # elif key.startswith('Control'):
-                #     self.modifiers[K_CTRL] = False
-                # elif key.startswith('Super'):
-                #     self.modifiers[K_SUPER] = False
-                # elif key.startswith('Alt'):
-                #     self.modifiers[K_ALT] = False
+            if key.startswith('Shift'):
+                self.modifiers[K_SHIFT] = False
+            elif key.startswith('Control'):
+                self.modifiers[K_CTRL] = False
+            elif key.startswith('Super'):
+                self.modifiers[K_SUPER] = False
+            elif key.startswith('Alt'):
+                self.modifiers[K_ALT] = False
+
+            if not all(self.modifiers) and not any(self.modifiers):  # Fadeout if none of the modifiers are pressed
+                logger.debug("Fadeout!")
+                self.fade_out(self.window)
 
     def onScreenChanged(self, widget, oldScreen):
         screen = widget.get_screen()
@@ -157,16 +167,16 @@ class KeypressWindow(GObject.GObject):
         buf = " + ".join([i[0] for i in zip(KEY_STRINGS, self.modifiers) if i[1]])
         buf = " ".join((buf, self.buffer))
 
-        (w, h) = self._text_size(cr, 20, buf)
+        w, h = self._text_size(cr, 20, buf)
 
-        self.window.set_size_request(w, h)
-        self.window.set_default_geometry(w + 30, h + 30)
-
+        self.window.set_size_request(w + 20, 50)
+        self.window.set_default_geometry(w + 20, 50)
+        Ww, Wh = widget.get_size()
         widget.set_opacity(self.alpha)
-        cr.set_source_rgba(.4, .4, .4, 1.0)
+        cr.set_source_rgba(.4, .4, .4, .7)
         cr.set_operator(cairo.OPERATOR_SOURCE)
         cr.paint()
-        self._outline_text(cr, 10, 30, 20, buf)
+        self._outline_text(cr, 10, Wh - 15, 20, buf)
 
         if self._in:
             if self.alpha >= 1:

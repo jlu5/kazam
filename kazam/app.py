@@ -339,8 +339,11 @@ class KazamApp(GObject.GObject):
         screen = HW.get_current_screen(self.window)
         prefs.current_screen = screen
 
-        # self.keypress_viewer.start()
-        # self.keypress_window = KeypressWindow()
+        #
+        # For debugging purposes only ...
+        #
+        #self.keypress_viewer.start()
+        #self.keypress_window = KeypressWindow()
 
     #
     # Callbacks, go down here ...
@@ -608,6 +611,11 @@ class KazamApp(GObject.GObject):
         if prefs.sound:
             prefs.pa_q.end()
 
+        #
+        # Just in case, try to shutdown keylogger
+        #
+        if self.keypress_viewer:
+            self.keypress_viewer.stop()
         Gtk.main_quit()
 
     def cb_preferences_request(self, indicator):
