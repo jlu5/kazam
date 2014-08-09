@@ -193,6 +193,8 @@ class Screencast(GObject.GObject):
                 self.f_video_caps.set_property("caps", self.video_caps)
 
                 if prefs.webcam_show_preview is True:
+                    self.video_flip = Gst.ElementFactory.make("videoflip", "video_flip")
+                    self.video_flip.set_property("method", "horizontal-flip")
                     self.tee = Gst.ElementFactory.make("tee", "tee")
                     self.screen_queue = Gst.ElementFactory.make("queue", "screen_queue")
                     self.screen_sink = Gst.ElementFactory.make("xvimagesink", "screen_sink")
