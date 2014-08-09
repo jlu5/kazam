@@ -205,7 +205,7 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="chk_keypresses">
-                    <property name="label" translatable="yes">Show keys on screen</property>
+                    <property name="label" translatable="yes">Show keys and mouse clicks on screen</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

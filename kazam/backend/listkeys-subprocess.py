@@ -5,6 +5,8 @@
 # Modified by Stuart Langridge <sil@kryogenix.org> to
 # be a separate process for Kazam
 #
+# Some additional hacking by David Klasinc <bigwhale@lubica.net>
+#
 
 #
 # This script is an modification of the script below.
@@ -39,7 +41,6 @@
 # TODO: ~/.keylogger.yaml のロード、ログのパーミッション、パスワード欄からの取得制限
 
 import sys
-import os
 from Xlib import X, XK, display
 from Xlib.ext import record
 from Xlib.protocol import rq
@@ -47,11 +48,13 @@ from Xlib.protocol import rq
 local_dpy = display.Display()
 record_dpy = display.Display()
 
+
 def lookup_keysym(keysym):
     for name in dir(XK):
         if name[:3] == "XK_" and getattr(XK, name) == keysym:
             return name[3:]
     return "[%d]" % keysym
+
 
 def record_callback(reply):
     if reply.category != record.FromServer:
@@ -68,20 +71,22 @@ def record_callback(reply):
         event, data = rq.EventField(None).parse_binary_value(data, record_dpy.display, None, None)
 
         if event.type in [X.KeyPress, X.KeyRelease]:
+
             pr = event.type == X.KeyPress and "Press" or "Release"
 
             keysym = local_dpy.keycode_to_keysym(event.detail, 0)
             if not keysym:
-                print("KeyCode %s %s" % (pr, event.detail))
+                print("KeyCode {} {}".format(pr, event.detail))
             else:
-                print("KeyStr %s %s" % (pr, lookup_keysym(keysym)))
+                print("KeyStr {} {}".format(pr, lookup_keysym(keysym)))
+            sys.stdout.flush()
+        elif event.type == X.ButtonPress:
+            print("MouseButton Press {}".format(event.detail))
             sys.stdout.flush()
 
-            # # quit on escape
-            # if event.type == X.KeyPress and keysym == XK.XK_Escape:
-            #     local_dpy.record_disable_context(ctx)
-            #     local_dpy.flush()
-            #     return
+        elif event.type == X.ButtonRelease:
+            print("MouseButton Release {}".format(event.detail))
+            sys.stdout.flush()
 
 # Check if the extension is present
 if not record_dpy.has_extension("RECORD"):
@@ -92,19 +97,19 @@ print("RECORD extension version %d.%d" % (r.major_version, r.minor_version))
 
 # Create a recording context; we only want key and mouse events
 ctx = record_dpy.record_create_context(
-        0,
-        [record.AllClients],
-        [{
-                'core_requests': (0, 0),
-                'core_replies': (0, 0),
-                'ext_requests': (0, 0, 0, 0),
-                'ext_replies': (0, 0, 0, 0),
-                'delivered_events': (0, 0),
-                'device_events': (X.KeyPress, X.KeyRelease),
-                'errors': (0, 0),
-                'client_started': False,
-                'client_died': False,
-        }])
+    0,
+    [record.AllClients],
+    [{
+        'core_requests': (0, 0),
+        'core_replies': (0, 0),
+        'ext_requests': (0, 0, 0, 0),
+        'ext_replies': (0, 0, 0, 0),
+        'delivered_events': (0, 0),
+        'device_events': (X.KeyPress, X.MotionNotify),
+        'errors': (0, 0),
+        'client_started': False,
+        'client_died': False,
+    }])
 
 # Enable the context; this only returns after a call to record_disable_context,
 # while calling the callback function in the meantime
@@ -112,4 +117,3 @@ record_dpy.record_enable_context(ctx, record_callback)
 
 # Finally free the context
 record_dpy.record_free_context(ctx)
-

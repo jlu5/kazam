@@ -19,7 +19,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import re
+import math
 import cairo
 import logging
 logger = logging.getLogger("Window Keypress")
@@ -46,6 +46,20 @@ class KeypressWindow(GObject.GObject):
         self.window.set_skip_pager_hint(True)
         self.window.set_skip_taskbar_hint(True)
 
+        self.cursor_ind = Gtk.Window(Gtk.WindowType.TOPLEVEL)
+        self.cursor_ind.connect("delete-event", Gtk.main_quit)
+        self.cursor_ind.connect("draw", self.cb_cursor_ind_draw)
+        self.cursor_ind.set_app_paintable(True)
+        self.cursor_ind.set_decorated(False)
+        self.cursor_ind.set_title("CountdownWindow")
+        self.cursor_ind.set_keep_above(True)
+        self.cursor_ind.set_focus_on_map(False)
+        self.cursor_ind.set_accept_focus(False)
+        self.cursor_ind.set_skip_pager_hint(True)
+        self.cursor_ind.set_skip_taskbar_hint(True)
+        self.cursor_ind.set_size_request(50, 50)
+        self.cursor_ind.set_default_geometry(50, 50)
+
         self.screen = self.window.get_screen()
         self.visual = self.screen.get_rgba_visual()
 
@@ -56,6 +70,7 @@ class KeypressWindow(GObject.GObject):
         if self.visual is not None and self.screen.is_composited():
             logger.debug("Compositing window manager detected.")
             self.window.set_visual(self.visual)
+            self.cursor_ind.set_visual(self.visual)
             self.compositing = True
         else:
             logger.warning("Compositing window manager not found, expect the unexpected.")
@@ -68,6 +83,8 @@ class KeypressWindow(GObject.GObject):
         if (not region.is_empty()):
             self.window.input_shape_combine_region(None)
             self.window.input_shape_combine_region(region)
+            self.cursor_ind.input_shape_combine_region(None)
+            self.cursor_ind.input_shape_combine_region(region)
 
         # make sure that gtk-window opens with a RGBA-visual
         self.onScreenChanged(self.window, None)
@@ -101,24 +118,24 @@ class KeypressWindow(GObject.GObject):
     #
     # Rewrite this
     #
-    def show(self, key, event):
+    def show(self, ev_type, value, action):
         logger.debug("Current buffer: {}".format(self.buffer))
-        if event == 'Press':
-            if key != self.previous_key:
+        if (ev_type == 'KeyStr' or ev_type == 'KeySym') and action == 'Press':
+            if value != self.previous_key:
                 if self.f_t:
                     GLib.source_remove(self.f_t)
                     self.f_t = None
-                if key.startswith('Shift'):
+                if value.startswith('Shift'):
                     self.modifiers[K_SHIFT] = True
-                elif key.startswith('Control'):
+                elif value.startswith('Control'):
                     self.modifiers[K_CTRL] = True
-                elif key.startswith('Super'):
+                elif value.startswith('Super'):
                     self.modifiers[K_SUPER] = True
-                elif key.startswith('Alt'):
+                elif value.startswith('Alt'):
                     self.modifiers[K_ALT] = True
                 else:
-                        self.buffer += key
-                        self.previous_key = key
+                        self.buffer += value
+                        self.previous_key = value
                 #
                 # Show keys only if modifiers are pressed
                 #
@@ -127,19 +144,23 @@ class KeypressWindow(GObject.GObject):
                     # self.f_t = GLib.timeout_add(1300, self.fade_out, self.window)
                     self.window.queue_draw()
 
-        elif event == 'Release':
-            if key.startswith('Shift'):
+        elif (ev_type == 'KeyStr' or ev_type == 'KeySym') and action == 'Release':
+            if value.startswith('Shift'):
                 self.modifiers[K_SHIFT] = False
-            elif key.startswith('Control'):
+            elif value.startswith('Control'):
                 self.modifiers[K_CTRL] = False
-            elif key.startswith('Super'):
+            elif value.startswith('Super'):
                 self.modifiers[K_SUPER] = False
-            elif key.startswith('Alt'):
+            elif value.startswith('Alt'):
                 self.modifiers[K_ALT] = False
 
             if not all(self.modifiers) and not any(self.modifiers):  # Fadeout if none of the modifiers are pressed
                 logger.debug("Fadeout!")
                 self.fade_out(self.window)
+
+        elif ev_type == 'MouseButton' and action == 'Press':
+            if value in ['1', '2', '3']:  # For now ignore all the other buttons
+                self.show_cursor()
 
     def onScreenChanged(self, widget, oldScreen):
         screen = widget.get_screen()
@@ -226,3 +247,32 @@ class KeypressWindow(GObject.GObject):
             pass
         te = cr.text_extents(text)
         return (te[2], te[3])
+
+    def show_cursor(self):
+        self.c_alpha = 1
+        self.disp = GdkX11.X11Display.get_default()
+        self.dm = Gdk.Display.get_device_manager(self.disp)
+        self.pntr_device = self.dm.get_client_pointer()
+        (scr, x, y) = self.pntr_device.get_position()
+        self.cursor_ind.move(x - 25, y - 25)
+        self.cursor_ind.show_all()
+        self.f_t = GLib.timeout_add(200, self.fade, self.cursor_ind)
+
+    def cb_cursor_ind_draw(self, widget, cr):
+        cr.set_source_rgba(.0, .0, .0, .7)
+        cr.set_operator(cairo.OPERATOR_SOURCE)
+        cr.set_line_width(9)
+        cr.set_source_rgba(0.7, 0.7, 0.0, self.c_alpha)
+        w, h = self.cursor_ind.get_size()
+        cr.translate(w / 2, h / 2)
+        cr.arc(0, 0, 20, 0, 2 * math.pi)
+        cr.stroke_preserve()
+        cr.set_source_rgba(0.7, 0.7, 0.0, self.c_alpha)
+        cr.fill()
+
+        if self.c_alpha <= 0:
+            return False
+        else:
+            self.c_alpha -= 0.05
+            self.c_ret = GLib.timeout_add(2, self.fade, self.cursor_ind)
+        return True

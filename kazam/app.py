@@ -342,20 +342,21 @@ class KazamApp(GObject.GObject):
         #
         # For debugging purposes only ...
         #
-        #self.keypress_viewer.start()
-        #self.keypress_window = KeypressWindow()
+        # self.keypress_viewer.start()
+        # self.keypress_window = KeypressWindow()
 
     #
     # Callbacks, go down here ...
     #
 
-    def cb_got_keypress(self, kv, keytype, press_release, keyvalue):
-        """keytype: 'KeySym' or 'KeyStr'
-           press_release: 'Press' or 'Release'
-           keyvalue: A key name ('Control_L' or 'd' or 'backslash' or...)
+    def cb_got_keypress(self, kv, ev_type, action, value):
+        """ev_type: 'KeySym', 'KeyStr', 'MouseButton'
+           action: 'Press' or 'Release'
+           value: A key name ('Control_L' or 'd' or 'backslash' or 1,2,3 for
+                              mouse buttons.)
         """
-        logger.info("GOT KEYPRESS: %s, %s, %s", keytype, press_release, keyvalue)
-        self.keypress_window.show(keyvalue, press_release)
+        logger.info("GOT EVENT: {}, {}, {}".format(ev_type, action, value))
+        self.keypress_window.show(ev_type, value, action)
 
     #
     # Mode of operation toggles

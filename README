@@ -172,6 +172,13 @@ Mint users can turn on window compositing in Desktop Settings.
 - When taking a screenshot of a preselected window with window decorations
 you have to make sure that your window is not covered by other windows.
 
+- Mouse cursor is offseted by a number of pixels when capturing video of a
+pre-selected window. This is due to a GStreamer bug.
+See https://bugs.launchpad.net/kazam/+bug/1092339 and
+https://bugzilla.gnome.org/show_bug.cgi?id=690646 for more info.
+
+- Preliminary support for displaying keypresses is included. It looks ugly
+and support is still clumsy it can also die and stop working.
 
 
 Debugging & reporting problems
