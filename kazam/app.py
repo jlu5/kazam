@@ -240,6 +240,8 @@ class KazamApp(GObject.GObject):
         self.toolbar_main.insert(self.btn_broadcast, -1)
         if prefs.webcam_sources:
             self.toolbar_main.insert(self.btn_webcam, -1)
+        else:
+            self.chk_webcam.set_sensitive(False)
         self.toolbar_main.insert(self.sep_1, -1)
 
         # Auxiliary toolbar
