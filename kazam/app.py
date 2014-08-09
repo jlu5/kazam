@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 import os
+import imp
 import sys
 import locale
 import shutil
@@ -34,8 +35,8 @@ from gi.repository import Gtk, Gdk, GObject
 from kazam.utils import *
 from kazam.backend.prefs import *
 from kazam.backend.grabber import Grabber
-from kazam.backend.gstreamer import Screencast, GWebcam
 from kazam.backend.keypress import KeypressViewer
+from kazam.backend.gstreamer import Screencast, GWebcam
 
 from kazam.frontend.main_menu import MainMenu
 from kazam.frontend.window_area import AreaWindow
@@ -93,7 +94,7 @@ class KazamApp(GObject.GObject):
                 from kazam.pulseaudio.pulseaudio import pulseaudio_q
                 prefs.sound = True
             except:
-                logger.warning("Pulse Audio Failed to load. Sound recording disabled.")
+                logger.warning(_("Pulse Audio Failed to load. Sound recording disabled."))
                 prefs.sound = False
 
         self.icons = Gtk.IconTheme.get_default()
@@ -117,6 +118,7 @@ class KazamApp(GObject.GObject):
         self.main_mode = 0
         self.record_mode = 0
         self.last_mode = None
+        self.keypress_detect = False
 
         if prefs.sound:
             prefs.pa_q = pulseaudio_q()
@@ -143,8 +145,18 @@ class KazamApp(GObject.GObject):
         self.webcam = HW.webcam
         self.webcam.connect("webcam-change", self.cb_webcam_change)
 
-        self.keypress_viewer = KeypressViewer()
-        self.keypress_viewer.connect("keypress", self.cb_got_keypress)
+        #
+        # Detect Xlib, if there's no Xlib, there's no KeyViewer
+        #
+
+        try:
+            imp.find_module('Xlib')
+            self.keypress_viewer = KeypressViewer()
+            self.keypress_viewer.connect("keypress", self.cb_got_keypress)
+            self.keypress_detect = True
+        except ImportError:
+            logger.warning(_("No Xlib support in python3, unable to capture key and mouse clicks."))
+            self.keypress_detect = False
 
         #
         # Setup UI
@@ -334,6 +346,10 @@ class KazamApp(GObject.GObject):
                         )
 
         self.restore_UI()
+
+        if not self.keypress_detect:
+            self.chk_keypresses.set_sensitive(False)
+            self.chk_keypresses.set_active(False)
 
         HW.get_current_screen(self.window)
         self.startup = False
