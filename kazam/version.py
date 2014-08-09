@@ -1,4 +1,4 @@
-VERSION = '1.5.0'
+VERSION = '1.5.1'
 CODENAME = 'NX-72307'
 DISTRO = 'Ubuntu'
 RELEASE = '14.04'
