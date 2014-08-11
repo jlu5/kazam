@@ -49,7 +49,7 @@ class Prefs():
         self.logger = logging.getLogger("Prefs")
 
         #
-        # GUI preferences and stuff
+        # GUI preferences and stuff (should this be stored in a dict or something?)
         #
         self.capture_cursor = False
         self.capture_speakers = False
@@ -72,7 +72,7 @@ class Prefs():
         self.countdown_splash = True
         self.silent_start = False
 
-        self.show_keypresses = False
+        self.capture_keys = False
 
         #
         # Other stuff
@@ -121,6 +121,9 @@ class Prefs():
         self.webcam_show_preview = True
         self.webcam_preview_pos = 1
         self.webcam_resolution = 0
+
+        self.yt_stream = ''
+        self.yt_server = ''
 
         #
         # Command line parameters
@@ -230,11 +233,14 @@ class Prefs():
         self.framerate = float(self.config.get("main", "framerate"))
 
         self.capture_cursor = self.config.getboolean("main", "capture_cursor")
-        self.capture_microphone = self.config.getboolean("main", "capture_microphone")
         self.capture_speakers = self.config.getboolean("main", "capture_speakers")
+        self.capture_microphone = self.config.getboolean("main", "capture_microphone")
 
-        self.capture_microphone_webcam = self.config.getboolean("main", "capture_microphone_w")
         self.capture_speakers_webcam = self.config.getboolean("main", "capture_speakers_w")
+        self.capture_microphone_webcam = self.config.getboolean("main", "capture_microphone_w")
+
+        self.capture_speakers_broadcast = self.config.getboolean("main", "capture_speakers_b")
+        self.capture_microphone_broadcast = self.config.getboolean("main", "capture_microphone_b")
 
         self.capture_cursor_pic = self.config.getboolean("main", "capture_cursor_pic")
         self.capture_borders_pic = self.config.getboolean("main", "capture_borders_pic")
@@ -256,7 +262,8 @@ class Prefs():
         self.webcam_preview_pos = int(self.config.get("main", "webcam_preview_pos"))
         self.webcam_resolution = int(self.config.get("main", "webcam_resolution"))
 
-        self.show_keypresses = self.config.getboolean("main", "show_keypresses")
+        self.capture_keys = self.config.getboolean("main", "capture_keys")
+        self.capture_keys_broadcast = self.config.getboolean("main", "capture_keys_b")
 
         self.first_run = self.config.getboolean("main", "first_run")
 
@@ -285,9 +292,14 @@ class Prefs():
         self.config.set("main", "capture_cursor", self.capture_cursor)
         self.config.set("main", "capture_speakers", self.capture_speakers)
         self.config.set("main", "capture_microphone", self.capture_microphone)
+        self.config.set("main", "capture_keys", self.capture_keys)
+        self.config.set("main", "capture_keys_b", self.capture_keys_broadcast)
 
         self.config.set("main", "capture_speakers_w", self.capture_speakers_webcam)
         self.config.set("main", "capture_microphone_w", self.capture_microphone_webcam)
+
+        self.config.set("main", "capture_speakers_b", self.capture_speakers_broadcast)
+        self.config.set("main", "capture_microphone_b", self.capture_microphone_broadcast)
 
         self.config.set("main", "capture_cursor_pic", self.capture_cursor_pic)
         self.config.set("main", "capture_borders_pic", self.capture_borders_pic)
@@ -318,7 +330,6 @@ class Prefs():
         self.config.set("main", "webcam_preview_pos", self.webcam_preview_pos)
         self.config.set("main", "webcam_resolution", self.webcam_resolution)
 
-        self.config.set("main", "show_keypresses", self.show_keypresses)
 
         self.config.write()
 

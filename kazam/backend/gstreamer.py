@@ -95,7 +95,10 @@ class Screencast(GObject.GObject):
 
         self.setup_audio_sources()
 
-        self.setup_filesink()
+        if self.mode == MODE_BROADCAST:
+            self.setup_rtmpsink()
+        else:
+            self.setup_filesink()
         self.setup_pipeline()
         self.setup_links()
 
@@ -112,8 +115,9 @@ class Screencast(GObject.GObject):
         if prefs.test:
             self.video_src = Gst.ElementFactory.make("videotestsrc", "video_src")
             self.video_src.set_property("pattern", "smpte")
-        elif self.mode == MODE_SCREENSHOT or self.mode == MODE_SCREENCAST or self.mode == MODE_BROADCAST:
+        elif self.mode in [MODE_SCREENSHOT, MODE_SCREENCAST, MODE_BROADCAST]:
             self.video_src = Gst.ElementFactory.make("ximagesrc", "video_src")
+            logger.debug("ximagesrc selected as video source.")
         elif self.mode == MODE_WEBCAM:
             self.video_src = Gst.ElementFactory.make("v4l2src", "video_src")
 
@@ -182,6 +186,23 @@ class Screencast(GObject.GObject):
                 self.video_caps = Gst.caps_from_string("video/x-raw, framerate={}/1".format(int(prefs.framerate)))
                 self.f_video_caps = Gst.ElementFactory.make("capsfilter", "vid_filter")
                 self.f_video_caps.set_property("caps", self.video_caps)
+            elif self.mode == MODE_BROADCAST:
+                logger.debug("Setting up MODE_BROADCAST for video.")
+                self.video_src.set_property("endx", endx)
+                self.video_src.set_property("endy", endy)
+
+                self.video_src.set_property("use-damage", False)
+                self.video_src.set_property("show-pointer", prefs.capture_cursor)
+                self.video_caps = Gst.caps_from_string("video/x-raw, framerate={}/1".format(int(prefs.framerate)))
+                self.f_video_caps = Gst.ElementFactory.make("capsfilter", "vid_filter")
+                self.f_video_caps.set_property("caps", self.video_caps)
+
+                self.video_parse = Gst.ElementFactory.make("h264parse", "video_parse")
+                caps_str = "video/x-h264,level=(string)4.1,profile=main"
+                self.video_parse_caps = Gst.caps_from_string(caps_str)
+                self.f_video_parse_caps = Gst.ElementFactory.make("capsfilter", "vid_parse_caps")
+                self.f_video_parse_caps.set_property("caps", self.video_parse_caps)
+
             elif self.mode == MODE_WEBCAM:
                 self.video_src.set_property("device", prefs.webcam_sources[prefs.webcam_source][0])
                 logger.debug("Webcam source: {}".format(prefs.webcam_sources[prefs.webcam_source][0]))
@@ -202,47 +223,73 @@ class Screencast(GObject.GObject):
         self.video_convert = Gst.ElementFactory.make("videoconvert", "videoconvert")
         self.video_rate = Gst.ElementFactory.make("videorate", "video_rate")
 
-        logger.debug("Codec: {}".format(CODEC_LIST[prefs.codec][2]))
+        if self.mode is not MODE_BROADCAST:
+            logger.debug("Codec: {}".format(CODEC_LIST[prefs.codec][2]))
 
-        if prefs.codec is not CODEC_RAW:
-            self.video_enc = Gst.ElementFactory.make(CODEC_LIST[prefs.codec][1], "video_encoder")
+        #
+        # Broadcasting forces H264 codec
+        #
+        if self.mode == MODE_BROADCAST:
 
-        if prefs.codec == CODEC_RAW:
-            self.mux = Gst.ElementFactory.make("avimux", "muxer")
-        elif prefs.codec == CODEC_VP8:
-            self.video_enc.set_property("cpu-used", 2)
-            self.video_enc.set_property("end-usage", "vbr")
-            self.video_enc.set_property("target-bitrate", 800000000)
-            self.video_enc.set_property("static-threshold", 1000)
-            self.video_enc.set_property("token-partitions", 2)
-            self.video_enc.set_property("max-quantizer", 30)
-            self.video_enc.set_property("threads", self.cores)
+            self.video_convert_caps = Gst.caps_from_string("video/x-raw, format=(string)I420")
+            self.f_video_convert_caps = Gst.ElementFactory.make("capsfilter", "vid_convert_caps")
+            self.f_video_convert_caps.set_property("caps", self.video_convert_caps)
 
-            # Good framerate, bad memory
-            #self.videnc.set_property("cpu-used", 6)
-            #self.videnc.set_property("deadline", 1000000)
-            #self.videnc.set_property("min-quantizer", 15)
-            #self.videnc.set_property("max-quantizer", 15)
-            #self.videnc.set_property("threads", self.cores)
-
-            self.mux = Gst.ElementFactory.make("webmmux", "muxer")
-        elif prefs.codec == CODEC_H264:
-            self.video_enc.set_property("speed-preset", "ultrafast")
-            self.video_enc.set_property("pass", 4)
-            self.video_enc.set_property("quantizer", 15)
+            self.video_bitrate = 5000
+            self.video_enc = Gst.ElementFactory.make(CODEC_LIST[CODEC_H264][1], "video_encoder")
+            self.video_enc.set_property("bitrate", self.video_bitrate)
+            self.video_enc.set_property("key-int-max", 2)
+            self.video_enc.set_property("bframes", 0)
+            self.video_enc.set_property("byte-stream", False)
+            self.video_enc.set_property("aud", True)
+            self.video_enc.set_property("tune", "zerolatency")
             #
             # x264enc supports maximum of four cores
             #
-            self.video_enc.set_property("threads", self.cores if self.cores <= 4 else 4)
-            self.mux = Gst.ElementFactory.make("mp4mux", "muxer")
-            self.mux.set_property("faststart", 1)
-            self.mux.set_property("faststart-file", self.muxer_tempfile)
-            self.mux.set_property("streamable", 1)
-        elif prefs.codec == CODEC_HUFF:
-            self.mux = Gst.ElementFactory.make("avimux", "muxer")
-            self.video_enc.set_property("bitrate", 500000)
-        elif prefs.codec == CODEC_JPEG:
-            self.mux = Gst.ElementFactory.make("avimux", "muxer")
+            # self.video_enc.set_property("threads", self.cores if self.cores <= 4 else 4)
+            self.mux = Gst.ElementFactory.make("flvmux", "muxer")
+            self.mux.set_property("streamable", True)
+
+        else:
+            if prefs.codec is not CODEC_RAW:
+                self.video_enc = Gst.ElementFactory.make(CODEC_LIST[prefs.codec][1], "video_encoder")
+
+            if prefs.codec == CODEC_RAW:
+                self.mux = Gst.ElementFactory.make("avimux", "muxer")
+            elif prefs.codec == CODEC_VP8:
+                self.video_enc.set_property("cpu-used", 2)
+                self.video_enc.set_property("end-usage", "vbr")
+                self.video_enc.set_property("target-bitrate", 800000000)
+                self.video_enc.set_property("static-threshold", 1000)
+                self.video_enc.set_property("token-partitions", 2)
+                self.video_enc.set_property("max-quantizer", 30)
+                self.video_enc.set_property("threads", self.cores)
+
+                # Good framerate, bad memory
+                #self.videnc.set_property("cpu-used", 6)
+                #self.videnc.set_property("deadline", 1000000)
+                #self.videnc.set_property("min-quantizer", 15)
+                #self.videnc.set_property("max-quantizer", 15)
+                #self.videnc.set_property("threads", self.cores)
+
+                self.mux = Gst.ElementFactory.make("webmmux", "muxer")
+            elif prefs.codec == CODEC_H264:
+                self.video_enc.set_property("speed-preset", "ultrafast")
+                self.video_enc.set_property("pass", 4)
+                self.video_enc.set_property("quantizer", 15)
+                #
+                # x264enc supports maximum of four cores
+                #
+                self.video_enc.set_property("threads", self.cores if self.cores <= 4 else 4)
+                self.mux = Gst.ElementFactory.make("mp4mux", "muxer")
+                self.mux.set_property("faststart", 1)
+                self.mux.set_property("faststart-file", self.muxer_tempfile)
+                self.mux.set_property("streamable", 1)
+            elif prefs.codec == CODEC_HUFF:
+                self.mux = Gst.ElementFactory.make("avimux", "muxer")
+                self.video_enc.set_property("bitrate", 500000)
+            elif prefs.codec == CODEC_JPEG:
+                self.mux = Gst.ElementFactory.make("avimux", "muxer")
 
         self.q_video_src = Gst.ElementFactory.make("queue", "queue_video_source")
         self.q_video_in = Gst.ElementFactory.make("queue", "queue_video_in")
@@ -253,20 +300,37 @@ class Screencast(GObject.GObject):
             logger.debug("Setup audio elements.")
             self.aud_out_queue = Gst.ElementFactory.make("queue", "queue_a_out")
             self.audioconv = Gst.ElementFactory.make("audioconvert", "audio_conv")
-            if prefs.codec == CODEC_VP8:
-                self.audioenc = Gst.ElementFactory.make("vorbisenc", "audio_encoder")
-                self.audioenc.set_property("quality", 1)
+            if self.mode == MODE_BROADCAST:
+                self.audio_bitrate = 128000
+                self.audioenc = Gst.ElementFactory.make("avenc_aac", "audio_encoder")
+                self.audioenc.set_property("bitrate", self.audio_bitrate)
+                self.audioenc.set_property("compliance", -2)
+
+                self.aacparse = Gst.ElementFactory.make("aacparse", "aacparse")
+                self.aacparse_caps = Gst.caps_from_string("audio/mpeg,mpegversion=4,stream-format=raw")
+                self.f_aacparse_caps = Gst.ElementFactory.make("capsfilter", "aacparse_filter")
+                self.f_aacparse_caps.set_property("caps", self.aacparse_caps)
             else:
-                self.audioenc = Gst.ElementFactory.make("lamemp3enc", "audio_encoder")
-                self.audioenc.set_property("quality", 0)
+                if prefs.codec == CODEC_VP8:
+                    self.audioenc = Gst.ElementFactory.make("vorbisenc", "audio_encoder")
+                    self.audioenc.set_property("quality", 1)
+                else:
+                    self.audioenc = Gst.ElementFactory.make("lamemp3enc", "audio_encoder")
+                    self.audioenc.set_property("quality", 0)
 
         if self.audio_source:
             logger.debug("Audio1 Source:\n  {0}".format(self.audio_source))
             self.audiosrc = Gst.ElementFactory.make("pulsesrc", "audio_src")
             self.audiosrc.set_property("device", self.audio_source)
-            self.aud_caps = Gst.caps_from_string("audio/x-raw")
-            self.aud_caps_filter = Gst.ElementFactory.make("capsfilter", "aud_filter")
-            self.aud_caps_filter.set_property("caps", self.aud_caps)
+            if self.mode == MODE_BROADCAST:
+                audio_caps = " ".join(["audio/x-raw, format=(string)S16LE, endianness=(int)1234,"
+                                       "signed=(boolean)true, width=(int)16, depth=(int)16,",
+                                       "rate=(int)44100, channels=(int)2"])
+                self.aud_caps = Gst.caps_from_string(audio_caps)
+            else:
+                self.aud_caps = Gst.caps_from_string("audio/x-raw")
+            self.f_aud_caps = Gst.ElementFactory.make("capsfilter", "aud_filter")
+            self.f_aud_caps.set_property("caps", self.aud_caps)
 
             self.aud_in_queue = Gst.ElementFactory.make("queue", "queue_a_in")
 
@@ -274,9 +338,15 @@ class Screencast(GObject.GObject):
             logger.debug("Audio2 Source:\n  {0}".format(self.audio2_source))
             self.audio2src = Gst.ElementFactory.make("pulsesrc", "audio2_src")
             self.audio2src.set_property("device", self.audio2_source)
-            self.aud2_caps = Gst.caps_from_string("audio/x-raw")
-            self.aud2_caps_filter = Gst.ElementFactory.make("capsfilter", "aud2_filter")
-            self.aud2_caps_filter.set_property("caps", self.aud2_caps)
+            if self.mode == MODE_BROADCAST:
+                audio_caps = " ".join(["audio/x-raw, format=(string)S16LE, endianness=(int)1234,"
+                                       "signed=(boolean)true, width=(int)16, depth=(int)16,",
+                                       "rate=(int)44100, channels=(int)2"])
+                self.aud2_caps = Gst.caps_from_string(audio_caps)
+            else:
+                self.aud2_caps = Gst.caps_from_string("audio/x-raw")
+            self.f_aud2_caps = Gst.ElementFactory.make("capsfilter", "aud2_filter")
+            self.f_aud2_caps.set_property("caps", self.aud2_caps)
             self.aud2_in_queue = Gst.ElementFactory.make("queue", "queue_a2_in")
             self.audio2conv = Gst.ElementFactory.make("audioconvert", "audio2_conv")
 
@@ -284,10 +354,30 @@ class Screencast(GObject.GObject):
             self.audiomixer = Gst.ElementFactory.make("adder", "audiomixer")
 
     def setup_filesink(self):
-        self.file_queue = Gst.ElementFactory.make("queue", "queue_file")
-        logger.debug("Filesink: {0}".format(self.tempfile))
+        self.final_queue = Gst.ElementFactory.make("queue", "queue_final")
+        logger.debug("Filesink: {}".format(self.tempfile))
         self.sink = Gst.ElementFactory.make("filesink", "sink")
         self.sink.set_property("location", self.tempfile)
+
+    def setup_rtmpsink(self):
+        if self.audio_source or self.audio2_source:
+            bitrate = self.video_bitrate + (self.audio_bitrate / 1000)
+        else:
+            bitrate = self.video_bitrate
+
+        self.rtmp_location = "".join([prefs.yt_server,
+                                      "/x/",
+                                      prefs.yt_stream,
+                                      "?videoKeyframeFrequency=1&totalDatarate=",
+                                      str(bitrate)])
+
+        self.final_queue = Gst.ElementFactory.make("queue", "queue_rtmp")
+        logger.debug("RTMP sink: {}".format(self.rtmp_location))
+        self.sink = Gst.ElementFactory.make("rtmpsink", "sink")
+        self.sink.set_property("location", self.rtmp_location)
+        # self.sink.set_property("app", "live2")
+        # self.sink.set_property("flashVer", "FME/3.0%20(compatible;%20FMSc%201.0)")
+        # self.sink.set_property("swfUrl", self.yt_server)
 
     #
     # One day, this horrific code will be optimised... I promise!
@@ -299,12 +389,12 @@ class Screencast(GObject.GObject):
         self.pipeline.add(self.video_src)
         self.pipeline.add(self.f_video_caps)
         self.pipeline.add(self.q_video_src)
-        if self.crop_vid:
+        if self.crop_vid and self.mode is not MODE_BROADCAST:
             self.pipeline.add(self.video_crop)
         self.pipeline.add(self.video_rate)
         self.pipeline.add(self.video_convert)
         self.pipeline.add(self.q_video_out)
-        self.pipeline.add(self.file_queue)
+        self.pipeline.add(self.final_queue)
 
         if prefs.webcam_show_preview is True and self.mode == MODE_WEBCAM:
             self.pipeline.add(self.tee)
@@ -312,23 +402,32 @@ class Screencast(GObject.GObject):
             self.pipeline.add(self.screen_queue)
             self.pipeline.add(self.screen_sink)
 
-        if prefs.codec is not CODEC_RAW:
+        if prefs.codec is not CODEC_RAW or self.mode == MODE_BROADCAST:
             self.pipeline.add(self.video_enc)
+
+        if self.mode == MODE_BROADCAST:
+            self.pipeline.add(self.f_video_convert_caps)
+            self.pipeline.add(self.video_parse)
+            self.pipeline.add(self.f_video_parse_caps)
 
         if self.audio_source or self.audio2_source:
             self.pipeline.add(self.audioconv)
             self.pipeline.add(self.audioenc)
             self.pipeline.add(self.aud_out_queue)
 
+            if self.mode == MODE_BROADCAST:
+                self.pipeline.add(self.aacparse)
+                self.pipeline.add(self.f_aacparse_caps)
+
         if self.audio_source:
             self.pipeline.add(self.audiosrc)
             self.pipeline.add(self.aud_in_queue)
-            self.pipeline.add(self.aud_caps_filter)
+            self.pipeline.add(self.f_aud_caps)
 
         if self.audio2_source:
             self.pipeline.add(self.audio2src)
             self.pipeline.add(self.aud2_in_queue)
-            self.pipeline.add(self.aud2_caps_filter)
+            self.pipeline.add(self.f_aud2_caps)
 
         if self.audio_source and self.audio2_source:
             self.pipeline.add(self.audiomixer)
@@ -344,8 +443,14 @@ class Screencast(GObject.GObject):
 
     def setup_links(self):
         # Connect everything together
-        self.video_src.link(self.f_video_caps)
-        self.f_video_caps.link(self.q_video_src)
+        if self.mode == MODE_BROADCAST:
+            ret = self.video_src.link(self.q_video_src)
+            logger.debug("Link video_src -> q_video_src: {}".format(ret))
+        else:
+            ret = self.video_src.link(self.f_video_caps)
+            logger.debug("Link video_src -> f_video_caps: {}".format(ret))
+            ret = self.f_video_caps.link(self.q_video_src)
+            logger.debug("Link f_video_caps -> q_video_src: {}".format(ret))
 
         if self.mode == MODE_WEBCAM and prefs.webcam_show_preview is True:
             # Setup camera preview window
@@ -363,42 +468,64 @@ class Screencast(GObject.GObject):
             self.screen_queue.link(self.screen_sink)
 
         else:
-            if self.crop_vid:
-                self.q_video_src.link(self.video_crop)
-                self.video_crop.link(self.video_rate)
+            if self.crop_vid and self.mode is not MODE_BROADCAST:
+                ret = self.q_video_src.link(self.video_crop)
+                logger.debug("Link q_video_src -> video_crop {}".format(ret))
+                ret = self.video_crop.link(self.video_rate)
+                logger.debug("Link video_crop -> video_rate {}".format(ret))
+
+            if self.mode == MODE_BROADCAST:
+                ret = self.q_video_src.link(self.video_convert)
+                logger.debug("Link q_video_src -> video_convert {}".format(ret))
             else:
-                self.q_video_src.link(self.video_rate)
+                ret = self.q_video_src.link(self.video_rate)
+                logger.debug("Link q_video_src -> video_rate {}".format(ret))
+                ret = self.video_rate.link(self.video_convert)
+                logger.debug("Link video_rate -> video_convert: {}".format(ret))
 
-        self.video_rate.link(self.video_convert)
-
-        if prefs.codec is CODEC_RAW:
+        if prefs.codec is CODEC_RAW and self.mode is not MODE_BROADCAST:
             self.video_convert.link(self.q_video_out)
             logger.debug("Linking RAW Video")
         else:
             logger.debug("Linking Video")
-            self.video_convert.link(self.video_enc)
-            self.video_enc.link(self.q_video_out)
+            if self.mode == MODE_BROADCAST:
+                ret = self.video_convert.link(self.f_video_convert_caps)
+                logger.debug("Link video_convert f_video_convert_caps {}".format(ret))
+                ret = self.f_video_convert_caps.link(self.video_enc)
+                logger.debug("Link f_video_convert_caps -> video_enc {}".format(ret))
+                ret = self.video_enc.link(self.video_parse)
+                logger.debug("Link video_enc -> video_parse {}".format(ret))
+                ret = self.video_parse.link(self.f_video_parse_caps)
+                logger.debug("Link video_parse -> f_video_parse_caps {}".format(ret))
+                ret = self.f_video_parse_caps.link(self.q_video_out)
+                logger.debug("Link f_video_parse_caps -> q_video_out {}".format(ret))
+            else:
+                ret = self.video_convert.link(self.video_enc)
+                logger.debug("Link video_convert -> video_enc {}".format(ret))
+                ret = self.video_enc.link(self.q_video_out)
+                logger.debug("Link video_enc -> q_video_out {}".format(ret))
 
-        self.q_video_out.link(self.mux)
+        ret = self.q_video_out.link(self.mux)
+        logger.debug("Link q_video_out -> mux {}".format(ret))
 
         if self.audio_source and self.audio2_source:
             logger.debug("Linking Audio")
             ret = self.audiosrc.link(self.aud_in_queue)
             logger.debug(" Link audiosrc -> aud_in_queue: %s" % ret)
-            ret = self.aud_in_queue.link(self.aud_caps_filter)
+            ret = self.aud_in_queue.link(self.f_aud_caps)
             logger.debug(" Link aud_in_queue -> aud_caps_filter: %s" % ret)
 
             logger.debug("Linking Audio2")
             # Link first audio source to mixer
-            ret = self.aud_caps_filter.link(self.audiomixer)
+            ret = self.f_aud_caps.link(self.audiomixer)
             logger.debug(" Link aud_caps_filter -> audiomixer: %s" % ret)
 
             # Link second audio source to mixer
             ret = self.audio2src.link(self.aud2_in_queue)
             logger.debug(" Link audio2src -> aud2_in_queue: %s" % ret)
-            ret = self.aud2_in_queue.link(self.aud2_caps_filter)
+            ret = self.aud2_in_queue.link(self.f_aud2_caps)
             logger.debug(" Link aud2_in_queue -> aud2_caps_filter: %s" % ret)
-            ret = self.aud2_caps_filter.link(self.audiomixer)
+            ret = self.f_aud2_caps.link(self.audiomixer)
             logger.debug(" Link aud2_caps_filter -> audiomixer: %s" % ret)
 
             # Link mixer to audio convert
@@ -410,22 +537,22 @@ class Screencast(GObject.GObject):
             logger.debug("Linking Audio")
             ret = self.audiosrc.link(self.aud_in_queue)
             logger.debug(" Link audiosrc -> aud_in_queue: %s" % ret)
-            ret = self.aud_in_queue.link(self.aud_caps_filter)
+            ret = self.aud_in_queue.link(self.f_aud_caps)
             logger.debug(" Link aud_in_queue -> aud_caps_filter: %s" % ret)
 
             # Link first audio source to audio convert
-            ret = self.aud_caps_filter.link(self.audioconv)
+            ret = self.f_aud_caps.link(self.audioconv)
             logger.debug(" Link aud_caps_filter -> audioconv: %s" % ret)
 
         elif self.audio2_source:
             # Link second audio source to mixer
             ret = self.audio2src.link(self.aud2_in_queue)
             logger.debug(" Link audio2src -> aud2_in_queue: %s" % ret)
-            ret = self.aud2_in_queue.link(self.aud2_caps_filter)
+            ret = self.aud2_in_queue.link(self.f_aud2_caps)
             logger.debug(" Link aud2_in_queue -> aud2_caps_filter: %s" % ret)
 
             # Link second audio source to audio convert
-            ret = self.aud2_caps_filter.link(self.audioconv)
+            ret = self.f_aud2_caps.link(self.audioconv)
             logger.debug(" Link aud2_caps_filter -> audioconv: %s" % ret)
 
         if self.audio_source or self.audio2_source:
@@ -434,13 +561,25 @@ class Screencast(GObject.GObject):
             logger.debug("Link audioconv -> audioenc: %s" % ret)
             ret = self.audioenc.link(self.aud_out_queue)
             logger.debug("Link audioenc -> aud_out_queue: %s" % ret)
-            ret = self.aud_out_queue.link(self.mux)
-            logger.debug("Link aud_out_queue -> mux: %s" % ret)
 
-        ret = self.mux.link(self.file_queue)
+            if self.mode == MODE_BROADCAST:
+                ret = self.aud_out_queue.link(self.aacparse)
+                logger.debug("Link aud_out_queue -> aacparse: {}".format(ret))
+                ret = self.aacparse.link(self.f_aacparse_caps)
+                logger.debug("Link aacparse -> f_aacparse_caps: {}".format(ret))
+                ret = self.f_aacparse_caps.link(self.mux)
+                logger.debug("Link aacparse_caps_filter -> mux: {}".format(ret))
+            else:
+                ret = self.aud_out_queue.link(self.mux)
+                logger.debug("Link aud_out_queue -> mux: %s" % ret)
+
+        ret = self.mux.link(self.final_queue)
         logger.debug("Link mux -> file queue: %s" % ret)
-        ret = self.file_queue.link(self.sink)
-        logger.debug("Link file queue -> sink: %s" % ret)
+        ret = self.final_queue.link(self.sink)
+        if self.mode == MODE_BROADCAST:
+            logger.debug("Link final queue -> rtmp sink: {}".format(ret))
+        else:
+            logger.debug("Link final queue -> file sink: {}".format(ret))
 
     def start_recording(self):
         logger.debug("Setting STATE_PLAYING")
@@ -455,8 +594,13 @@ class Screencast(GObject.GObject):
         self.pipeline.set_state(Gst.State.PLAYING)
 
     def stop_recording(self):
-        logger.debug("Sending new EOS event")
-        self.pipeline.send_event(Gst.Event.new_eos())
+        if self.mode == MODE_BROADCAST:
+            self.pipeline.set_state(Gst.State.NULL)
+            logger.debug("Emitting flush-done.")
+            self.emit("flush-done")
+        else:
+            logger.debug("Sending new EOS event")
+            self.pipeline.send_event(Gst.Event.new_eos())
 
     def get_tempfile(self):
         return self.tempfile

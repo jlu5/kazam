@@ -65,7 +65,10 @@ class KazamConfig(ConfigParser):
                          "webcam_resolution":      "0",
                          "capture_speakers_w":     "False",
                          "capture_microphone_w":   "False",
-                         "show_keypresses":        "False"
+                         "capture_speakers_b":     "False",
+                         "capture_microphone_b":   "False",
+                         "capture_keys":           "False",
+                         "capture_keys_b":         "False"
                          },
                 },
                 {"name": "keyboard_shortcuts",

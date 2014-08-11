@@ -391,6 +391,7 @@ class KazamApp(GObject.GObject):
             self.main_mode = MODE_SCREENCAST
             self.ntb_main.set_current_page(0)
             self.indicator.menuitem_start.set_label(_("Start recording"))
+            self.btn_record.set_label(_("Capture"))
 
         elif name == "MAIN_SCREENSHOT" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
@@ -401,12 +402,14 @@ class KazamApp(GObject.GObject):
             self.indicator.menuitem_start.set_label(_("Take screenshot"))
             if self.record_mode != "MODE_WIN":
                 self.chk_borders_pic.set_sensitive(False)
+            self.btn_record.set_label(_("Capture"))
 
         elif name == "MAIN_BROADCAST" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
             self.main_mode = MODE_BROADCAST
             self.ntb_main.set_current_page(2)
             self.indicator.menuitem_start.set_label(_("Start broadcasting"))
+            self.btn_record.set_label(_("Broadcast"))
 
         elif name == "MAIN_WEBCAM" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
@@ -414,6 +417,7 @@ class KazamApp(GObject.GObject):
             self.main_mode = MODE_WEBCAM
             self.toolbar_aux.set_sensitive(False)
             self.indicator.menuitem_start.set_label(_("Start recording"))
+            self.btn_record.set_label(_("Capture"))
 
     #
     # Record mode toggles
@@ -674,12 +678,15 @@ class KazamApp(GObject.GObject):
         self.in_countdown = False
         self.countdown = None
         self.indicator.blink_set_state(BLINK_STOP)
-        if self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_WEBCAM:
-            self.indicator.menuitem_finish.set_label(_("Finish recording"))
+        if self.main_mode in [MODE_SCREENCAST, MODE_WEBCAM, MODE_BROADCAST]:
+            if self.main_mode == MODE_BROADCAST:
+                self.indicator.menuitem_finish.set_label(_("Finish broadcasting"))
+            else:
+                self.indicator.menuitem_finish.set_label(_("Finish recording"))
             self.indicator.menuitem_pause.set_sensitive(True)
             self.indicator.start_recording()
             self.recorder.start_recording()
-            if prefs.show_keypresses:
+            if (self.main_mode == MODE_SCREENCAST and prefs.capture_keys) or (self.main_mode == MODE_BROADCAST and prefs.capture_keys_broadcast):
                 self.keypress_window = KeypressWindow()
                 self.keypress_viewer.start()
         elif self.main_mode == MODE_SCREENSHOT:
@@ -708,7 +715,7 @@ class KazamApp(GObject.GObject):
                 self.recorder.unpause_recording()
             logger.debug("Stop request.")
             self.recorder.stop_recording()
-            if prefs.show_keypresses:
+            if (self.main_mode == MODE_SCREENCAST and prefs.capture_keys) or (self.main_mode == MODE_BROADCAST and prefs.capture_keys_broadcast):
                 self.keypress_viewer.stop()
                 self.keypress_window.window.destroy()
                 self.keypress_window = None
@@ -741,6 +748,12 @@ class KazamApp(GObject.GObject):
             logger.debug("Done recording signals connected.")
             self.done_recording.show_all()
             self.window.set_sensitive(False)
+
+        elif self.main_mode == MODE_BROADCAST:
+            self.window.set_sensitive(True)
+            self.window.show_all()
+            self.window.present()
+            self.window.move(prefs.main_x, prefs.main_y)
 
         elif self.main_mode == MODE_SCREENSHOT:
             if self.outline_window:
@@ -844,6 +857,9 @@ class KazamApp(GObject.GObject):
         elif name == "chk_speakers_webcam":
             prefs.capture_speakers_webcam = widget.get_active()
             logger.debug("Capture speakers for webcam: {0}.".format(prefs.capture_speakers_webcam))
+        elif name == "chk_speakers_broadcast":
+            prefs.capture_speakers_broadcast = widget.get_active()
+            logger.debug("Capture speakers for broadcast: {0}.".format(prefs.capture_speakers_broadcast))
 
     def cb_check_microphone(self, widget):
         name = Gtk.Buildable.get_name(widget)
@@ -853,6 +869,9 @@ class KazamApp(GObject.GObject):
         elif name == "chk_microphone_webcam":
             prefs.capture_microphone_webcam = widget.get_active()
             logger.debug("Capture microphone for webcam: {0}.".format(prefs.capture_microphone_webcam))
+        elif name == "chk_microphone_broadcast":
+            prefs.capture_microphone_broadcast = widget.get_active()
+            logger.debug("Capture microphone for broadcast: {0}.".format(prefs.capture_microphone_broadcast))
 
     def cb_spinbutton_delay_change(self, widget):
         prefs.countdown_timer = widget.get_value_as_int()
@@ -869,8 +888,13 @@ class KazamApp(GObject.GObject):
                 self.cam = None
 
     def cb_check_keypresses(self, widget):
-        prefs.show_keypresses = widget.get_active()
-        logger.debug("Show keypresses: {0}.".format(prefs.show_keypresses))
+        prefs.capture_keys = widget.get_active()
+        logger.debug("Show keypresses in screencasts: {0}.".format(prefs.capture_keys))
+
+    def cb_check_keypresses_broadcast(self, widget):
+        prefs.capture_keys_broadcast = widget.get_active()
+        logger.debug("Show keypresses in broadcasts: {0}.".format(prefs.capture_keys_broadcast))
+
     #
     # Other somewhat useful stuff ...
     #
@@ -897,6 +921,7 @@ class KazamApp(GObject.GObject):
 
         if prefs.sound:
             if (self.main_mode == MODE_SCREENCAST and prefs.capture_speakers) or \
+               (self.main_mode == MODE_BROADCAST and prefs.capture_speakers_broadcast) or \
                (self.main_mode == MODE_WEBCAM and prefs.capture_speakers_webcam):
                 try:
                     audio_source = prefs.speaker_sources[prefs.audio_source][1]
@@ -907,6 +932,7 @@ class KazamApp(GObject.GObject):
                 audio_source = None
 
             if (self.main_mode == MODE_SCREENCAST and prefs.capture_microphone) or \
+               (self.main_mode == MODE_BROADCAST and prefs.capture_microphone_broadcast) or \
                (self.main_mode == MODE_WEBCAM and prefs.capture_microphone_webcam):
                 try:
                     audio2_source = prefs.mic_sources[prefs.audio2_source][1]
@@ -935,13 +961,13 @@ class KazamApp(GObject.GObject):
         else:
             video_source = HW.screens[screen]
 
-        if self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_WEBCAM:
+        if self.main_mode in [MODE_SCREENCAST, MODE_WEBCAM, MODE_BROADCAST]:
             self.recorder = Screencast(self.main_mode)
             self.recorder.setup_sources(video_source,
                                         audio_source,
                                         audio2_source,
-                                        prefs.area if self.record_mode == MODE_AREA and self.main_mode != MODE_WEBCAM else None,
-                                        prefs.xid if self.record_mode == MODE_WIN and self.main_mode != MODE_WEBCAM else None)
+                                        prefs.area if self.record_mode == MODE_AREA and self.main_mode not in [MODE_WEBCAM, MODE_BROADCAST] else None,
+                                        prefs.xid if self.record_mode == MODE_WIN and self.main_mode not in [MODE_WEBCAM, MODE_BROADCAST] else None)
 
             self.recorder.connect("flush-done", self.cb_flush_done)
 
@@ -962,15 +988,12 @@ class KazamApp(GObject.GObject):
         if self.main_mode == MODE_SCREENCAST or self.main_mode == MODE_SCREENSHOT:
             try:
                 if self.record_mode == MODE_AREA and prefs.area:
-                    if prefs.dist[0] == 'Ubuntu' and int(prefs.dist[1].split(".")[0]) > 12:
-                        logger.debug("Showing recording outline.")
-                        self.outline_window = OutlineWindow(prefs.area[0],
-                                                            prefs.area[1],
-                                                            prefs.area[4],
-                                                            prefs.area[5])
-                        self.outline_window.show()
-                    else:
-                        logger.debug("Ubuntu 13.04 or higher not detected, recording outline not shown.")
+                    logger.debug("Showing recording outline.")
+                    self.outline_window = OutlineWindow(prefs.area[0],
+                                                        prefs.area[1],
+                                                        prefs.area[4],
+                                                        prefs.area[5])
+                    self.outline_window.show()
             except:
                 logger.debug("Unable to show recording outline.")
 
@@ -987,6 +1010,9 @@ class KazamApp(GObject.GObject):
         self.chk_cursor.set_active(prefs.capture_cursor)
         self.chk_speakers.set_active(prefs.capture_speakers)
         self.chk_microphone.set_active(prefs.capture_microphone)
+        self.chk_keypresses.set_active(prefs.capture_keys)
+        self.chk_keypresses_broadcast.set_active(prefs.capture_keys_broadcast)
+
         self.chk_cursor_pic.set_active(prefs.capture_cursor_pic)
         self.chk_borders_pic.set_active(prefs.capture_borders_pic)
         self.spinbutton_delay.set_value(prefs.countdown_timer)
@@ -994,7 +1020,8 @@ class KazamApp(GObject.GObject):
         self.chk_speakers_webcam.set_active(prefs.capture_speakers_webcam)
         self.chk_microphone_webcam.set_active(prefs.capture_microphone_webcam)
 
-        self.chk_keypresses.set_active(prefs.show_keypresses)
+        self.chk_speakers_broadcast.set_active(prefs.capture_speakers_broadcast)
+        self.chk_microphone_broadcast.set_active(prefs.capture_microphone_broadcast)
 
         #
         # Turn off the combined screen icon if we don't have more than one screen.

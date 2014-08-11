@@ -212,6 +212,12 @@ class Preferences(GObject.GObject):
         self.entry_autosave_picture.set_text(prefs.autosave_picture_file)
         self.filechooser_picture.set_current_folder(prefs.autosave_picture_dir)
 
+        if prefs.yt_stream:
+            self.entry_yt_stream.set_text(prefs.yt_stream)
+
+        if prefs.yt_server:
+            self.entry_yt_server.set_text(prefs.yt_server)
+
         #
         # Crappy code below ... Can this be done some other way?
         #
@@ -403,3 +409,15 @@ class Preferences(GObject.GObject):
     def cb_combobox_webcam_resolution_changed(self, widget):
         prefs.webcam_resolution = self.combobox_webcam_resolution.get_active()
         logger.debug("Webcam resolution: {}".format(prefs.webcam_resolution))
+
+    #
+    # Broadcast callbacks
+    #
+
+    def cb_entry_yt_stream(self, widget):
+        prefs.yt_stream = widget.get_text()
+        logger.debug("YouTube Live stream set to: {}".format(prefs.yt_stream))
+
+    def cb_entry_yt_server(self, widget):
+        prefs.yt_server = widget.get_text()
+        logger.debug("YouTube Live server set to: {}".format(prefs.yt_server))
