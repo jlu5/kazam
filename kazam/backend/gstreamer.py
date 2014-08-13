@@ -87,7 +87,11 @@ class Screencast(GObject.GObject):
         logger.debug("Xid: {0}".format(xid))
         logger.debug("Area: {0}".format(area))
 
-        logger.debug("Capture Cursor: {0}".format(prefs.capture_cursor))
+        if self.mode == MODE_BROADCAST:
+            logger.debug("Capture Cursor: {0}".format(prefs.capture_cursor_broadcast))
+        else:
+            logger.debug("Capture Cursor: {0}".format(prefs.capture_cursor))
+
         logger.debug("Framerate : {0}".format(prefs.framerate))
 
         if self.video_source or self.area:
@@ -192,7 +196,7 @@ class Screencast(GObject.GObject):
                 self.video_src.set_property("endy", endy)
 
                 self.video_src.set_property("use-damage", False)
-                self.video_src.set_property("show-pointer", prefs.capture_cursor)
+                self.video_src.set_property("show-pointer", prefs.capture_cursor_broadcast)
                 self.video_caps = Gst.caps_from_string("video/x-raw, framerate={}/1".format(int(prefs.framerate)))
                 self.f_video_caps = Gst.ElementFactory.make("capsfilter", "vid_filter")
                 self.f_video_caps.set_property("caps", self.video_caps)
@@ -235,10 +239,10 @@ class Screencast(GObject.GObject):
             self.f_video_convert_caps = Gst.ElementFactory.make("capsfilter", "vid_convert_caps")
             self.f_video_convert_caps.set_property("caps", self.video_convert_caps)
 
-            self.video_bitrate = 5000
+            self.video_bitrate = 5800
             self.video_enc = Gst.ElementFactory.make(CODEC_LIST[CODEC_H264][1], "video_encoder")
             self.video_enc.set_property("bitrate", self.video_bitrate)
-            self.video_enc.set_property("key-int-max", 2)
+            self.video_enc.set_property("key-int-max", 30)
             self.video_enc.set_property("bframes", 0)
             self.video_enc.set_property("byte-stream", False)
             self.video_enc.set_property("aud", True)
@@ -322,7 +326,7 @@ class Screencast(GObject.GObject):
             logger.debug("Audio1 Source:\n  {0}".format(self.audio_source))
             self.audiosrc = Gst.ElementFactory.make("pulsesrc", "audio_src")
             self.audiosrc.set_property("device", self.audio_source)
-            if self.mode == MODE_BROADCAST:
+            if self.mode == MODE_BROADCAST and not self.audio2_source:
                 audio_caps = " ".join(["audio/x-raw, format=(string)S16LE, endianness=(int)1234,"
                                        "signed=(boolean)true, width=(int)16, depth=(int)16,",
                                        "rate=(int)44100, channels=(int)2"])
@@ -338,7 +342,7 @@ class Screencast(GObject.GObject):
             logger.debug("Audio2 Source:\n  {0}".format(self.audio2_source))
             self.audio2src = Gst.ElementFactory.make("pulsesrc", "audio2_src")
             self.audio2src.set_property("device", self.audio2_source)
-            if self.mode == MODE_BROADCAST:
+            if self.mode == MODE_BROADCAST and not self.audio_source:
                 audio_caps = " ".join(["audio/x-raw, format=(string)S16LE, endianness=(int)1234,"
                                        "signed=(boolean)true, width=(int)16, depth=(int)16,",
                                        "rate=(int)44100, channels=(int)2"])
@@ -352,6 +356,13 @@ class Screencast(GObject.GObject):
 
         if self.audio_source and self.audio2_source:
             self.audiomixer = Gst.ElementFactory.make("adder", "audiomixer")
+            # if self.mode == MODE_BROADCAST:
+            #     mixer_caps = " ".join(["audio/x-raw, format=(string)S16LE, endianness=(int)1234,"
+            #                            "signed=(boolean)true, width=(int)16, depth=(int)16,",
+            #                            "rate=(int)44100, channels=(int)2"])
+            #     self.mixer_caps = Gst.caps_from_string(mixer_caps)
+            #     self.f_mixer_caps = Gst.ElementFactory.make("capsfilter", "mixer_filter")
+            #     self.f_mixer_caps.set_property("caps", self.mixer_caps)
 
     def setup_filesink(self):
         self.final_queue = Gst.ElementFactory.make("queue", "queue_final")
@@ -375,9 +386,6 @@ class Screencast(GObject.GObject):
         logger.debug("RTMP sink: {}".format(self.rtmp_location))
         self.sink = Gst.ElementFactory.make("rtmpsink", "sink")
         self.sink.set_property("location", self.rtmp_location)
-        # self.sink.set_property("app", "live2")
-        # self.sink.set_property("flashVer", "FME/3.0%20(compatible;%20FMSc%201.0)")
-        # self.sink.set_property("swfUrl", self.yt_server)
 
     #
     # One day, this horrific code will be optimised... I promise!
@@ -431,6 +439,8 @@ class Screencast(GObject.GObject):
 
         if self.audio_source and self.audio2_source:
             self.pipeline.add(self.audiomixer)
+            # if self.mode == MODE_BROADCAST:
+            #     self.pipeline.add(self.f_mixer_caps)
 
         self.pipeline.add(self.mux)
         self.pipeline.add(self.sink)

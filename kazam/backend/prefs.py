@@ -58,6 +58,10 @@ class Prefs():
         self.capture_speakers_webcam = False
         self.capture_microphone_webcam = False
 
+        self.capture_cursor_broadcast = False
+        self.capture_speakers_broadcast = False
+        self.capture_microphone_broadcast = False
+
         self.capture_cursor_pic = False
         self.capture_borders_pic = False
 
@@ -239,6 +243,7 @@ class Prefs():
         self.capture_speakers_webcam = self.config.getboolean("main", "capture_speakers_w")
         self.capture_microphone_webcam = self.config.getboolean("main", "capture_microphone_w")
 
+        self.capture_cursor_broadcast = self.config.getboolean("main", "capture_cursor_b")
         self.capture_speakers_broadcast = self.config.getboolean("main", "capture_speakers_b")
         self.capture_microphone_broadcast = self.config.getboolean("main", "capture_microphone_b")
 
@@ -298,6 +303,7 @@ class Prefs():
         self.config.set("main", "capture_speakers_w", self.capture_speakers_webcam)
         self.config.set("main", "capture_microphone_w", self.capture_microphone_webcam)
 
+        self.config.set("main", "capture_cursor_b", self.capture_cursor_broadcast)
         self.config.set("main", "capture_speakers_b", self.capture_speakers_broadcast)
         self.config.set("main", "capture_microphone_b", self.capture_microphone_broadcast)
 
@@ -329,7 +335,6 @@ class Prefs():
         self.config.set("main", "webcam_show_preview", self.webcam_show_preview)
         self.config.set("main", "webcam_preview_pos", self.webcam_preview_pos)
         self.config.set("main", "webcam_resolution", self.webcam_resolution)
-
 
         self.config.write()
 

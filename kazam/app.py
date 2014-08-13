@@ -119,6 +119,7 @@ class KazamApp(GObject.GObject):
         self.record_mode = 0
         self.last_mode = None
         self.keypress_detect = False
+        self.cam = None
 
         if prefs.sound:
             prefs.pa_q = pulseaudio_q()
@@ -254,6 +255,7 @@ class KazamApp(GObject.GObject):
             self.toolbar_main.insert(self.btn_webcam, -1)
         else:
             self.chk_webcam.set_sensitive(False)
+            self.chk_webcam_broadcast.set_sensitive(False)
         self.toolbar_main.insert(self.sep_1, -1)
 
         # Auxiliary toolbar
@@ -410,6 +412,7 @@ class KazamApp(GObject.GObject):
             self.ntb_main.set_current_page(2)
             self.indicator.menuitem_start.set_label(_("Start broadcasting"))
             self.btn_record.set_label(_("Broadcast"))
+            self.toolbar_aux.set_sensitive(False)
 
         elif name == "MAIN_WEBCAM" and widget.get_active():
             logger.debug("Main toggled: {0}".format(name))
@@ -838,12 +841,14 @@ class KazamApp(GObject.GObject):
         self.window.show_all()
 
     def cb_check_cursor(self, widget):
-        prefs.capture_cursor = widget.get_active()
-        logger.debug("Capture cursor: {0}.".format(prefs.capture_cursor))
-
-    def cb_check_cursor_pic(self, widget):
-        prefs.capture_cursor_pic = widget.get_active()
-        logger.debug("Capture cursor_pic: {0}.".format(prefs.capture_cursor_pic))
+        name = Gtk.Buildable.get_name(widget)
+        if name == "chk_cursor":
+            prefs.capture_cursor = widget.get_active()
+        elif name == "chk_cursor_pic":
+            prefs.capture_cursor_pic = widget.get_active()
+        elif name == "chk_cursor_broadcast":
+            prefs.capture_cursor_broadcast = widget.get_active()
+        logger.debug("Toggled {}: {}.".format(name, widget.get_active()))
 
     def cb_check_borders_pic(self, widget):
         prefs.capture_borders_pic = widget.get_active()
@@ -853,47 +858,54 @@ class KazamApp(GObject.GObject):
         name = Gtk.Buildable.get_name(widget)
         if name == "chk_speakers":
             prefs.capture_speakers = widget.get_active()
-            logger.debug("Capture speakers: {0}.".format(prefs.capture_speakers))
         elif name == "chk_speakers_webcam":
             prefs.capture_speakers_webcam = widget.get_active()
-            logger.debug("Capture speakers for webcam: {0}.".format(prefs.capture_speakers_webcam))
         elif name == "chk_speakers_broadcast":
             prefs.capture_speakers_broadcast = widget.get_active()
-            logger.debug("Capture speakers for broadcast: {0}.".format(prefs.capture_speakers_broadcast))
+        logger.debug("Toggled {}: {}.".format(name, widget.get_active()))
 
     def cb_check_microphone(self, widget):
         name = Gtk.Buildable.get_name(widget)
         if name == "chk_microphone":
             prefs.capture_microphone = widget.get_active()
-            logger.debug("Capture microphone: {0}.".format(prefs.capture_microphone))
         elif name == "chk_microphone_webcam":
             prefs.capture_microphone_webcam = widget.get_active()
-            logger.debug("Capture microphone for webcam: {0}.".format(prefs.capture_microphone_webcam))
         elif name == "chk_microphone_broadcast":
             prefs.capture_microphone_broadcast = widget.get_active()
-            logger.debug("Capture microphone for broadcast: {0}.".format(prefs.capture_microphone_broadcast))
+        logger.debug("Toggled {}: {}.".format(name, widget.get_active()))
 
     def cb_spinbutton_delay_change(self, widget):
         prefs.countdown_timer = widget.get_value_as_int()
         logger.debug("Start delay now: {0}".format(prefs.countdown_timer))
 
     def cb_check_webcam(self, widget):
-        toggle = widget.get_active()
-        if toggle is True:
-            self.cam = GWebcam()
-            self.cam.start()
+        name = Gtk.Buildable.get_name(widget)
+        if widget.get_active() is True:
+            if self.cam is None:
+                logger.debug("Turning ON webcam window.")
+                self.cam = GWebcam()
+                self.cam.start()
+                if name == "chk_webcam_broadcast":
+                    self.chk_webcam.set_active(True)
+                else:
+                    self.chk_webcam_broadcast.set_active(True)
         else:
-            if self.cam:
+            if self.cam is not None:
+                logger.debug("Turning OFF webcam window.")
                 self.cam.close()
                 self.cam = None
+                if name == "chk_webcam_broadcast":
+                    self.chk_webcam.set_active(False)
+                else:
+                    self.chk_webcam_broadcast.set_active(False)
 
     def cb_check_keypresses(self, widget):
-        prefs.capture_keys = widget.get_active()
-        logger.debug("Show keypresses in screencasts: {0}.".format(prefs.capture_keys))
-
-    def cb_check_keypresses_broadcast(self, widget):
-        prefs.capture_keys_broadcast = widget.get_active()
-        logger.debug("Show keypresses in broadcasts: {0}.".format(prefs.capture_keys_broadcast))
+        name = Gtk.Buildable.get_name(widget)
+        if name == "chk_keypresses":
+            prefs.capture_keys = widget.get_active()
+        elif name == "chk_keypresses_broadcast":
+            prefs.capture_keys_broadcast = widget.get_active()
+        logger.debug("Toggled {}: {}.".format(name, widget.get_active()))
 
     #
     # Other somewhat useful stuff ...
@@ -1011,7 +1023,6 @@ class KazamApp(GObject.GObject):
         self.chk_speakers.set_active(prefs.capture_speakers)
         self.chk_microphone.set_active(prefs.capture_microphone)
         self.chk_keypresses.set_active(prefs.capture_keys)
-        self.chk_keypresses_broadcast.set_active(prefs.capture_keys_broadcast)
 
         self.chk_cursor_pic.set_active(prefs.capture_cursor_pic)
         self.chk_borders_pic.set_active(prefs.capture_borders_pic)
@@ -1020,8 +1031,10 @@ class KazamApp(GObject.GObject):
         self.chk_speakers_webcam.set_active(prefs.capture_speakers_webcam)
         self.chk_microphone_webcam.set_active(prefs.capture_microphone_webcam)
 
+        self.chk_cursor_broadcast.set_active(prefs.capture_cursor_broadcast)
         self.chk_speakers_broadcast.set_active(prefs.capture_speakers_broadcast)
         self.chk_microphone_broadcast.set_active(prefs.capture_microphone_broadcast)
+        self.chk_keypresses_broadcast.set_active(prefs.capture_keys_broadcast)
 
         #
         # Turn off the combined screen icon if we don't have more than one screen.

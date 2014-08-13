@@ -177,8 +177,14 @@ pre-selected window. This is due to a GStreamer bug.
 See https://bugs.launchpad.net/kazam/+bug/1092339 and
 https://bugzilla.gnome.org/show_bug.cgi?id=690646 for more info.
 
-- Preliminary support for displaying keypresses is included. It looks ugly
-and support is still clumsy it can also die and stop working.
+- Preliminary support for displaying keypresses and mouse clicks is done.
+It looks ugly and support is still clumsy it can also die and stop working.
+There are issues with dual screen setups.
+
+- Broadcast support is currenly in a very experimental stage. It will only
+work for YouTube Live. Support for Twitch is coming in the next updates.
+You will have to provide YouTube Live Stream and Server URL from custom made
+ingestion.
 
 
 Debugging & reporting problems
