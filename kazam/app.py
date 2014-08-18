@@ -119,6 +119,7 @@ class KazamApp(GObject.GObject):
         self.record_mode = 0
         self.last_mode = None
         self.keypress_detect = False
+        self.keypress_viewer = None
         self.cam = None
 
         if prefs.sound:
@@ -722,6 +723,7 @@ class KazamApp(GObject.GObject):
                 self.keypress_viewer.stop()
                 self.keypress_window.window.destroy()
                 self.keypress_window = None
+                self.keypress_viewer = None
 
             self.tempfile = self.recorder.get_tempfile()
             logger.debug("Recorded tmp file: {0}".format(self.tempfile))
