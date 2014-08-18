@@ -937,25 +937,40 @@ class KazamApp(GObject.GObject):
                (self.main_mode == MODE_WEBCAM and prefs.capture_speakers_webcam):
                 try:
                     audio_source = prefs.speaker_sources[prefs.audio_source][1]
+                    try:
+                        audio_channels = prefs.pa_q.get_source_info_by_index(prefs.speaker_sources[prefs.audio_source][0])[2].channels
+                    except:
+                        audio_channels = 1
+                    logger.debug("Detected audio channels: {}".format(audio_channels))
                 except IndexError:
                     logger.warning("It appears that speakers audio source isn't set up correctly.")
                     audio_source = None
             else:
                 audio_source = None
+                audio_channels = 1
 
             if (self.main_mode == MODE_SCREENCAST and prefs.capture_microphone) or \
                (self.main_mode == MODE_BROADCAST and prefs.capture_microphone_broadcast) or \
                (self.main_mode == MODE_WEBCAM and prefs.capture_microphone_webcam):
                 try:
                     audio2_source = prefs.mic_sources[prefs.audio2_source][1]
+                    try:
+                        audio2_channels = prefs.pa_q.get_source_info_by_index(prefs.speaker_sources[prefs.audio2_source][0])[2].channels
+                    except:
+                        audio2_channels = 1
+                    logger.debug("Detected audio2 channels: {}".format(audio2_channels))
                 except IndexError:
                     logger.warning("It appears that microphone audio source isn't set up correctly.")
                     audio2_source = None
             else:
                 audio2_source = None
+                audio2_channels = 1
         else:
             audio_source = None
+            audio_channels = 1
             audio2_source = None
+            audio2_channels = 1
+
 
         #
         # Get appropriate coordinates for recording
@@ -979,7 +994,9 @@ class KazamApp(GObject.GObject):
                                         audio_source,
                                         audio2_source,
                                         prefs.area if self.record_mode == MODE_AREA and self.main_mode not in [MODE_WEBCAM, MODE_BROADCAST] else None,
-                                        prefs.xid if self.record_mode == MODE_WIN and self.main_mode not in [MODE_WEBCAM, MODE_BROADCAST] else None)
+                                        prefs.xid if self.record_mode == MODE_WIN and self.main_mode not in [MODE_WEBCAM, MODE_BROADCAST] else None,
+                                        audio_channels,
+                                        audio2_channels)
 
             self.recorder.connect("flush-done", self.cb_flush_done)
 

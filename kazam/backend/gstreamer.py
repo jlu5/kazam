@@ -67,7 +67,9 @@ class Screencast(GObject.GObject):
                       audio_source,
                       audio2_source,
                       area,
-                      xid):
+                      xid,
+                      audio_channels,
+                      audio2_channels):
 
         # Get the number of cores available then use all except one for encoding
         self.cores = multiprocessing.cpu_count()
@@ -76,7 +78,9 @@ class Screencast(GObject.GObject):
             self.cores -= 1
 
         self.audio_source = audio_source
+        self.audio_channels = audio_channels
         self.audio2_source = audio2_source
+        self.audio2_channels = audio2_channels
         self.video_source = video_source
         self.area = area
         self.xid = xid
@@ -329,10 +333,10 @@ class Screencast(GObject.GObject):
             if self.mode == MODE_BROADCAST and not self.audio2_source:
                 audio_caps = " ".join(["audio/x-raw, format=(string)S16LE, endianness=(int)1234,"
                                        "signed=(boolean)true, width=(int)16, depth=(int)16,",
-                                       "rate=(int)44100, channels=(int)2"])
+                                       "rate=(int)44100, channels=(int){}".format(self.audio_channels)])
                 self.aud_caps = Gst.caps_from_string(audio_caps)
             else:
-                self.aud_caps = Gst.caps_from_string("audio/x-raw")
+                self.aud_caps = Gst.caps_from_string("audio/x-raw, channels=(int){}".format(self.audio_channels))
             self.f_aud_caps = Gst.ElementFactory.make("capsfilter", "aud_filter")
             self.f_aud_caps.set_property("caps", self.aud_caps)
 
@@ -345,10 +349,10 @@ class Screencast(GObject.GObject):
             if self.mode == MODE_BROADCAST and not self.audio_source:
                 audio_caps = " ".join(["audio/x-raw, format=(string)S16LE, endianness=(int)1234,"
                                        "signed=(boolean)true, width=(int)16, depth=(int)16,",
-                                       "rate=(int)44100, channels=(int)2"])
+                                       "rate=(int)44100, channels=(int){}".format(self.audio2_channels)])
                 self.aud2_caps = Gst.caps_from_string(audio_caps)
             else:
-                self.aud2_caps = Gst.caps_from_string("audio/x-raw")
+                self.aud2_caps = Gst.caps_from_string("audio/x-raw, channels=(int){}".format(self.audio2_channels))
             self.f_aud2_caps = Gst.ElementFactory.make("capsfilter", "aud2_filter")
             self.f_aud2_caps.set_property("caps", self.aud2_caps)
             self.aud2_in_queue = Gst.ElementFactory.make("queue", "queue_a2_in")
