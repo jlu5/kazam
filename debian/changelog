@@ -1,3 +1,10 @@
+kazam (1.4.5-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+   - Fix for segfault when using area selection (LP: #1298883).
+
+ -- Andrew Starr-Bochicchio <a.starr.b@gmail.com>  Tue, 19 Aug 2014 20:02:25 -0400
+
 kazam (1.4.4-1) unstable; urgency=medium
 
   * New upstream release.
