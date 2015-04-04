@@ -322,7 +322,6 @@ class KazamApp(GObject.GObject):
         self.toolbar_aux.insert(self.btn_window, -1)
         self.toolbar_aux.insert(self.btn_area, -1)
         self.toolbar_aux.insert(self.sep_2, -1)
-
         self.ntb_main.set_current_page(0)
         self.btn_record.grab_focus()
 

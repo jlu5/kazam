@@ -26,7 +26,6 @@
     <property name="valign">start</property>
     <property name="title" translatable="yes">Kazam Preferences</property>
     <property name="resizable">False</property>
-    <property name="modal">True</property>
     <property name="window_position">mouse</property>
     <property name="gravity">south-east</property>
     <property name="has_resize_grip">False</property>
@@ -123,31 +122,31 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip_markup" translatable="yes">Set volume</property>
-                    <property name="tooltip_text" translatable="yes">Set volume</property>
-                    <property name="halign">end</property>
                     <property name="relief">none</property>
                     <property name="focus_on_click">False</property>
                     <property name="orientation">vertical</property>
-                    <property name="size">large-toolbar</property>
+                    <property name="size">button</property>
                     <property name="adjustment">adjustment_volume</property>
-                    <property name="icons">audio-volume-muted-symbolic
-audio-volume-high-symbolic
-audio-volume-low-symbolic
-audio-volume-medium-symbolic</property>
+                    <property name="icons">audio-volume-muted
+audio-volume-high
+audio-volume-low
+audio-volume-medium</property>
                     <property name="use_symbolic">True</property>
                     <signal name="value-changed" handler="cb_volume_changed" swapped="no"/>
                     <child internal-child="plus_button">
-                      <object class="GtkButton" id="volumebutton-plus_button1">
-                        <property name="can_focus">False</property>
-                        <property name="receives_default">False</property>
+                      <object class="GtkButton" id="volumebutton-plus_button2">
+                        <property name="label" translatable="yes">+</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                     <child internal-child="minus_button">
-                      <object class="GtkButton" id="volumebutton-minus_button1">
-                        <property name="can_focus">False</property>
-                        <property name="receives_default">False</property>
+                      <object class="GtkButton" id="volumebutton-minus_button2">
+                        <property name="label" translatable="yes">-</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -163,31 +162,31 @@ audio-volume-medium-symbolic</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip_markup" translatable="yes">Set volume</property>
-                    <property name="tooltip_text" translatable="yes">Set volume</property>
-                    <property name="halign">end</property>
                     <property name="relief">none</property>
                     <property name="focus_on_click">False</property>
                     <property name="orientation">vertical</property>
-                    <property name="size">large-toolbar</property>
+                    <property name="size">button</property>
                     <property name="adjustment">adjustment_volume2</property>
-                    <property name="icons">audio-volume-muted-symbolic
-audio-volume-high-symbolic
-audio-volume-low-symbolic
-audio-volume-medium-symbolic</property>
+                    <property name="icons">audio-volume-muted
+audio-volume-high
+audio-volume-low
+audio-volume-medium</property>
                     <property name="use_symbolic">True</property>
                     <signal name="value-changed" handler="cb_volume2_changed" swapped="no"/>
                     <child internal-child="plus_button">
-                      <object class="GtkButton" id="volumebutton-plus_button2">
-                        <property name="can_focus">False</property>
-                        <property name="receives_default">False</property>
+                      <object class="GtkButton" id="volumebutton-plus_button3">
+                        <property name="label" translatable="yes">+</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                     <child internal-child="minus_button">
-                      <object class="GtkButton" id="volumebutton-minus_button2">
-                        <property name="can_focus">False</property>
-                        <property name="receives_default">False</property>
+                      <object class="GtkButton" id="volumebutton-minus_button3">
+                        <property name="label" translatable="yes">-</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -324,6 +323,7 @@ audio-volume-medium-symbolic</property>
                     <property name="invisible_char">•</property>
                     <property name="text" translatable="yes">15</property>
                     <property name="adjustment">adjustment_framerate</property>
+                    <property name="climb_rate">0.01</property>
                     <property name="value">15</property>
                     <signal name="value-changed" handler="cb_spinbutton_framerate_change" swapped="no"/>
                   </object>
@@ -1400,5 +1400,4 @@ Server URL in the entry fields.</property>
       </object>
     </child>
   </object>
-  <object class="GtkEntryBuffer" id="entrybuffer1"/>
 </interface>
