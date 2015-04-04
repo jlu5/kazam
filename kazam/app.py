@@ -973,7 +973,6 @@ class KazamApp(GObject.GObject):
             audio2_source = None
             audio2_channels = 1
 
-
         #
         # Get appropriate coordinates for recording
         #

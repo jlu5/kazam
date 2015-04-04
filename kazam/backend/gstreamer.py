@@ -380,11 +380,23 @@ class Screencast(GObject.GObject):
         else:
             bitrate = self.video_bitrate
 
-        self.rtmp_location = "".join([prefs.yt_server,
-                                      "/x/",
-                                      prefs.yt_stream,
-                                      "?videoKeyframeFrequency=1&totalDatarate=",
-                                      str(bitrate)])
+        if prefs.broadcast_dst == 0:
+            #
+            # Broadcast to YouTube
+            #
+            self.rtmp_location = "".join([prefs.yt_server,
+                                          "/x/",
+                                          prefs.yt_stream,
+                                          "?videoKeyframeFrequency=1&totalDatarate=",
+                                          str(bitrate)])
+        elif prefs.broadcast_dst == 1:
+            #
+            # Broadcast to Twitch
+            #
+            if (prefs.tw_server.endswith('/')):
+                self.rtmp_location = "".join([prefs.tw_server, prefs.tw_stream])
+            else:
+                self.rtmp_location = "".join([prefs.tw_server, '/', prefs.tw_stream])
 
         self.final_queue = Gst.ElementFactory.make("queue", "queue_rtmp")
         logger.debug("RTMP sink: {}".format(self.rtmp_location))

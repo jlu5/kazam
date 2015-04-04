@@ -129,6 +129,11 @@ class Prefs():
         self.yt_stream = ''
         self.yt_server = ''
 
+        self.tw_stream = ''
+        self.tw_server = ''
+
+        self.broadcast_dst = ''
+
         #
         # Command line parameters
         #
@@ -270,6 +275,14 @@ class Prefs():
         self.capture_keys = self.config.getboolean("main", "capture_keys")
         self.capture_keys_broadcast = self.config.getboolean("main", "capture_keys_b")
 
+        self.yt_stream = self.config.get("main", "yt_stream")
+        self.yt_server = self.config.get("main", "yt_server")
+
+        self.tw_stream = self.config.get("main", "tw_stream")
+        self.tw_server = self.config.get("main", "tw_server")
+
+        self.broadcast_dst = int(self.config.get("main", "broadcast_dst"))
+
         self.first_run = self.config.getboolean("main", "first_run")
 
         #
@@ -335,6 +348,14 @@ class Prefs():
         self.config.set("main", "webcam_show_preview", self.webcam_show_preview)
         self.config.set("main", "webcam_preview_pos", self.webcam_preview_pos)
         self.config.set("main", "webcam_resolution", self.webcam_resolution)
+
+        self.config.set("main", "yt_stream", self.yt_stream)
+        self.config.set("main", "yt_server", self.yt_server)
+
+        self.config.set("main", "tw_stream", self.tw_stream)
+        self.config.set("main", "tw_server", self.tw_server)
+
+        self.config.set("main", "broadcast_dst", self.broadcast_dst)
 
         self.config.write()
 

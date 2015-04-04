@@ -39,6 +39,7 @@ LIBPIXMAN_NAMES = ["libpixman-1.so", "libpixman-1.so.0"]
 
 logger = logging.getLogger("Countdown")
 
+
 class CountdownWindow(GObject.GObject):
 
     __gsignals__ = {

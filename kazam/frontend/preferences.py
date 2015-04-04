@@ -22,12 +22,13 @@
 import os
 import math
 import logging
-logger = logging.getLogger("Preferences")
 
 from gi.repository import Gtk, GObject, Pango
 
 from kazam.utils import *
 from kazam.backend.prefs import *
+
+logger = logging.getLogger("Preferences")
 
 
 class Preferences(GObject.GObject):
@@ -89,6 +90,7 @@ class Preferences(GObject.GObject):
         self.populate_webcams()
 
         self.restore_UI()
+        self.window.set_position(Gtk.WindowPosition.CENTER)
 
     def open(self):
         self.window.show_all()
@@ -212,11 +214,19 @@ class Preferences(GObject.GObject):
         self.entry_autosave_picture.set_text(prefs.autosave_picture_file)
         self.filechooser_picture.set_current_folder(prefs.autosave_picture_dir)
 
+        self.combobox_broadcast_dst.set_active(prefs.broadcast_dst)
+
         if prefs.yt_stream:
             self.entry_yt_stream.set_text(prefs.yt_stream)
 
         if prefs.yt_server:
             self.entry_yt_server.set_text(prefs.yt_server)
+
+        if prefs.tw_stream:
+            self.entry_tw_stream.set_text(prefs.tw_stream)
+
+        if prefs.tw_server:
+            self.entry_tw_server.set_text(prefs.tw_server)
 
         #
         # Crappy code below ... Can this be done some other way?
@@ -414,6 +424,10 @@ class Preferences(GObject.GObject):
     # Broadcast callbacks
     #
 
+    def cb_broadcast_change(self, widget):
+        prefs.broadcast_dst = self.combobox_broadcast_dst.get_active()
+        logger.debug("Broadcast destination set to: {}".format(prefs.broadcast_dst))
+
     def cb_entry_yt_stream(self, widget):
         prefs.yt_stream = widget.get_text()
         logger.debug("YouTube Live stream set to: {}".format(prefs.yt_stream))
@@ -421,3 +435,11 @@ class Preferences(GObject.GObject):
     def cb_entry_yt_server(self, widget):
         prefs.yt_server = widget.get_text()
         logger.debug("YouTube Live server set to: {}".format(prefs.yt_server))
+
+    def cb_entry_tw_stream(self, widget):
+        prefs.tw_stream = widget.get_text()
+        logger.debug("Twitch stream set to: {}".format(prefs.tw_stream))
+
+    def cb_entry_tw_server(self, widget):
+        prefs.tw_server = widget.get_text()
+        logger.debug("Twitch stream url set to: {}".format(prefs.tw_server))

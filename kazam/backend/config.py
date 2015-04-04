@@ -69,14 +69,16 @@ class KazamConfig(ConfigParser):
                          "capture_speakers_b":     "False",
                          "capture_microphone_b":   "False",
                          "capture_keys":           "False",
-                         "capture_keys_b":         "False"
+                         "capture_keys_b":         "False",
+                         "yt_stream":              "",
+                         "yt_server":              ""
                          },
                 },
                 {"name": "keyboard_shortcuts",
-                 "keys": {"pause":  "<Shift><Control>p",
-                          "finish": "<Shift><Control>f",
-                          "show":   "<Shift><Control>s",
-                          "quit":   "<Shift><Control>q",
+                 "keys": {"pause":  "<Shift><Super>p",
+                          "finish": "<Shift><Super>f",
+                          "show":   "<Shift><Super>s",
+                          "quit":   "<Shift><Super>q",
                           },
                  }]
 
