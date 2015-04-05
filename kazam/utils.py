@@ -43,3 +43,7 @@ def get_next_filename(sdir, prefix, ext):
 def in_circle(center_x, center_y, radius, x, y):
     dist = math.sqrt((center_x - x) ** 2 + (center_y - y) ** 2)
     return dist <= radius
+
+
+def get_by_idx(lst, index):
+    return filter(lambda s: s[0] == index, lst)

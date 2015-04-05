@@ -129,13 +129,14 @@ class Preferences(GObject.GObject):
         self.combobox_codec.set_row_separator_func(self.is_separator, None)
 
     def populate_audio_sources(self):
-        speaker_source_model = Gtk.ListStore(str)
-        mic_source_model = Gtk.ListStore(str)
+        speaker_source_model = Gtk.ListStore(str, int)
+        mic_source_model = Gtk.ListStore(str, int)
         for source in prefs.audio_sources:
+            logger.debug("Adding audio device D: {} Idx: {}".format(source[2], source[0]))
             if "Monitor" in source[2]:
-                speaker_source_model.append([source[2]])
+                speaker_source_model.append([source[2], source[0]])
             else:
-                mic_source_model.append([source[2]])
+                mic_source_model.append([source[2], source[0]])
 
         self.combobox_audio.set_model(speaker_source_model)
         self.combobox_audio2.set_model(mic_source_model)
@@ -314,18 +315,20 @@ class Preferences(GObject.GObject):
             logger.debug("New Audio2:\n  Error retrieving data.")
 
     def cb_volume_changed(self, widget, value):
-        logger.debug("Volume 1 changed, new value: {0}".format(value))
-        idx = self.combobox_audio.get_active()
-        pa_idx = prefs.audio_sources[idx][0]
-        chn = self.audio_source_info[2].channels
-        cvol = prefs.pa_q.dB_to_cvolume(chn, value - 60)
-        prefs.pa_q.set_source_volume_by_index(pa_idx, cvol)
+        name = Gtk.Buildable.get_name(widget)
+        logger.debug("Volume changed for {0}, new value: {1}".format(name, value))
+        if name == 'volumebutton_audio':
+            idx = self.combobox_audio.get_active()
+            model = self.combobox_audio.get_model()
+            chn = self.audio_source_info[2].channels
+        else:
+            idx = self.combobox_audio2.get_active()
+            model = self.combobox_audio2.get_model()
+            chn = self.audio2_source_info[2].channels
 
-    def cb_volume2_changed(self, widget, value):
-        logger.debug("Volume 2 changed, new value: {0}".format(value))
-        idx = self.combobox_audio2.get_active()
-        pa_idx = prefs.audio_sources[idx][0]
-        chn = self.audio2_source_info[2].channels
+        c_iter = model.get_iter(idx)
+        idx = model.get_value(c_iter, 1)
+        pa_idx = list(get_by_idx(prefs.audio_sources, idx))[0][0]
         cvol = prefs.pa_q.dB_to_cvolume(chn, value - 60)
         prefs.pa_q.set_source_volume_by_index(pa_idx, cvol)
 
