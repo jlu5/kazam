@@ -2,6 +2,7 @@ kazam (1.4.5-2) UNRELEASED; urgency=medium
 
   * configparser_api_changes.patch: Update for changes
     in ConfigParser api (Closes: #801203, LP: #1500083). 
+  * debian/control: Bump Standards-Version to 3.9.6
 
  -- Andrew Starr-Bochicchio <asb@debian.org>  Mon, 12 Oct 2015 21:28:36 -0400
 
