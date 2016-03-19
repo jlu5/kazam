@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kazam\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-16 20:19+0200\n"
-"PO-Revision-Date: 2013-02-17 14:54+0000\n"
-"Last-Translator: Eric Boucher <Unknown>\n"
+"PO-Revision-Date: 2016-03-18 19:33+0000\n"
+"Last-Translator: Jean-Marc <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-21 05:52+0000\n"
-"X-Generator: Launchpad (build 17163)\n"
+"X-Launchpad-Export-Date: 2016-03-19 05:29+0000\n"
+"X-Generator: Launchpad (build 17947)\n"
 
 #: ../data/ui/kazam.ui.h:1 ../data/kazam.desktop.in.h:1
 #: ../kazam/frontend/about_dialog.py:59
@@ -36,7 +36,7 @@ msgstr "Son du microphone"
 
 #: ../data/ui/kazam.ui.h:5
 msgid "Sound from speakers"
-msgstr "Son des hauts parleurs"
+msgstr "Son des haut-parleurs"
 
 #: ../data/ui/kazam.ui.h:6
 msgid "Mouse cursor"
@@ -66,11 +66,11 @@ msgstr "Préférences de Kazam"
 
 #: ../data/ui/preferences.ui.h:2
 msgid "Speakers:"
-msgstr "Hauts-parleurs:"
+msgstr "Haut-parleurs :"
 
 #: ../data/ui/preferences.ui.h:3
 msgid "Microphone:"
-msgstr "Microphone:"
+msgstr "Microphone :"
 
 #: ../data/ui/preferences.ui.h:4
 msgid "Set volume"
@@ -78,7 +78,7 @@ msgstr "Régler le volume"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "Countdown splash:"
-msgstr "Fenêtre de décompte:"
+msgstr "Fenêtre de décompte :"
 
 #: ../data/ui/preferences.ui.h:6
 msgid "Toggle display of countdown splash"
@@ -98,7 +98,7 @@ msgstr "Choisissez le nombre d'images par seconde"
 
 #: ../data/ui/preferences.ui.h:10
 msgid "Record with:"
-msgstr "Enregistre avec:"
+msgstr "Enregistrer avec :"
 
 #: ../data/ui/preferences.ui.h:11
 msgid "Automatic file saving:"
@@ -106,7 +106,7 @@ msgstr "Enregistrer automatiquement le fichier :"
 
 #: ../data/ui/preferences.ui.h:12
 msgid "Directory:"
-msgstr "Répertoire :"
+msgstr "Répertoire :"
 
 #: ../data/ui/preferences.ui.h:13
 msgid "Select a directory"
@@ -114,7 +114,7 @@ msgstr "Sélectionner un répertoire"
 
 #: ../data/ui/preferences.ui.h:14
 msgid "Filename prefix:"
-msgstr "Préfixe du nom du fichier"
+msgstr "Préfixe du nom du fichier :"
 
 #: ../data/ui/preferences.ui.h:16
 msgid "Shutter sound:"
@@ -166,7 +166,7 @@ msgstr "Enregistrer une image de votre bureau."
 
 #: ../kazam/app.py:198
 msgid "Webcam"
-msgstr ""
+msgstr "Webcam"
 
 #: ../kazam/app.py:199
 msgid "Capture form your webcam."
@@ -250,11 +250,11 @@ msgid ""
 "What do you want to do now?"
 msgstr ""
 "Kazam a terminé l'enregistrement.\n"
-"Que désirez-vous faire maintenant?"
+"Que désirez-vous faire maintenant ?"
 
 #: ../kazam/frontend/done_recording.py:65
 msgid "Edit with:"
-msgstr "Éditer avec :"
+msgstr "Modifier avec :"
 
 #: ../kazam/frontend/done_recording.py:73
 msgid "Save for later"
@@ -270,7 +270,7 @@ msgstr "Continuer"
 
 #: ../kazam/frontend/done_recording.py:121
 msgid "Save screencast"
-msgstr "Sauvegarder la capture vidéo"
+msgstr "Enregistrer la capture vidéo"
 
 #: ../kazam/frontend/about_dialog.py:60
 msgid "Record a video of activity on your screen or capture a screenshot."
@@ -280,7 +280,7 @@ msgstr ""
 
 #: ../kazam/frontend/save_dialog.py:37
 msgid "Save"
-msgstr "Sauvegarder"
+msgstr "Enregistrer"
 
 #: ../kazam/frontend/main_menu.py:62
 msgid "File"
@@ -312,11 +312,11 @@ msgstr "À propos de Kazam"
 
 #: ../kazam/frontend/window_area.py:384
 msgid "Select an area by clicking and dragging."
-msgstr "Sélectionnez une zone en cliquant et déplacant."
+msgstr "Sélectionnez une zone en cliquant et déplaçant."
 
 #: ../kazam/frontend/window_area.py:385
 msgid "Press ENTER to confirm or ESC to cancel"
-msgstr "Appuyer sur ENTRÉ pour confirmer ou ECHAP pour annuler."
+msgstr "Appuyer sur Entrée pour confirmer ou Echap pour annuler."
 
 #: ../kazam/frontend/indicator.py:72
 msgid "Pause recording"
