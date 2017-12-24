@@ -1,3 +1,12 @@
+kazam (1.4.5-2utopia1) UNRELEASED; urgency=medium
+
+  * Utopia repository release.
+  * Add missing window icon to main, preferences, and about dialogs.
+  * backend/gstreamer: record sound in stereo (LP: #1179073)
+  * Use hyphens instead of colons in default filename (LP: #1366600)
+
+ -- James Lu <james@overdrivenetworks.com>  Sun, 24 Dec 2017 11:48:34 -0800
+
 kazam (1.4.5-2) unstable; urgency=medium
 
   * configparser_api_changes.patch: Update for changes
