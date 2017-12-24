@@ -37,7 +37,7 @@ def SaveDialog(title, old_path, codec, main_mode=MODE_SCREENCAST):
                                    _("Save"), Gtk.ResponseType.OK))
 
 
-    dt = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+    dt = datetime.today().strftime("%Y-%m-%d %H-%M-%S")
     if main_mode == MODE_SCREENCAST:
         dialog.set_current_name("{0} {1}{2}".format(_("Screencast"), dt, CODEC_LIST[codec][3]))
     elif main_mode == MODE_SCREENSHOT:
