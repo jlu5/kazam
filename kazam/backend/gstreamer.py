@@ -234,7 +234,7 @@ class Screencast(GObject.GObject):
             logger.debug("Audio1 Source:\n  {0}".format(self.audio_source))
             self.audiosrc = Gst.ElementFactory.make("pulsesrc", "audio_src")
             self.audiosrc.set_property("device", self.audio_source)
-            self.aud_caps = Gst.caps_from_string("audio/x-raw")
+            self.aud_caps = Gst.caps_from_string("audio/x-raw,channels=2")
             self.aud_caps_filter = Gst.ElementFactory.make("capsfilter", "aud_filter")
             self.aud_caps_filter.set_property("caps", self.aud_caps)
 
@@ -244,7 +244,7 @@ class Screencast(GObject.GObject):
             logger.debug("Audio2 Source:\n  {0}".format(self.audio2_source))
             self.audio2src = Gst.ElementFactory.make("pulsesrc", "audio2_src")
             self.audio2src.set_property("device", self.audio2_source)
-            self.aud2_caps = Gst.caps_from_string("audio/x-raw")
+            self.aud2_caps = Gst.caps_from_string("audio/x-raw,channels=2")
             self.aud2_caps_filter = Gst.ElementFactory.make("capsfilter", "aud2_filter")
             self.aud2_caps_filter.set_property("caps", self.aud2_caps)
             self.aud2_in_queue = Gst.ElementFactory.make("queue", "queue_a2_in")
