@@ -71,7 +71,8 @@ def AboutDialog(icons):
         pass
     # dialog.set_modal(True)
     # dialog.set_transient_for(kazam)
-    # dialog.set_decorated(False) 
+    # dialog.set_decorated(False)
+    dialog.set_icon_name("kazam")  # Sets the icon for the window
     dialog.show_all()
     dialog.set_position(Gtk.WindowPosition.CENTER)
     dialog.run()
