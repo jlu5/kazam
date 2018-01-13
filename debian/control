@@ -10,8 +10,8 @@ Build-Depends: debhelper (>= 9),
                python3-setuptools
 Standards-Version: 3.9.6
 X-Python3-Version: >= 3.2
-Vcs-Bzr: http://bzr.debian.org/bzr/collab-maint/kazam/unstable/
-Vcs-Browser: http://anonscm.debian.org/loggerhead/collab-maint/kazam/unstable/files
+Vcs-Git: https://github.com/GLolol/kazam -b debian
+Vcs-Browser: https://github.com/GLolol/kazam/tree/debian
 Homepage: https://launchpad.net/kazam
 
 Package: kazam
