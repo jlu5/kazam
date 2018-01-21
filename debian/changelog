@@ -1,4 +1,4 @@
-kazam (1.4.5-2utopia1) UNRELEASED; urgency=medium
+kazam (1.4.5-2utopia1) unstable; urgency=medium
 
   * Utopia repository release.
   * Add missing window icon to main, preferences, and about dialogs.
@@ -6,7 +6,7 @@ kazam (1.4.5-2utopia1) UNRELEASED; urgency=medium
   * Use hyphens instead of colons in default filename (LP: #1366600)
   * Move Vcs-* fields to Utopia Repository Git.
 
- -- James Lu <bitflip3@gmail.com>  Fri, 12 Jan 2018 23:41:51 -0800
+ -- James Lu <james@overdrivenetworks.com>  Sat, 20 Jan 2018 23:57:49 -0800
 
 kazam (1.4.5-2) unstable; urgency=medium
 
