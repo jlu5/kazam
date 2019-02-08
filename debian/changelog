@@ -1,3 +1,11 @@
+kazam (1.4.5-2.1) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * Patch after configuration API change (Closes: #916416)
+  * debian/control: Add missing build dependency on dh-python
+
+ -- Nicolas Braud-Santoni <nicoo@debian.org>  Fri, 08 Feb 2019 12:24:25 +0100
+
 kazam (1.4.5-2utopia1) unstable; urgency=medium
 
   * Utopia repository release.

@@ -3,6 +3,7 @@ Section: video
 Priority: optional
 Maintainer: Andrew Starr-Bochicchio <asb@debian.org>
 Build-Depends: debhelper (>= 9),
+               dh-python,
                gettext,
                intltool,
                python3-all (>= 3.2),
