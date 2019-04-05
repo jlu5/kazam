@@ -1,7 +1,8 @@
 Source: kazam
 Section: video
 Priority: optional
-Maintainer: Andrew Starr-Bochicchio <asb@debian.org>
+Maintainer: James Lu <james@overdrivenetworks.com>
+XSBC-Original-Maintainer: Andrew Starr-Bochicchio <asb@debian.org>
 Build-Depends: debhelper (>= 9),
                dh-python,
                gettext,
@@ -11,8 +12,8 @@ Build-Depends: debhelper (>= 9),
                python3-setuptools
 Standards-Version: 3.9.6
 X-Python3-Version: >= 3.2
-Vcs-Git: https://github.com/GLolol/kazam -b debian
-Vcs-Browser: https://github.com/GLolol/kazam/tree/debian
+Vcs-Git: https://github.com/jlu5/kazam -b debian
+Vcs-Browser: https://github.com/jlu5/kazam/tree/debian
 Homepage: https://launchpad.net/kazam
 
 Package: kazam

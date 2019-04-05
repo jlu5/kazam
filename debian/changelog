@@ -1,3 +1,11 @@
+kazam (1.4.5-2.1utopia1) unstable; urgency=medium
+
+  * Utopia repository release.
+    - Update Vcs, Maintainer fields accordingly.
+  * Merge with Debian unstable.
+
+ -- James Lu <james@overdrivenetworks.com>  Fri, 05 Apr 2019 13:32:49 -0700
+
 kazam (1.4.5-2.1) unstable; urgency=high
 
   * Non-maintainer upload.
